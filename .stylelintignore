@@ -1,0 +1,5 @@
+**/*.js
+vendor/**/*.css
+dist/**/*.css
+assets/
+node_modules/
