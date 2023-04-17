@@ -1,4 +1,5 @@
 import { RouteRecordRaw, createRouter, createWebHashHistory } from 'vue-router';
+import Layout from '@/views/Layout/index.vue';
 
 const routes: Array<RouteRecordRaw> = [
 
@@ -10,6 +11,39 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
         redirect: '/login'
+    },
+    {
+        path: '/app/:appkey',
+        name: 'Apps',
+        component: Layout,
+        children: [
+            {
+                path: 'map',
+                name: 'Map',
+                component: () => import('@/views/Map/index.vue'),
+                meta: {
+                    title: '地图展示'
+                }
+            },
+            {
+                path: 'statistics',
+                name: 'Statistics',
+                meta: {
+                    title: '统计分析'
+                },
+                children: [
+                    {
+                        path: 'heatMap',
+                        name: 'HeatMap',
+                        component: () => import('@/views/Statistics/HeatMap/index.vue'),
+                        meta: {
+                            title: '热力图'
+                        },
+                    }
+                ]
+            },
+
+        ]
     },
     {
         path: '/:pathMatch(.*)*',

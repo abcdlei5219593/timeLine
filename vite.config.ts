@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import vueSetupExtend from 'vite-plugin-vue-setup-extend';
+import ElementPlus from 'unplugin-element-plus/vite';
 
 export default defineConfig({
     base: './',
@@ -9,7 +10,7 @@ export default defineConfig({
         vue(), // 支持单文件方式  .vue
         vueJsx(), // 支持tsx方式  .tsx
 
-
+        ElementPlus(),
         vueSetupExtend()
     ],
     resolve: {
