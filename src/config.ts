@@ -6,6 +6,8 @@
 
 import { Menu } from './types/menu';
 
+export const AMAP_KEY = '859de6e2d55150331e795f3cbfe21915';
+
 export const APP_LIST: Menu = [
     {
         url: '/app/airContent',

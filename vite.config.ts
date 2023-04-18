@@ -9,7 +9,6 @@ export default defineConfig({
     plugins: [
         vue(), // 支持单文件方式  .vue
         vueJsx(), // 支持tsx方式  .tsx
-
         ElementPlus(),
         vueSetupExtend()
     ],
