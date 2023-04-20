@@ -27,6 +27,22 @@ const handleClick = (menu: MenuItem) => {
 
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.el-menu{
+    background-color: $mainColor;
+    border: 0;
+    padding:12px 0;
+    box-sizing: border-box;
+    margin-left:48px;
+    .el-menu-item{
+        color: rgba(255,255,255,.6);
+        height: 40px;
+        padding:0 16px;
+        &.is-active,&:hover{
+            background-color: rgba(255,255,255,.2);
+            color:rgba(255,255,255,.9) !important;
+            border-radius: 3px;
+        }
+    }
+}
 </style>

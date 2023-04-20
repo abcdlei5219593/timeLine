@@ -3,6 +3,7 @@ import { createPinia } from 'pinia';
 import App from './App.vue';
 import 'reset-css';
 import './styles/main.scss';
+import './styles/font/iconfont.scss';
 import router from './router';
 import VueAMap, {initAMapApiLoader} from '@vuemap/vue-amap';
 import { AMAP_KEY, SECURITY_CODE } from './config';
