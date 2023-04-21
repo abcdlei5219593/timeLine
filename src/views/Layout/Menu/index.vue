@@ -12,7 +12,9 @@
             </ElSubMenu>
             <ElMenuItem v-else :index="node.url">
                 <i class="menu-icon" v-if="node.icon" :class="node.icon"></i>
-                <span class="menu-title">{{ node.name }}</span>
+                <template #title
+                    ><span class="menu-title">{{ node.name }}</span></template
+                >
             </ElMenuItem>
         </template>
     </ElMenu>

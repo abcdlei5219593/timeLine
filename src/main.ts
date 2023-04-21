@@ -4,8 +4,9 @@ import App from './App.vue';
 import 'reset-css';
 import './styles/main.scss';
 import './styles/font/iconfont.scss';
+import store from './store';
 import router from './router';
-import VueAMap, {initAMapApiLoader} from '@vuemap/vue-amap';
+import VueAMap, { initAMapApiLoader } from '@vuemap/vue-amap';
 import { AMAP_KEY, SECURITY_CODE } from './config';
 import '@vuemap/vue-amap/dist/style.css';
 
@@ -20,6 +21,7 @@ const app = createApp(App);
 
 app
     .use(router)
+    .use(store)
     .use(pinia)
     .use(VueAMap)
     .mount('#app');

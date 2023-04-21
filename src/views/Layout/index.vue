@@ -19,7 +19,7 @@
                     :collapse="isCollapse"
                 >
                 </Menu>
-                <div class="toggle-menu" @click="isCollapse = !isCollapse">
+                <div class="toggle-menu" @click="setCollapse">
                     <i class="iconfont icon-putaway" v-if="!isCollapse"></i>
                     <i class="iconfont icon-expand" v-else></i>
                     <span v-if="!isCollapse">收起导航</span>
@@ -41,6 +41,7 @@ import HerderRight from './HerderRight/index.vue';
 import { APP_LIST } from '@/config';
 import { Menu as MenuType, MenuItem } from './types/menu';
 import { useRoute, useRouter } from 'vue-router';
+import store from '@/store/index.ts';
 
 const route = useRoute();
 const router = useRouter();
@@ -53,7 +54,8 @@ const changeApp = (path: string) => {
 };
 
 const routePath = computed(() => route.path);
-const isCollapse = ref(false);
+
+const isCollapse = ref(store.state.app.isCollapse);
 
 const currentAppMenu = computed<MenuType | []>(() => {
     const target = APP_LIST.find(({ url }) => routePath.value.includes(url));
@@ -68,6 +70,11 @@ const getFistFullpath = (route: MenuItem) => {
         temp = route.url;
     }
     return temp;
+};
+
+const setCollapse = () => {
+    isCollapse.value = !isCollapse.value;
+    store.commit('app/SET_COLLAPSE', isCollapse.value);
 };
 
 watch(
