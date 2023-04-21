@@ -7,7 +7,7 @@
             <div class="user-box">
                 <img class="avatar" />
                 <p class="user-name">
-                    {{ userInfo.name }}
+                    {{ store.userInfo?.name }}
                 </p>
                 <i class="iconfont icon-dropdown"></i>
             </div>
@@ -26,8 +26,8 @@
 import { ElDropdown, ElIcon, ElBadge, ElDropdownMenu, ElDropdownItem } from 'element-plus';
 import { useUserStore } from '@/store/app';
 
-const userInfo = useUserStore();
-
+const store = useUserStore();
+store.getUserInfo();
 </script>
 
 <style lang="scss" scoped>
@@ -59,6 +59,8 @@ const userInfo = useUserStore();
     }
     .user-box {
         display: flex;
+        outline: 0 !important;
+        cursor: pointer;
         .avatar {
             width: 32px;
             height: 32px;
