@@ -8,6 +8,7 @@
     </el-breadcrumb>
 </template>
 <script setup lang="ts">
+import { ElBreadcrumb, ElBreadcrumbItem } from 'element-plus';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 import { ArrowRight } from '@element-plus/icons-vue';
@@ -25,7 +26,6 @@ const mapRoutes = () => {
             });
         }
     });
-    console.log(_routes, '_routes_routes_routes');
     breadcrumbList.value = _routes;
 };
 mapRoutes();
