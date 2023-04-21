@@ -9,7 +9,7 @@
                     <AppBar :menu-list="appList" @select="changeApp">
                     </AppBar>
                 </section>
-                <HerderRight></HerderRight>
+                <HeaderRight></HeaderRight>
             </ElContainer>
         </ElHeader>
         <ElContainer>
@@ -41,7 +41,7 @@ import { ref, reactive, computed, onMounted, watch } from 'vue';
 import { ElContainer, ElHeader, ElAside, ElMain } from 'element-plus';
 import Menu from './Menu/index.vue';
 import AppBar from './Menu/appBar.vue';
-import HerderRight from './HerderRight/index.vue';
+import HeaderRight from './HeaderRight/index.vue';
 import Breadcrumb from './Breadcrumb/index.vue';
 import { APP_LIST } from '@/config';
 import { Menu as MenuType, MenuItem } from './types/menu';
