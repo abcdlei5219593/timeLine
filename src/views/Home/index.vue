@@ -1,5 +1,5 @@
 <template>
-    <div class="main-content">权限122</div>
+    <div>权限122</div>
 </template>
 
 <script setup lang="ts">
