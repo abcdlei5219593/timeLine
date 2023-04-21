@@ -2,9 +2,12 @@
     <ElContainer>
         <ElHeader>
             <ElContainer>
-                <div class="logo fs-18 fw-600">大气监测管理系统</div>
+                <div class="logo fs-18 fw-600">
+                    大气监测管理系统
+                </div>
                 <section>
-                    <AppBar :menu-list="appList" @select="changeApp"> </AppBar>
+                    <AppBar :menu-list="appList" @select="changeApp">
+                    </AppBar>
                 </section>
                 <HerderRight></HerderRight>
             </ElContainer>
@@ -16,13 +19,13 @@
                     :router="true"
                     mode="vertical"
                     :menu-list="currentAppMenu"
-                    :collapse="isCollapse"
+                    :collapse="store.isCollapse"
                 >
                 </Menu>
-                <div class="toggle-menu" @click="setCollapse">
-                    <i class="iconfont icon-putaway" v-if="!isCollapse"></i>
-                    <i class="iconfont icon-expand" v-else></i>
-                    <span v-if="!isCollapse">收起导航</span>
+                <div class="toggle-menu" @click="store.setCollapse">
+                    <i v-if="!store.isCollapse" class="iconfont icon-putaway"></i>
+                    <i v-else class="iconfont icon-expand"></i>
+                    <span v-if="!store.isCollapse">收起导航</span>
                 </div>
             </ElAside>
             <ElMain>
@@ -41,10 +44,11 @@ import HerderRight from './HerderRight/index.vue';
 import { APP_LIST } from '@/config';
 import { Menu as MenuType, MenuItem } from './types/menu';
 import { useRoute, useRouter } from 'vue-router';
-import store from '@/store/index.ts';
+import { useSettingStore } from '@/store/app';
 
 const route = useRoute();
 const router = useRouter();
+const store = useSettingStore();
 const hasAside = computed(() => route.path.startsWith('/app'));
 
 const appList = APP_LIST.map(({ url, name }) => ({ url, name }));
@@ -55,7 +59,7 @@ const changeApp = (path: string) => {
 
 const routePath = computed(() => route.path);
 
-const isCollapse = ref(store.state.app.isCollapse);
+// const isCollapse = ref(store.state.app.isCollapse);
 
 const currentAppMenu = computed<MenuType | []>(() => {
     const target = APP_LIST.find(({ url }) => routePath.value.includes(url));
@@ -72,10 +76,7 @@ const getFistFullpath = (route: MenuItem) => {
     return temp;
 };
 
-const setCollapse = () => {
-    isCollapse.value = !isCollapse.value;
-    store.commit('app/SET_COLLAPSE', isCollapse.value);
-};
+
 
 watch(
     routePath,

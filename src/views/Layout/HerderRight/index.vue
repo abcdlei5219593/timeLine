@@ -6,22 +6,30 @@
         <el-dropdown>
             <div class="user-box">
                 <img class="avatar" />
-                <p class="user-name">张立文</p>
+                <p class="user-name">
+                    {{ userInfo.name }}
+                </p>
                 <i class="iconfont icon-dropdown"></i>
             </div>
             <template #dropdown>
                 <el-dropdown-menu>
-                    <el-dropdown-item style="width: 120px; height: 30px; justify-content: center"
-                        >退出登录</el-dropdown-item
-                    >
+                    <el-dropdown-item style="width: 120px; height: 30px; justify-content: center">
+                        退出登录
+                    </el-dropdown-item>
                 </el-dropdown-menu>
             </template>
         </el-dropdown>
     </div>
 </template>
+
 <script setup lang="ts">
 import { ElDropdown, ElIcon, ElBadge, ElDropdownMenu, ElDropdownItem } from 'element-plus';
+import { useUserStore } from '@/store/app';
+
+const userInfo = useUserStore();
+
 </script>
+
 <style lang="scss" scoped>
 .el-dropdown:hover {
     border: 0 !important;

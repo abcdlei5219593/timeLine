@@ -1,10 +1,10 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import App from './App.vue';
 import 'reset-css';
 import './styles/main.scss';
 import './styles/font/iconfont.scss';
-import store from './store';
 import router from './router';
 import VueAMap, { initAMapApiLoader } from '@vuemap/vue-amap';
 import { AMAP_KEY, SECURITY_CODE } from './config';
@@ -16,12 +16,11 @@ initAMapApiLoader({
     securityJsCode: SECURITY_CODE, // 新版key需要配合安全密钥使用
 });
 
-const pinia = createPinia();
+const pinia = createPinia(piniaPluginPersistedstate);
 const app = createApp(App);
 
 app
     .use(router)
-    .use(store)
     .use(pinia)
     .use(VueAMap)
     .mount('#app');
