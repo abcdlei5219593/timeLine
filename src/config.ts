@@ -15,15 +15,18 @@ export const routePath = (basePath: string): Menu =>
     [
         {
             url: basePath + '/home',
-            name: '首页'
+            name: '首页',
+            icon: 'iconfont icon-home',
         },
         {
             url: basePath + '/map',
-            name: '地图展示'
+            name: '地图展示',
+            icon: 'iconfont icon-map',
         },
         {
             url: basePath + '/statistics',
             name: '统计分析',
+            icon: 'iconfont icon-statistics',
             children: [
                 {
                     url: basePath + '/statistics/heatMap',
@@ -49,11 +52,13 @@ export const routePath = (basePath: string): Menu =>
         },
         {
             url: basePath + '/device',
-            name: '设备管理'
+            name: '设备管理',
+            icon: 'iconfont icon-device',
         },
         {
             url: basePath + '/warn',
             name: '告警管理',
+            icon: 'iconfont icon-alert',
             children: [
                 {
                     url: basePath + '/warn/deviceWarn',
@@ -68,19 +73,23 @@ export const routePath = (basePath: string): Menu =>
         },
         {
             url: basePath + '/histroy',
-            name: '历史数据'
+            name: '历史数据',
+            icon: 'iconfont icon-history',
         },
         {
             url: basePath + '/flag',
-            name: '标记管理'
+            name: '标记管理',
+            icon: 'iconfont icon-sign',
         },
         {
             url: basePath + '/userCenter',
-            name: '用户中心'
+            name: '用户中心',
+            icon: 'iconfont icon-home',
         },
         {
             url: basePath + '/auth',
-            name: '权限管理'
+            name: '权限管理',
+            icon: 'iconfont icon-home',
         },
 
     ];

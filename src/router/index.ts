@@ -22,7 +22,7 @@ const routes: Array<RouteRecordRaw> = [
                 name: 'Home',
                 component: () => import('@/views/Home/index.vue'),
                 meta: {
-                    title: '首页'
+                    title: '首页',
                 }
             },
             {
@@ -30,7 +30,7 @@ const routes: Array<RouteRecordRaw> = [
                 name: 'Map',
                 component: () => import('@/views/Map/index.vue'),
                 meta: {
-                    title: '地图展示'
+                    title: '地图展示',
                 }
             },
             {

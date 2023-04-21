@@ -29,3 +29,40 @@
 .icon-expand::before {
   content: "\e79a";
 }
+
+//首页
+.icon-home::before {
+  content: "\e794";
+}
+//地图展示
+.icon-map::before {
+  content: "\e798";
+}
+//统计分析
+.icon-statistics::before {
+  content: "\e79c";
+}
+//设备管理
+.icon-device::before {
+  content: "\e793";
+}
+//告警管理
+.icon-alert::before {
+  content: "\e799";
+}
+//历史数据
+.icon-history::before {
+  content: "\e791";
+}
+//标记管理
+.icon-sign::before {
+  content: "\e792";
+}
+//用户中心
+.icon-user::before {
+  content: "\e792";
+}
+//权限管理
+.icon-root::before {
+  content: "\e792";
+}

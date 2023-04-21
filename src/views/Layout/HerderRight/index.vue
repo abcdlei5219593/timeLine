@@ -3,7 +3,7 @@
         <el-badge :value="2" class="item">
             <i class="iconfont icon-message header-message"></i>
         </el-badge>
-        <el-dropdown style="border: 0 !important">
+        <el-dropdown>
             <div class="user-box">
                 <img class="avatar" />
                 <p class="user-name">张立文</p>
@@ -23,6 +23,11 @@
 import { ElDropdown, ElIcon, ElBadge, ElDropdownMenu, ElDropdownItem } from 'element-plus';
 </script>
 <style lang="scss" scoped>
+.el-dropdown:hover {
+    border: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+}
 .header-right {
     display: flex;
     justify-content: right;
@@ -49,7 +54,7 @@ import { ElDropdown, ElIcon, ElBadge, ElDropdownMenu, ElDropdownItem } from 'ele
         .avatar {
             width: 32px;
             height: 32px;
-            border-right: 100%;
+            border-radius: 100%;
         }
         .user-name {
             height: 32px;

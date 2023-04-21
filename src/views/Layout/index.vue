@@ -10,7 +10,7 @@
             </ElContainer>
         </ElHeader>
         <ElContainer>
-            <ElAside v-if="hasAside" :class="{ 'is-collapse': isCollapse }">
+            <ElAside v-if="hasAside">
                 <Menu
                     class="app-menu"
                     :router="true"
@@ -112,10 +112,12 @@ watch(
 }
 .el-main {
     background-color: $contentBackgroundColor;
+    box-sizing: border-box;
+    padding: 20px;
 }
 .el-aside {
     position: relative;
-    width: $asideWidth;
+    width: inherit !important;
     .toggle-menu {
         position: absolute;
         bottom: 0;
