@@ -51,6 +51,8 @@ import { ElDropdown, ElIcon, ElBadge, ElDropdownMenu, ElDropdownItem } from 'ele
     }
     .user-box {
         display: flex;
+        outline: 0 !important;
+        cursor: pointer;
         .avatar {
             width: 32px;
             height: 32px;

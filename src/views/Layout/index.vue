@@ -26,7 +26,8 @@
                 </div>
             </ElAside>
             <ElMain>
-                <RouterView> </RouterView>
+                <Breadcrumb />
+                <RouterView class="main-view"> </RouterView>
             </ElMain>
         </ElContainer>
     </ElContainer>
@@ -38,6 +39,7 @@ import { ElContainer, ElHeader, ElAside, ElMain } from 'element-plus';
 import Menu from './Menu/index.vue';
 import AppBar from './Menu/appBar.vue';
 import HerderRight from './HerderRight/index.vue';
+import Breadcrumb from './Breadcrumb/index.vue';
 import { APP_LIST } from '@/config';
 import { Menu as MenuType, MenuItem } from './types/menu';
 import { useRoute, useRouter } from 'vue-router';
@@ -120,7 +122,11 @@ watch(
 .el-main {
     background-color: $contentBackgroundColor;
     box-sizing: border-box;
-    padding: 20px;
+    padding: 0 20px 20px 20px;
+    .main-view {
+        height: calc(100% - $breadcrumbHeight);
+        overflow-y: auto;
+    }
 }
 .el-aside {
     position: relative;

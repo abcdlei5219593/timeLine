@@ -9,6 +9,8 @@
     "serve": "vite preview --host "
   },
   "dependencies": {
+    "@element-plus/icons": "^0.0.11",
+    "@element-plus/icons-vue": "^2.1.0",
     "@vuemap/vue-amap": "^2.0.5",
     "@vueuse/core": "^9.13.0",
     "dayjs": "^1.11.7",
