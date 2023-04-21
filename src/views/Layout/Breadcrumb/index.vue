@@ -1,9 +1,7 @@
 <template>
-    <el-breadcrumb class="breadcrumb" :separator-icon="ArrowRight">
+    <el-breadcrumb class="breadcrumb" :separator-icon="ArrowRight" v-if="breadcrumbList[0].title !== '首页'">
         <el-breadcrumb-item v-for="(route, index) in breadcrumbList" :key="index" :to="route.path">
-            <template v-if="route.title !== '首页'">
-                {{ route.title }}
-            </template>
+            {{ route.title }}
         </el-breadcrumb-item>
     </el-breadcrumb>
 </template>
@@ -26,6 +24,7 @@ const mapRoutes = () => {
             });
         }
     });
+    console.log(_routes, '_routes_routes_routes');
     breadcrumbList.value = _routes;
 };
 mapRoutes();
