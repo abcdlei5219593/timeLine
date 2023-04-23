@@ -1,6 +1,11 @@
 <template>
     <div class="main-content device-con">
-        <ElTable class="table" :data="tableData" :height="tableHeight" style="width: 100%">
+        <ElTable
+            class="table"
+            id="deviceTable"
+            :data="tableData"
+            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
+        >
             <ElTableColumn prop="date" label="主板" />
             <ElTableColumn prop="name" label="微站名称" />
             <ElTableColumn prop="address" label="微站地址" />
@@ -41,7 +46,7 @@
 import { ElTable, ElTableColumn, ElPagination, ElDialog, ElButton, ElInput, ElRow, ElCol } from 'element-plus';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { setTableHeight } from '@/utils/tableHeight';
+import useTableSetting from '@/utils/useTableSetting';
 
 const router = useRouter();
 
@@ -80,11 +85,7 @@ const toSensor = () => {
     router.push('/app/airContent/device/Sensor');
 };
 
-//table高度自适应
-const tableHeight = ref<number>(setTableHeight(720));
-window.addEventListener('resize', () => {
-    tableHeight.value = setTableHeight(720);
-});
+const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'deviceTable', offsetBottom: 100 });
 </script>
 
 <style scoped lang="scss">
