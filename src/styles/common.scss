@@ -5,6 +5,31 @@
     background-color: #fff;
     padding: 20px;
     box-sizing: border-box;
-    height: 100%;
+    height: calc(100% - $breadcrumbHeight);
     width: 100%;
 }
+
+//Dialog
+.el-dialog{
+    position: relative;
+}
+.dialog-footer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    text-align: right;
+    border-top: 1px solid #e6e6e6;
+    padding: 10px;
+    background: #fff;
+    z-index: 10;
+    box-sizing: border-box;
+}
+:deep(.el-dialog__header) {
+    border-bottom: 1px solid #e6e6e6;
+}
+:deep(.el-dialog__body) {
+    padding: 20px;
+    position: relative;
+}
+

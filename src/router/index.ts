@@ -88,7 +88,25 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import('@/views/Device/index.vue'),
                 meta: {
                     title: '设备管理'
-                }
+                },
+            },
+            {
+                path: 'device',
+                name: 'DeviceSensor',
+                component: () => import('@/views/Device/Sensor/index.vue'),
+                meta: {
+                    title: '设备管理'
+                },
+                children:[
+                    {
+                        path: 'sensor',
+                        name: 'DeviceSensor',
+                        component: () => import('@/views/Device/Sensor/index.vue'),
+                        meta: {
+                            title: '传感器'
+                        }
+                    },
+                ]
             },
             {
                 path: 'warn',

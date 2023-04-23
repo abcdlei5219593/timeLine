@@ -18,17 +18,18 @@ const router = useRouter();
 const breadcrumbList = ref([]);
 const mapRoutes = () => {
     const routes = router.currentRoute.value.matched;
+    const appkey: any = router.currentRoute.value.params.appkey;
     const _routes: any = [];
     routes.forEach((r) => {
         if (r.meta && r.meta.title) {
             _routes.push({
                 // 这个组件中断言 meta 这个属性是存在的
                 title: r.meta?.title || '',
-                path: r.path,
+                path: r.path.replace(/:appkey/g, appkey),
             });
         }
     });
-    console.log(_routes, '_routes_routes_routes');
+    console.log(_routes, '_routes_routes_routes', router.currentRoute);
     breadcrumbList.value = _routes;
 };
 mapRoutes();

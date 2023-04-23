@@ -1,7 +1,8 @@
 <template>
-    <ElMenu :default-active="defaultActive" v-bind="$attrs" :collapse="isCollapse">
+    <ElMenu :default-active="defaultActive" v-bind="$attrs">
         <template v-for="(node, index) in menuList" :key="index">
-            <ElSubMenu v-if="node.children && node.children.length" :index="node.url">
+            <!--noChildren 是有详情的单个菜单-->
+            <ElSubMenu v-if="node.children && node.children.length && !node.noChildren" :index="node.url">
                 <template #title>
                     <i class="menu-icon" v-if="node.icon" :class="node.icon"></i>
                     <span class="menu-title">{{ node.name }}</span>
@@ -27,10 +28,6 @@ import { useRoute } from 'vue-router';
 
 const props = defineProps<{
     menuList: Menu;
-    isCollapse: {
-        type: Boolean;
-        default: true;
-    };
 }>();
 
 const route = useRoute();
