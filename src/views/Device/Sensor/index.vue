@@ -15,7 +15,7 @@
             <ElTableColumn prop="address" fixed="right" label="操作">
                 <template #default>
                     <ElButton link type="primary" size="small" @click="calibrationFun">校准</ElButton>
-                    <ElButton link type="primary" size="small">设置阈值</ElButton>
+                    <ElButton link type="primary" size="small" @click="setThreshold">设置阈值</ElButton>
                 </template>
             </ElTableColumn>
         </ElTable>
@@ -37,14 +37,47 @@
         </span>
     </ElDialog>
     <!--设置阈值-->
+    <ElDialog title="设置阈值" v-model="isThreshold" width="30%">
+        <div class="device-dialog">
+            <ElForm ref="form" :model="formData" label-width="120px" class="demo-ruleForm">
+                <ElFormItem label="预警阈值" prop="pass">
+                    <el-input v-model.number="formData.warning" />
+                </ElFormItem>
+                <ElFormItem label="告警阈值" prop="checkPass">
+                    <el-input v-model.number="formData.alarm" />
+                </ElFormItem>
+                <ElFormItem label="严重告警阈值" prop="age">
+                    <el-input v-model.number="formData.seriousAlarm" />
+                </ElFormItem>
+            </ElForm>
+        </div>
+        <span slot="footer" class="dialog-footer">
+            <ElButton @click="isThreshold = false">取 消</ElButton>
+            <ElButton type="primary" @click="isThreshold = false">保存提交</ElButton>
+        </span>
+    </ElDialog>
 </template>
 <script lang="ts" setup>
-import { ElTable, ElTableColumn, ElPagination, ElDialog, ElButton, ElInput, ElRow, ElCol } from 'element-plus';
-import { ref } from 'vue';
+import {
+    ElTable,
+    ElTableColumn,
+    ElPagination,
+    ElDialog,
+    ElButton,
+    ElInput,
+    ElRow,
+    ElCol,
+    ElForm,
+    ElFormItem,
+} from 'element-plus';
+import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import useTableSetting from '@/hooks/useTableSetting';
+import { FormData } from './../ModelDefines';
 
 const router = useRouter();
+
+const formData = reactive(FormData);
 
 const tableData = [
     {
@@ -68,16 +101,21 @@ const tableData = [
         address: '1111',
     },
 ];
+//是否显示校准弹窗
 const isCalibration = ref<Boolean>(false);
+//是否显示阈值弹窗
+const isThreshold = ref<Boolean>(false);
 const calibrationFun = () => {
     isCalibration.value = true;
 };
-
+const setThreshold = () => {
+    isThreshold.value = true;
+};
 const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'sensorTable', offsetBottom: 100 });
 </script>
 <style scoped lang="scss">
 .device-dialog {
-    height: 100px;
+    height: 150px;
     display: flex;
 }
 </style>
