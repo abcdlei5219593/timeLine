@@ -2,18 +2,19 @@
     <el-breadcrumb
         class="breadcrumb"
         :separator-icon="ArrowRight"
-        v-if="breadcrumbList[0] && breadcrumbList[0].title !== '首页'"
     >
         <el-breadcrumb-item v-for="(route, index) in breadcrumbList" :key="index" :to="route.path">
             {{ route.title }}
         </el-breadcrumb-item>
     </el-breadcrumb>
 </template>
+
 <script setup lang="ts">
 import { ElBreadcrumb, ElBreadcrumbItem } from 'element-plus';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 import { ArrowRight } from '@element-plus/icons-vue';
+
 const router = useRouter();
 const breadcrumbList = ref([]);
 const mapRoutes = () => {
@@ -33,6 +34,7 @@ const mapRoutes = () => {
 };
 mapRoutes();
 </script>
+
 <style lang="scss" scoped>
 .breadcrumb {
     font-size: 14px;

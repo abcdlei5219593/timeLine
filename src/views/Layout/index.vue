@@ -30,7 +30,8 @@
             </ElAside>
             <ElMain>
                 <Breadcrumb />
-                <RouterView class="main-view"> </RouterView>
+                <RouterView class="main-view">
+                </RouterView>
             </ElMain>
         </ElContainer>
     </ElContainer>
@@ -55,11 +56,11 @@ const hasAside = computed(() => route.path.startsWith('/app'));
 
 const appList = APP_LIST.map(({ url, name }) => ({ url, name }));
 
-const changeApp = (path: string) => {
-    const target = APP_LIST.find(({ url }) => url === path);
-};
+
 
 const routePath = computed(() => route.path);
+
+
 
 // const isCollapse = ref(store.state.app.isCollapse);
 
@@ -123,10 +124,11 @@ watch(
 .el-main {
     background-color: $contentBackgroundColor;
     box-sizing: border-box;
-    padding: 0 20px 20px 20px;
+    padding: 0 $containerSpace $containerSpace $containerSpace;
     .main-view {
+        box-sizing: border-box;
         height: calc(100% - $breadcrumbHeight);
-        overflow-y: auto;
+
     }
 }
 .el-aside {
