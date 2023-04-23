@@ -54,6 +54,14 @@ export const routePath = (basePath: string): Menu =>
             url: basePath + '/device',
             name: '设备管理',
             icon: 'iconfont icon-device',
+            //children里为单菜单里的详情,noChildren是有详情的单菜单
+            noChildren: true,
+            children: [
+                {
+                    url: basePath + '/device/sensor',
+                    name: '传感器',
+                },
+            ]
         },
         {
             url: basePath + '/warn',
