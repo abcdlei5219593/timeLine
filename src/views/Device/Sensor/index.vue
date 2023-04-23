@@ -42,7 +42,7 @@
 import { ElTable, ElTableColumn, ElPagination, ElDialog, ElButton, ElInput, ElRow, ElCol } from 'element-plus';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import useTableSetting from '@/utils/useTableSetting';
+import useTableSetting from '@/hooks/useTableSetting';
 
 const router = useRouter();
 
