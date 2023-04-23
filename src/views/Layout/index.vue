@@ -2,12 +2,9 @@
     <ElContainer>
         <ElHeader>
             <ElContainer>
-                <div class="logo fs-18 fw-600">
-                    大气监测管理系统
-                </div>
+                <div class="logo fs-18 fw-600">大气监测管理系统</div>
                 <section>
-                    <AppBar :menu-list="appList" @select="changeApp">
-                    </AppBar>
+                    <AppBar :menu-list="appList" @select="changeApp"> </AppBar>
                 </section>
                 <HeaderRight></HeaderRight>
             </ElContainer>
@@ -78,8 +75,6 @@ const getFistFullpath = (route: MenuItem) => {
     return temp;
 };
 
-
-
 watch(
     routePath,
     (path) => {
@@ -126,7 +121,7 @@ watch(
     padding: 0 20px 20px 20px;
     .main-view {
         height: calc(100% - $breadcrumbHeight);
-        overflow-y: auto;
+        // overflow-y: auto;
     }
 }
 .el-aside {

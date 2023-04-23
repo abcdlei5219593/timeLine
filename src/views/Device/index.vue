@@ -1,40 +1,40 @@
 <template>
     <div class="main-content device-con">
-        <el-table class="table" :data="tableData" :height="tableHeight" style="width: 100%">
-            <el-table-column prop="date" label="主板" />
-            <el-table-column prop="name" label="微站名称" />
-            <el-table-column prop="address" label="微站地址" />
-            <el-table-column prop="address" label="硬件版本" />
-            <el-table-column prop="address" label="软件版本" />
-            <el-table-column prop="address" label="经度" />
-            <el-table-column prop="address" label="维度" />
-            <el-table-column prop="address" label="状态" />
-            <el-table-column prop="address" fixed="right" label="操作">
+        <ElTable class="table" :data="tableData" :height="tableHeight" style="width: 100%">
+            <ElTableColumn prop="date" label="主板" />
+            <ElTableColumn prop="name" label="微站名称" />
+            <ElTableColumn prop="address" label="微站地址" />
+            <ElTableColumn prop="address" label="硬件版本" />
+            <ElTableColumn prop="address" label="软件版本" />
+            <ElTableColumn prop="address" label="经度" />
+            <ElTableColumn prop="address" label="维度" />
+            <ElTableColumn prop="address" label="状态" />
+            <ElTableColumn prop="address" fixed="right" label="操作">
                 <template #default>
-                    <el-button link type="primary" size="small" @click="reportInterval">上报间隔</el-button>
-                    <el-button link type="primary" size="small" @click="toSensor">传感器</el-button>
-                    <el-button link type="primary" size="small">重启</el-button>
+                    <ElButton link type="primary" size="small" @click="reportInterval">上报间隔</ElButton>
+                    <ElButton link type="primary" size="small" @click="toSensor">传感器</ElButton>
+                    <ElButton link type="primary" size="small">重启</ElButton>
                 </template>
-            </el-table-column>
-        </el-table>
-        <el-pagination class="pagination" background layout="prev, pager, next" :total="1000" />
+            </ElTableColumn>
+        </ElTable>
+        <ElPagination class="pagination" background layout="prev, pager, next" :total="1000" />
     </div>
 
     <!--上报间隔-->
-    <el-dialog title="上报间隔时间设置" v-model="isTimeSet" width="30%">
+    <ElDialog title="上报间隔时间设置" v-model="isTimeSet" width="30%">
         <div class="device-dialog">
-            <el-row>
-                <el-col :span="8">间隔时间</el-col>
-                <el-col :span="16"
-                    ><el-input type="number" v-model="intervalTime" placeholder="请输入内容"></el-input
-                ></el-col>
-            </el-row>
+            <ElRow>
+                <ElCol :span="8">间隔时间</ElCol>
+                <ElCol :span="16"
+                    ><ElInput type="number" v-model="intervalTime" placeholder="请输入内容"></ElInput
+                ></ElCol>
+            </ElRow>
         </div>
         <span slot="footer" class="dialog-footer">
-            <el-button @click="isTimeSet = false">取 消</el-button>
-            <el-button type="primary" @click="isTimeSet = false">保存提交</el-button>
+            <ElButton @click="isTimeSet = false">取 消</ElButton>
+            <ElButton type="primary" @click="isTimeSet = false">保存提交</ElButton>
         </span>
-    </el-dialog>
+    </ElDialog>
 </template>
 
 <script lang="ts" setup>

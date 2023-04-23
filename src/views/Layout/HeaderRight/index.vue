@@ -1,9 +1,9 @@
 <template>
     <div class="header-right">
-        <el-badge :value="2" class="item">
+        <ElBadge :value="2" class="item">
             <i class="iconfont icon-message header-message"></i>
-        </el-badge>
-        <el-dropdown>
+        </ElBadge>
+        <ElDropdown>
             <div class="user-box">
                 <img class="avatar" />
                 <p class="user-name">
@@ -12,13 +12,13 @@
                 <i class="iconfont icon-dropdown"></i>
             </div>
             <template #dropdown>
-                <el-dropdown-menu>
-                    <el-dropdown-item style="width: 120px; height: 30px; justify-content: center">
+                <ElDropdownMenu>
+                    <ElDropdownItem style="width: 120px; height: 30px; justify-content: center">
                         退出登录
-                    </el-dropdown-item>
-                </el-dropdown-menu>
+                    </ElDropdownItem>
+                </ElDropdownMenu>
             </template>
-        </el-dropdown>
+        </ElDropdown>
     </div>
 </template>
 
@@ -31,7 +31,7 @@ store.getUserInfo();
 </script>
 
 <style lang="scss" scoped>
-.el-dropdown:hover {
+.ElDropdown:hover {
     border: 0 !important;
     padding: 0 !important;
     box-shadow: none !important;
@@ -44,9 +44,9 @@ store.getUserInfo();
         color: #fff;
         font-size: 24px;
     }
-    .el-badge {
+    .ElBadge {
         margin: 4px 50px 0 0;
-        :deep(.el-badge__content) {
+        :deep(.ElBadge__content) {
             width: 14px;
             height: 14px;
             border-radius: 100%;
@@ -54,7 +54,7 @@ store.getUserInfo();
             border: 0;
         }
     }
-    .el-dropdown {
+    .ElDropdown {
         min-width: 100px;
     }
     .user-box {

@@ -1,36 +1,36 @@
 <template>
     <div class="main-content device-con">
-        <el-table class="table" :data="tableData" :height="tableHeight" style="width: 100%">
-            <el-table-column prop="date" label="主板ID" />
-            <el-table-column prop="name" label="传感器类型" />
-            <el-table-column prop="address" label="校准" />
-            <el-table-column prop="address" label="预警阈值" />
-            <el-table-column prop="address" label="告警阈值" />
-            <el-table-column prop="address" label="严重告警阈值" />
-            <el-table-column prop="address" fixed="right" label="操作">
+        <ElTable class="table" :data="tableData" :height="tableHeight" style="width: 100%">
+            <ElTableColumn prop="date" label="主板ID" />
+            <ElTableColumn prop="name" label="传感器类型" />
+            <ElTableColumn prop="address" label="校准" />
+            <ElTableColumn prop="address" label="预警阈值" />
+            <ElTableColumn prop="address" label="告警阈值" />
+            <ElTableColumn prop="address" label="严重告警阈值" />
+            <ElTableColumn prop="address" fixed="right" label="操作">
                 <template #default>
-                    <el-button link type="primary" size="small" @click="calibrationFun">校准</el-button>
-                    <el-button link type="primary" size="small">设置阈值</el-button>
+                    <ElButton link type="primary" size="small" @click="calibrationFun">校准</ElButton>
+                    <ElButton link type="primary" size="small">设置阈值</ElButton>
                 </template>
-            </el-table-column>
-        </el-table>
-        <el-pagination class="pagination" background layout="prev, pager, next" :total="1000" />
+            </ElTableColumn>
+        </ElTable>
+        <ElPagination class="pagination" background layout="prev, pager, next" :total="1000" />
     </div>
     <!--校准-->
-    <el-dialog title="校准" v-model="isCalibration" width="30%">
+    <ElDialog title="校准" v-model="isCalibration" width="30%">
         <div class="device-dialog">
-            <el-row>
-                <el-col :span="8">间隔时间</el-col>
-                <el-col :span="16"
-                    ><el-input type="number" v-model="intervalTime" placeholder="请输入内容"></el-input
-                ></el-col>
-            </el-row>
+            <ElRow>
+                <ElCol :span="8">间隔时间</ElCol>
+                <ElCol :span="16"
+                    ><ElInput type="number" v-model="intervalTime" placeholder="请输入内容"></ElInput
+                ></ElCol>
+            </ElRow>
         </div>
         <span slot="footer" class="dialog-footer">
-            <el-button @click="isCalibration = false">取 消</el-button>
-            <el-button type="primary" @click="isCalibration = false">保存提交</el-button>
+            <ElButton @click="isCalibration = false">取 消</ElButton>
+            <ElButton type="primary" @click="isCalibration = false">保存提交</ElButton>
         </span>
-    </el-dialog>
+    </ElDialog>
     <!--设置阈值-->
 </template>
 <script lang="ts" setup>
