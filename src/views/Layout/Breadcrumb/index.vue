@@ -1,5 +1,9 @@
 <template>
-    <el-breadcrumb class="breadcrumb" :separator-icon="ArrowRight" v-if="breadcrumbList[0].title !== '首页'">
+    <el-breadcrumb
+        class="breadcrumb"
+        :separator-icon="ArrowRight"
+        v-if="breadcrumbList[0] && breadcrumbList[0].title !== '首页'"
+    >
         <el-breadcrumb-item v-for="(route, index) in breadcrumbList" :key="index" :to="route.path">
             {{ route.title }}
         </el-breadcrumb-item>
