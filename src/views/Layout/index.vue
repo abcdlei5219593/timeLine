@@ -2,9 +2,12 @@
     <ElContainer>
         <ElHeader>
             <ElContainer>
-                <div class="logo fs-18 fw-600">大气监测管理系统</div>
+                <div class="logo fs-18 fw-600">
+                    大气监测管理系统
+                </div>
                 <section>
-                    <AppBar :menu-list="appList" @select="changeApp"> </AppBar>
+                    <AppBar :menu-list="appList" @select="changeApp">
+                    </AppBar>
                 </section>
                 <HeaderRight></HeaderRight>
             </ElContainer>
@@ -26,7 +29,7 @@
                 </div>
             </ElAside>
             <ElMain>
-                <Breadcrumb />
+                <Breadcrumb v-if="showBread" />
                 <RouterView class="main-view">
                 </RouterView>
             </ElMain>
@@ -57,7 +60,9 @@ const appList = APP_LIST.map(({ url, name }) => ({ url, name }));
 
 const routePath = computed(() => route.path);
 
+const showBread = computed(() => !route.path.includes('/home'));
 
+const layoutHeight = showBread.value ? '100% - $breadcrumbHeight' : '100%';
 
 // const isCollapse = ref(store.state.app.isCollapse);
 
@@ -122,12 +127,8 @@ watch(
     padding: 0 $containerSpace $containerSpace $containerSpace;
     .main-view {
         box-sizing: border-box;
-        height: calc(100% - $breadcrumbHeight);
-<<<<<<< HEAD
-
-=======
+        height: calc(v-bind(layoutHeight));
         // overflow-y: auto;
->>>>>>> b8d6bf59c2397c69bf557a409a5f88d399dd5c4a
     }
 }
 .el-aside {

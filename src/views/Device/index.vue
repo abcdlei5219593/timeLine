@@ -1,8 +1,8 @@
 <template>
     <div class="main-content device-con">
         <ElTable
-            class="table"
             id="deviceTable"
+            class="table"
             :data="tableData"
             :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
         >
@@ -16,9 +16,15 @@
             <ElTableColumn prop="address" label="状态" />
             <ElTableColumn prop="address" fixed="right" label="操作">
                 <template #default>
-                    <ElButton link type="primary" size="small" @click="reportInterval">上报间隔</ElButton>
-                    <ElButton link type="primary" size="small" @click="toSensor">传感器</ElButton>
-                    <ElButton link type="primary" size="small">重启</ElButton>
+                    <ElButton link type="primary" size="small" @click="reportInterval">
+                        上报间隔
+                    </ElButton>
+                    <ElButton link type="primary" size="small" @click="toSensor">
+                        传感器
+                    </ElButton>
+                    <ElButton link type="primary" size="small">
+                        重启
+                    </ElButton>
                 </template>
             </ElTableColumn>
         </ElTable>
@@ -26,13 +32,15 @@
     </div>
 
     <!--上报间隔-->
-    <ElDialog title="上报间隔时间设置" v-model="isTimeSet" width="30%">
+    <ElDialog v-model="isTimeSet" title="上报间隔时间设置" width="30%">
         <div class="device-dialog">
             <ElRow>
-                <ElCol :span="8">间隔时间</ElCol>
-                <ElCol :span="16"
-                    ><ElInput type="number" v-model="intervalTime" placeholder="请输入内容"></ElInput
-                ></ElCol>
+                <ElCol :span="8">
+                    间隔时间
+                </ElCol>
+                <ElCol :span="16">
+                    <ElInput v-model="intervalTime" type="number" placeholder="请输入内容"></ElInput>
+                </ElCol>
             </ElRow>
         </div>
         <span slot="footer" class="dialog-footer">
@@ -73,9 +81,9 @@ const tableData = [
     },
 ];
 
-const isTimeSet = ref<Boolean>(false);
+const isTimeSet = ref<boolean>(false);
 
-const intervalTime = ref<Number>(0);
+const intervalTime = ref<number>(0);
 
 const reportInterval = () => {
     isTimeSet.value = true;

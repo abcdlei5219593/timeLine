@@ -1,10 +1,10 @@
 <template>
     <ElMenu :default-active="defaultActive" v-bind="$attrs">
         <template v-for="(node, index) in menuList" :key="index">
-            <!--noChildren 是有详情的单个菜单-->
-            <ElSubMenu v-if="node.children && node.children.length && !node.noChildren" :index="node.url">
+            <!--noSubMenu 是有详情的单个菜单-->
+            <ElSubMenu v-if="node.children && node.children.length && !node.noSubMenu" :index="node.url">
                 <template #title>
-                    <i class="menu-icon" v-if="node.icon" :class="node.icon"></i>
+                    <i v-if="node.icon" class="menu-icon" :class="node.icon"></i>
                     <span class="menu-title">{{ node.name }}</span>
                 </template>
                 <ElMenuItem v-for="(sub, subIndex) in node.children" :key="subIndex" :index="sub.url">
@@ -12,10 +12,10 @@
                 </ElMenuItem>
             </ElSubMenu>
             <ElMenuItem v-else :index="node.url">
-                <i class="menu-icon" v-if="node.icon" :class="node.icon"></i>
-                <template #title
-                    ><span class="menu-title">{{ node.name }}</span></template
-                >
+                <i v-if="node.icon" class="menu-icon" :class="node.icon"></i>
+                <template #title>
+                    <span class="menu-title">{{ node.name }}</span>
+                </template>
             </ElMenuItem>
         </template>
     </ElMenu>

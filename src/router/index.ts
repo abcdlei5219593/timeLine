@@ -97,7 +97,7 @@ const routes: Array<RouteRecordRaw> = [
                 meta: {
                     title: '设备管理'
                 },
-                children:[
+                children: [
                     {
                         path: 'sensor',
                         name: 'DeviceSensor',

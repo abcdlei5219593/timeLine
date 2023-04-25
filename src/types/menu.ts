@@ -3,9 +3,10 @@ export interface MenuItem {
     url: string,
     name: string,
     icon?: string,
-    noChildren?: string,
+    noSubMenu?: boolean,
     children?: MenuItem[],
-    menu?: MenuItem[]
+    menu?: MenuItem[],
+    isButton?: boolean
 }
 
 export type Menu = MenuItem[]

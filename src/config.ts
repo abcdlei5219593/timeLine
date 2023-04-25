@@ -39,6 +39,20 @@ export const routePath = (basePath: string): Menu =>
                 {
                     url: basePath + '/statistics/report',
                     name: '分析报告',
+                    children: [
+                        {
+                            url: basePath + '/statistics/report/view',
+                            name: '页面访问',
+
+                        },
+                        {
+                            url: basePath + 'exportStatisticsData',
+                            name: '导出数据',
+                            isButton: true,
+
+                        },
+
+                    ]
                 },
                 {
                     url: basePath + '/statistics/statisticsData',
@@ -54,12 +68,46 @@ export const routePath = (basePath: string): Menu =>
             url: basePath + '/device',
             name: '设备管理',
             icon: 'iconfont icon-device',
-            //children里为单菜单里的详情,noChildren是有详情的单菜单
-            noChildren: true,
+            // children里为单菜单里的详情,noSubMenu是有详情的单菜单
+            noSubMenu: true,
             children: [
                 {
-                    url: basePath + '/device/sensor',
+                    url: basePath + '/device/viewPage',
+                    name: '页面访问',
+                },
+                {
+                    url: basePath + 'deviceSensor',
                     name: '传感器',
+                    isButton: true,
+                    children: [
+                        {
+                            url: basePath + '/device/deviceSensor/view',
+                            name: '页面访问',
+
+                        },
+                        {
+                            url: basePath + 'adjusting',
+                            name: '校推',
+                            isButton: true,
+
+                        },
+                        {
+                            url: basePath + 'setThreshold ',
+                            name: '设置阀值',
+                            isButton: true,
+
+                        },
+                    ]
+                },
+                {
+                    url: basePath + 'pendingTrigger',
+                    name: '上报间隔',
+                    isButton: true
+                },
+                {
+                    url: basePath + 'reStart',
+                    name: '重启',
+                    isButton: true
                 },
             ]
         },
@@ -75,6 +123,20 @@ export const routePath = (basePath: string): Menu =>
                 {
                     url: basePath + '/warn/airWarn',
                     name: '大气告警',
+                    children: [
+                        {
+                            url: basePath + '/device/airWarn/view',
+                            name: '页面访问',
+
+                        },
+                        {
+                            url: basePath + 'closeWarn',
+                            name: '关闭告警',
+                            isButton: true,
+
+                        },
+
+                    ]
                 },
 
             ]
@@ -83,6 +145,20 @@ export const routePath = (basePath: string): Menu =>
             url: basePath + '/histroy',
             name: '历史数据',
             icon: 'iconfont icon-history',
+            children: [
+                {
+                    url: basePath + '/histroy/view',
+                    name: '页面访问',
+
+                },
+                {
+                    url: basePath + 'exportHistroyData',
+                    name: '导出数据',
+                    isButton: true,
+
+                },
+
+            ]
         },
         {
             url: basePath + '/flag',
@@ -111,7 +187,8 @@ export const APP_LIST: Menu = [
     },
     {
         url: '/app/pm',
-        name: '可吸入颗粒物探测'
+        name: '可吸入颗粒物探测',
+        children: routePath('/app/pm')
     },
     {
         url: '/app/wind',

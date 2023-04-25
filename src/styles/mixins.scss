@@ -1,0 +1,44 @@
+@mixin flex($justifyContent:flex-start,$alignItems:flex-start) {
+    display: flex;
+    justify-content: $justifyContent;
+    align-items: $alignItems;
+}
+@mixin wh($width,$height) {
+    width: $width;
+    height: $height;
+}
+@mixin radius() {
+    border-radius: 4px;
+}
+@mixin card() {
+    background: #ffffff;
+    @include radius();
+}
+@mixin circle {
+    border-radius: 50%;
+}
+@mixin box() {
+    box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.1);
+    @include card();
+}
+@mixin absolute($left:0,$top:0) {
+    position: absolute;
+    left: $left;
+    top: $top;
+}
+@mixin absoluteFull($left:0,$top:0,$right:0,$bottom:0) {
+    position: absolute;
+    left: $left;
+    top: $top;
+    right: $right;
+    bottom: $bottom;
+}
+@mixin  textoverflow($clamp:1) {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: $clamp;
+    -webkit-box-orient: vertical;
+}

@@ -1,6 +1,6 @@
 
 //公共样式
-// 白底公共内容区
+
 .main-content{
     background-color: #fff;
     padding: 20px;
@@ -28,8 +28,10 @@
 :deep(.el-dialog__header) {
     border-bottom: 1px solid #e6e6e6;
 }
-:deep(.el-dialog__body) {
+.el-dialog__body {
     padding: 20px;
     position: relative;
+    max-height: 60vh;
+    overflow-y: auto;
 }
 
