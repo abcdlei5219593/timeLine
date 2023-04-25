@@ -31,7 +31,7 @@ store.getUserInfo();
 </script>
 
 <style lang="scss" scoped>
-.ElDropdown:hover {
+.el-dropdown:hover {
     border: 0 !important;
     padding: 0 !important;
     box-shadow: none !important;
@@ -44,9 +44,9 @@ store.getUserInfo();
         color: #fff;
         font-size: 24px;
     }
-    .ElBadge {
+    .el-badge {
         margin: 4px 50px 0 0;
-        :deep(.ElBadge__content) {
+        :deep(el-badge__content) {
             width: 14px;
             height: 14px;
             border-radius: 100%;
@@ -54,7 +54,7 @@ store.getUserInfo();
             border: 0;
         }
     }
-    .ElDropdown {
+    .el-dropdown {
         min-width: 100px;
     }
     .user-box {
