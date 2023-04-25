@@ -102,9 +102,9 @@ const tableData = [
     },
 ];
 //是否显示校准弹窗
-const isCalibration = ref<Boolean>(false);
+const isCalibration = ref<boolean>(false);
 //是否显示阈值弹窗
-const isThreshold = ref<Boolean>(false);
+const isThreshold = ref<boolean>(false);
 const calibrationFun = () => {
     isCalibration.value = true;
 };

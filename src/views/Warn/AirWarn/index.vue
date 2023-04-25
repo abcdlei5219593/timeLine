@@ -64,6 +64,12 @@
                 <ElTableColumn prop="address" label="传感器类型" />
                 <ElTableColumn prop="address" label="告警类型" />
                 <ElTableColumn prop="address" label="时间" />
+                <ElTableColumn prop="address" fixed="right" label="操作">
+                    <template #default>
+                        <ElButton link type="primary" size="small"> 关闭告警 </ElButton>
+                        <ElButton link type="primary" size="small"> 已关闭 </ElButton>
+                    </template>
+                </ElTableColumn>
             </ElTable>
             <ElPagination class="pagination" background layout="prev, pager, next" :total="1000" />
         </div>
