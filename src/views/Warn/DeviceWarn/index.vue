@@ -1,14 +1,14 @@
 <template>
     <div class="main-content warn-con">
-        <ElRow class="main-row">
-            <ElCol :span="5"
-                ><span class="warn-label">告警类型</span>
+        <ElRow class="search-row">
+            <ElCol :span="6"
+                ><span class="search-label">告警类型：</span>
                 <ElSelect v-model="DevceWarnParams.type" placeholder="请选择" size="default">
                     <ElOption v-for="item in warnOptions" :key="item.value" :label="item.label" :value="item.value" />
                 </ElSelect>
             </ElCol>
-            <ElCol :span="5"
-                ><span class="warn-label">微站</span>
+            <ElCol :span="6"
+                ><span class="search-label">微站选择：</span>
                 <ElSelect v-model="DevceWarnParams.microStation" placeholder="请选择" size="default">
                     <ElOption
                         v-for="item in microStationOptions"
@@ -17,36 +17,31 @@
                         :value="item.value"
                     /> </ElSelect
             ></ElCol>
-            <ElCol :span="6"
-                ><span class="warn-label">时间</span>
+            <ElCol :span="8"
+                ><span class="search-label">时间：</span>
                 <ElDatePicker
-                    v-model="dete"
+                    v-model="date"
                     type="datetimerange"
                     range-separator="To"
                     @change="timeChange"
                     size="default"
                 />
             </ElCol>
-            <ElCol :span="3">
-                <ElButton type="primary" size="default">搜索</ElButton>
-            </ElCol>
         </ElRow>
-        <div class="main-content device-con">
-            <ElTable
-                class="table"
-                id="deviceWarnTable"
-                :data="tableData"
-                :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
-            >
-                <ElTableColumn prop="date" label="主板" />
-                <ElTableColumn prop="name" label="微站名称" />
-                <ElTableColumn prop="address" label="告警值" />
-                <ElTableColumn prop="address" label="传感器类型" />
-                <ElTableColumn prop="address" label="告警类型" />
-                <ElTableColumn prop="address" label="时间" />
-            </ElTable>
-            <ElPagination class="pagination" background layout="prev, pager, next" :total="1000" />
-        </div>
+        <ElTable
+            class="table"
+            id="deviceWarnTable"
+            :data="tableData"
+            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
+        >
+            <ElTableColumn prop="date" label="主板" />
+            <ElTableColumn prop="name" label="微站名称" />
+            <ElTableColumn prop="address" label="告警值" />
+            <ElTableColumn prop="address" label="传感器类型" />
+            <ElTableColumn prop="address" label="告警类型" />
+            <ElTableColumn prop="address" label="时间" />
+        </ElTable>
+        <ElPagination class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="1000" />
     </div>
 </template>
 
@@ -106,18 +101,6 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'deviceWarnT
 </script>
 
 <style scoped lang="scss">
-.warn-con {
-}
-.main-row {
-    .el-col {
-        display: flex;
-
-        .warn-label {
-            min-width: 40px;
-            white-space: nowrap;
-            padding-right: 10px;
-            line-height: 32px;
-        }
-    }
+.flag-con {
 }
 </style>

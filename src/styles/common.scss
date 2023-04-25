@@ -9,6 +9,65 @@
     width: 100%;
 }
 
+//search
+.search-row {
+    .el-col {
+        display: flex;
+        margin-bottom: 20px;
+        &:first-child .search-label{
+            text-align: left;
+        }
+        .search-label {
+            // min-width: 40px;
+            white-space: nowrap;
+            // padding-right: 5px;
+            line-height: 32px;
+        }
+        .el-select{
+            width: 100%;
+            padding-right: 40px;
+        }
+    }
+}
+
+.search-checkbox{
+    color: #000;
+}
+//通用table
+.el-table {
+
+    .el-table__header{
+        height: 44px;
+
+        .el-table__cell,.el-table__cell,.is-first-column{
+            background: #F2F3F5 !important;
+            color: #000;
+            font-weight: 600;
+            font-size: 14px;
+        }
+    }
+
+    .el-table__row{
+        height: 44px;
+        font-size: 14px;
+        color: #000;
+    }
+}
+
+//通用分页
+.pagination{
+    margin-top: 20px;
+    display: flex;
+    justify-content: right;
+    .number:not(.is-active),.more{
+        background: #fff !important;
+        border: 1px solid #DCDCDC;
+    }
+    .btn-next,.btn-prev{
+        background: #fff !important;
+    }
+}
+
 //Dialog
 .el-dialog{
     position: relative;
@@ -19,7 +78,7 @@
     right: 0;
     width: 100%;
     text-align: right;
-    border-top: 1px solid #e6e6e6;
+    // border-top: 1px solid #e6e6e6;
     padding: 10px;
     background: #fff;
     z-index: 10;

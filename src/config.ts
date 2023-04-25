@@ -145,20 +145,6 @@ export const routePath = (basePath: string): Menu =>
             url: basePath + '/histroy',
             name: '历史数据',
             icon: 'iconfont icon-history',
-            children: [
-                {
-                    url: basePath + '/histroy/view',
-                    name: '页面访问',
-
-                },
-                {
-                    url: basePath + 'exportHistroyData',
-                    name: '导出数据',
-                    isButton: true,
-
-                },
-
-            ]
         },
         {
             url: basePath + '/flag',

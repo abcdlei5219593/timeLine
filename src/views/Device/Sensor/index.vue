@@ -14,46 +14,42 @@
             <ElTableColumn prop="address" label="严重告警阈值" />
             <ElTableColumn prop="address" fixed="right" label="操作">
                 <template #default>
-                    <ElButton link type="primary" size="small" @click="calibrationFun">校准</ElButton>
-                    <ElButton link type="primary" size="small" @click="setThreshold">设置阈值</ElButton>
+                    <ElButton link type="primary" size="default" @click="calibrationFun">校准</ElButton>
+                    <ElButton link type="primary" size="default" @click="setThreshold">设置阈值</ElButton>
                 </template>
             </ElTableColumn>
         </ElTable>
-        <ElPagination class="pagination" background layout="prev, pager, next" :total="1000" />
+        <ElPagination class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="1000" />
     </div>
     <!--校准-->
     <ElDialog title="校准" v-model="isCalibration" width="30%">
         <div class="device-dialog">
-            <ElRow>
-                <ElCol :span="8">间隔时间</ElCol>
-                <ElCol :span="16"
-                    ><ElInput type="number" v-model="intervalTime" placeholder="请输入内容"></ElInput
-                ></ElCol>
-            </ElRow>
+            <p>校准</p>
+            <ElInput type="number" v-model="intervalTime" placeholder="请输入" size="default" />
         </div>
         <span slot="footer" class="dialog-footer">
-            <ElButton @click="isCalibration = false">取 消</ElButton>
-            <ElButton type="primary" @click="isCalibration = false">保存提交</ElButton>
+            <ElButton @click="isCalibration = false" size="default">取 消</ElButton>
+            <ElButton type="primary" @click="isCalibration = false" size="default">保存提交</ElButton>
         </span>
     </ElDialog>
     <!--设置阈值-->
-    <ElDialog title="设置阈值" v-model="isThreshold" width="30%">
+    <ElDialog title="阈值设置" v-model="isThreshold" width="30%">
         <div class="device-dialog">
-            <ElForm ref="form" :model="formData" label-width="120px" class="demo-ruleForm">
+            <ElForm ref="form" :model="formData" label-width="120px" label-position="top" class="demo-ruleForm">
                 <ElFormItem label="预警阈值" prop="pass">
-                    <el-input v-model.number="formData.warning" />
+                    <el-input v-model.number="formData.warning" size="default" />
                 </ElFormItem>
                 <ElFormItem label="告警阈值" prop="checkPass">
-                    <el-input v-model.number="formData.alarm" />
+                    <el-input v-model.number="formData.alarm" size="default" />
                 </ElFormItem>
                 <ElFormItem label="严重告警阈值" prop="age">
-                    <el-input v-model.number="formData.seriousAlarm" />
+                    <el-input v-model.number="formData.seriousAlarm" size="default" />
                 </ElFormItem>
             </ElForm>
         </div>
         <span slot="footer" class="dialog-footer">
-            <ElButton @click="isThreshold = false">取 消</ElButton>
-            <ElButton type="primary" @click="isThreshold = false">保存提交</ElButton>
+            <ElButton @click="isThreshold = false" size="default">取 消</ElButton>
+            <ElButton type="primary" @click="isThreshold = false" size="default">保存提交</ElButton>
         </span>
     </ElDialog>
 </template>
@@ -114,8 +110,16 @@ const setThreshold = () => {
 const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'sensorTable', offsetBottom: 100 });
 </script>
 <style scoped lang="scss">
+:deep(.el-dialog__body) {
+    padding: 0 24px 24px 24px !important;
+}
 .device-dialog {
-    height: 150px;
-    display: flex;
+    height: 240px;
+
+    p {
+        color: #000;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
 }
 </style>

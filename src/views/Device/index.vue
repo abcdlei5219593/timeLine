@@ -16,28 +16,20 @@
             <ElTableColumn prop="address" label="状态" />
             <ElTableColumn prop="address" fixed="right" label="操作">
                 <template #default>
-                    <ElButton link type="primary" size="small" @click="reportInterval">
-                        上报间隔
-                    </ElButton>
-                    <ElButton link type="primary" size="small" @click="toSensor">
-                        传感器
-                    </ElButton>
-                    <ElButton link type="primary" size="small">
-                        重启
-                    </ElButton>
+                    <ElButton link type="primary" size="default" @click="reportInterval"> 上报间隔 </ElButton>
+                    <ElButton link type="primary" size="default" @click="toSensor"> 传感器 </ElButton>
+                    <ElButton link type="primary" size="default"> 重启 </ElButton>
                 </template>
             </ElTableColumn>
         </ElTable>
-        <ElPagination class="pagination" background layout="prev, pager, next" :total="1000" />
+        <ElPagination class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="1000" />
     </div>
 
     <!--上报间隔-->
     <ElDialog v-model="isTimeSet" title="上报间隔时间设置" width="30%">
         <div class="device-dialog">
             <ElRow>
-                <ElCol :span="8">
-                    间隔时间
-                </ElCol>
+                <ElCol :span="8"> 间隔时间 </ElCol>
                 <ElCol :span="16">
                     <ElInput v-model="intervalTime" type="number" placeholder="请输入内容"></ElInput>
                 </ElCol>
