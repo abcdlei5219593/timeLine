@@ -3,14 +3,14 @@ import { ElMessage, ElLoading } from 'element-plus';
 import Cookie from 'js-cookie';
 
 type LoadingInstance = {
-     close:() => void
+    close: () => void
 } | null
 let loadingInstance: LoadingInstance = null;
 
 // 创建axios实例
 const $http = axios.create({
     // 请求的域名，基本地址，proxy 代理时会将“/api”以及前置字符串会被替换为真正域名
-    baseURL: '/api',
+    baseURL: import.meta.env.VITE_URL + '/ckips',
     // 跨域请求时发送Cookie
     // withCredentials: true, // 视情况而定
     // 超时时间
@@ -27,7 +27,7 @@ $http.interceptors.request.use((config) => {
     if (token) {
         config.headers.token = token;
     }
-    if(config.showLoading) {
+    if (config.showLoading) {
         loadingInstance = ElLoading.service({
             lock: true,
             text: '数据加载中...',
@@ -38,7 +38,7 @@ $http.interceptors.request.use((config) => {
 
 // 响应拦截器
 $http.interceptors.response.use((response) => {
-    return response;
+    return response.data.data;
 }, (error) => {
     if (error.response) {
         switch (error.response.state) {
@@ -57,7 +57,7 @@ $http.interceptors.response.use((response) => {
     } else {
         ElMessage.error('遇到跨域错误，请设置代理或者修改后端允许跨域访问！');
     }
-    if(loadingInstance) {
+    if (loadingInstance) {
         loadingInstance.close;
         loadingInstance = null;
     }
