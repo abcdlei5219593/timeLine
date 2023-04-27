@@ -61,6 +61,9 @@
 <script setup lang="ts">
 import { ElCard, ElSelect, ElRow, ElCol } from 'element-plus';
 import{ useUserStore } from '@/store/app';
+import { get24AvgData } from '@/api/home';
+
+get24AvgData({measure: 'AQI'});
 
 const store = useUserStore();
 </script>

@@ -4,7 +4,9 @@
         <div id="container">
             <el-amap :center="center" :zoom="zoom" @init="init" />
         </div>
-        <button @click="add()">添加标号</button>
+        <button @click="add()">
+            添加标号
+        </button>
     </div>
 </template>
 
