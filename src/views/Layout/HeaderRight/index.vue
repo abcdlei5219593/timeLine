@@ -13,7 +13,7 @@
             </div>
             <template #dropdown>
                 <ElDropdownMenu>
-                    <ElDropdownItem style="width: 120px; height: 30px; justify-content: center">
+                    <ElDropdownItem style="width: 120px; height: 30px; justify-content: center" @click="loginOut">
                         退出登录
                     </ElDropdownItem>
                 </ElDropdownMenu>
@@ -25,9 +25,17 @@
 <script setup lang="ts">
 import { ElDropdown, ElIcon, ElBadge, ElDropdownMenu, ElDropdownItem } from 'element-plus';
 import { useUserStore } from '@/store/app';
+import Cookie from 'js-cookie';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const store = useUserStore();
 store.getUserInfo();
+
+const loginOut = () => {
+    Cookie.set('token', 'token');
+    router.push('/login');
+};
 </script>
 
 <style lang="scss" scoped>

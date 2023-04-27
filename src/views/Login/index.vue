@@ -33,8 +33,8 @@ const rules = reactive({
 });
 
 const formData = reactive<FormType>({
-    userName: '',
-    password: '',
+    userName: 'superadmin',
+    password: '123456',
     token: 'token',
 });
 
@@ -57,7 +57,7 @@ const loginFun = async () => {
     try {
         const password: any = ref(proxy.$md5(formData.password).substr(8, 16));
         formData.password = password;
-        const { res } = await login(formData);
+        const res = await login(formData);
         const store = storeMenu();
         store.getMenu(res.menu);
         Cookie.set('token', res.token);
