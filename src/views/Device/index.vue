@@ -6,18 +6,25 @@
             :data="tableData"
             :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
         >
-            <ElTableColumn prop="date" label="主板" />
-            <ElTableColumn prop="name" label="微站名称" />
-            <ElTableColumn prop="address" label="微站地址" />
-            <ElTableColumn prop="address" label="硬件版本" />
-            <ElTableColumn prop="address" label="软件版本" />
-            <ElTableColumn prop="address" label="经度" />
-            <ElTableColumn prop="address" label="维度" />
-            <ElTableColumn prop="address" label="状态" />
+            <ElTableColumn prop="deviceId" label="主板" />
+            <ElTableColumn prop="stationName" label="微站名称" />
+            <ElTableColumn prop="stationAddress" label="微站地址" />
+            <ElTableColumn prop="hv" label="硬件版本" />
+            <ElTableColumn prop="sv" label="软件版本" />
+            <ElTableColumn prop="longitude" label="经度" />
+            <ElTableColumn prop="latitude" label="纬度" />
+            <ElTableColumn prop="status" label="状态">
+                <template #default="scope">
+                    <span v-if="scope.row.status === 1">在线</span>
+                    <span v-else-if="scope.row.status === 2">离线</span>
+                </template>
+            </ElTableColumn>
             <ElTableColumn prop="address" fixed="right" label="操作">
-                <template #default>
-                    <ElButton link type="primary" size="default" @click="reportInterval"> 上报间隔 </ElButton>
-                    <ElButton link type="primary" size="default" @click="toSensor"> 传感器 </ElButton>
+                <template #default="scope">
+                    <ElButton link type="primary" size="default" @click="reportInterval(scope.row)">
+                        上报间隔
+                    </ElButton>
+                    <ElButton link type="primary" size="default" @click="toSensor(scope.row)"> 传感器 </ElButton>
                     <ElButton link type="primary" size="default"> 重启 </ElButton>
                 </template>
             </ElTableColumn>
@@ -50,28 +57,7 @@ import useTableSetting from '@/hooks/useTableSetting';
 
 const router = useRouter();
 
-const tableData = [
-    {
-        date: '2016-05-03',
-        name: 'Tom',
-        address: '1111',
-    },
-    {
-        date: '2016-05-02',
-        name: 'Tom',
-        address: '1111',
-    },
-    {
-        date: '2016-05-04',
-        name: 'Tom',
-        address: '1111',
-    },
-    {
-        date: '2016-05-01',
-        name: 'Tom',
-        address: '1111',
-    },
-];
+const tableData = ref([]);
 
 const isTimeSet = ref<boolean>(false);
 

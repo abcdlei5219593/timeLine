@@ -61,10 +61,10 @@
 <script setup lang="ts">
 import { ElCard, ElSelect, ElRow, ElCol } from 'element-plus';
 import{ useUserStore } from '@/store/app';
-import { get24AvgData } from '@/api/home';
+import { get24AvgData, getAQI } from '@/api/home';
 
 get24AvgData({measure: 'AQI'});
-
+getAQI();
 const store = useUserStore();
 </script>
 

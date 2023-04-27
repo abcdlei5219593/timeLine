@@ -151,6 +151,11 @@ export const routePath = (basePath: string): Menu =>
             name: '标记管理',
             icon: 'iconfont icon-sign',
         },
+
+    ];
+
+export const routeUserPath = (basePath: string): Menu =>
+    [
         {
             url: basePath + '/userCenter',
             name: '用户中心',
@@ -159,11 +164,9 @@ export const routePath = (basePath: string): Menu =>
         {
             url: basePath + '/auth',
             name: '权限管理',
-            icon: 'iconfont icon-home',
+            icon: 'iconfont icon-map',
         },
-
-    ];
-
+    ]
 
 export const APP_LIST: Menu = [
     {
@@ -187,5 +190,10 @@ export const APP_LIST: Menu = [
     {
         url: '/app/ptu',
         name: 'PTU测量管理'
+    },
+    {
+        url: '/app/user',
+        name: '用户与权限',
+        children: routeUserPath('/app/user')
     },
 ];

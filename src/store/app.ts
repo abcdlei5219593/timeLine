@@ -30,4 +30,16 @@ export const useSettingStore = defineStore('setting', () => {
     };
 });
 
+export const storeMenu = defineStore('setting', () => {
+    const menuLst = ref<any>([]);
+
+    const getMenu = (val) => {
+        menuLst.value = val;
+    };
+    return {
+        menuLst,
+        getMenu
+    };
+});
+
 
