@@ -41,7 +41,6 @@ const formData = reactive<FormType>({
 const { proxy } = getCurrentInstance() as any;
 proxy.$md5 = md5;
 const submitForm = async (formEl: FormInstance | undefined) => {
-    console.log(formEl, 'formElformElformEl');
     if (!formEl) return;
     await formEl.validate((valid, fields) => {
         if (valid) {

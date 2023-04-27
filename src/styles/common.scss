@@ -5,7 +5,7 @@
     background-color: #fff;
     padding: 20px;
     box-sizing: border-box;
-    height: calc(100% - $breadcrumbHeight);
+    height: calc(100% -  $breadcrumbHeight) !important;
     width: 100%;
 }
 
