@@ -4,7 +4,7 @@
             <i class="iconfont icon-message header-message"></i>
         </ElBadge>
         <ElDropdown>
-            <div class="user-box">
+            <div class="user-box" @click="toPersonalCenter">
                 <img class="avatar" />
                 <p class="user-name">
                     {{ store.userInfo?.userName }}
@@ -35,6 +35,9 @@ store.getUserInfo();
 const loginOut = () => {
     Cookie.set('token', 'token');
     router.push('/login');
+};
+const toPersonalCenter = () => {
+    router.push('/app/user/personalCenter');
 };
 </script>
 
@@ -95,4 +98,5 @@ const loginOut = () => {
             line-height: 32px;
         }
     }
-}</style>
+}
+</style>

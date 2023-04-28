@@ -167,6 +167,20 @@ export const routeUserPath = (basePath: string): Menu =>
             name: '权限管理',
             icon: 'iconfont icon-map',
         },
+        {
+            url: basePath + '/device',
+            name: '个人中心',
+            icon: 'iconfont icon-device',
+            // children里为单菜单里的详情,noSubMenu是有详情的单菜单
+            noSubMenu: true,
+            children: [
+                {
+                    url: basePath + '/personalCenter',
+                    name: '个人中心',
+                    isButton: true,
+                }
+            ]
+        }
     ];
 
 export const APP_LIST: Menu = [

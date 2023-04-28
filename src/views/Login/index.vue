@@ -5,10 +5,12 @@
                 <el-input v-model="formData.userName" size="default" />
             </ElFormItem>
             <ElFormItem label="密码" prop="password">
-                <el-input type="password" v-model="formData.password" size="default" />
+                <el-input v-model="formData.password" type="password" size="default" />
             </ElFormItem>
             <ElFormItem>
-                <ElButton type="primary" @click="submitForm(formDataRef)"> 登录 </ElButton>
+                <ElButton type="primary" @click="submitForm(formDataRef)">
+                    登录
+                </ElButton>
             </ElFormItem>
         </ElForm>
     </div>
@@ -18,11 +20,12 @@
 import { ElButton, ElInput, ElForm, ElFormItem, FormInstance } from 'element-plus';
 import { ref, reactive, getCurrentInstance } from 'vue';
 import { FormType } from './ModelDefines';
-import { login } from '@/api/login';
+import { login, listUserModule } from '@/api/login';
 import md5 from 'js-md5';
-import { storeMenu } from '@/store/app';
+import { storeMenu, useUserStore } from '@/store/app';
 import Cookie from 'js-cookie';
 import { useRouter } from 'vue-router';
+import { basic } from '@/api/user';
 
 const router = useRouter();
 
@@ -41,7 +44,9 @@ const formData = reactive<FormType>({
 const { proxy } = getCurrentInstance() as any;
 proxy.$md5 = md5;
 const submitForm = async (formEl: FormInstance | undefined) => {
-    if (!formEl) return;
+    if (!formEl) {
+        return;
+    }
     await formEl.validate((valid, fields) => {
         if (valid) {
             console.log('submit!');
@@ -56,13 +61,34 @@ const loginFun = async () => {
     try {
         const password: any = ref(proxy.$md5(formData.password).substr(8, 16));
         formData.password = password;
-        const res = await login(formData);
+        const res: any = await login(formData);
+        Cookie.set('token', res.token);
+        await getUserMenu();
+        await getUser();
+        router.push('/app/airContent/home');
+    } catch (err) { }
+};
+
+// 获取用户菜单
+const getUserMenu = async () => {
+    try {
+        const res: any = await listUserModule();
         const store = storeMenu();
         store.getMenu(res.menu);
-        Cookie.set('token', res.token);
-        router.push('/app/airContent/home');
-    } catch (err) {}
+    } catch (err) { }
 };
+
+// 获取用户基本信息
+const getUser = async () => {
+    try {
+        const res: any = await basic();
+        const store = useUserStore();
+        console.log(res, '9888888');
+        store.getUserInfo(res);
+    } catch (err) { }
+};
+
+
 </script>
 
 <style scoped lang="scss">

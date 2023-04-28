@@ -55,7 +55,7 @@ import { ElTable, ElTableColumn, ElPagination, ElDialog, ElButton, ElInput, ElRo
 import { ref, onMounted, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import useTableSetting from '@/hooks/useTableSetting';
-import { deviceList } from '@/api/device';
+import { getDeviceList } from '@/api/device';
 
 const router = useRouter();
 
@@ -74,7 +74,7 @@ const toSensor = (row: any) => {
 };
 const getList = async () => {
     try {
-        const res: any = await deviceList();
+        const res: any = await getDeviceList();
         tableData.value = res;
     } catch (err) { }
 };

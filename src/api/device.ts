@@ -27,17 +27,12 @@ export const getDeviceList = (data: object = {}) =>
         showLoading: true
     } as AxiosRequestConfig);
 
-// 获取设备列表
-export function deviceList(params = {}) {
-    return $http.get('/admin/gas/device/query', params);
-}
-
 // 获取传感器列表
-export function getSensors(params = {}) {
-    return $http({
+export const getSensors = (data: object = {}) =>
+    $http({
         url: '/admin/gas/device/getSensors',
         method: 'post',
-        params
-    });
-}
+        data,
+        showLoading: true
+    } as AxiosRequestConfig);
 
