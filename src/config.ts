@@ -75,6 +75,7 @@ export const routePath = (basePath: string): Menu =>
                     url: basePath + '/device/viewPage',
                     name: '页面访问',
                 },
+
                 {
                     url: basePath + 'deviceSensor',
                     name: '传感器',
@@ -166,7 +167,7 @@ export const routeUserPath = (basePath: string): Menu =>
             name: '权限管理',
             icon: 'iconfont icon-map',
         },
-    ]
+    ];
 
 export const APP_LIST: Menu = [
     {

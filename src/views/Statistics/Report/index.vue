@@ -1,6 +1,10 @@
 <template>
     <div>
-        权限12
+        <el-amap
+            :center="center"
+            :zoom="zoom"
+            @init="init"
+        />
     </div>
 </template>
 

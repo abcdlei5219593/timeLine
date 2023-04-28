@@ -18,15 +18,17 @@ export const useUserStore = defineStore('user', () => {
 });
 
 
+
 export const useSettingStore = defineStore('setting', () => {
     const isCollapse = ref<boolean>(false);
-
+    const mapCenter = [104.06, 30.59];
     const setCollapse = () => {
         isCollapse.value = !isCollapse.value;
     };
     return {
         isCollapse,
-        setCollapse
+        setCollapse,
+        mapCenter
     };
 });
 

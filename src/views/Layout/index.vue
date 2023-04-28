@@ -62,7 +62,7 @@ const routePath = computed(() => route.path);
 
 const showBread = computed(() => !route.path.includes('/home'));
 
-const layoutHeight = showBread.value ? '100% - $breadcrumbHeight' : '100%';
+const layoutHeight = showBread.value ? '100% - 40px' : '100%';
 
 // const isCollapse = ref(store.state.app.isCollapse);
 

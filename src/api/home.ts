@@ -18,3 +18,12 @@ export const getAQI = (data: object | null = null) =>
         params: data,
         showLoading: true
     } as AxiosRequestConfig);
+
+export const getLastestAlarms = (data: object | null = null) =>
+    $http({
+        url: '/admin/gas/index/getLastestAlarms',
+        method: 'get',
+        params: data,
+        showLoading: true
+    } as AxiosRequestConfig);
+

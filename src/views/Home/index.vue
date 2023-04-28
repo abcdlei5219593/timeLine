@@ -7,7 +7,7 @@
                     宜宾市
                 </article>
                 <article class="flex">
-                    AQI:99 <div class="tag">
+                    AQI:{{ AQI }} <div class="tag">
                         良
                     </div>
                 </article>
@@ -53,6 +53,9 @@
                     <ElSelect size="medium">
                     </ElSelect>
                 </div>
+                <div class="map-layout">
+                    <v-chart class="chart" :option="option" autoresize />
+                </div>
             </ElCard>
         </ElCol>
     </elrow>
@@ -61,10 +64,50 @@
 <script setup lang="ts">
 import { ElCard, ElSelect, ElRow, ElCol } from 'element-plus';
 import{ useUserStore } from '@/store/app';
-import { get24AvgData, getAQI } from '@/api/home';
+import { get24AvgData, getAQI, getLastestAlarms } from '@/api/home';
+import { getHotmapData } from '@/api/analyse';
+import { ref, onMounted } from 'vue';
+import VChart from 'vue-echarts';
 
-get24AvgData({measure: 'AQI'});
-getAQI();
+const AQI = ref<number>(null);
+const option = ref({
+    tooltip: {},
+    legend: {
+        data: ['产量'],
+    },
+    xAxis: {
+        data: ['大米', '棉花', '小米'],
+    },
+    yAxis: {},
+    series: [{ name: '产量', type: 'bar', data: [100, 200, 300] }],
+},
+);
+
+const drawBar = async () => {
+    const data = await get24AvgData({measure: 'AQI'});
+    option.value = {
+        xAxis: {
+            data: data.map(item => item.time),
+
+        },
+        yAxis: {},
+        series: [
+            {
+                type: 'bar',
+                data: data.map(item => item.avg)
+            },
+        ],
+    };
+};
+onMounted(() => {
+    drawBar();
+});
+const getAQIHandler = async () => {
+    AQI.value = await getAQI();
+};
+getAQIHandler();
+getHotmapData();
+getLastestAlarms({pageSize: 10});
 const store = useUserStore();
 </script>
 

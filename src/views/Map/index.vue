@@ -1,38 +1,56 @@
 <template>
-    <div>
-        地图展示
-        <div id="container">
-            <el-amap :center="center" :zoom="zoom" @init="init" />
-        </div>
-        <button @click="add()">
-            添加标号
-        </button>
+    <div class="container">
+        <ElAmap
+            :center="store.mapCenter"
+            :zoom="15"
+        >
+            <el-amap-layer-labels>
+                <el-amap-label-marker
+                    v-for="(item, index) in deviceList"
+                    :key="index"
+                    :position="[item.longitude, item.latitude]"
+                    :text="item.hv"
+                    :icon=" {
+                        image: 'https://a.amap.com/jsapi_demos/static/images/poi-marker.png',
+                        anchor: 'bottom-center',
+                        size: [25, 34],
+                        clipOrigin: [459, 92],
+                        clipSize: [50, 68]
+                    }"
+                />
+            </el-amap-layer-labels>
+        </ElAmap>
     </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="Map">
+import { getDeviceData, getDeviceList } from '@/api/device';
 import { ref } from 'vue';
+import { useSettingStore } from '@/store/app';
 
-const zoom = ref(12);
-const center = ref([121.59996, 31.197646]);
-const init = (e) => {
-    const marker = new AMap.Marker({
-        position: [121.59996, 31.197646],
-    });
-    e.add(marker);
+const store = useSettingStore();
+const deviceList = ref([]);
+
+const getDeviceListHandler = async () => {
+    // deviceList.value
+    const data = await getDeviceList();
+    const deviceIds = data.map(({ deviceId }) => deviceId);
+    const deviceData = await getDeviceData(deviceIds);
+
+    for (const item of data) {
+        const idx = deviceData.findIndex(({ deviceId }) => deviceId === item.deviceId);
+
+        if(idx > -1) {
+            item.data = deviceData[idx];
+        }
+
+    }
+    deviceList.value = data;
 };
-const add = () => {
-    const marker = new AMap.Marker({
-        position: [121.59996, 31.177646],
-    });
-};
+
+getDeviceListHandler();
 </script>
 
 <style scoped>
-#container {
-    padding: 0px;
-    margin: 0px;
-    width: 100%;
-    height: 780px;
-}
+
 </style>
