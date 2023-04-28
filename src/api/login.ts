@@ -1,10 +1,10 @@
 import $http from './interceptor';
 
 // 登录
-export function login(data = {}) {
+export function login(params = {}) {
     return $http({
         url: '/login',
         method: 'post',
-        data
+        params
     });
 }

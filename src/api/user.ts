@@ -1,7 +1,7 @@
 import $http from './interceptor';
 
 // 用户基本信息
-export function getUserInfo(params = {}) {
+export function basic(params = {}) {
     return $http.get('/userInfo/basic', params);
 }
 
@@ -9,6 +9,15 @@ export function getUserInfo(params = {}) {
 export function changePassword(params = {}) {
     return $http({
         url: '/userInfo/changePassword',
+        method: 'post',
+        params
+    });
+}
+
+// 编辑个人信息
+export function editUserInfo(params = {}) {
+    return $http({
+        url: '/userInfo/editUserInfo',
         method: 'post',
         params
     });

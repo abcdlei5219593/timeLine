@@ -1,7 +1,7 @@
 interface FormType {
-    warning: Number;
-    alarm: Number;
-    seriousAlarm: Number;
+    warning: number;
+    alarm: number;
+    seriousAlarm: number;
 }
 
 export const FormData: FormType = {
@@ -9,3 +9,8 @@ export const FormData: FormType = {
     alarm: 0, // 告警阈值
     seriousAlarm: 0, // 严重告警阈值
 };
+
+export interface ParamsType {
+    pageNum: number;
+    pageSize: number;
+}

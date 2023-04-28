@@ -1,14 +1,10 @@
 <template>
     <div class="main-content device-con">
-        <ElTable
-            id="deviceTable"
-            class="table"
-            :data="tableData"
-            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
-        >
+        <ElTable id="deviceTable" class="table" :data="tableData"
+            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
             <ElTableColumn prop="deviceId" label="主板" />
             <ElTableColumn prop="stationName" label="微站名称" />
-            <ElTableColumn prop="stationAddress" label="微站地址" />
+            <ElTableColumn prop="stationAdress" label="微站地址" />
             <ElTableColumn prop="hv" label="硬件版本" />
             <ElTableColumn prop="sv" label="软件版本" />
             <ElTableColumn prop="longitude" label="经度" />
@@ -19,24 +15,29 @@
                     <span v-else-if="scope.row.status === 2">离线</span>
                 </template>
             </ElTableColumn>
-            <ElTableColumn prop="address" fixed="right" label="操作">
+            <ElTableColumn prop="address" fixed="right" label="操作" width="200">
                 <template #default="scope">
                     <ElButton link type="primary" size="default" @click="reportInterval(scope.row)">
                         上报间隔
                     </ElButton>
-                    <ElButton link type="primary" size="default" @click="toSensor(scope.row)"> 传感器 </ElButton>
-                    <ElButton link type="primary" size="default"> 重启 </ElButton>
+                    <ElButton link type="primary" size="default" @click="toSensor(scope.row)">
+                        传感器
+                    </ElButton>
+                    <ElButton link type="primary" size="default" class="red-text-btn">
+                        重启
+                    </ElButton>
                 </template>
             </ElTableColumn>
         </ElTable>
-        <ElPagination class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="1000" />
     </div>
 
     <!--上报间隔-->
     <ElDialog v-model="isTimeSet" title="上报间隔时间设置" width="30%">
         <div class="device-dialog">
             <ElRow>
-                <ElCol :span="8"> 间隔时间 </ElCol>
+                <ElCol :span="8">
+                    间隔时间
+                </ElCol>
                 <ElCol :span="16">
                     <ElInput v-model="intervalTime" type="number" placeholder="请输入内容"></ElInput>
                 </ElCol>
@@ -51,9 +52,10 @@
 
 <script lang="ts" setup>
 import { ElTable, ElTableColumn, ElPagination, ElDialog, ElButton, ElInput, ElRow, ElCol } from 'element-plus';
-import { ref } from 'vue';
+import { ref, onMounted, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import useTableSetting from '@/hooks/useTableSetting';
+import { deviceList } from '@/api/device';
 
 const router = useRouter();
 
@@ -67,18 +69,32 @@ const reportInterval = () => {
     isTimeSet.value = true;
 };
 
-const toSensor = () => {
-    router.push('/app/airContent/device/Sensor');
+const toSensor = (row: any) => {
+    router.push({ path: '/app/airContent/device/Sensor', query: { deviceId: row.deviceId } });
+};
+const getList = async () => {
+    try {
+        const res: any = await deviceList();
+        tableData.value = res;
+    } catch (err) { }
 };
 
-const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'deviceTable', offsetBottom: 100 });
+onMounted(() => {
+    getList();
+});
+
+const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'deviceTable', offsetBottom: 20 });
 </script>
 
 <style scoped lang="scss">
-.device-con {
-}
+.device-con {}
+
 .device-dialog {
     height: 100px;
     display: flex;
+}
+
+.red-text-btn {
+    color: $redTextBtnColor;
 }
 </style>
