@@ -1,11 +1,7 @@
 <template>
     <div class="main-content device-con">
-        <ElTable
-            class="table"
-            id="sensorTable"
-            :data="tableData"
-            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
-        >
+        <ElTable id="sensorTable" class="table" :data="tableData"
+            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
             <ElTableColumn prop="date" label="主板ID" />
             <ElTableColumn prop="name" label="传感器类型" />
             <ElTableColumn prop="address" label="校准" />
@@ -14,26 +10,30 @@
             <ElTableColumn prop="address" label="严重告警阈值" />
             <ElTableColumn prop="address" fixed="right" label="操作">
                 <template #default>
-                    <ElButton link type="primary" size="default" @click="calibrationFun">校准</ElButton>
-                    <ElButton link type="primary" size="default" @click="setThreshold">设置阈值</ElButton>
+                    <ElButton link type="primary" size="default" @click="calibrationFun">
+                        校准
+                    </ElButton>
+                    <ElButton link type="primary" size="default" @click="setThreshold">
+                        设置阈值
+                    </ElButton>
                 </template>
             </ElTableColumn>
         </ElTable>
         <ElPagination class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="1000" />
     </div>
     <!--校准-->
-    <ElDialog title="校准" v-model="isCalibration" width="30%">
+    <ElDialog v-model="isCalibration" title="校准" width="30%">
         <div class="device-dialog">
             <p>校准</p>
-            <ElInput type="number" v-model="intervalTime" placeholder="请输入" size="default" />
+            <ElInput v-model="intervalTime" type="number" placeholder="请输入" size="default" />
         </div>
         <span slot="footer" class="dialog-footer">
-            <ElButton @click="isCalibration = false" size="default">取 消</ElButton>
-            <ElButton type="primary" @click="isCalibration = false" size="default">保存提交</ElButton>
+            <ElButton size="default" @click="isCalibration = false">取 消</ElButton>
+            <ElButton type="primary" size="default" @click="isCalibration = false">保存提交</ElButton>
         </span>
     </ElDialog>
     <!--设置阈值-->
-    <ElDialog title="阈值设置" v-model="isThreshold" width="30%">
+    <ElDialog v-model="isThreshold" title="阈值设置" width="30%">
         <div class="device-dialog">
             <ElForm ref="form" :model="formData" label-width="120px" label-position="top" class="demo-ruleForm">
                 <ElFormItem label="预警阈值" prop="pass">
@@ -48,11 +48,12 @@
             </ElForm>
         </div>
         <span slot="footer" class="dialog-footer">
-            <ElButton @click="isThreshold = false" size="default">取 消</ElButton>
-            <ElButton type="primary" @click="isThreshold = false" size="default">保存提交</ElButton>
+            <ElButton size="default" @click="isThreshold = false">取 消</ElButton>
+            <ElButton type="primary" size="default" @click="isThreshold = false">保存提交</ElButton>
         </span>
     </ElDialog>
 </template>
+
 <script lang="ts" setup>
 import {
     ElTable,
@@ -97,9 +98,9 @@ const tableData = [
         address: '1111',
     },
 ];
-//是否显示校准弹窗
+// 是否显示校准弹窗
 const isCalibration = ref<boolean>(false);
-//是否显示阈值弹窗
+// 是否显示阈值弹窗
 const isThreshold = ref<boolean>(false);
 const calibrationFun = () => {
     isCalibration.value = true;
@@ -109,10 +110,12 @@ const setThreshold = () => {
 };
 const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'sensorTable', offsetBottom: 100 });
 </script>
+
 <style scoped lang="scss">
 :deep(.el-dialog__body) {
     padding: 0 24px 24px 24px !important;
 }
+
 .device-dialog {
     height: 240px;
 

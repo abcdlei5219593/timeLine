@@ -1,7 +1,7 @@
 interface FormType {
-    warning: Number;
-    alarm: Number;
-    seriousAlarm: Number;
+    warning: number;
+    alarm: number;
+    seriousAlarm: number;
 }
 
 export const FormData: FormType = {

@@ -7,7 +7,7 @@
             <div class="user-box">
                 <img class="avatar" />
                 <p class="user-name">
-                    {{ store.userInfo?.name }}
+                    {{ store.userInfo?.userName }}
                 </p>
                 <i class="iconfont icon-dropdown"></i>
             </div>
@@ -44,16 +44,20 @@ const loginOut = () => {
     padding: 0 !important;
     box-shadow: none !important;
 }
+
 .header-right {
     display: flex;
     justify-content: right;
     padding: 16px 24px;
+
     .header-message {
         color: #fff;
         font-size: 24px;
     }
+
     .el-badge {
         margin: 4px 50px 0 0;
+
         :deep(el-badge__content) {
             width: 14px;
             height: 14px;
@@ -62,29 +66,33 @@ const loginOut = () => {
             border: 0;
         }
     }
+
     .el-dropdown {
         min-width: 100px;
     }
+
     .user-box {
         display: flex;
         outline: 0 !important;
         cursor: pointer;
+
         .avatar {
             width: 32px;
             height: 32px;
             border-radius: 100%;
         }
+
         .user-name {
             height: 32px;
             line-height: 32px;
             color: #ffffff;
             padding: 0 10px;
         }
+
         .icon-dropdown {
             color: #fff;
             font-size: 14px;
             line-height: 32px;
         }
     }
-}
-</style>
+}</style>
