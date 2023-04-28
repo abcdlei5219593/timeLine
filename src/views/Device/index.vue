@@ -1,11 +1,7 @@
 <template>
     <div class="main-content device-con">
-        <ElTable
-            id="deviceTable"
-            class="table"
-            :data="tableData"
-            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
-        >
+        <ElTable id="deviceTable" class="table" :data="tableData"
+            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
             <ElTableColumn prop="deviceId" label="主板" />
             <ElTableColumn prop="stationName" label="微站名称" />
             <ElTableColumn prop="stationAddress" label="微站地址" />
@@ -24,8 +20,12 @@
                     <ElButton link type="primary" size="default" @click="reportInterval(scope.row)">
                         上报间隔
                     </ElButton>
-                    <ElButton link type="primary" size="default" @click="toSensor(scope.row)"> 传感器 </ElButton>
-                    <ElButton link type="primary" size="default"> 重启 </ElButton>
+                    <ElButton link type="primary" size="default" @click="toSensor(scope.row)">
+                        传感器
+                    </ElButton>
+                    <ElButton link type="primary" size="default">
+                        重启
+                    </ElButton>
                 </template>
             </ElTableColumn>
         </ElTable>
@@ -36,7 +36,9 @@
     <ElDialog v-model="isTimeSet" title="上报间隔时间设置" width="30%">
         <div class="device-dialog">
             <ElRow>
-                <ElCol :span="8"> 间隔时间 </ElCol>
+                <ElCol :span="8">
+                    间隔时间
+                </ElCol>
                 <ElCol :span="16">
                     <ElInput v-model="intervalTime" type="number" placeholder="请输入内容"></ElInput>
                 </ElCol>
@@ -54,6 +56,7 @@ import { ElTable, ElTableColumn, ElPagination, ElDialog, ElButton, ElInput, ElRo
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import useTableSetting from '@/hooks/useTableSetting';
+import { deviceList } from '@/api/device';
 
 const router = useRouter();
 
@@ -70,13 +73,20 @@ const reportInterval = () => {
 const toSensor = () => {
     router.push('/app/airContent/device/Sensor');
 };
+const getList = async () => {
+    try {
+        await deviceList();
+    } catch (err) { }
+};
+
+
 
 const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'deviceTable', offsetBottom: 100 });
 </script>
 
 <style scoped lang="scss">
-.device-con {
-}
+.device-con {}
+
 .device-dialog {
     height: 100px;
     display: flex;
