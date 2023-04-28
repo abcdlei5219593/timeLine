@@ -4,4 +4,5 @@ export interface UserInfoType {
     mobilePhone: string;
     realName: string;
     userName: string;
+    email: string;
 }

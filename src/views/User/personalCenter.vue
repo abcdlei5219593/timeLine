@@ -22,17 +22,17 @@
             </ElCol>
             <ElCol :span="7">
                 <span class="user-label">邮箱：</span>
-                <span v-if="!isEdit">测试</span>
-                <ElInput v-else v-model="userInfo.realName" placeholder="请输入" size="default"></ElInput>
+                <span v-if="!isEdit">{{ userInfo.email }}</span>
+                <ElInput v-else v-model="userInfo.email" placeholder="请输入" size="default"></ElInput>
             </ElCol>
             <ElCol :span="7">
                 <span class="user-label">性别：</span>
                 <span v-if="!isEdit">测试</span>
                 <ElRadioGroup v-else v-model="userInfo.gender">
-                    <ElRadio label="1" size="default">
+                    <ElRadio label="男" size="default">
                         男
                     </ElRadio>
-                    <ElRadio label="2" size="default">
+                    <ElRadio label="女" size="default">
                         女
                     </ElRadio>
                 </ElRadioGroup>
@@ -116,6 +116,7 @@ const userInfo = reactive<UserInfoType>({
     mobilePhone: '',
     realName: '',
     userName: '',
+    email: '',
 });
 const isEdit = ref<boolean>(false);
 
@@ -141,6 +142,7 @@ const getUser = async () => {
         userInfo.mobilePhone = res.mobilePhone;
         userInfo.realName = res.realName;
         userInfo.userName = res.userName;
+        userInfo.email = res.email;
         const store = useUserStore();
         store.getUserInfo(res);
     } catch (err) { }

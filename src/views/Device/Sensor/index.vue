@@ -2,13 +2,13 @@
     <div class="main-content device-con">
         <ElTable id="sensorTable" class="table" :data="tableData"
             :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
-            <ElTableColumn prop="date" label="主板ID" />
-            <ElTableColumn prop="name" label="传感器类型" />
-            <ElTableColumn prop="address" label="校准" />
-            <ElTableColumn prop="address" label="预警阈值" />
-            <ElTableColumn prop="address" label="告警阈值" />
-            <ElTableColumn prop="address" label="严重告警阈值" />
-            <ElTableColumn prop="address" fixed="right" label="操作">
+            <ElTableColumn prop="deviceId" label="主板ID" />
+            <ElTableColumn prop="sensorCode" label="传感器类型" />
+            <ElTableColumn prop="standardValue" label="校准" />
+            <ElTableColumn prop="threshold1" label="预警阈值" />
+            <ElTableColumn prop="threshold2" label="告警阈值" />
+            <ElTableColumn prop="threshold3" label="严重告警阈值" />
+            <ElTableColumn fixed="right" label="操作">
                 <template #default>
                     <ElButton link type="primary" size="default" @click="calibrationFun">
                         校准
@@ -19,7 +19,7 @@
                 </template>
             </ElTableColumn>
         </ElTable>
-        <ElPagination class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="1000" />
+        <!-- <ElPagination class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="1000" /> -->
     </div>
     <!--校准-->
     <ElDialog v-model="isCalibration" title="校准" width="30%">
@@ -67,37 +67,17 @@ import {
     ElForm,
     ElFormItem,
 } from 'element-plus';
-import { ref, reactive } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, reactive, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import useTableSetting from '@/hooks/useTableSetting';
 import { FormData } from './../ModelDefines';
+import { getSensors } from '@/api/device';
 
-const router = useRouter();
+const router = useRoute();
 
 const formData = reactive(FormData);
 
-const tableData = [
-    {
-        date: '2016-05-03',
-        name: 'Tom',
-        address: '1111',
-    },
-    {
-        date: '2016-05-02',
-        name: 'Tom',
-        address: '1111',
-    },
-    {
-        date: '2016-05-04',
-        name: 'Tom',
-        address: '1111',
-    },
-    {
-        date: '2016-05-01',
-        name: 'Tom',
-        address: '1111',
-    },
-];
+const tableData: any = ref([]);
 // 是否显示校准弹窗
 const isCalibration = ref<boolean>(false);
 // 是否显示阈值弹窗
@@ -108,7 +88,18 @@ const calibrationFun = () => {
 const setThreshold = () => {
     isThreshold.value = true;
 };
-const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'sensorTable', offsetBottom: 100 });
+
+const getSensorsList = async (deviceId: any) => {
+    try {
+        const res: any = await getSensors({ deviceId: deviceId });
+        tableData.value = res;
+    } catch (err) { }
+};
+onMounted(() => {
+    getSensorsList(router.query.deviceId);
+});
+
+const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'sensorTable', offsetBottom: 20 });
 </script>
 
 <style scoped lang="scss">

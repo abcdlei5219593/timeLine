@@ -9,3 +9,8 @@ export const FormData: FormType = {
     alarm: 0, // 告警阈值
     seriousAlarm: 0, // 严重告警阈值
 };
+
+export interface ParamsType {
+    pageNum: number;
+    pageSize: number;
+}
