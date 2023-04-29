@@ -4,8 +4,8 @@
             <ElCol :span="6">
                 <span class="search-label">微站选择：</span>
                 <ElSelect v-model="stationId" placeholder="请选择" size="default">
-                    <ElOption v-for="item in microStationOptions" :key="item.value" :label="item.label"
-                        :value="item.value" />
+                    <ElOption v-for="item in microStationOptions" :key="item.deviceId" :label="item.stationName"
+                        :value="item.deviceId" />
                 </ElSelect>
             </ElCol>
         </ElRow>
@@ -88,7 +88,7 @@ const getStationslist = async () => {
     try {
         await getStations({
             pageNum: 1,
-            pageSize: 20,
+            pageSize: 200,
         });
     } catch (err) { }
 };

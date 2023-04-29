@@ -188,6 +188,7 @@ const getUser = async () => {
 
                 .el-button {
                     margin-top: 20px;
+                    font-size: 16px;
                 }
             }
         }

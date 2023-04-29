@@ -7,7 +7,7 @@ export interface DevceWarnParamsType {
     pageSize: number;
 }
 
-interface AirWarnParamsType {
+export interface AirWarnParamsType {
     alarmType: number;
     stationId: number | null;
     startTime: string;

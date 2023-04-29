@@ -7,7 +7,7 @@ export const getStations = (data: object) =>
     $http({
         url: '/admin/gas/common/getStations',
         method: 'post',
-        data,
+        params: data,
         showLoading: true
     } as AxiosRequestConfig);
 
