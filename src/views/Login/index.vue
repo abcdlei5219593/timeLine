@@ -32,8 +32,12 @@
                 <div class="login-other">
                     <p>使用其他方式登录</p>
                     <div class="login-method">
-                        <i class="iconfont icon-weixin"></i>
-                        <i class="iconfont icon-qq"></i>
+                        <i class="iconfont icon-weixin" @mouseenter="showWeixin = true"
+                            @mouseleave="showWeixin = false"></i>
+                        <i id="qqLogin" class="iconfont icon-qq"></i>
+                        <div v-if="showWeixin" class="wx-code">
+                            <Qrcode></Qrcode>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -43,7 +47,7 @@
 
 <script setup lang="ts">
 import { ElButton, ElInput, ElForm, ElFormItem, FormInstance } from 'element-plus';
-import { ref, reactive, getCurrentInstance } from 'vue';
+import { ref, reactive, getCurrentInstance, onMounted } from 'vue';
 import { FormType } from './ModelDefines';
 import { login, listUserModule } from '@/api/login';
 import md5 from 'js-md5';
@@ -51,8 +55,11 @@ import { storeMenu, useUserStore } from '@/store/app';
 import Cookie from 'js-cookie';
 import { useRouter } from 'vue-router';
 import { basic } from '@/api/user';
+import Qrcode from './Qrcode.vue';
+// import QC from 'qc';
 
 const router = useRouter();
+const showWeixin = ref<boolean>(false);
 
 const formDataRef = ref<FormInstance>();
 const rules = reactive({
@@ -115,6 +122,11 @@ const getUser = async () => {
         store.getUserInfo(res);
     } catch (err) { }
 };
+onMounted(() => {
+    // window.QC.Login({
+    //     btnId: 'qqLogin'
+    // });
+});
 
 
 </script>
@@ -207,6 +219,13 @@ const getUser = async () => {
                 display: flex;
                 justify-content: center;
                 margin-top: 40px;
+                position: relative;
+
+                .wx-code {
+                    position: absolute;
+                    top: -240px;
+                    background-color: #fff;
+                }
 
                 i {
                     width: 40px;

@@ -38,7 +38,7 @@ const store = useUserStore();
 store.getUserInfo();
 
 const loginOut = () => {
-    Cookie.set('token', 'token');
+    Cookie.set('token', null);
     router.push('/login');
 };
 const toPersonalCenter = () => {
