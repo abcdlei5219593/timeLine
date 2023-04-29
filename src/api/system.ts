@@ -8,3 +8,11 @@ export const getRoleList = (data: object | null = null) =>
         params: data,
         showLoading: true
     } as AxiosRequestConfig);
+
+// 数据字典
+export const getDataDictionary = (dictType: string | number | null = null) =>
+    $http({
+        url: `/config/dict/get/${dictType}`,
+        method: 'get',
+        showLoading: true
+    } as AxiosRequestConfig);

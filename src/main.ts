@@ -10,7 +10,8 @@ import router from './router';
 import VueAMap, { initAMapApiLoader } from '@vuemap/vue-amap';
 import { AMAP_KEY, SECURITY_CODE } from './config';
 import '@vuemap/vue-amap/dist/style.css';
-
+import ElementPlus from 'element-plus';
+import 'element-plus/dist/index.css';
 import echarts from './echarts';
 
 
@@ -27,5 +28,6 @@ app
     .use(router)
     .use(pinia)
     .use(VueAMap)
+    .use(ElementPlus)
     .mount('#app');
 
