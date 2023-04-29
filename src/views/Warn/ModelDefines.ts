@@ -1,5 +1,5 @@
 export interface DevceWarnParamsType {
-    alarmType: number;
+    alarmType: number | null;
     stationId: number | null;
     startTime: string;
     endTime: string;
@@ -8,7 +8,7 @@ export interface DevceWarnParamsType {
 }
 
 export interface AirWarnParamsType {
-    alarmType: number;
+    alarmType: number | null;
     stationId: number | null;
     startTime: string;
     endTime: string;

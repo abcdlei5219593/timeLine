@@ -3,13 +3,13 @@
         <ElRow class="search-row">
             <ElCol :span="6">
                 <span class="search-label">告警类型：</span>
-                <ElSelect v-model="AirWarnParams.type" placeholder="请选择" size="default" @change="searchChange">
+                <ElSelect v-model="AirWarnParams.alarmType" placeholder="请选择" size="default" @change="searchChange">
                     <ElOption v-for="item in warnOptions" :key="item.value" :label="item.label" :value="item.value" />
                 </ElSelect>
             </ElCol>
             <ElCol :span="6">
                 <span class="search-label">微站选择：</span>
-                <ElSelect v-model="AirWarnParams.microStation" placeholder="请选择" size="default" @change="searchChange">
+                <ElSelect v-model="AirWarnParams.stationId" placeholder="请选择" size="default" @change="searchChange">
                     <ElOption v-for="item in microStationOptions" :key="item.value" :label="item.label"
                         :value="item.value" />
                 </ElSelect>
@@ -67,7 +67,7 @@ const sensorTypeOptions = ref<any>([{ label: 'PM2.5', value: 0 }]);
 const date: any = ref([]);
 
 const AirWarnParams = reactive<AirWarnParamsType>({
-    alarmType: 1,
+    alarmType: null,
     stationId: null,
     startTime: '',
     endTime: '',

@@ -9,7 +9,7 @@
             </ElCol>
             <ElCol :span="6">
                 <span class="search-label">微站选择：</span>
-                <ElSelect v-model="AirWarnParams.microStation" placeholder="请选择" size="default" @change="searchChange">
+                <ElSelect v-model="DevceWarnParams.stationId" placeholder="请选择" size="default" @change="searchChange">
                     <ElOption v-for="item in microStationOptions" :key="item.value" :label="item.label"
                         :value="item.value" />
                 </ElSelect>
@@ -50,7 +50,7 @@ import { getFormatDate } from '@/utils/common';
 
 const tableData: any = ref([]);
 const DevceWarnParams = reactive<DevceWarnParamsType>({
-    alarmType: 1,
+    alarmType: null,
     stationId: null,
     startTime: '',
     endTime: '',
