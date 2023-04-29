@@ -1,7 +1,7 @@
 <template>
     <div class="header-right">
         <ElBadge :value="2" class="item">
-            <i class="iconfont icon-message header-message"></i>
+            <i class="iconfont icon-xiaoxi header-message"></i>
         </ElBadge>
         <ElDropdown>
             <div class="user-box">
@@ -9,9 +9,14 @@
                 <p class="user-name">
                     {{ store.userInfo?.userName }}
                 </p>
-                <i class="iconfont icon-dropdown"></i>
+                <i class="iconfont icon-xiala"></i>
             </div>
             <template #dropdown>
+                <ElDropdownMenu>
+                    <ElDropdownItem style="width: 120px; height: 30px; justify-content: center" @click="toPersonalCenter">
+                        个人中心
+                    </ElDropdownItem>
+                </ElDropdownMenu>
                 <ElDropdownMenu>
                     <ElDropdownItem style="width: 120px; height: 30px; justify-content: center" @click="loginOut">
                         退出登录
@@ -35,6 +40,9 @@ store.getUserInfo();
 const loginOut = () => {
     Cookie.set('token', 'token');
     router.push('/login');
+};
+const toPersonalCenter = () => {
+    router.push('/app/user/personalCenter');
 };
 </script>
 
@@ -89,10 +97,11 @@ const loginOut = () => {
             padding: 0 10px;
         }
 
-        .icon-dropdown {
+        .icon-xiala {
             color: #fff;
             font-size: 14px;
             line-height: 32px;
         }
     }
-}</style>
+}
+</style>

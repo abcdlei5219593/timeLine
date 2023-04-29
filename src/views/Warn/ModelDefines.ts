@@ -1,31 +1,30 @@
-interface DevceWarnParamsType {
-    alarmType: Number;
-    stationId: Number;
-    startTime: String;
-    endTime: String;
+export interface DevceWarnParamsType {
+    alarmType: number | null;
+    stationId: number | null;
+    startTime: string;
+    endTime: string;
+    pageNum: number;
+    pageSize: number;
 }
 
-export const DevceWarnParams: DevceWarnParamsType = {
-    alarmType: 0, // 告警类型
-    stationId: 0, // 微站
-    startTime: '', // 开始时间
-    endTime: '', // 结束时间
-};
-
-interface AirWarnParamsType {
-    alarmType: Number;
-    stationId: Number;
-    startTime: String;
-    endTime: String;
-    sensorCode: String;
-    unclosed: String,
+export interface AirWarnParamsType {
+    alarmType: number | null;
+    stationId: number | null;
+    startTime: string;
+    endTime: string;
+    sensorCode: string;
+    unclosed: boolean,
+    pageNum: number;
+    pageSize: number;
 }
 
-export const AirWarnParams: AirWarnParamsType = {
-    alarmType: 0, // 告警类型
-    stationId: 0, // 微站
-    startTime: '', // 开始时间
-    endTime: '', // 结束时间
-    sensorCode: '', // 传感器类型
-    unclosed: '', // 关闭状态
-};
+export interface options {
+    label: string;
+    value: number;
+}
+
+export const warnOptions: options[] = [
+    { label: '设备告警', value: 1 },
+    { label: '环境告警', value: 2 },
+];
+

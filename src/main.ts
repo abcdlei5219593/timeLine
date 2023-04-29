@@ -4,15 +4,15 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import App from './App.vue';
 import 'reset-css';
 import './styles/main.scss';
-import './styles/iconfont.scss';
+import './styles/iconfont/iconfont.css';
 import './styles/common.scss';
 import router from './router';
 import VueAMap, { initAMapApiLoader } from '@vuemap/vue-amap';
 import { AMAP_KEY, SECURITY_CODE } from './config';
 import '@vuemap/vue-amap/dist/style.css';
-
+import ElementPlus from 'element-plus';
+import 'element-plus/dist/index.css';
 import echarts from './echarts';
-
 
 initAMapApiLoader({
     key: AMAP_KEY,
@@ -27,5 +27,6 @@ app
     .use(router)
     .use(pinia)
     .use(VueAMap)
+    .use(ElementPlus)
     .mount('#app');
 

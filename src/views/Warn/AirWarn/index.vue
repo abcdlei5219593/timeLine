@@ -1,130 +1,159 @@
 <template>
     <div class="main-content warn-con">
         <ElRow class="search-row">
-            <ElCol :span="6"
-                ><span class="search-label">告警类型：</span>
-                <ElSelect v-model="AirWarnParams.type" placeholder="请选择" size="default">
+            <ElCol :span="6">
+                <span class="search-label">告警类型：</span>
+                <ElSelect v-model="AirWarnParams.alarmType" placeholder="请选择" size="default" @change="searchChange">
                     <ElOption v-for="item in warnOptions" :key="item.value" :label="item.label" :value="item.value" />
                 </ElSelect>
             </ElCol>
-            <ElCol :span="6"
-                ><span class="search-label">微站选择：</span>
-                <ElSelect v-model="AirWarnParams.microStation" placeholder="请选择" size="default">
-                    <ElOption
-                        v-for="item in microStationOptions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
-                    /> </ElSelect
-            ></ElCol>
-            <ElCol :span="8"
-                ><span class="search-label">时间：</span>
-                <ElDatePicker
-                    v-model="date"
-                    type="datetimerange"
-                    range-separator="To"
-                    @change="timeChange"
-                    size="default"
-                />
+            <ElCol :span="6">
+                <span class="search-label">微站选择：</span>
+                <ElSelect v-model="AirWarnParams.stationId" placeholder="请选择" size="default" @change="searchChange">
+                    <ElOption v-for="item in microStationOptions" :key="item.value" :label="item.label"
+                        :value="item.value" />
+                </ElSelect>
             </ElCol>
-            <ElCol :span="6"
-                ><span class="search-label">传感器类型：</span>
-                <ElSelect v-model="AirWarnParams.sensorType" placeholder="请选择" size="default">
-                    <ElOption
-                        v-for="item in sensorTypeOptions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
-                    /> </ElSelect
-            ></ElCol>
-            <ElCol :span="5">
-                <ElCheckbox class="search-checkbox" size="default" v-model="AirWarnParams.closeType"
-                    >筛选未关闭</ElCheckbox
-                >
+            <ElCol :span="8">
+                <span class="search-label">时间：</span>
+                <ElDatePicker v-model="date" type="datetimerange" range-separator="-" size="default" @change="timeChange" />
+            </ElCol>
+            <ElCol :span="6">
+                <span class="search-label">传感器类型：</span>
+                <ElSelect v-model="AirWarnParams.sensorType" placeholder="请选择" size="default" @change="searchChange">
+                    <ElOption v-for="item in sensorTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
+                </ElSelect>
+            </ElCol>
+            <ElCol :span="5" @change="searchChange">
+                <ElCheckbox v-model="AirWarnParams.unclosed" class="search-checkbox" size="default">
+                    筛选{{ AirWarnParams.unclosed ? '关闭' : '未关闭' }}
+                </ElCheckbox>
             </ElCol>
         </ElRow>
-        <ElTable
-            class="table"
-            id="deviceWarnTable"
-            :data="tableData"
-            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
-        >
-            <ElTableColumn prop="date" label="主板" />
-            <ElTableColumn prop="name" label="微站名称" />
-            <ElTableColumn prop="address" label="告警值" />
-            <ElTableColumn prop="address" label="传感器类型" />
-            <ElTableColumn prop="address" label="告警类型" />
-            <ElTableColumn prop="address" label="时间" />
-            <ElTableColumn prop="address" fixed="right" label="操作">
-                <template #default>
-                    <ElButton link type="primary" size="default"> 关闭告警 </ElButton>
-                    <ElButton link type="primary" size="default"> 已关闭 </ElButton>
+        <ElTable id="deviceWarnTable" class="table" :data="tableData"
+            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
+            <ElTableColumn prop="deviceId" label="主板" />
+            <ElTableColumn prop="stationName" label="微站名称" />
+            <ElTableColumn prop="status" label="告警值" />
+            <ElTableColumn prop="sensorCode" label="传感器类型" />
+            <ElTableColumn prop="type" label="告警类型">
+                <template #default="scope">
+                    <span v-if="scope.row.type === 1">设备告警</span>
+                    <span v-else-if="scope.row.type === 2">环境告警</span>
+                    <span></span>
+                </template>
+            </ElTableColumn>
+            <ElTableColumn prop="createTime" label="时间" />
+            <ElTableColumn fixed="right" label="操作">
+                <template #default="scope">
+                    <ElButton v-if="scope.row.unclosed" link type="primary" size="default" @click="closeFun(scope.row.id)">
+                        关闭告警
+                    </ElButton>
+                    <p v-else @click="closeFun(scope.row.id)">
+                        已关闭
+                    </p>
                 </template>
             </ElTableColumn>
         </ElTable>
-        <ElPagination class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="1000" />
+        <ElPagination class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="total"
+            :current-page="AirWarnParams.pageNum" :page-sizes="[10, 20, 50, 100]" :page-size="AirWarnParams.pageSize"
+            @size-change="handleSizeChange" @current-change="handleCurrentChange" />
     </div>
 </template>
 
 <script setup lang="ts">
-import {
-    ElTable,
-    ElTableColumn,
-    ElPagination,
-    ElDialog,
-    ElButton,
-    ElInput,
-    ElRow,
-    ElCol,
-    ElForm,
-    ElFormItem,
-    ElSelect,
-    ElDatePicker,
-    ElCheckbox,
-} from 'element-plus';
-import { ref, reactive } from 'vue';
-import { AirWarnParams } from './../ModelDefines';
+import { ElMessage } from 'element-plus';
+import { ref, reactive, onMounted } from 'vue';
+import { AirWarnParamsType } from './../ModelDefines';
 import useTableSetting from '@/hooks/useTableSetting';
+import { getDataDictionary } from '@/api/system';
+import { alarmList, alarmClose } from '@/api/warn';
+import { getFormatDate } from '@/utils/common';
 
-const tableData = [
-    {
-        date: '2016-05-03',
-        name: 'Tom',
-        address: '1111',
-    },
-    {
-        date: '2016-05-02',
-        name: 'Tom',
-        address: '1111',
-    },
-    {
-        date: '2016-05-04',
-        name: 'Tom',
-        address: '1111',
-    },
-    {
-        date: '2016-05-01',
-        name: 'Tom',
-        address: '1111',
-    },
-];
+const tableData: any = ref([]);
 
 const warnOptions = ref<any>([{ label: '告警类型', value: 0 }]);
-const microStationOptions = ref<any>([{ label: '微站', value: 0 }]);
+const microStationOptions = ref<any>([]);
 const sensorTypeOptions = ref<any>([{ label: 'PM2.5', value: 0 }]);
-const closeType = ref<any>([{ label: '已关闭', value: 0 }]);
 const date: any = ref([]);
 
+const AirWarnParams = reactive<AirWarnParamsType>({
+    alarmType: 1,
+    stationId: null,
+    startTime: '',
+    endTime: '',
+    sensorCode: 'pm2_5',
+    unclosed: false,
+    pageNum: 1,
+    pageSize: 20,
+});
+const total = ref<number>(0);
 const timeChange = (val: any) => {
     date.value = val;
     AirWarnParams.startTime = val[0];
     AirWarnParams.endTime = val[1];
 };
 
+// 获取微站
+const geStationList = async () => {
+    try {
+        await getDataDictionary('stationId');
+    } catch (err) { }
+};
+
+const getList = async () => {
+    try {
+        const res: any = await alarmList(AirWarnParams);
+        tableData.value = res.list;
+        AirWarnParams.pageNum = res.pageNum;
+        AirWarnParams.pageSize = res.pageSize;
+        total.value = res.total;
+    } catch (err) { }
+};
+
+const searchChange = () => {
+    AirWarnParams.pageNum = 1;
+    getList();
+};
+
+const setDefaultTime = () => {
+    AirWarnParams.endTime = getFormatDate(new Date(), 'YYYY-mm-dd HH:MM:SS');
+    AirWarnParams.startTime = getFormatDate(new Date(new Date().getTime() - 7 * 24 * 3600 * 1000), 'YYYY-mm-dd HH:MM:SS');
+    date.value = [AirWarnParams.startTime, AirWarnParams.endTime];
+    searchChange();
+};
+
+const handleSizeChange = (rows: number) => {
+    AirWarnParams.pageNum = 1;
+    AirWarnParams.pageSize = rows;
+    getList();
+};
+const handleCurrentChange = (page: number) => {
+    AirWarnParams.pageNum = page;
+    getList();
+};
+
+const alarmIdArr: any = ref([]);
+// 关闭操作
+const closeFun = async (alarmId: number) => {
+    alarmIdArr.value = [alarmId];
+    try {
+        await alarmClose({ alarmId: alarmIdArr.value });
+        ElMessage.success('修改成功');
+    } catch (err) {
+
+    }
+};
+
+onMounted(() => {
+    setDefaultTime();
+    getList();
+    geStationList();
+});
+
 const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'deviceWarnTable', offsetBottom: 100 });
 </script>
 
 <style scoped lang="scss">
-.warn-con {
-}
+.warn-con {}
 </style>

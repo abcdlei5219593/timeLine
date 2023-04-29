@@ -1,24 +1,29 @@
 import $http from './interceptor';
+import type { AxiosRequestConfig } from 'axios';
 
 // 用户基本信息
-export function basic(params = {}) {
-    return $http.get('/userInfo/basic', params);
-}
+export const basic = (data: object | null = null) =>
+    $http({
+        url: '/userInfo/basic',
+        method: 'get',
+        params: data,
+        showLoading: true
+    } as AxiosRequestConfig);
 
 // 修改密码
-export function changePassword(params = {}) {
-    return $http({
+export const changePassword = (data: object = {}) =>
+    $http({
         url: '/userInfo/changePassword',
         method: 'post',
-        params
-    });
-}
+        data,
+        showLoading: true
+    } as AxiosRequestConfig);
 
 // 编辑个人信息
-export function editUserInfo(params = {}) {
-    return $http({
+export const editUserInfo = (data: object = {}) =>
+    $http({
         url: '/userInfo/editUserInfo',
         method: 'post',
-        params
-    });
-}
+        data,
+        showLoading: true
+    } as AxiosRequestConfig);

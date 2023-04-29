@@ -16,17 +16,17 @@ export const routePath = (basePath: string): Menu =>
         {
             url: basePath + '/home',
             name: '首页',
-            icon: 'iconfont icon-home',
+            icon: 'iconfont icon-shouye',
         },
         {
             url: basePath + '/map',
             name: '地图展示',
-            icon: 'iconfont icon-map',
+            icon: 'iconfont icon-dituzhanshi',
         },
         {
             url: basePath + '/statistics',
             name: '统计分析',
-            icon: 'iconfont icon-statistics',
+            icon: 'iconfont icon-tongjifenxi',
             children: [
                 {
                     url: basePath + '/statistics/heatMap',
@@ -67,7 +67,7 @@ export const routePath = (basePath: string): Menu =>
         {
             url: basePath + '/device',
             name: '设备管理',
-            icon: 'iconfont icon-device',
+            icon: 'iconfont icon-shebeiguanli',
             // children里为单菜单里的详情,noSubMenu是有详情的单菜单
             noSubMenu: true,
             children: [
@@ -115,7 +115,7 @@ export const routePath = (basePath: string): Menu =>
         {
             url: basePath + '/warn',
             name: '告警管理',
-            icon: 'iconfont icon-alert',
+            icon: 'iconfont icon-gaojingguanli',
             children: [
                 {
                     url: basePath + '/warn/deviceWarn',
@@ -145,12 +145,12 @@ export const routePath = (basePath: string): Menu =>
         {
             url: basePath + '/histroy',
             name: '历史数据',
-            icon: 'iconfont icon-history',
+            icon: 'iconfont icon-lishishuju',
         },
         {
             url: basePath + '/flag',
             name: '标记管理',
-            icon: 'iconfont icon-sign',
+            icon: 'iconfont icon-biaojiguanli',
         },
 
     ];
@@ -167,6 +167,20 @@ export const routeUserPath = (basePath: string): Menu =>
             name: '权限管理',
             icon: 'iconfont icon-map',
         },
+        {
+            url: basePath + '/device',
+            name: '个人中心',
+            icon: 'iconfont icon-device',
+            // children里为单菜单里的详情,noSubMenu是有详情的单菜单
+            noSubMenu: true,
+            children: [
+                {
+                    url: basePath + '/personalCenter',
+                    name: '个人中心',
+                    isButton: true,
+                }
+            ]
+        }
     ];
 
 export const APP_LIST: Menu = [

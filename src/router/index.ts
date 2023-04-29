@@ -165,6 +165,14 @@ const routes: Array<RouteRecordRaw> = [
                     title: '权限管理'
                 }
             },
+            {
+                path: 'personalCenter',
+                name: 'PersonalCenter',
+                component: () => import('@/views/User/personalCenter.vue'),
+                meta: {
+                    title: '个人中心'
+                }
+            },
 
         ]
     },
