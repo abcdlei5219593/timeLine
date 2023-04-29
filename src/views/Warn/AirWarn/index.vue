@@ -44,14 +44,25 @@
                 </template>
             </ElTableColumn>
             <ElTableColumn prop="createTime" label="时间" />
+            <ElTableColumn fixed="right" label="操作">
+                <template #default="scope">
+                    <ElButton v-if="scope.row.unclosed" link type="primary" size="default" @click="closeFun(scope.row.id)">
+                        关闭告警
+                    </ElButton>
+                    <p v-else @click="closeFun(scope.row.id)">
+                        已关闭
+                    </p>
+                </template>
+            </ElTableColumn>
         </ElTable>
         <ElPagination class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="total"
-            :current-page="DevceWarnParams.pageNum" :page-sizes="[10, 20, 50, 100]" :page-size="DevceWarnParams.pageSize"
+            :current-page="AirWarnParams.pageNum" :page-sizes="[10, 20, 50, 100]" :page-size="AirWarnParams.pageSize"
             @size-change="handleSizeChange" @current-change="handleCurrentChange" />
     </div>
 </template>
 
 <script setup lang="ts">
+import { ElMessage } from 'element-plus';
 import { ref, reactive, onMounted } from 'vue';
 import { AirWarnParamsType } from './../ModelDefines';
 import useTableSetting from '@/hooks/useTableSetting';
@@ -67,11 +78,11 @@ const sensorTypeOptions = ref<any>([{ label: 'PM2.5', value: 0 }]);
 const date: any = ref([]);
 
 const AirWarnParams = reactive<AirWarnParamsType>({
-    alarmType: null,
+    alarmType: 1,
     stationId: null,
     startTime: '',
     endTime: '',
-    sensorCode: '',
+    sensorCode: 'pm2_5',
     unclosed: false,
     pageNum: 1,
     pageSize: 20,
@@ -120,6 +131,18 @@ const handleSizeChange = (rows: number) => {
 const handleCurrentChange = (page: number) => {
     AirWarnParams.pageNum = page;
     getList();
+};
+
+const alarmIdArr: any = ref([]);
+// 关闭操作
+const closeFun = async (alarmId: number) => {
+    alarmIdArr.value = [alarmId];
+    try {
+        await alarmClose({ alarmId: alarmIdArr.value });
+        ElMessage.success('修改成功');
+    } catch (err) {
+
+    }
 };
 
 onMounted(() => {
