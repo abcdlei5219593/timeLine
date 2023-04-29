@@ -70,6 +70,7 @@ import { ref, onMounted } from 'vue';
 import VChart from 'vue-echarts';
 
 const AQI = ref<number>(null);
+const msgList = ref([]);
 const option = ref({
     tooltip: {},
     legend: {
@@ -105,9 +106,12 @@ onMounted(() => {
 const getAQIHandler = async () => {
     AQI.value = await getAQI();
 };
+const getLastestAlarmsHandler = async () => {
+    msgList.value = await getLastestAlarms({pageSize: 10});
+};
 getAQIHandler();
 getHotmapData();
-getLastestAlarms({pageSize: 10});
+getLastestAlarmsHandler();
 const store = useUserStore();
 </script>
 

@@ -19,4 +19,20 @@ export const getHotmapData = (data: object = {}) =>
         showLoading: true
     } as AxiosRequestConfig);
 
+export const getAQIHourAvgInMonth = (data: object = {}) =>
+    $http({
+        url: '/admin/gas/analyse/getAQIHourAvgInMonth',
+        method: 'post',
+        data,
+        showLoading: true
+    } as AxiosRequestConfig);
+
+
+export const getMonitorData = (data: object = {}) =>
+    $http({
+        url: '/admin/gas/analyse/getMonitorData',
+        method: 'post',
+        data,
+        showLoading: true
+    } as AxiosRequestConfig);
 

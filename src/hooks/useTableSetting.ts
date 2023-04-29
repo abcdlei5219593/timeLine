@@ -20,7 +20,7 @@ type containerOps = {
 };
 
 // 设置table的自适应高度值
-export default function useTableSetting({ id = 'xc-table', offsetBottom = 120 }: containerOps = {}) {
+export default function useTableSetting({ id = 'xc-table', offsetBottom = 100 }: containerOps = {}) {
     const maxTableHeight = ref(0);
     onMounted(async () => {
         setTimeout(() => {

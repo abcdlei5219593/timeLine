@@ -1,36 +1,37 @@
 <template>
     <div class="main-content warn-con">
         <ElRow class="search-row">
-            <ElCol :span="6"
-                ><span class="search-label">告警类型：</span>
+            <ElCol :span="6">
+                <span class="search-label">告警类型：</span>
                 <ElSelect v-model="DevceWarnParams.type" placeholder="请选择" size="default">
                     <ElOption v-for="item in warnOptions" :key="item.value" :label="item.label" :value="item.value" />
                 </ElSelect>
             </ElCol>
-            <ElCol :span="6"
-                ><span class="search-label">微站选择：</span>
+            <ElCol :span="6">
+                <span class="search-label">微站选择：</span>
                 <ElSelect v-model="DevceWarnParams.microStation" placeholder="请选择" size="default">
                     <ElOption
                         v-for="item in microStationOptions"
                         :key="item.value"
                         :label="item.label"
                         :value="item.value"
-                    /> </ElSelect
-            ></ElCol>
-            <ElCol :span="8"
-                ><span class="search-label">时间：</span>
+                    />
+                </ElSelect>
+            </ElCol>
+            <ElCol :span="8">
+                <span class="search-label">时间：</span>
                 <ElDatePicker
                     v-model="date"
                     type="datetimerange"
                     range-separator="To"
-                    @change="timeChange"
                     size="default"
+                    @change="timeChange"
                 />
             </ElCol>
         </ElRow>
         <ElTable
-            class="table"
             id="deviceWarnTable"
+            class="table"
             :data="tableData"
             :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
         >
