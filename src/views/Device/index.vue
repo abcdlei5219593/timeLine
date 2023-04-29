@@ -1,5 +1,14 @@
 <template>
     <div class="main-content device-con">
+        <ElRow class="search-row">
+            <ElCol :span="6">
+                <span class="search-label">微站选择：</span>
+                <ElSelect v-model="stationId" placeholder="请选择" size="default">
+                    <ElOption v-for="item in microStationOptions" :key="item.value" :label="item.label"
+                        :value="item.value" />
+                </ElSelect>
+            </ElCol>
+        </ElRow>
         <ElTable id="deviceTable" class="table" :data="tableData"
             :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
             <ElTableColumn prop="deviceId" label="主板" />
@@ -51,14 +60,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ElTable, ElTableColumn, ElPagination, ElDialog, ElButton, ElInput, ElRow, ElCol } from 'element-plus';
 import { ref, onMounted, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import useTableSetting from '@/hooks/useTableSetting';
-import { getDeviceList } from '@/api/device';
+import { getDeviceList, getStations } from '@/api/device';
 
 const router = useRouter();
 
+const stationId: any = ref('');
+const microStationOptions = ref<any>([]);
 const tableData = ref([]);
 
 const isTimeSet = ref<boolean>(false);
@@ -72,6 +82,17 @@ const reportInterval = () => {
 const toSensor = (row: any) => {
     router.push({ path: '/app/airContent/device/Sensor', query: { deviceId: row.deviceId } });
 };
+
+// 查询微站
+const getStationslist = async () => {
+    try {
+        await getStations({
+            pageNum: 1,
+            pageSize: 20,
+        });
+    } catch (err) { }
+};
+
 const getList = async () => {
     try {
         const res: any = await getDeviceList();
@@ -80,6 +101,7 @@ const getList = async () => {
 };
 
 onMounted(() => {
+    getStationslist();
     getList();
 });
 

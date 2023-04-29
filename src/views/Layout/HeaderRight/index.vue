@@ -1,7 +1,7 @@
 <template>
     <div class="header-right">
         <ElBadge :value="2" class="item">
-            <i class="iconfont icon-message header-message"></i>
+            <i class="iconfont icon-xiaoxi header-message"></i>
         </ElBadge>
         <ElDropdown>
             <div class="user-box">
@@ -9,7 +9,7 @@
                 <p class="user-name">
                     {{ store.userInfo?.userName }}
                 </p>
-                <i class="iconfont icon-dropdown"></i>
+                <i class="iconfont icon-xiala"></i>
             </div>
             <template #dropdown>
                 <ElDropdownMenu>
@@ -97,7 +97,7 @@ const toPersonalCenter = () => {
             padding: 0 10px;
         }
 
-        .icon-dropdown {
+        .icon-xiala {
             color: #fff;
             font-size: 14px;
             line-height: 32px;

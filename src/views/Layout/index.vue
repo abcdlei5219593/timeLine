@@ -14,17 +14,12 @@
         </ElHeader>
         <ElContainer>
             <ElAside v-if="hasAside">
-                <Menu
-                    class="app-menu"
-                    :router="true"
-                    mode="vertical"
-                    :menu-list="currentAppMenu"
-                    :collapse="store.isCollapse"
-                >
+                <Menu class="app-menu" :router="true" mode="vertical" :menu-list="currentAppMenu"
+                    :collapse="store.isCollapse">
                 </Menu>
                 <div class="toggle-menu" @click="store.setCollapse">
-                    <i v-if="!store.isCollapse" class="iconfont icon-putaway"></i>
-                    <i v-else class="iconfont icon-expand"></i>
+                    <i v-if="!store.isCollapse" class="iconfont icon-shouqidaohang"></i>
+                    <i v-else class="iconfont icon-zhankaidaohang"></i>
                     <span v-if="!store.isCollapse">收起导航</span>
                 </div>
             </ElAside>
@@ -100,6 +95,7 @@ watch(
     background-color: $mainColor;
     padding: 12px 24px;
     height: $headerHeight;
+
     .logo {
         background: $mainColor;
         flex-shrink: 0;
@@ -111,29 +107,36 @@ watch(
         height: 24px;
         line-height: 24px;
     }
+
     padding: 0;
+
     .header-right {
         flex: 1;
     }
 }
+
 .el-aside,
 .el-main {
     min-height: calc(100vh - $headerHeight);
     overflow: hidden;
 }
+
 .el-main {
     background-color: $contentBackgroundColor;
     box-sizing: border-box;
     padding: 0 $containerSpace $containerSpace $containerSpace;
+
     .main-view {
         box-sizing: border-box;
         height: calc(v-bind(layoutHeight));
         // overflow-y: auto;
     }
 }
+
 .el-aside {
     position: relative;
     width: inherit !important;
+
     .toggle-menu {
         position: absolute;
         bottom: 0;
@@ -145,8 +148,8 @@ watch(
         display: flex;
         cursor: pointer;
 
-        .icon-putaway,
-        .icon-expand {
+        .icon-shouqidaohang,
+        .icon-zhankaidaohang {
             font-size: 24px;
             margin: 0 10px 0 26px;
             display: block;
@@ -157,17 +160,20 @@ watch(
         width: $asideCollapseWidth;
     }
 }
+
 .app-menu {
     flex: 1;
     height: 100%;
     border-right: 0;
     padding-top: 8px;
     overflow-y: auto;
+
     :deep(.el-menu-item),
     :deep(.el-sub-menu__title) {
         height: 36px;
         margin-bottom: 4px;
         color: $asideColor;
+
         &.is-active {
             color: $mainColor;
             background: $asideActiveBackground;

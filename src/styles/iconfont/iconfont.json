@@ -1,0 +1,142 @@
+{
+  "id": "4026808",
+  "name": "大气监测管理系统",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "35311322",
+      "name": "全屏-放大",
+      "font_class": "quanping-fangda",
+      "unicode": "e7a2",
+      "unicode_decimal": 59298
+    },
+    {
+      "icon_id": "35311323",
+      "name": "全屏-缩小",
+      "font_class": "quanping-suoxiao",
+      "unicode": "e7a3",
+      "unicode_decimal": 59299
+    },
+    {
+      "icon_id": "35311262",
+      "name": "qq",
+      "font_class": "qq",
+      "unicode": "e79e",
+      "unicode_decimal": 59294
+    },
+    {
+      "icon_id": "35311263",
+      "name": "账号",
+      "font_class": "zhanghao",
+      "unicode": "e79f",
+      "unicode_decimal": 59295
+    },
+    {
+      "icon_id": "35311264",
+      "name": "微信",
+      "font_class": "weixin",
+      "unicode": "e7a0",
+      "unicode_decimal": 59296
+    },
+    {
+      "icon_id": "35311265",
+      "name": "密码",
+      "font_class": "mima",
+      "unicode": "e7a1",
+      "unicode_decimal": 59297
+    },
+    {
+      "icon_id": "35311256",
+      "name": "定位",
+      "font_class": "dingwei",
+      "unicode": "e79d",
+      "unicode_decimal": 59293
+    },
+    {
+      "icon_id": "35148672",
+      "name": "历史数据",
+      "font_class": "lishishuju",
+      "unicode": "e791",
+      "unicode_decimal": 59281
+    },
+    {
+      "icon_id": "35148673",
+      "name": "标记管理",
+      "font_class": "biaojiguanli",
+      "unicode": "e792",
+      "unicode_decimal": 59282
+    },
+    {
+      "icon_id": "35148674",
+      "name": "设备管理",
+      "font_class": "shebeiguanli",
+      "unicode": "e793",
+      "unicode_decimal": 59283
+    },
+    {
+      "icon_id": "35148675",
+      "name": "首页",
+      "font_class": "shouye",
+      "unicode": "e794",
+      "unicode_decimal": 59284
+    },
+    {
+      "icon_id": "35148676",
+      "name": "下拉",
+      "font_class": "xiala",
+      "unicode": "e795",
+      "unicode_decimal": 59285
+    },
+    {
+      "icon_id": "35148677",
+      "name": "头像-下拉",
+      "font_class": "touxiang-xiala",
+      "unicode": "e796",
+      "unicode_decimal": 59286
+    },
+    {
+      "icon_id": "35148678",
+      "name": "收起导航",
+      "font_class": "shouqidaohang",
+      "unicode": "e797",
+      "unicode_decimal": 59287
+    },
+    {
+      "icon_id": "35148679",
+      "name": "地图展示",
+      "font_class": "dituzhanshi",
+      "unicode": "e798",
+      "unicode_decimal": 59288
+    },
+    {
+      "icon_id": "35148680",
+      "name": "告警管理",
+      "font_class": "gaojingguanli",
+      "unicode": "e799",
+      "unicode_decimal": 59289
+    },
+    {
+      "icon_id": "35148681",
+      "name": "展开导航",
+      "font_class": "zhankaidaohang",
+      "unicode": "e79a",
+      "unicode_decimal": 59290
+    },
+    {
+      "icon_id": "35148682",
+      "name": "消息",
+      "font_class": "xiaoxi",
+      "unicode": "e79b",
+      "unicode_decimal": 59291
+    },
+    {
+      "icon_id": "35148683",
+      "name": "统计分析",
+      "font_class": "tongjifenxi",
+      "unicode": "e79c",
+      "unicode_decimal": 59292
+    }
+  ]
+}

@@ -37,7 +37,7 @@ import { ref, reactive, onMounted } from 'vue';
 import { DevceWarnParamsType, warnOptions } from './../ModelDefines';
 import useTableSetting from '@/hooks/useTableSetting';
 import { alarmList } from '@/api/warn';
-import { getDataDictionary } from '@/api/system';
+import { getStations } from '@/api/device';
 import { getFormatDate } from '@/utils/common';
 
 const tableData: any = ref([]);
@@ -70,17 +70,20 @@ const getList = async () => {
     } catch (err) { }
 };
 
-// 获取微站
-const geStationList = async () => {
+// 查询微站
+const getStationslist = async () => {
     try {
-        await getDataDictionary('stationId');
+        await getStations({
+            pageNum: 1,
+            pageSize: 20,
+        });
     } catch (err) { }
 };
 
 onMounted(() => {
+    getStationslist();
     setDefaultTime();
     getList();
-    geStationList();
 });
 
 const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'deviceWarnTable', offsetBottom: 100 });
