@@ -4,7 +4,7 @@
             <i class="iconfont icon-message header-message"></i>
         </ElBadge>
         <ElDropdown>
-            <div class="user-box" @click="toPersonalCenter">
+            <div class="user-box">
                 <img class="avatar" />
                 <p class="user-name">
                     {{ store.userInfo?.userName }}
@@ -12,6 +12,11 @@
                 <i class="iconfont icon-dropdown"></i>
             </div>
             <template #dropdown>
+                <ElDropdownMenu>
+                    <ElDropdownItem style="width: 120px; height: 30px; justify-content: center" @click="toPersonalCenter">
+                        个人中心
+                    </ElDropdownItem>
+                </ElDropdownMenu>
                 <ElDropdownMenu>
                     <ElDropdownItem style="width: 120px; height: 30px; justify-content: center" @click="loginOut">
                         退出登录

@@ -60,7 +60,7 @@
             <ElFormItem label="新密码" prop="newPwd">
                 <el-input v-model="formData.newPwd" type="password" size="default" placeholder="请输入新密码" />
             </ElFormItem>
-            <ElFormItem label="确认密码" prop="newPwd">
+            <ElFormItem label="确认密码" prop="newPwdAgain">
                 <el-input v-model="formData.newPwdAgain" type="password" size="default" placeholder="请确认密码" />
             </ElFormItem>
             <ElFormItem>
@@ -91,23 +91,28 @@ const formData = reactive<any>({
     newPwdAgain: '',
 });
 
-const validatePass = (rule, value, callback) => {
+const validatePass = (rule: any, value: any, callback: any) => {
     if (value === '') {
         callback(new Error('请再次输入密码'));
         // password 是表单上绑定的字段
     } else if (value !== formData.newPwd) {
-        console.log(value, '988888');
         callback(new Error('两次输入密码不一致!'));
     } else {
         callback();
     }
 };
 const rules = reactive({
-    oldPwd: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-    newPwd: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+    oldPwd: [
+        { required: true, message: '请输入旧密码', trigger: 'blur' },
+        { required: true, pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/, message: '请输入6-20位字母+数字的密码', trigger: 'blur' },
+    ],
+    newPwd: [
+        { required: true, message: '请输入新密码', trigger: 'blur' },
+        { required: true, pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/, message: '请输入6-20位字母+数字的密码', trigger: 'blur' }],
     newPwdAgain: [
         { required: true, message: '请确认密码', trigger: 'blur' },
-        { required: true, validator: validatePass, trigger: 'blur' }],
+        { pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/, message: '请输入6-20位字母+数字的密码', trigger: 'blur' },
+        { required: true, validator: validatePass, message: '两次输入不相同', trigger: 'blur' }],
 });
 
 const userInfo = reactive<UserInfoType>({
