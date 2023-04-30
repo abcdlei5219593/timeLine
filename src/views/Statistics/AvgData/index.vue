@@ -12,6 +12,7 @@
                 :key="index"
                 :label="item.label"
                 :prop="item.prop"
+                :width="(index === 0 || index === tableColumn.length - 1) ? 120 : 50"
                 align="center"
             >
             </ElTableColumn>
@@ -72,70 +73,46 @@ const tableColumn = [
     { prop: 'hour_2', label: '2点'},
     { prop: 'hour_3', label: '3点'},
     { prop: 'hour_4', label: '4点'},
-    // { prop: 'hour_5', label: '5点'},
-    // { prop: 'hour_6', label: '6点'},
-    // { prop: 'hour_7', label: '7点'},
-    // { prop: 'hour_8', label: '8点'},
-    // { prop: 'hour_9', label: '9点'},
-    // { prop: 'hour_10', label: '10点'},
-    // { prop: 'hour_11', label: '11点'},
-    // { prop: 'hour_12', label: '12点'},
-    // { prop: 'hour_13', label: '13点'},
-    // { prop: 'hour_14', label: '14点'},
-    // { prop: 'hour_15', label: '15点'},
-    // { prop: 'hour_16', label: '16点'},
-    // { prop: 'hour_17', label: '17点'},
-    // { prop: 'hour_18', label: '18点'},
-    // { prop: 'hour_19', label: '19点'},
-    // { prop: 'hour_20', label: '20点'},
-    // { prop: 'hour_21', label: '21点'},
-    // { prop: 'hour_22', label: '22点'},
-    // { prop: 'hour_23', label: '23点'}
-    { prop: 'monthAvg', label: '月均浓度'},
-];
-const data = [
-    {
-        'stationId': 111,
-        'stationName': '国家电网',
-        'hourData': [
-            {
-                'hour': 0,
-                'value': 33.23
-            },
-            {
-                'hour': 1,
-                'value': 43.23
-            },
-            {
-                'hour': 2,
-                'value': 53.23
-            },
-            {
-                'hour': 3,
-                'value': 63.23
-            },
-            {
-                'hour': 4,
-                'value': 83.23
-            }
-        ],
-        'monthAvg': 124.56
-    }
+    { prop: 'hour_5', label: '5点'},
+    { prop: 'hour_6', label: '6点'},
+    { prop: 'hour_7', label: '7点'},
+    { prop: 'hour_8', label: '8点'},
+    { prop: 'hour_9', label: '9点'},
+    { prop: 'hour_10', label: '10点'},
+    { prop: 'hour_11', label: '11点'},
+    { prop: 'hour_12', label: '12点'},
+    { prop: 'hour_13', label: '13点'},
+    { prop: 'hour_14', label: '14点'},
+    { prop: 'hour_15', label: '15点'},
+    { prop: 'hour_16', label: '16点'},
+    { prop: 'hour_17', label: '17点'},
+    { prop: 'hour_18', label: '18点'},
+    { prop: 'hour_19', label: '19点'},
+    { prop: 'hour_20', label: '20点'},
+    { prop: 'hour_21', label: '21点'},
+    { prop: 'hour_22', label: '22点'},
+    { prop: 'hour_23', label: '23点'},
+    { prop: 'avg', label: '月均浓度'},
 ];
 
-const getTableData = () => {
+const getTableData = async () => {
+    const data = await getAQIHourAvgInMonth({year: new Date().getFullYear(), month: new Date().getMonth() + 1});
+    console.log(data);
     const arr = [];
     for(const [index,station] of data.entries()) {
-        station.hourData.forEach(hour => {
-            station[`hour_${hour.hour}`] = hour.value;
+        let total = 0;
+        station.data.forEach(hour => {
+            station[`hour_${hour.time}`] = hour.avg;
+            total += hour.avg;
         });
+        station.avg = parseInt(total / station.data.length, 10);
         arr[index] = station;
     }
     tableData.value = arr;
 
 };
 getTableData();
-getAQIHourAvgInMonth();
+
 </script>
 
 <style scoped lang="scss">

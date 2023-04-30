@@ -1,8 +1,18 @@
 <template>
     <div shadow="never" class="container">
         <elForm inline>
-            <ElFormItem label="类型:">
-                <ElSelect v-model="searchForm.measure" size="medium">
+            <ElFormItem label="微站:">
+                <ElSelect v-model="searchForm.deviceId" collapse-tags size="default" multiple="">
+                    <ElOption
+                        v-for="item in deviceList"
+                        :key="item.deviceId"
+                        :label="item.stationName"
+                        :value="item.deviceId"
+                    ></ElOption>
+                </ElSelect>
+            </ElFormItem>
+            <ElFormItem label="类型">
+                <ElSelect v-model="searchForm.measure" size="default">
                     <ElOption label="AQI" value="aqi"></ElOption>
                     <ElOption label="PM2.5" value="pm_25"></ElOption>
                 </ElSelect>
@@ -10,10 +20,10 @@
             <ElFormItem label="时间:">
                 <el-date-picker
                     v-model="searchForm.date"
-                    type="daterange"
-
-                    value-format="YYYY-MM-DD"
-                    @change="getDeviceDataHandler"
+                    size="default"
+                    type="datetimerange"
+                    value-format="YYYY-MM-DD HH:mm:ss"
+                    @change="handleSearch"
                 />
             </ElFormItem>
         </elForm>
@@ -37,35 +47,35 @@
 <script setup lang="ts" name="Map">
 import { ElCard, ElForm, ElFormItem, ElSelect, ElOption,ElDatePicker } from 'element-plus';
 import { getDeviceList, getStations } from '@/api/device';
-import { getHotmapData } from '@/api/analyse';
+import { getHotmapData, getCurvesData } from '@/api/analyse';
 import { computed, ref, reactive } from 'vue';
 import { useSettingStore } from '@/store/app';
 
 const store = useSettingStore();
 const deviceList = ref([]);
 const searchForm = reactive({
+    deviceId: [],
     measure: 'aqi',
-    date: []
+    date: [],
+    startTime: '',
+    endTime: ''
 });
 getStations({pageNum: 1, pageSize: 1000});
 
-const getDeviceDataHandler = async () => {
-    for (const device of deviceList.value) {
-        const params = {
-            deviceId: device.deviceId,
-            startTime: searchForm.date.length ? searchForm.date[0]: '',
-            endTime: searchForm.date.length ? searchForm.date[1] : '',
-            measure: searchForm.measure
-        };
-        await getHotmapData(params);
-
-    }
+const handleSearch = async () => {
+    const params = {
+        deviceId: searchForm.deviceId,
+        startTime: searchForm.date.length ? searchForm.date[0] : '',
+        endTime: searchForm.date.length ? searchForm.date[1] : '',
+        measure: searchForm.measure
+    };
+    getCurvesData(params);
 };
 
 const getDeviceListHandler = async () => {
     // deviceList.value
     deviceList.value = await getDeviceList();
-    getDeviceDataHandler();
+    // getDeviceDataHandler();
 };
 
 getDeviceListHandler();
