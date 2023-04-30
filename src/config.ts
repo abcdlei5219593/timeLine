@@ -142,11 +142,11 @@ export const routePath = (basePath: string): Menu =>
 
             ]
         },
-        {
-            url: basePath + '/histroy',
-            name: '历史数据',
-            icon: 'iconfont icon-lishishuju',
-        },
+        // {
+        //     url: basePath + '/histroy',
+        //     name: '历史数据',
+        //     icon: 'iconfont icon-lishishuju',
+        // },
         {
             url: basePath + '/flag',
             name: '标记管理',
@@ -168,7 +168,7 @@ export const routeUserPath = (basePath: string): Menu =>
             icon: 'iconfont icon-map',
         },
         {
-            url: basePath + '/device',
+            url: basePath + '/personalCenter',
             name: '个人中心',
             icon: 'iconfont icon-device',
             // children里为单菜单里的详情,noSubMenu是有详情的单菜单

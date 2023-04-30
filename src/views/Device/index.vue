@@ -148,14 +148,14 @@ const toSensor = (row: any) => {
 };
 
 // 查询微站
-const getStationslist = async () => {
-    try {
-        await getStations({
-            pageNum: 1,
-            pageSize: 200,
-        });
-    } catch (err) { }
-};
+// const getStationslist = async () => {
+//     try {
+//         await getStations({
+//             pageNum: 1,
+//             pageSize: 200,
+//         });
+//     } catch (err) { }
+// };
 
 // 获取微站类型
 const stationType: any = ref([
@@ -239,7 +239,7 @@ const editFun = (row: any) => {
 
 
 onMounted(() => {
-    getStationslist();
+    // getStationslist();
     getList();
 });
 

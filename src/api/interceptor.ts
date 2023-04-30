@@ -43,12 +43,12 @@ $http.interceptors.request.use((config) => {
 // 响应拦截器
 $http.interceptors.response.use((response) => {
     console.log(response);
-    if(loadingInstance) {
+    if (loadingInstance) {
 
         loadingInstance.close();
         loadingInstance = null;
     }
-    if(+response.data.code === 0) {
+    if (+response.data.code === 0) {
         return response.data.data;
     }
     ElMessage.error(response.data.msg);
@@ -75,7 +75,7 @@ $http.interceptors.response.use((response) => {
     } else {
         ElMessage.error('遇到跨域错误，请设置代理或者修改后端允许跨域访问！');
     }
-    if(loadingInstance) {
+    if (loadingInstance) {
         loadingInstance.close();
         loadingInstance = null;
     }

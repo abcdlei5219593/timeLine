@@ -10,10 +10,8 @@
             <ElCol :span="6">
                 <span class="search-label">微站选择：</span>
                 <ElSelect v-model="DevceWarnParams.stationId" placeholder="请选择" size="default" @change="searchChange">
-                    <ElOption
-                        v-for="item in microStationOptions" :key="item.value" :label="item.label"
-                        :value="item.value"
-                    />
+                    <ElOption v-for="item in microStationOptions" :key="item.value" :label="item.label"
+                        :value="item.value" />
                 </ElSelect>
             </ElCol>
             <ElCol :span="8">
@@ -21,10 +19,8 @@
                 <ElDatePicker v-model="date" type="datetimerange" range-separator="-" size="default" @change="timeChange" />
             </ElCol>
         </ElRow>
-        <ElTable
-            id="deviceWarnTable" class="table" :data="tableData"
-            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
-        >
+        <ElTable id="deviceWarnTable" class="table" :data="tableData"
+            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
             <ElTableColumn prop="deviceId" label="主板" />
             <ElTableColumn prop="stationName" label="微站名称" />
             <ElTableColumn prop="status" label="告警值" />
@@ -38,11 +34,9 @@
             </ElTableColumn>
             <ElTableColumn prop="createTime" label="时间" />
         </ElTable>
-        <ElPagination
-            class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="total"
+        <ElPagination class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="total"
             :current-page="DevceWarnParams.pageNum" :page-sizes="[10, 20, 50, 100]" :page-size="DevceWarnParams.pageSize"
-            @size-change="handleSizeChange" @current-change="handleCurrentChange"
-        />
+            @size-change="handleSizeChange" @current-change="handleCurrentChange" />
     </div>
 </template>
 
@@ -84,14 +78,14 @@ const getList = async () => {
 };
 
 // 查询微站
-const getStationslist = async () => {
-    try {
-        await getStations({
-            pageNum: 1,
-            pageSize: 20,
-        });
-    } catch (err) { }
-};
+// const getStationslist = async () => {
+//     try {
+//         await getStations({
+//             pageNum: 1,
+//             pageSize: 20,
+//         });
+//     } catch (err) { }
+// };
 
 const searchChange = () => {
     DevceWarnParams.pageNum = 1;
@@ -116,7 +110,7 @@ const setDefaultTime = () => {
 };
 
 onMounted(() => {
-    getStationslist();
+    // getStationslist();
     setDefaultTime();
     getList();
 });

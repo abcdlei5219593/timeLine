@@ -1,11 +1,10 @@
-
 //公共样式
 
-.main-content{
+.main-content {
     background-color: #fff;
     padding: 20px;
     box-sizing: border-box;
-    height: calc(100% -  $breadcrumbHeight) !important;
+    height: calc(100% - $breadcrumbHeight) !important;
     width: 100%;
 }
 
@@ -14,32 +13,42 @@
     .el-col {
         display: flex;
         margin-bottom: 20px;
-        &:first-child .search-label{
+
+        &:first-child .search-label {
             text-align: left;
         }
+
         .search-label {
             // min-width: 40px;
             white-space: nowrap;
             // padding-right: 5px;
             line-height: 32px;
         }
-        .el-select{
+
+        .el-select {
             width: 100%;
             padding-right: 40px;
+        }
+
+        .el-input {
+            padding-right: 20px;
         }
     }
 }
 
-.search-checkbox{
+.search-checkbox {
     color: #000;
 }
+
 //通用table
 .el-table {
 
-    .el-table__header{
+    .el-table__header {
         height: 44px;
 
-        .el-table__cell,.el-table__cell,.is-first-column{
+        .el-table__cell,
+        .el-table__cell,
+        .is-first-column {
             background: #F2F3F5 !important;
             color: #000;
             font-weight: 600;
@@ -47,7 +56,7 @@
         }
     }
 
-    .el-table__row{
+    .el-table__row {
         height: 44px;
         font-size: 14px;
         color: #000;
@@ -55,23 +64,28 @@
 }
 
 //通用分页
-.pagination{
+.pagination {
     margin-top: 20px;
     display: flex;
     justify-content: right;
-    .number:not(.is-active),.more{
+
+    .number:not(.is-active),
+    .more {
         background: #fff !important;
         border: 1px solid #DCDCDC;
     }
-    .btn-next,.btn-prev{
+
+    .btn-next,
+    .btn-prev {
         background: #fff !important;
     }
 }
 
 //Dialog
-.el-dialog{
+.el-dialog {
     position: relative;
 }
+
 .dialog-footer {
     position: absolute;
     bottom: 0;
@@ -84,16 +98,18 @@
     z-index: 10;
     box-sizing: border-box;
 }
+
 :deep(.el-dialog__header) {
     border-bottom: 1px solid #e6e6e6;
 }
+
 .el-dialog__body {
     padding: 20px;
     position: relative;
     max-height: 60vh;
     overflow-y: auto;
 }
-.el-card__body{
-    height:100%;
-}
 
+.el-card__body {
+    height: 100%;
+}

@@ -178,7 +178,7 @@ const addFun = () => {
 
 const editFun = (row: any) => {
     addData.mobilePhone = row.mobilePhone;
-    addData.roleIds = parseInt(row.belongRoleIds); // eslint-disable-line
+    addData.roleIds = row.belongRoleIds ? parseInt(row.belongRoleIds) : null; // eslint-disable-line
     addData.status = row.status;
     addData.userName = row.userName;
     addData.remark = row.remark;
