@@ -12,6 +12,14 @@ export default defineConfig({
         ElementPlus(),
         vueSetupExtend()
     ],
+    // configureWebpack: {
+    //     externals: {
+    //         qc: 'QC'
+    //     }
+    // },
+    // chainWebpack: config => {
+    //     config.devServer.disableHostCheck(true);
+    // },
     resolve: {
         alias: {
             '@': '/src',

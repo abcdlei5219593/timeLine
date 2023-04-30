@@ -10,10 +10,7 @@
             <ElTableColumn prop="threshold3" label="严重告警阈值" />
             <ElTableColumn fixed="right" label="操作">
                 <template #default>
-                    <ElButton link type="primary" size="default" @click="calibrationFun">
-                        校准
-                    </ElButton>
-                    <ElButton link type="primary" size="default" @click="setThreshold">
+                    <ElButton link type="primary" size="default" @click="isThreshold = true">
                         设置阈值
                     </ElButton>
                 </template>
@@ -21,71 +18,54 @@
         </ElTable>
         <!-- <ElPagination class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="1000" /> -->
     </div>
-    <!--校准-->
-    <ElDialog v-model="isCalibration" title="校准" width="30%">
-        <div class="device-dialog">
-            <p>校准</p>
-            <ElInput v-model="intervalTime" type="number" placeholder="请输入" size="default" />
-        </div>
-        <span slot="footer" class="dialog-footer">
-            <ElButton size="default" @click="isCalibration = false">取 消</ElButton>
-            <ElButton type="primary" size="default" @click="isCalibration = false">保存提交</ElButton>
-        </span>
-    </ElDialog>
+
     <!--设置阈值-->
     <ElDialog v-model="isThreshold" title="阈值设置" width="30%">
         <div class="device-dialog">
             <ElForm ref="form" :model="formData" label-width="120px" label-position="top" class="demo-ruleForm">
-                <ElFormItem label="预警阈值" prop="pass">
-                    <el-input v-model.number="formData.warning" size="default" />
+                <ElFormItem label="预警阈值" prop="threshold1">
+                    <el-input v-model.number="formData.threshold1" size="default" />
                 </ElFormItem>
-                <ElFormItem label="告警阈值" prop="checkPass">
-                    <el-input v-model.number="formData.alarm" size="default" />
+                <ElFormItem label="告警阈值" prop="threshold2">
+                    <el-input v-model.number="formData.threshold2" size="default" />
                 </ElFormItem>
-                <ElFormItem label="严重告警阈值" prop="age">
-                    <el-input v-model.number="formData.seriousAlarm" size="default" />
+                <ElFormItem label="严重告警阈值" prop="threshold3">
+                    <el-input v-model.number="formData.threshold3" size="default" />
                 </ElFormItem>
             </ElForm>
         </div>
         <span slot="footer" class="dialog-footer">
             <ElButton size="default" @click="isThreshold = false">取 消</ElButton>
-            <ElButton type="primary" size="default" @click="isThreshold = false">保存提交</ElButton>
+            <ElButton type="primary" size="default" @click="setThreshold">保存提交</ElButton>
         </span>
     </ElDialog>
 </template>
 
 <script lang="ts" setup>
-import {
-    ElTable,
-    ElTableColumn,
-    ElPagination,
-    ElDialog,
-    ElButton,
-    ElInput,
-    ElRow,
-    ElCol,
-    ElForm,
-    ElFormItem,
-} from 'element-plus';
 import { ref, reactive, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import useTableSetting from '@/hooks/useTableSetting';
-import { FormData } from './../ModelDefines';
-import { getSensors } from '@/api/device';
+import { FormType } from './../ModelDefines';
+import { getSensors, deviceSet } from '@/api/device';
 
 const router = useRoute();
 
-const formData = reactive(FormData);
+const formData = reactive<FormType>({
+    deviceId: null,
+    threshold1: null,
+    threshold2: null,
+    threshold3: null,
+});
 
 const tableData: any = ref([]);
-// 是否显示校准弹窗
-const isCalibration = ref<boolean>(false);
+
 // 是否显示阈值弹窗
 const isThreshold = ref<boolean>(false);
-const calibrationFun = () => {
-    isCalibration.value = true;
-};
-const setThreshold = () => {
+
+const setThreshold = async () => {
+    try {
+        await deviceSet(formData);
+    } catch (err) { }
     isThreshold.value = true;
 };
 
@@ -95,7 +75,14 @@ const getSensorsList = async (deviceId: any) => {
         tableData.value = res;
     } catch (err) { }
 };
+
+const save = async () => {
+
+    isThreshold.value = false;
+};
 onMounted(() => {
+    const res: any = router.query.deviceId;
+    formData.deviceId = res;
     getSensorsList(router.query.deviceId);
 });
 

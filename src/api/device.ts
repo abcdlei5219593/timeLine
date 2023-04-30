@@ -32,7 +32,24 @@ export const getSensors = (data: object = {}) =>
     $http({
         url: '/admin/gas/device/getSensors',
         method: 'post',
+        params: data,
+        showLoading: true
+    } as AxiosRequestConfig);
+
+// 设置阈值
+export const deviceSet = (data: object = {}) =>
+    $http({
+        url: '/admin/gas/device/set',
+        method: 'post',
         data,
         showLoading: true
     } as AxiosRequestConfig);
 
+// 新增设备
+export const deviceAdd = (data: object = {}) =>
+    $http({
+        url: '/admin/gas/device/add',
+        method: 'post',
+        data,
+        showLoading: true
+    } as AxiosRequestConfig);
