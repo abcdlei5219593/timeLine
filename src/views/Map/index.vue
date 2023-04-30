@@ -99,7 +99,7 @@ const markerText = computed(() => (data) =>
 
 const getDeviceListHandler = async () => {
     // deviceList.value
-    const data = await getDeviceList();
+    const data = await getDeviceList({ bizModule: store.currentApp.bizModule});
     const deviceIds = data.map(({ deviceId }) => deviceId);
     const deviceData = await getDeviceData(deviceIds);
 

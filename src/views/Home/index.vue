@@ -20,20 +20,11 @@
             <ElCard shadow="never" class="msg ">
                 <h3>最新消息情况</h3>
                 <ul>
-                    <li>
-                        需要
+                    <li v-for="msg in msgList" :key="msg.id">
+                        {{ msg.title }}
                         <p class="date">
-                            2022-22-2
+                            {{ msg.createTime }}
                         </p>
-                    </li>
-                    <li>
-                        需要
-                    </li>
-                    <li>
-                        需要
-                    </li>
-                    <li>
-                        需要
                     </li>
                 </ul>
             </ElCard>
@@ -101,7 +92,8 @@ const drawBar = async () => {
     const data = await get24AvgData({measure: measure.value});
     option.value = {
         xAxis: {
-            data: data.map(item => item.time),
+
+            data: data.map(item => dayjs(item.time).format('YYYY-MM-DD HH:mm:ss')),
 
         },
         yAxis: {},
@@ -127,7 +119,7 @@ const getAQIHandler = async () => {
     AQI.value = await getAQI();
 };
 const getLastestAlarmsHandler = async () => {
-    msgList.value = await getLastestAlarms({pageSize: 10});
+    msgList.value = await getLastestAlarms({pageNum: 1, pageSize: 5});
 };
 getAQIHandler();
 getHotmapData();

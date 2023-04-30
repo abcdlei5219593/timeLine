@@ -2,11 +2,11 @@
     <div shadow="never" class="container">
         <elForm inline>
             <ElFormItem label="微站:">
-                <ElSelect v-model="searchForm.deviceId" collapse-tags size="default" multiple="">
+                <ElSelect v-model="searchForm.deviceId" value-key="stationId" collapse-tags size="default" multiple="">
                     <ElOption
                         v-for="item in deviceList"
-                        :key="item.deviceId"
-                        value-key="deviceId"
+                        :key="item.stationId"
+
                         :label="item.stationName"
                         :value="item"
                     ></ElOption>
@@ -39,7 +39,7 @@ import { ElCard, ElForm, ElFormItem, ElSelect, ElOption,ElDatePicker } from 'ele
 import { getDeviceList, getStations } from '@/api/device';
 import { getHotmapData, getCurvesData } from '@/api/analyse';
 import { computed, ref, reactive } from 'vue';
-import Vchart from 'vue-echarts';
+import VChart from 'vue-echarts';
 import { useSettingStore } from '@/store/app';
 import dayjs from '@/helper/dayjs';
 
@@ -53,7 +53,7 @@ const searchForm = reactive({
     endTime: ''
 });
 
-const chartOptions = reactive({
+const chartOptions = ref({
     title: {
         text: '',
     },
@@ -85,13 +85,11 @@ const chartOptions = reactive({
     yAxis: {
         type: 'value',
         boundaryGap: [0, '100%'],
-        splitLine: {
-            show: false,
-        },
+
     },
     series: [],
 });
-getStations({pageNum: 1, pageSize: 1000, bizModule: store.currentApp.bizModule});
+// getStations({pageNum: 1, pageSize: 1000, bizModule: store.currentApp.bizModule});
 
 const handleSearch = async () => {
     const params = {
@@ -100,9 +98,9 @@ const handleSearch = async () => {
         endTime: searchForm.date.length ? searchForm.date[1] : '',
         measure: searchForm.measure
     };
-    const data = getCurvesData(params);
+    const data = await getCurvesData(params);
     const lengend = searchForm.deviceId.map(({ stationName }) => stationName);
-    chartOptions.legend.data = lengend;
+    chartOptions.value.legend.data = lengend;
 
     let series = [];
     for (const device of searchForm.deviceId) {
@@ -111,7 +109,9 @@ const handleSearch = async () => {
             name: device.stationName,
             data: []
         };
+
         const deviceData = data.find(item => item.deviceId === device.deviceId);
+
         if(deviceData) {
             temp.data = deviceData.data.map(({ avg, time }) => ({
                 name: dayjs(time).format('YYYY-MM-DD HH:mm:ss'),
@@ -123,12 +123,14 @@ const handleSearch = async () => {
         }
         series.push(temp);
     }
-    chartOptions.series = series;
+    console.log(series);
+    chartOptions.value.series = series;
+    console.log(chartOptions.value.series);
 };
 
 const getDeviceListHandler = async () => {
     // deviceList.value
-    deviceList.value = await getDeviceList({});
+    deviceList.value = await getDeviceList({bizModule: store.currentApp.bizModule});
     // getDeviceDataHandler();
 };
 
