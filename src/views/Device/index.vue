@@ -31,15 +31,15 @@
             </ElTableColumn>
             <ElTableColumn prop="address" fixed="right" label="操作" width="240">
                 <template #default="scope">
-                    <ElButton link type="primary" size="default" @click="reportInterval(scope.row)">
+                    <!-- <ElButton link type="primary" size="default" @click="reportInterval(scope.row)">
                         上报间隔
-                    </ElButton>
+                    </ElButton> -->
                     <ElButton link type="primary" size="default" @click="toSensor(scope.row)">
                         传感器
                     </ElButton>
-                    <ElButton link type="primary" size="default" class="red-text-btn">
+                    <!-- <ElButton link type="primary" size="default" class="red-text-btn">
                         重启
-                    </ElButton>
+                    </ElButton> -->
                     <ElButton link type="primary" size="default" @click="editFun(scope.row)">
                         编辑
                     </ElButton>
