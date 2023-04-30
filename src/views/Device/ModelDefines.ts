@@ -1,16 +1,23 @@
-interface FormType {
-    warning: number;
-    alarm: number;
-    seriousAlarm: number;
+export interface FormType {
+    deviceId: string | null;
+    threshold1: number | null;
+    threshold2: number | null;
+    threshold3: number | null;
 }
-
-export const FormData: FormType = {
-    warning: 0, // 预警阈值
-    alarm: 0, // 告警阈值
-    seriousAlarm: 0, // 严重告警阈值
-};
 
 export interface ParamsType {
     pageNum: number;
     pageSize: number;
+}
+
+export interface deviceDataType {
+    deviceId: number | null,
+    stationName: string,
+    stationId: number | null,
+    stationAdress: string,
+    hv: string,
+    sv: string,
+    latitude: string,
+    longitude: string,
+    bizModule: any,
 }

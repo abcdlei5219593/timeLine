@@ -27,7 +27,7 @@
                     <ElButton link type="primary" size="default">
                         编辑
                     </ElButton>
-                    <ElButton link type="primary" size="default" @click="addPasswordShow = true">
+                    <ElButton link type="primary" size="default" @click="showChangePassword(scope.row)">
                         密码修改
                     </ElButton>
                 </template>
@@ -41,21 +41,22 @@
         <!--新增或编辑用户-->
         <ElDialog v-model="addShow" title="新增" width="50%">
             <div class="dialog">
-                <ElForm ref="form" :model="addData" label-width="120px" label-position="top" class="demo-ruleForm">
+                <ElForm ref="formAdd" :model="addData" label-width="120px" label-position="top" class="demo-ruleForm">
                     <ElFormItem label="手机号" prop="pass">
                         <el-input v-model.number="addData.mobilePhone" size="default" />
                     </ElFormItem>
                     <ElFormItem label="角色分配" prop="checkPass">
                         <ElSelect v-model="addData.roleIds" placeholder="请选择" size="default">
-                            <ElOption v-for="item in roleList" :key="item.value" :label="item.label" :value="item.value" />
+                            <ElOption v-for="(item, i) in roleListArray" :key="i" :label="item.roleName"
+                                :value="item.roleId" />
                         </ElSelect>
                     </ElFormItem>
                     <ElFormItem label="状态" prop="status">
                         <el-radio-group v-model="addData.status">
-                            <el-radio :label="3">
+                            <el-radio :label="0">
                                 禁用
                             </el-radio>
-                            <el-radio :label="6">
+                            <el-radio :label="1">
                                 启用
                             </el-radio>
                         </el-radio-group>
@@ -67,16 +68,16 @@
             </div>
             <span slot="footer" class="dialog-footer">
                 <ElButton size="default" @click="addShow = false">取 消</ElButton>
-                <ElButton type="primary" size="default" @click="save">保存提交</ElButton>
+                <ElButton type="primary" size="default" @click="submitAdd(formAdd)">保存提交</ElButton>
             </span>
         </ElDialog>
 
         <!--密码修改-->
-        <ElDialog v-model="addPasswordShow" title="密码修改" width="50%">
+        <ElDialog v-model="passwordShow" title="密码修改" width="50%">
             <div class="dialog">
                 <ElForm ref="formDataRef" :model="editPassword" :rules="rules" label-width="80px" status-icon>
-                    <ElFormItem label="新密码" prop="newPwd">
-                        <el-input v-model="editPassword.newPwd" type="password" size="default" placeholder="请输入新密码" />
+                    <ElFormItem label="新密码" prop="password">
+                        <el-input v-model="editPassword.password" type="password" size="default" placeholder="请输入新密码" />
                     </ElFormItem>
                     <ElFormItem label="再次输入密码" prop="newPwdAgain">
                         <el-input v-model="editPassword.newPwdAgain" type="password" size="default" placeholder="请确认密码" />
@@ -84,30 +85,32 @@
                 </ElForm>
             </div>
             <span slot="footer" class="dialog-footer">
-                <ElButton size="default" @click="addPasswordShow = false">取 消</ElButton>
-                <!-- <ElButton type="primary" size="default" @click="submitForm(formDataRef)">保存提交</ElButton> -->
+                <ElButton size="default" @click="passwordShow = false">取 消</ElButton>
+                <ElButton type="primary" size="default" @click="submitForm(formDataRef)">保存提交</ElButton>
             </span>
         </ElDialog>
     </div>
 </template>
 
 <script setup lang="ts">
+import { FormInstance, ElMessage } from 'element-plus';
 import useTableSetting from '@/hooks/useTableSetting';
 import { ref, onMounted, reactive } from 'vue';
 import { useRouter } from 'vue-router';
-import { userList, userAdd, listRoleSelect } from '@/api/user';
+import { userList, userAdd, listRoleSelect, resetPassword } from '@/api/user';
 import { UserParamsType, addUserType, editPasswordType } from './ModelDefines';
-import { ElMessage } from 'element-plus';
+import md5 from 'js-md5';
 
 const tableData: any = ref([]);
 const addShow = ref<boolean>(false);
 const total = ref<number>(0);
-const roleList: any = ref([]);
-const editPassword = ref<editPasswordType>({
-    newPwd: '',
+const roleListArray: any = ref([]);
+const editPassword = reactive<editPasswordType>({
+    userId: null,
+    password: '',
     newPwdAgain: ''
 });
-const addPasswordShow = ref<boolean>(false);
+const passwordShow = ref<boolean>(false);
 
 const userParams = reactive<UserParamsType>({
     userName: '',
@@ -116,11 +119,10 @@ const userParams = reactive<UserParamsType>({
 });
 const addData = reactive<addUserType>({
     mobilePhone: '',
-    password: '',
-    realName: '',
     roleIds: '',
-    status: '',
+    status: 2,
     userName: '',
+    remark: '',
 });
 
 const getList = async () => {
@@ -144,22 +146,92 @@ const handleCurrentChange = (page: number) => {
 };
 
 // 获取角色列表
-const getRoleList = () => {
+const getRoleList = async () => {
     try {
-        const res: any = listRoleSelect();
-        roleList.value = res;
-    } catch (err) {
-
-    }
+        roleListArray.value = await listRoleSelect({});
+    } catch (err) { }
 };
 
 const save = async () => {
+    const userName: any = addData.mobilePhone;
+    addData.userName = userName;
     try {
-        await userAdd();
+        await userAdd(addData);
         addShow.value = false;
         ElMessage.success('操作成功');
     } catch (err) { }
 
+};
+
+const formAdd = ref<FormInstance>();
+// 新增编辑提交
+const submitAdd = async (formEl: FormInstance | undefined) => {
+    if (!formEl) {
+        return;
+    }
+    await formEl.validate((valid, fields) => {
+        if (valid) {
+            console.log('submit!');
+            save();
+        } else {
+            console.log('error submit!', fields);
+        }
+    });
+};
+
+const showChangePassword = (row: any) => {
+    editPassword.userId = row.userId;
+    passwordShow.value = true;
+};
+
+// 密码再次输入校验
+const validatePass = (rule: any, value: any, callback: any) => {
+    if (value === '') {
+        callback(new Error('请再次输入密码'));
+        // password 是表单上绑定的字段
+    } else if (value !== editPassword.password) {
+        callback(new Error('两次输入密码不一致!'));
+    } else {
+        callback();
+    }
+};
+const rules = reactive({
+    password: [
+        { required: true, message: '请输入新密码', trigger: 'blur' },
+        { required: true, pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/, message: '请输入6-20位字母+数字的密码', trigger: 'blur' },
+    ],
+    newPwdAgain: [
+        { required: true, message: '请确认密码', trigger: 'blur' },
+        { pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/, message: '请输入6-20位字母+数字的密码', trigger: 'blur' },
+        { required: true, validator: validatePass, message: '两次输入不相同', trigger: 'blur' }],
+});
+
+// 重置密码
+const resetPasswordFun = async () => {
+    try {
+        await resetPassword({
+            password: md5(editPassword.password).substr(8, 16),
+            userId: editPassword.userId
+        });
+        ElMessage.success('操作成功');
+        passwordShow.value = false;
+    } catch (err) { }
+};
+
+const formDataRef = ref<FormInstance>();
+// 修改密码的提交
+const submitForm = async (formEl: FormInstance | undefined) => {
+    if (!formEl) {
+        return;
+    }
+    await formEl.validate((valid, fields) => {
+        if (valid) {
+            console.log('submit!');
+            resetPasswordFun();
+        } else {
+            console.log('error submit!', fields);
+        }
+    });
 };
 
 onMounted(() => {

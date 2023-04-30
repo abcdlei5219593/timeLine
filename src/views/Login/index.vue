@@ -32,8 +32,8 @@
                 <div class="login-other">
                     <p>使用其他方式登录</p>
                     <div class="login-method">
-                        <i class="iconfont icon-weixin" @mouseenter="showWeixin = true"
-                            @mouseleave="showWeixin = false"></i>
+                        <!-- <i class="iconfont icon-weixin" @mouseenter="showWeixin = true" @mouseleave="showWeixin = false"></i> -->
+                        <i class="iconfont icon-weixin" @mouseenter="showWeixin = true"></i>
                         <i id="qqLogin" class="iconfont icon-qq"></i>
                         <div v-if="showWeixin" class="wx-code">
                             <Qrcode></Qrcode>

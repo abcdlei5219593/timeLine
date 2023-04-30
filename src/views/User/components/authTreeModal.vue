@@ -1,18 +1,14 @@
 <template>
     <ElDialog custom-class="tree-dialog" :model-value="modelValue" @close="handleClose">
-        <ElTree
-            ref="tree"
-            :data="appData"
-            :props="{ label: 'name'}"
-            show-checkbox node-key="url"
-            highlight-current
-        ></ElTree>
-        <template #footer>
+        <ElTree ref="tree" :data="allMenu" :props="{ label: 'name' }" show-checkbox node-key="url" highlight-current>
+        </ElTree>
+        {{ allMenu }}
+        <!-- <template #footer>
             <span class="dialog-footer">
                 <ElButton @click="handleClose">取 消</ElButton>
                 <ElButton type="primary">确 定</ElButton>
             </span>
-        </template>
+        </template> -->
     </ElDialog>
 </template>
 
@@ -23,18 +19,20 @@ import { Menu } from '@/types/menu';
 import { ref } from 'vue';
 
 const props = defineProps<{
-    modelValue: boolean
+    modelValue: boolean,
+    allMenu: {
+        type: Object,
+        default: () => {},
+    },
 }>();
 const emits = defineEmits<{
-    (e: 'update:modelValue', value: boolean):void
+    (e: 'update:modelValue', value: boolean): void
 }>();
 
-const appData = ref<Menu>(APP_LIST);
+// const appData = ref<Menu>(APP_LIST);
 const handleClose = () => {
     emits('update:modelValue', false);
 };
 </script>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

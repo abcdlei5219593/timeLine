@@ -42,7 +42,7 @@ export const userAdd = (data: object = {}) =>
     $http({
         url: '/user/add',
         method: 'post',
-        data,
+        params: data,
         showLoading: true
     } as AxiosRequestConfig);
 
@@ -51,7 +51,7 @@ export const userEdit = (data: object = {}) =>
     $http({
         url: '/user/edit',
         method: 'post',
-        data,
+        params: data,
         showLoading: true
     } as AxiosRequestConfig);
 
@@ -115,5 +115,14 @@ export const listRoleSelect = (data: object = {}) =>
         url: '/role/listRoleSelect',
         method: 'post',
         data,
+        showLoading: true
+    } as AxiosRequestConfig);
+
+// 重置用户密码
+export const resetPassword = (data: object = {}) =>
+    $http({
+        url: '/user/resetPassword',
+        method: 'post',
+        params: data,
         showLoading: true
     } as AxiosRequestConfig);

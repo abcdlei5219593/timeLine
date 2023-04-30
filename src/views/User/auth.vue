@@ -24,7 +24,7 @@
             <ElTableColumn prop="roleDesc" label="备注" />
             <ElTableColumn prop="address" fixed="right" label="操作" width="200">
                 <template #default="scope">
-                    <ElButton link type="primary" size="default">
+                    <ElButton link type="primary" size="default" @click="rootFun(scope.row)">
                         授权
                     </ElButton>
                     <ElButton link type="primary" size="default" @click="editFun(scope.row)">
@@ -55,6 +55,17 @@
                 <ElButton type="primary" size="default" @click="save">保存提交</ElButton>
             </span>
         </ElDialog>
+
+        <!--授权-->
+        <ElDialog v-model="showRoot" title="授权" width="50%">
+            <div class="dialog">
+                <authTreeModal :all-menu="allMenu"></authTreeModal>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <ElButton size="default" @click="closeFun">取 消</ElButton>
+                <ElButton type="primary" size="default" @click="save">保存提交</ElButton>
+            </span>
+        </ElDialog>
     </div>
 </template>
 
@@ -63,14 +74,16 @@ import useTableSetting from '@/hooks/useTableSetting';
 import { ref, onMounted, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { roleList, roleAdd, roleEdit } from '@/api/user';
+import { listAllModule, listUserModule } from '@/api/system';
 import { roleParamsType, addRoleType } from './ModelDefines';
 import { ElMessage } from 'element-plus';
-// import { fa } from 'element-plus/es/locale';
+import authTreeModal from './components/authTreeModal.vue';
 
 const tableData: any = ref([]);
 const addShow = ref<boolean>(false);
 const total = ref<number>(0);
 const isEdit = ref<boolean>(false);
+const showRoot = ref<boolean>(false);
 
 const roleParams = reactive<roleParamsType>({
     roleName: '',
@@ -81,6 +94,7 @@ const addData = reactive<addRoleType>({
     roleName: '',
     roleDesc: '',
 });
+const allMenu: any = ref([]);
 
 const getList = async () => {
     try {
@@ -126,7 +140,20 @@ const closeFun = () => {
     addShow.value = false;
 };
 
+const rootFun = (row) => {
+    showRoot.value = true;
+};
+
+// 获取所有菜单
+const getAllMenu = async () => {
+    try {
+        allMenu.value = await listAllModule();
+        console.log(allMenu.value, 'allMenu.valueallMenu.valueallMenu.value');
+    } catch (err) { }
+};
+
 onMounted(() => {
+    getAllMenu();
     getList();
 });
 const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'userTable', offsetBottom: 100 });

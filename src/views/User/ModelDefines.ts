@@ -15,11 +15,10 @@ export interface UserParamsType {
 
 export interface addUserType {
     mobilePhone: string;
-    password: string;
-    realName: string;
-    roleIds: string;
-    status: string;
+    roleIds: string | number;
+    status: string | number;
     userName: string;
+    remark: string;
 }
 export interface roleParamsType {
     roleName: string;
@@ -33,6 +32,7 @@ export interface addRoleType {
     roleId?: string;
 }
 export interface editPasswordType {
-    newPwd: string,
+    userId: number | null,
+    password: string,
     newPwdAgain: string,
 }
