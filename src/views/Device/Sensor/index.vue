@@ -9,8 +9,8 @@
             <ElTableColumn prop="threshold2" label="告警阈值" />
             <ElTableColumn prop="threshold3" label="严重告警阈值" />
             <ElTableColumn fixed="right" label="操作">
-                <template #default>
-                    <ElButton link type="primary" size="default" @click="isThreshold = true">
+                <template #default="scoped">
+                    <ElButton link type="primary" size="default" @click="setShowFun(scoped.row)">
                         设置阈值
                     </ElButton>
                 </template>
@@ -47,11 +47,13 @@ import { useRoute } from 'vue-router';
 import useTableSetting from '@/hooks/useTableSetting';
 import { FormType } from './../ModelDefines';
 import { getSensors, deviceSet } from '@/api/device';
+import { ElMessage } from 'element-plus';
 
 const router = useRoute();
 
 const formData = reactive<FormType>({
     deviceId: null,
+    sensorCode: null,
     threshold1: null,
     threshold2: null,
     threshold3: null,
@@ -62,11 +64,13 @@ const tableData: any = ref([]);
 // 是否显示阈值弹窗
 const isThreshold = ref<boolean>(false);
 
+// 设置阈值调用接口
 const setThreshold = async () => {
     try {
         await deviceSet(formData);
+        ElMessage.success('操作成功');
+        isThreshold.value = false;
     } catch (err) { }
-    isThreshold.value = true;
 };
 
 const getSensorsList = async (deviceId: any) => {
@@ -75,11 +79,12 @@ const getSensorsList = async (deviceId: any) => {
         tableData.value = res;
     } catch (err) { }
 };
-
-const save = async () => {
-
-    isThreshold.value = false;
+// 显示设置阈值
+const setShowFun = (row: any) => {
+    formData.sensorCode = row.sensorCode;
+    isThreshold.value = true;
 };
+
 onMounted(() => {
     const res: any = router.query.deviceId;
     formData.deviceId = res;

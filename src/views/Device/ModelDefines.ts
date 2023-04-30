@@ -1,5 +1,6 @@
 export interface FormType {
     deviceId: string | null;
+    sensorCode: string | null;
     threshold1: number | null;
     threshold2: number | null;
     threshold3: number | null;
@@ -14,10 +15,10 @@ export interface deviceDataType {
     deviceId: number | null,
     stationName: string,
     stationId: number | null,
-    stationAdress: string,
+    stationAddress: string,
     hv: string,
     sv: string,
-    latitude: string,
-    longitude: string,
+    latitude: number,
+    longitude: number,
     bizModule: any,
 }

@@ -9,7 +9,7 @@
                 </ElSelect>
             </ElCol>
             <ElCol :span="6">
-                <ElButton type="primary" size="default" @click="addShow = true">
+                <ElButton type="primary" size="default" @click="addFun">
                     新增设备
                 </ElButton>
             </ElCol>
@@ -18,7 +18,7 @@
             :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
             <ElTableColumn prop="deviceId" label="主板" />
             <ElTableColumn prop="stationName" label="微站名称" />
-            <ElTableColumn prop="stationAdress" label="微站地址" />
+            <ElTableColumn prop="stationAddress" label="微站地址" />
             <ElTableColumn prop="hv" label="硬件版本" />
             <ElTableColumn prop="sv" label="软件版本" />
             <ElTableColumn prop="longitude" label="经度" />
@@ -29,7 +29,7 @@
                     <span v-else-if="scope.row.status === 2">离线</span>
                 </template>
             </ElTableColumn>
-            <ElTableColumn prop="address" fixed="right" label="操作" width="200">
+            <ElTableColumn prop="address" fixed="right" label="操作" width="240">
                 <template #default="scope">
                     <ElButton link type="primary" size="default" @click="reportInterval(scope.row)">
                         上报间隔
@@ -39,6 +39,9 @@
                     </ElButton>
                     <ElButton link type="primary" size="default" class="red-text-btn">
                         重启
+                    </ElButton>
+                    <ElButton link type="primary" size="default" @click="editFun(scope.row)">
+                        编辑
                     </ElButton>
                 </template>
             </ElTableColumn>
@@ -64,7 +67,7 @@
     </ElDialog>
 
     <!--添加编辑设备-->
-    <ElDialog v-model="addShow" title="新增设备" width="50%">
+    <ElDialog v-model="addShow" :title="isEdit ? '编辑设备' : '新增设备'" width="50%">
         <div class="device">
             <ElForm ref="formDataRef" :model="deviceData" :rules="rules" label-width="80px" status-icon>
                 <ElFormItem label="主板ID" prop="deviceId">
@@ -73,8 +76,8 @@
                 <ElFormItem label="微站名" prop="stationName">
                     <el-input v-model="deviceData.stationName" size="default" placeholder="请输入" />
                 </ElFormItem>
-                <ElFormItem label="微站地址" prop="stationAdress">
-                    <el-input v-model="deviceData.stationAdress" size="default" placeholder="请输入" />
+                <ElFormItem label="微站地址" prop="stationAddress">
+                    <el-input v-model="deviceData.stationAddress" size="default" placeholder="请输入" />
                 </ElFormItem>
                 <ElFormItem label="硬件版本" prop="hv">
                     <el-input v-model="deviceData.hv" size="default" placeholder="请输入" />
@@ -90,7 +93,7 @@
                 </ElFormItem>
                 <ElFormItem label="微站类型" prop="bizModule">
                     <el-checkbox-group v-model="deviceData.bizModule">
-                        <el-checkbox v-for="(item, i) in stationType" :key="i" :label="item.value" :value="item.value">
+                        <el-checkbox v-for="( item, i ) in stationType " :key="i" :label="item.value" :value="item.value">
                             {{ item.label }}
                         </el-checkbox>
                     </el-checkbox-group>
@@ -105,11 +108,11 @@
 </template>
 
 <script lang="ts" setup>
-import { FormInstance } from 'element-plus';
+import { FormInstance, ElMessage } from 'element-plus';
 import { ref, onMounted, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import useTableSetting from '@/hooks/useTableSetting';
-import { getDeviceList, getStations, deviceAdd } from '@/api/device';
+import { getDeviceList, getStations, deviceAdd, deviceEdit } from '@/api/device';
 import { deviceDataType } from './ModelDefines';
 import { getDataDictionary } from '@/api/system';
 
@@ -119,6 +122,7 @@ const stationId: any = ref('');
 const microStationOptions = ref<any>([]);
 const tableData = ref([]);
 const addShow = ref<boolean>(false);
+const isEdit = ref<boolean>(false);
 
 const isTimeSet = ref<boolean>(false);
 
@@ -131,11 +135,11 @@ const deviceData = reactive<deviceDataType>({
     deviceId: null,
     stationName: '',
     stationId: null,
-    stationAdress: '',
+    stationAddress: '',
     hv: '',
     sv: '',
-    latitude: '',
-    longitude: '',
+    latitude: 0,
+    longitude: 0,
     bizModule: []
 });
 
@@ -172,7 +176,7 @@ const stationType: any = ref([
 
 const getList = async () => {
     try {
-        const res: any = await getDeviceList();
+        const res: any = await getDeviceList({ bizModule: 1 });
         tableData.value = res;
     } catch (err) { }
 };
@@ -180,8 +184,10 @@ const getList = async () => {
 // 新增或编辑
 const save = async () => {
     try {
-        await deviceAdd(deviceData);
+        await isEdit.value ? deviceEdit(deviceData) : deviceAdd(deviceData);
         addShow.value = false;
+        ElMessage.success('操作成功');
+        getList();
     } catch (err) { }
 };
 // 提交
@@ -198,6 +204,37 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             console.log('error submit!', fields);
         }
     });
+};
+
+// 显示新增设备
+const addFun = () => {
+    addShow.value = true;
+    isEdit.value = true;
+    deviceData.deviceId = null;
+    deviceData.stationName = '';
+    deviceData.stationId = null;
+    deviceData.stationAddress = '';
+    deviceData.hv = '';
+    deviceData.sv = '';
+    deviceData.latitude = 0;
+    deviceData.longitude = 0;
+    deviceData.bizModule = [];
+};
+
+// 编辑设备
+const editFun = (row: any) => {
+    addShow.value = true;
+    isEdit.value = true;
+    deviceData.deviceId = row.deviceId;
+    deviceData.stationName = row.stationName;
+    deviceData.stationId = row.stationId;
+    deviceData.stationAddress = row.stationAddress;
+    deviceData.hv = row.hv;
+    deviceData.sv = row.sv;
+    deviceData.latitude = row.latitude;
+    deviceData.longitude = row.longitude;
+    deviceData.bizModule = row.bizModule.split('');
+    console.log(deviceData, 'deviceData');
 };
 
 

@@ -5,7 +5,7 @@ import type { AxiosRequestConfig } from 'axios';
 export const getRoleList = (data: object | null = null) =>
     $http({
         url: '/module/listRoleModule',
-        method: 'get',
+        method: 'post',
         params: data,
         showLoading: true
     } as AxiosRequestConfig);

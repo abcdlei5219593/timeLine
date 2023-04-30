@@ -59,11 +59,12 @@
         <!--授权-->
         <ElDialog v-model="showRoot" title="授权" width="50%">
             <div class="dialog">
-                <authTreeModal :all-menu="allMenu"></authTreeModal>
+                <ElTree ref="tree" :data="allMenu" :props="props" show-checkbox node-key="moduleId"
+                    @check-change="handleCheckChange" />
             </div>
             <span slot="footer" class="dialog-footer">
                 <ElButton size="default" @click="closeFun">取 消</ElButton>
-                <ElButton type="primary" size="default" @click="save">保存提交</ElButton>
+                <ElButton type="primary" size="default" @click="rootSave">保存提交</ElButton>
             </span>
         </ElDialog>
     </div>
@@ -71,12 +72,12 @@
 
 <script setup lang="ts">
 import useTableSetting from '@/hooks/useTableSetting';
-import { ref, onMounted, reactive } from 'vue';
+import { ref, onMounted, reactive, nextTick } from 'vue';
 import { useRouter } from 'vue-router';
 import { roleList, roleAdd, roleEdit } from '@/api/user';
-import { listAllModule, listUserModule } from '@/api/system';
+import { listAllModule, getRoleList } from '@/api/system';
 import { roleParamsType, addRoleType } from './ModelDefines';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElTree } from 'element-plus';
 import authTreeModal from './components/authTreeModal.vue';
 
 const tableData: any = ref([]);
@@ -84,6 +85,10 @@ const addShow = ref<boolean>(false);
 const total = ref<number>(0);
 const isEdit = ref<boolean>(false);
 const showRoot = ref<boolean>(false);
+
+const props = {
+    label: 'label',
+};
 
 const roleParams = reactive<roleParamsType>({
     roleName: '',
@@ -138,17 +143,67 @@ const closeFun = () => {
     addData.roleId = '';
     isEdit.value = false;
     addShow.value = false;
+    showRoot.value = false;
 };
 
-const rootFun = (row) => {
+const tree = ref(null);
+const moduleIds: any = ref('');
+const rootFun = async (row: any) => {
     showRoot.value = true;
+    addData.roleId = row.roleId;
+    addData.roleName = row.roleName;
+    addData.roleDesc = row.roleDesc;
+    await nextTick();
+    const res: any = await getRoleList({
+        roleId: row.roleId
+    });
+    moduleIds.value = res;
+    console.log(res, '888888888888888888888');
+    // res.forEach(item => {
+    //     allMenu.value.forEach(t => {
+    //         if (item.moduleId === t.moduleId) {
+    //             tree.value.setCheckedNodes(t, true);
+    //         }
+    //     });
+    // });
 };
 
 // 获取所有菜单
 const getAllMenu = async () => {
     try {
-        allMenu.value = await listAllModule();
-        console.log(allMenu.value, 'allMenu.valueallMenu.valueallMenu.value');
+        const res: any = await listAllModule();
+        allMenu.value = res;
+    } catch (err) { }
+};
+
+// 授权修改
+
+const handleCheckChange = (val) => {
+    moduleIds.value = tree.value.getCheckedKeys().join(',');
+    // console.log(tree.value.getCheckedKeys(), '9999999999');
+};
+
+
+// 授权保存
+const rootSave = async () => {
+    try {
+        await roleEdit({
+            moduleIds: moduleIds.value,
+            roleId: addData.roleId,
+            roleName: addData.roleName,
+        });
+        ElMessage.success('操作成功');
+        showRoot.value = false;
+        getList();
+    } catch (err) {
+
+    }
+};
+
+// 获取角色授权
+const getRoleRoot = async (roleId: any) => {
+    try {
+        await getRoleList(roleId);
     } catch (err) { }
 };
 

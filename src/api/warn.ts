@@ -4,7 +4,7 @@ import type { AxiosRequestConfig } from 'axios';
 // 获取大气告警列表
 export const alarmList = (data: object = {}) =>
     $http({
-        url: '/admin/gas/alarm/query',
+        url: '/admin/alarm/query',
         method: 'post',
         data,
         showLoading: true
@@ -13,7 +13,7 @@ export const alarmList = (data: object = {}) =>
 // 关闭大气告警
 export const alarmClose = (data: object = {}) =>
     $http({
-        url: '/admin/gas/alarm/close',
+        url: '/admin/alarm/close',
         method: 'post',
         data,
         showLoading: true

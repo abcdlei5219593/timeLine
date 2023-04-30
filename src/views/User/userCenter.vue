@@ -11,7 +11,7 @@
                 </ElButton>
             </ElCol>
             <ElCol :span="3">
-                <ElButton type="primary" size="default" @click="addShow = true">
+                <ElButton type="primary" size="default" @click="addFun">
                     新增用户
                 </ElButton>
             </ElCol>
@@ -24,7 +24,7 @@
             <ElTableColumn prop="remark" label="备注" />
             <ElTableColumn prop="address" fixed="right" label="操作" width="200">
                 <template #default="scope">
-                    <ElButton link type="primary" size="default">
+                    <ElButton link type="primary" size="default" @click="editFun(scope.row)">
                         编辑
                     </ElButton>
                     <ElButton link type="primary" size="default" @click="showChangePassword(scope.row)">
@@ -39,7 +39,7 @@
             @size-change="handleSizeChange" @current-change="handleCurrentChange" />
 
         <!--新增或编辑用户-->
-        <ElDialog v-model="addShow" title="新增" width="50%">
+        <ElDialog v-model="addShow" :title="isEdit ? '编辑' : '新增'" width="50%">
             <div class="dialog">
                 <ElForm ref="formAdd" :model="addData" label-width="120px" label-position="top" class="demo-ruleForm">
                     <ElFormItem label="手机号" prop="pass">
@@ -47,16 +47,16 @@
                     </ElFormItem>
                     <ElFormItem label="角色分配" prop="checkPass">
                         <ElSelect v-model="addData.roleIds" placeholder="请选择" size="default">
-                            <ElOption v-for="(item, i) in roleListArray" :key="i" :label="item.roleName"
+                            <ElOption v-for="( item, i ) in roleListArray " :key="i" :label="item.roleName"
                                 :value="item.roleId" />
                         </ElSelect>
                     </ElFormItem>
                     <ElFormItem label="状态" prop="status">
                         <el-radio-group v-model="addData.status">
-                            <el-radio :label="0">
+                            <el-radio :label="'0'">
                                 禁用
                             </el-radio>
-                            <el-radio :label="1">
+                            <el-radio :label="'1'">
                                 启用
                             </el-radio>
                         </el-radio-group>
@@ -97,7 +97,7 @@ import { FormInstance, ElMessage } from 'element-plus';
 import useTableSetting from '@/hooks/useTableSetting';
 import { ref, onMounted, reactive } from 'vue';
 import { useRouter } from 'vue-router';
-import { userList, userAdd, listRoleSelect, resetPassword } from '@/api/user';
+import { userList, userAdd, listRoleSelect, resetPassword, userEdit } from '@/api/user';
 import { UserParamsType, addUserType, editPasswordType } from './ModelDefines';
 import md5 from 'js-md5';
 
@@ -111,6 +111,7 @@ const editPassword = reactive<editPasswordType>({
     newPwdAgain: ''
 });
 const passwordShow = ref<boolean>(false);
+const isEdit = ref<boolean>(false);
 
 const userParams = reactive<UserParamsType>({
     userName: '',
@@ -156,11 +157,34 @@ const save = async () => {
     const userName: any = addData.mobilePhone;
     addData.userName = userName;
     try {
-        await userAdd(addData);
+        await isEdit.value ? userEdit(addData) : userAdd(addData);
         addShow.value = false;
         ElMessage.success('操作成功');
+        getList();
     } catch (err) { }
 
+};
+
+const addFun = () => {
+    addData.mobilePhone = '';
+    addData.roleIds = '';
+    addData.status = '';
+    addData.userName = '';
+    addData.remark = '';
+    addData.userId = '';
+    isEdit.value = false;
+    addShow.value = true;
+};
+
+const editFun = (row: any) => {
+    addData.mobilePhone = row.mobilePhone;
+    addData.roleIds = parseInt(row.belongRoleIds); // eslint-disable-line
+    addData.status = row.status;
+    addData.userName = row.userName;
+    addData.remark = row.remark;
+    addData.userId = row.userId;
+    isEdit.value = true;
+    addShow.value = true;
 };
 
 const formAdd = ref<FormInstance>();

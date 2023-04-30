@@ -53,3 +53,12 @@ export const deviceAdd = (data: object = {}) =>
         data,
         showLoading: true
     } as AxiosRequestConfig);
+
+// 编辑设备
+export const deviceEdit = (data: object = {}) =>
+    $http({
+        url: '/admin/device/edit',
+        method: 'post',
+        data,
+        showLoading: true
+    } as AxiosRequestConfig);

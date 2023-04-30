@@ -19,6 +19,7 @@ export interface addUserType {
     status: string | number;
     userName: string;
     remark: string;
+    userId?: string | number;
 }
 export interface roleParamsType {
     roleName: string;
