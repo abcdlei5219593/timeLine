@@ -6,15 +6,16 @@
                     <ElOption
                         v-for="item in deviceList"
                         :key="item.deviceId"
+                        value-key="deviceId"
                         :label="item.stationName"
-                        :value="item.deviceId"
+                        :value="item"
                     ></ElOption>
                 </ElSelect>
             </ElFormItem>
             <ElFormItem label="类型">
                 <ElSelect v-model="searchForm.measure" size="default">
                     <ElOption label="AQI" value="aqi"></ElOption>
-                    <ElOption label="PM2.5" value="pm_25"></ElOption>
+                    <ElOption label="PM2.5" value="pm2_5"></ElOption>
                 </ElSelect>
             </ElFormItem>
             <ElFormItem label="时间:">
@@ -28,18 +29,7 @@
             </ElFormItem>
         </elForm>
         <div class="map-container">
-            <ElAmap
-                class="map"
-                :center="store.mapCenter"
-                :zoom="15"
-            >
-                <!-- <el-amap-marker
-                    v-for="(item, index) in deviceList"
-                    :key="index"
-                    :position="[item.longitude, item.latitude]"
-                    :content="markerText(item.data)"
-                /> -->
-            </ElAmap>
+            <v-chart class="chart" :option="chartOptions" autoresize />
         </div>
     </div>
 </template>
@@ -49,7 +39,9 @@ import { ElCard, ElForm, ElFormItem, ElSelect, ElOption,ElDatePicker } from 'ele
 import { getDeviceList, getStations } from '@/api/device';
 import { getHotmapData, getCurvesData } from '@/api/analyse';
 import { computed, ref, reactive } from 'vue';
+import Vchart from 'vue-echarts';
 import { useSettingStore } from '@/store/app';
+import dayjs from '@/helper/dayjs';
 
 const store = useSettingStore();
 const deviceList = ref([]);
@@ -60,21 +52,83 @@ const searchForm = reactive({
     startTime: '',
     endTime: ''
 });
-getStations({pageNum: 1, pageSize: 1000});
+
+const chartOptions = reactive({
+    title: {
+        text: '',
+    },
+    tooltip: {
+        trigger: 'axis',
+        position: ['40%', '20%'],
+        formatter: (params) => {
+            let res = '';
+            for (let i = 0; i < params.length; i++) {
+                res
+                += '<li>'
+                + params[i].seriesName
+                + '：'
+                + params[i].value
+                + '</li>';
+            }
+            return res;
+        },
+    },
+    legend: {
+        data: [],
+    },
+    xAxis: {
+        type: 'time',
+        splitLine: {
+            show: false,
+        },
+    },
+    yAxis: {
+        type: 'value',
+        boundaryGap: [0, '100%'],
+        splitLine: {
+            show: false,
+        },
+    },
+    series: [],
+});
+getStations({pageNum: 1, pageSize: 1000, bizModule: store.currentApp.bizModule});
 
 const handleSearch = async () => {
     const params = {
-        deviceId: searchForm.deviceId,
+        deviceId: searchForm.deviceId.map(({ deviceId }) => deviceId),
         startTime: searchForm.date.length ? searchForm.date[0] : '',
         endTime: searchForm.date.length ? searchForm.date[1] : '',
         measure: searchForm.measure
     };
-    getCurvesData(params);
+    const data = getCurvesData(params);
+    const lengend = searchForm.deviceId.map(({ stationName }) => stationName);
+    chartOptions.legend.data = lengend;
+
+    let series = [];
+    for (const device of searchForm.deviceId) {
+        const temp = {
+            type: 'line',
+            name: device.stationName,
+            data: []
+        };
+        const deviceData = data.find(item => item.deviceId === device.deviceId);
+        if(deviceData) {
+            temp.data = deviceData.data.map(({ avg, time }) => ({
+                name: dayjs(time).format('YYYY-MM-DD HH:mm:ss'),
+                value: [
+                    dayjs(time).format('YYYY-MM-DD HH:mm:ss'),
+                    avg
+                ]
+            }));
+        }
+        series.push(temp);
+    }
+    chartOptions.series = series;
 };
 
 const getDeviceListHandler = async () => {
     // deviceList.value
-    deviceList.value = await getDeviceList();
+    deviceList.value = await getDeviceList({});
     // getDeviceDataHandler();
 };
 

@@ -42,7 +42,7 @@
             <ElCard shadow="never" class="draw-container">
                 <h3>热力图</h3>
                 <div class="map-layout">
-                    <ElAmap :center="[121.59996, 31.197646]" :zoom="12" />
+                    <HeatMap :search-form="searchForm" />
                 </div>
             </ElCard>
         </ElCol>
@@ -50,7 +50,9 @@
             <ElCard shadow="never" class="draw-container">
                 <div class="chat-title">
                     <h3>微站24小时平均值</h3>
-                    <ElSelect size="medium">
+                    <ElSelect v-model="measure" size="medium" @change="drawBar">
+                        <ElOption label="AQI" value="aqi" />
+                        <ElOption label="PM2.5" value="pm2_5" />
                     </ElSelect>
                 </div>
                 <div class="map-layout">
@@ -68,6 +70,8 @@ import { get24AvgData, getAQI, getLastestAlarms } from '@/api/home';
 import { getHotmapData } from '@/api/analyse';
 import { ref, onMounted } from 'vue';
 import VChart from 'vue-echarts';
+import HeatMap from '../Statistics/HeatMap/HeatMap.vue';
+import dayjs from '@/helper/dayjs';
 
 const AQI = ref<number>(null);
 const msgList = ref([]);
@@ -83,15 +87,31 @@ const option = ref({
     series: [{ name: '产量', type: 'bar', data: [100, 200, 300] }],
 },
 );
+const measure = ref('aqi');
+
+const searchForm = {
+    measure: 'aqi',
+    date: [
+        dayjs().subtract(3,'day').format('YYYY-MM-DD'),
+        dayjs().format('YYYY-MM-DD')
+    ]
+};
 
 const drawBar = async () => {
-    const data = await get24AvgData({measure: 'AQI'});
+    const data = await get24AvgData({measure: measure.value});
     option.value = {
         xAxis: {
             data: data.map(item => item.time),
 
         },
         yAxis: {},
+        grid: {
+            left: 0,
+            right: 0,
+            top: 10,
+            bottom: 0,
+            containLabel: true
+        },
         series: [
             {
                 type: 'bar',
@@ -117,10 +137,10 @@ const store = useUserStore();
 
 <style scoped lang="scss">
 .h-340{
-   height: calc((100% - 40px) * 0.5 );
+   height: calc((100% - 40px) * 0.47 );
 }
 .h-390{
-    height: calc((100% - 40px) * 0.5);
+    height: calc((100% - 40px) * 0.53);
 }
 .el-col{
 

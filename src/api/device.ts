@@ -5,7 +5,7 @@ import type { AxiosRequestConfig } from 'axios';
 
 export const getStations = (data: object) =>
     $http({
-        url: '/admin/gas/common/getStations',
+        url: '/admin/common/getStations',
         method: 'post',
         params: data,
         showLoading: true
@@ -21,7 +21,7 @@ export const getDeviceData = (data: object) =>
     } as AxiosRequestConfig);
 export const getDeviceList = (data: object = {}) =>
     $http({
-        url: '/admin/gas/device/query',
+        url: '/admin/device/query',
         method: 'get',
         params: data,
         showLoading: true
@@ -30,7 +30,7 @@ export const getDeviceList = (data: object = {}) =>
 // 获取传感器列表
 export const getSensors = (data: object = {}) =>
     $http({
-        url: '/admin/gas/device/getSensors',
+        url: '/admin/device/getSensors',
         method: 'post',
         params: data,
         showLoading: true
@@ -39,7 +39,7 @@ export const getSensors = (data: object = {}) =>
 // 设置阈值
 export const deviceSet = (data: object = {}) =>
     $http({
-        url: '/admin/gas/device/set',
+        url: '/admin/device/set',
         method: 'post',
         data,
         showLoading: true
@@ -48,7 +48,7 @@ export const deviceSet = (data: object = {}) =>
 // 新增设备
 export const deviceAdd = (data: object = {}) =>
     $http({
-        url: '/admin/gas/device/add',
+        url: '/admin/device/add',
         method: 'post',
         data,
         showLoading: true

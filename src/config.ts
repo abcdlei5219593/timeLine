@@ -187,6 +187,7 @@ export const APP_LIST: Menu = [
     {
         url: '/app/airContent',
         name: '大气气体含量探测',
+        bizModule: 1,
         children: routePath('/app/airContent')
     },
     {
