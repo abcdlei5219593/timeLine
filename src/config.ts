@@ -5,10 +5,13 @@
 // @Description: file content
 
 import { Menu } from './types/menu';
+import { storeMenu } from '@/store/app';
+
+// const store: any = storeMenu();
+// console.log(store.menuList, 'store.menuListstore.menuList');
 
 export const AMAP_KEY = '859de6e2d55150331e795f3cbfe21915';
 export const SECURITY_CODE = '318d47264ccd25eb7bd2d4cfeda3b50c';
-
 
 
 export const routePath = (basePath: string): Menu =>
@@ -176,7 +179,7 @@ export const routeUserPath = (basePath: string): Menu =>
             children: [
                 {
                     url: basePath + '/personalCenter',
-                    name: '个人中心',
+                    name: '',
                     isButton: true,
                 }
             ]

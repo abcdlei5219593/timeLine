@@ -181,14 +181,32 @@ const rootFun = async (row: any) => {
     });
     moduleIds.value = res;
 
-    res[0].children.forEach((item: any) => {
-        allMenu.value[0].children.forEach((t: any) => {
-            if (item.moduleId === t.moduleId) {
-                console.log('11');
-                tree.value.setCheckedNodes([t]);
+    // 授权回显
+    let node: any = [];
+    res.forEach((r: any) => {
+        allMenu.value.forEach((a: any) => {
+            if (r.moduleId === a.moduleId) {
+                r.children.forEach((item: any) => {
+                    a.children.forEach((t: any) => {
+                        if (item.moduleId === t.moduleId) {
+                            node.push(t);
+                            tree.value.setCheckedNodes(node);
+                        }
+                    });
+                });
             }
         });
     });
+
+
+    // res[0].children.forEach((item: any) => {
+    //     allMenu.value[0].children.forEach((t: any) => {
+    //         if (item.moduleId === t.moduleId) {
+    //             console.log('11');
+    //             tree.value.setCheckedNodes([t]);
+    //         }
+    //     });
+    // });
 };
 
 // 获取所有菜单
