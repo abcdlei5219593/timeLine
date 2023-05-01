@@ -172,6 +172,7 @@ export const routeUserPath = (basePath: string): Menu =>
             name: '个人中心',
             icon: 'iconfont icon-device',
             isButton: true,
+            noSubMenu: true,
             children: [
                 {
                     url: basePath + '/personalCenter',

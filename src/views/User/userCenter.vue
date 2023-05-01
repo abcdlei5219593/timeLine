@@ -140,7 +140,7 @@ const addData = reactive<addUserType>({
 
 const getList = async () => {
     try {
-        const res: any = await userList();
+        const res: any = await userList(userParams);
         tableData.value = res.list;
         userParams.pageNum = res.pageNum;
         userParams.pageSize = res.pageSize;

@@ -33,7 +33,7 @@ export const userList = (data: object = {}) =>
     $http({
         url: '/user/listData',
         method: 'post',
-        data,
+        params: data,
         showLoading: true
     } as AxiosRequestConfig);
 
@@ -69,7 +69,7 @@ export const roleList = (data: object = {}) =>
     $http({
         url: '/role/listData',
         method: 'post',
-        data,
+        params: data,
         showLoading: true
     } as AxiosRequestConfig);
 
