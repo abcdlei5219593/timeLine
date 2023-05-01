@@ -10,17 +10,20 @@
                     搜索
                 </ElButton>
             </ElCol>
-            <ElCol :span="3">
-                <ElButton type="primary" size="default" @click="addFun">
-                    新增用户
-                </ElButton>
-            </ElCol>
+            <ElButton class="add-btn" type="primary" size="default" @click="addFun">
+                新增用户
+            </ElButton>
         </ElRow>
         <ElTable id="userTable" class="table" :data="tableData"
             :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
             <ElTableColumn prop="userName" label="账号" />
             <ElTableColumn prop="belongRole" label="角色" />
-            <ElTableColumn prop="status" label="状态" />
+            <ElTableColumn prop="status" label="状态">
+                <template #default="scope">
+                    <span v-if="scope.row.status === '1'">启用</span>
+                    <span v-else-if="scope.row.status === '2'">禁用</span>
+                </template>
+            </ElTableColumn>
             <ElTableColumn prop="remark" label="备注" />
             <ElTableColumn prop="address" fixed="right" label="操作" width="200">
                 <template #default="scope">
@@ -41,11 +44,18 @@
         <!--新增或编辑用户-->
         <ElDialog v-model="addShow" :title="isEdit ? '编辑' : '新增'" width="50%">
             <div class="dialog">
-                <ElForm ref="formAdd" :model="addData" label-width="120px" label-position="top" class="demo-ruleForm">
-                    <ElFormItem label="手机号" prop="pass">
+                <ElForm ref="formAdd" :model="addData" :rules="isEdit ? rulesEdit : rulesAdd" label-width="120px"
+                    label-position="top" class="demo-ruleForm">
+                    <ElFormItem label="手机号" prop="mobilePhone">
                         <el-input v-model.number="addData.mobilePhone" size="default" />
                     </ElFormItem>
-                    <ElFormItem label="角色分配" prop="checkPass">
+                    <ElFormItem v-if="!isEdit" label="密码" prop="password">
+                        <el-input v-model="addData.password" type="password" size="default" placeholder="请输入密码" />
+                    </ElFormItem>
+                    <ElFormItem v-if="!isEdit" label="确认密码" prop="newPwdAgain">
+                        <el-input v-model="addData.newPwdAgain" type="password" size="default" placeholder="请确认密码" />
+                    </ElFormItem>
+                    <ElFormItem label="角色分配" prop="roleIds">
                         <ElSelect v-model="addData.roleIds" placeholder="请选择" size="default">
                             <ElOption v-for="( item, i ) in roleListArray " :key="i" :label="item.roleName"
                                 :value="item.roleId" />
@@ -121,9 +131,11 @@ const userParams = reactive<UserParamsType>({
 const addData = reactive<addUserType>({
     mobilePhone: '',
     roleIds: '',
-    status: 2,
+    status: '1',
     userName: '',
     remark: '',
+    password: '',
+    newPwdAgain: '',
 });
 
 const getList = async () => {
@@ -155,7 +167,9 @@ const getRoleList = async () => {
 
 const save = async () => {
     const userName: any = addData.mobilePhone;
+    const password: any = md5(addData.password).substr(8, 16);
     addData.userName = userName;
+    addData.password = password;
     try {
         await isEdit.value ? userEdit(addData) : userAdd(addData);
         addShow.value = false;
@@ -168,7 +182,7 @@ const save = async () => {
 const addFun = () => {
     addData.mobilePhone = '';
     addData.roleIds = '';
-    addData.status = '';
+    addData.status = '1';
     addData.userName = '';
     addData.remark = '';
     addData.userId = '';
@@ -203,12 +217,51 @@ const submitAdd = async (formEl: FormInstance | undefined) => {
     });
 };
 
+// 新增用户里的密码
+const validatePassAdd = (rule: any, value: any, callback: any) => {
+    if (value === '') {
+        callback(new Error('请再次输入密码'));
+        // password 是表单上绑定的字段
+    } else if (value !== addData.password) {
+        callback(new Error('两次输入密码不一致!'));
+    } else {
+        callback();
+    }
+};
+const rulesAdd = reactive({
+    mobilePhone: [
+        { required: true, message: '请输入手机号', trigger: 'blur' },
+        { required: true, pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' },
+    ],
+    roleIds: [
+        { required: true, message: '请请选择角色', trigger: 'change' },
+    ],
+    password: [
+        { required: true, message: '请输入新密码', trigger: 'blur' },
+        { required: true, pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/, message: '请输入6-20位字母+数字的密码', trigger: 'blur' },
+    ],
+    newPwdAgain: [
+        { required: true, message: '请确认密码', trigger: 'blur' },
+        { pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/, message: '请输入6-20位字母+数字的密码', trigger: 'blur' },
+        { required: true, validator: validatePassAdd, message: '两次输入不相同', trigger: 'blur' }],
+});
+const rulesEdit = reactive({
+    mobilePhone: [
+        { required: true, message: '请输入手机号', trigger: 'blur' },
+        { required: true, pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' },
+    ],
+    roleIds: [
+        { required: true, message: '请请选择角色', trigger: 'change' },
+    ],
+});
+
+
 const showChangePassword = (row: any) => {
     editPassword.userId = row.userId;
     passwordShow.value = true;
 };
 
-// 密码再次输入校验
+// 重置密码再次输入校验
 const validatePass = (rule: any, value: any, callback: any) => {
     if (value === '') {
         callback(new Error('请再次输入密码'));
@@ -266,6 +319,14 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'userTable',
 </script>
 
 <style scoped lang="scss">
+.search-row {
+    justify-content: space-between;
+
+    .add-btn {
+        margin-left: auto;
+    }
+}
+
 .dialog {
     height: 400px;
 
@@ -275,7 +336,7 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'userTable',
     }
 
     .el-form-item {
-        width: 50%;
+        width: calc(50% - 10px);
         margin-right: 20px;
 
         &:nth-child(2n) {

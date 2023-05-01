@@ -10,8 +10,8 @@
             <ElCol :span="6">
                 <span class="search-label">微站选择：</span>
                 <ElSelect v-model="AirWarnParams.stationId" placeholder="请选择" size="default" @change="searchChange">
-                    <ElOption v-for="item in microStationOptions" :key="item.value" :label="item.label"
-                        :value="item.value" />
+                    <ElOption v-for="item in stationArr" :key="item.stationId" :label="item.stationName"
+                        :value="item.stationId" />
                 </ElSelect>
             </ElCol>
             <ElCol :span="8">
@@ -64,21 +64,22 @@
 <script setup lang="ts">
 import { ElMessage } from 'element-plus';
 import { ref, reactive, onMounted } from 'vue';
-import { AirWarnParamsType } from './../ModelDefines';
+import { AirWarnParamsType, warnOptions } from './../ModelDefines';
 import useTableSetting from '@/hooks/useTableSetting';
 import { getDataDictionary } from '@/api/system';
 import { alarmList, alarmClose } from '@/api/warn';
 import { getFormatDate } from '@/utils/common';
+import { getDeviceList } from '@/api/device';
 
 const tableData: any = ref([]);
 
-const warnOptions = ref<any>([{ label: '告警类型', value: 0 }]);
 const microStationOptions = ref<any>([]);
-const sensorTypeOptions = ref<any>([{ label: 'PM2.5', value: 0 }]);
+// const sensorTypeOptions = ref<any>([{ label: 'PM2.5', value: 0 }]);
+const sensorTypeOptions = ref<any>([]);
 const date: any = ref([]);
 
 const AirWarnParams = reactive<AirWarnParamsType>({
-    alarmType: 1,
+    alarmType: null,
     stationId: null,
     startTime: '',
     endTime: '',
@@ -94,10 +95,11 @@ const timeChange = (val: any) => {
     AirWarnParams.endTime = val[1];
 };
 
-// 获取微站
+// 获取传感器
 const geStationList = async () => {
     try {
-        await getDataDictionary('stationId');
+        const res: any = await getDataDictionary('sensorType');
+        sensorTypeOptions.value = res;
     } catch (err) { }
 };
 
@@ -145,7 +147,17 @@ const closeFun = async (alarmId: number) => {
     }
 };
 
+// 微站
+const stationArr: any = ref([]);
+const getStationList = async () => {
+    try {
+        const res: any = await getDeviceList({ bizModule: 1 });
+        stationArr.value = res;
+    } catch (err) { }
+};
+
 onMounted(() => {
+    getStationList();
     setDefaultTime();
     getList();
     geStationList();

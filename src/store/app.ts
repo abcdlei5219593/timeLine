@@ -5,16 +5,30 @@ import { useRoute } from 'vue-router';
 import { APP_LIST } from '@/config';
 
 
-export const useUserStore = defineStore('user', () => {
-    const userInfo = ref<User | null>();
-
-    const getUserInfo = async (val) => {
-        userInfo.value = val;
-    };
-    return {
-        userInfo,
-        getUserInfo
-    };
+export const useUserStore = defineStore({
+    id: 'user',
+    state() {
+        const userInfo = ref<User | null>();
+        const getUserInfo = async (val: User) => {
+            userInfo.value = val;
+        };
+        return {
+            userInfo,
+            getUserInfo
+        };
+    },
+    // 添加如下配置
+    persist: {
+        // 开启持久化
+        enabled: true,
+        strategies: [
+            {
+                key: 'userInfo',// 给一个要保存的名称
+                storage: sessionStorage,// sessionStorage / localStorage 存储方式
+                paths: ['userInfo']
+            }
+        ]
+    }
 });
 
 
@@ -43,16 +57,30 @@ export const useSettingStore = defineStore('systemSetting', () => {
     };
 });
 
-export const storeMenu = defineStore('setting', () => {
-    const menuLst = ref<any>([]);
-
-    const getMenu = (val) => {
-        menuLst.value = val;
-    };
-    return {
-        menuLst,
-        getMenu
-    };
+export const storeMenu = defineStore({
+    id: 'user',
+    state() {
+        const menuList: any = [];
+        const getMenu = (val: any) => {
+            menuList.value = val;
+        };
+        return {
+            menuList,
+            getMenu
+        };
+    },
+    // 添加如下配置
+    persist: {
+        // 开启持久化
+        enabled: true,
+        strategies: [
+            {
+                key: 'menuList',// 给一个要保存的名称
+                storage: sessionStorage,// sessionStorage / localStorage 存储方式
+                paths: ['menuList']
+            }
+        ]
+    }
 });
 
 

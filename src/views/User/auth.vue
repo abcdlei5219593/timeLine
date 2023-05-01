@@ -10,11 +10,11 @@
                     搜索
                 </ElButton>
             </ElCol>
-            <ElCol :span="3">
-                <ElButton type="primary" size="default" @click="addShow = true">
-                    新增角色
-                </ElButton>
-            </ElCol>
+            <!-- <ElCol :span="3"> -->
+            <ElButton class="add-btn" type="primary" size="default" @click="addShow = true">
+                新增角色
+            </ElButton>
+            <!-- </ElCol> -->
         </ElRow>
         <ElTable id="userTable" class="table" :data="tableData"
             :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
@@ -39,10 +39,11 @@
             @size-change="handleSizeChange" @current-change="handleCurrentChange" />
 
         <!--新增或编辑角色-->
-        <ElDialog v-model="addShow" :title="isEdit ? '编辑' : '新增'" width="50%">
+        <ElDialog v-model="addShow" :title="isEdit ? '编辑' : '新增'" width="30%">
             <div class="dialog">
-                <ElForm ref="form" :model="addData" label-width="120px" label-position="top" class="demo-ruleForm">
-                    <ElFormItem label="角色名" prop="pass">
+                <ElForm ref="formDataRef" :model="addData" :rules="rules" label-width="120px" label-position="top"
+                    class="demo-ruleForm">
+                    <ElFormItem label="角色名" prop="roleName">
                         <el-input v-model="addData.roleName" size="default" />
                     </ElFormItem>
                     <ElFormItem label="备注">
@@ -52,7 +53,7 @@
             </div>
             <span slot="footer" class="dialog-footer">
                 <ElButton size="default" @click="closeFun">取 消</ElButton>
-                <ElButton type="primary" size="default" @click="save">保存提交</ElButton>
+                <ElButton type="primary" size="default" @click="submitForm(formDataRef)">保存提交</ElButton>
             </span>
         </ElDialog>
 
@@ -77,7 +78,7 @@ import { useRouter } from 'vue-router';
 import { roleList, roleAdd, roleEdit } from '@/api/user';
 import { listAllModule, getRoleList } from '@/api/system';
 import { roleParamsType, addRoleType } from './ModelDefines';
-import { ElMessage, ElTree } from 'element-plus';
+import { ElMessage, ElTree, FormInstance } from 'element-plus';
 import authTreeModal from './components/authTreeModal.vue';
 
 const tableData: any = ref([]);
@@ -101,6 +102,12 @@ const addData = reactive<addRoleType>({
 });
 const allMenu: any = ref([]);
 
+const rules = reactive({
+    roleName: [
+        { required: true, message: '请输入角色名', trigger: 'blur' },
+    ],
+});
+
 const getList = async () => {
     try {
         const res: any = await roleList(roleParams);
@@ -119,6 +126,21 @@ const handleSizeChange = (rows: number) => {
 const handleCurrentChange = (page: number) => {
     roleParams.pageNum = page;
     getList();
+};
+
+const formDataRef = ref<FormInstance>();
+const submitForm = async (formEl: FormInstance | undefined) => {
+    if (!formEl) {
+        return;
+    }
+    await formEl.validate((valid, fields) => {
+        if (valid) {
+            console.log('submit!');
+            save();
+        } else {
+            console.log('error submit!', fields);
+        }
+    });
 };
 
 const save = async () => {
@@ -158,14 +180,15 @@ const rootFun = async (row: any) => {
         roleId: row.roleId
     });
     moduleIds.value = res;
-    console.log(res, '888888888888888888888');
-    // res.forEach(item => {
-    //     allMenu.value.forEach(t => {
-    //         if (item.moduleId === t.moduleId) {
-    //             tree.value.setCheckedNodes(t, true);
-    //         }
-    //     });
-    // });
+
+    res[0].children.forEach((item: any) => {
+        allMenu.value[0].children.forEach((t: any) => {
+            if (item.moduleId === t.moduleId) {
+                console.log('11');
+                tree.value.setCheckedNodes([t]);
+            }
+        });
+    });
 };
 
 // 获取所有菜单
@@ -179,8 +202,9 @@ const getAllMenu = async () => {
 // 授权修改
 
 const handleCheckChange = (val) => {
-    moduleIds.value = tree.value.getCheckedKeys().join(',');
-    // console.log(tree.value.getCheckedKeys(), '9999999999');
+    // moduleIds.value = tree.value.getCheckedKeys().join(',');
+    moduleIds.value = [...new Set([tree.value.getCheckedKeys(), ...tree.value.getHalfCheckedKeys()])].join(',');
+    // console.log(moduleIds.value, 'moduleIds.valuemoduleIds.value');
 };
 
 
@@ -215,6 +239,14 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'userTable',
 </script>
 
 <style scoped lang="scss">
+.search-row {
+    justify-content: space-between;
+
+    .add-btn {
+        margin-left: auto;
+    }
+}
+
 .dialog {
     height: 300px;
 
@@ -224,8 +256,8 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'userTable',
     }
 
     .el-form-item {
-        width: 50%;
-        margin-right: 20px;
+        width: 100%;
+        // margin-right: 20px;
 
         &:nth-child(2n) {
             margin-right: 0 !important;

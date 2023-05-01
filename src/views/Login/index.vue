@@ -24,8 +24,8 @@
                         </ElInput>
                     </ElFormItem>
                     <ElFormItem>
-                        <ElButton type="primary" @click="submitForm(formDataRef)">
-                            登录
+                        <ElButton type="primary" :loading="loading" @click="submitForm(formDataRef)">
+                            {{ loading ? '登录中' : '登录' }}
                         </ElButton>
                     </ElFormItem>
                 </ElForm>
@@ -60,6 +60,7 @@ import Qrcode from './Qrcode.vue';
 
 const router = useRouter();
 const showWeixin = ref<boolean>(false);
+const loading = ref<boolean>(false);
 
 const formDataRef = ref<FormInstance>();
 const rules = reactive({
@@ -94,14 +95,18 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
 const loginFun = async () => {
     try {
+        loading.value = true;
         const password: any = ref(proxy.$md5(formData.password).substr(8, 16));
         formData.password = password;
         const res: any = await login(formData);
         Cookie.set('token', res.token);
         await getUserMenu();
         await getUser();
+        loading.value = false;
         router.push('/app/airContent/home');
-    } catch (err) { }
+    } catch (err) {
+        loading.value = false;
+    }
 };
 
 // 获取用户菜单
@@ -110,6 +115,7 @@ const getUserMenu = async () => {
         const res: any = await listUserModule();
         const store = storeMenu();
         store.getMenu(res.menu);
+        sessionStorage.setItem('menuList', JSON.stringify(res.menu));
     } catch (err) { }
 };
 

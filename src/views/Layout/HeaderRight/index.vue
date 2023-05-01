@@ -35,10 +35,10 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const store = useUserStore();
-store.getUserInfo();
 
 const loginOut = () => {
     Cookie.set('token', null);
+    sessionStorage.setItem('menuList', null);
     router.push('/login');
 };
 const toPersonalCenter = () => {

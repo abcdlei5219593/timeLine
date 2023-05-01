@@ -10,8 +10,7 @@
             <ElCol :span="6">
                 <span class="search-label">微站选择：</span>
                 <ElSelect v-model="DevceWarnParams.stationId" placeholder="请选择" size="default" @change="searchChange">
-                    <ElOption v-for="item in microStationOptions" :key="item.value" :label="item.label"
-                        :value="item.value" />
+                    <ElOption v-for="(item, i) in stationArr" :key="i" :label="item.stationName" :value="item.stationId" />
                 </ElSelect>
             </ElCol>
             <ElCol :span="8">
@@ -47,6 +46,7 @@ import useTableSetting from '@/hooks/useTableSetting';
 import { alarmList } from '@/api/warn';
 import { getStations } from '@/api/device';
 import { getFormatDate } from '@/utils/common';
+import { getDeviceList } from '@/api/device';
 
 const tableData: any = ref([]);
 const DevceWarnParams = reactive<DevceWarnParamsType>({
@@ -109,8 +109,17 @@ const setDefaultTime = () => {
     searchChange();
 };
 
+// 微站
+const stationArr: any = ref([]);
+const getStationList = async () => {
+    try {
+        const res: any = await getDeviceList({ bizModule: 1 });
+        stationArr.value = res;
+    } catch (err) { }
+};
+
 onMounted(() => {
-    // getStationslist();
+    getStationList();
     setDefaultTime();
     getList();
 });

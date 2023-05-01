@@ -3,16 +3,14 @@
         <ElRow class="search-row">
             <ElCol :span="6">
                 <span class="search-label">微站选择：</span>
-                <ElSelect v-model="stationId" placeholder="请选择" size="default">
-                    <ElOption v-for="item in microStationOptions" :key="item.deviceId" :label="item.stationName"
+                <ElSelect v-model="stationId" placeholder="请选择" size="default" @change="selectChange">
+                    <ElOption v-for="item in tableData" :key="item.deviceId" :label="item.stationName"
                         :value="item.deviceId" />
                 </ElSelect>
             </ElCol>
-            <ElCol :span="6">
-                <ElButton type="primary" size="default" @click="addFun">
-                    新增设备
-                </ElButton>
-            </ElCol>
+            <ElButton class="add-btn" type="primary" size="default" @click="addFun">
+                新增设备
+            </ElButton>
         </ElRow>
         <ElTable id="deviceTable" class="table" :data="tableData"
             :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
@@ -140,22 +138,12 @@ const deviceData = reactive<deviceDataType>({
     sv: '',
     latitude: 0,
     longitude: 0,
-    bizModule: []
+    bizModule: 1
 });
 
 const toSensor = (row: any) => {
     router.push({ path: '/app/airContent/device/Sensor', query: { deviceId: row.deviceId } });
 };
-
-// 查询微站
-// const getStationslist = async () => {
-//     try {
-//         await getStations({
-//             pageNum: 1,
-//             pageSize: 200,
-//         });
-//     } catch (err) { }
-// };
 
 // 获取微站类型
 const stationType: any = ref([
@@ -173,7 +161,9 @@ const stationType: any = ref([
 //         stationType.value = await getDataDictionary('bizModule');
 //     } catch (err) { }
 // };
-
+const selectChange = () => {
+    getList();
+};
 const getList = async () => {
     try {
         const res: any = await getDeviceList({ bizModule: 1 });
@@ -247,6 +237,14 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'deviceTable
 </script>
 
 <style scoped lang="scss">
+.search-row {
+    justify-content: space-between;
+
+    .add-btn {
+        margin-left: auto;
+    }
+}
+
 .device-con {}
 
 .device-dialog {

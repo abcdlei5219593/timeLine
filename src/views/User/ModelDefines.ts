@@ -19,6 +19,8 @@ export interface addUserType {
     status: string | number;
     userName: string;
     remark: string;
+    password: string;
+    newPwdAgain: string;
     userId?: string | number;
 }
 export interface roleParamsType {
