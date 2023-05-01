@@ -43,3 +43,11 @@ export const getCurvesData = (data: object = {}) =>
         data,
         showLoading: true
     } as AxiosRequestConfig);
+
+export const getAllStationAnalyses = (data: object = {}) =>
+    $http({
+        url: '/admin/gas/analyse/getAllStationAnalyses',
+        method: 'post',
+        data,
+        showLoading: true
+    } as AxiosRequestConfig);

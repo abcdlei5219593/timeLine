@@ -4,7 +4,7 @@
             <ElCard shadow="never" class="welcome ">
                 <h3>欢迎你，{{ store.userInfo?.name }}</h3>
                 <article class="inner-title">
-                    宜宾市
+                    微站检测平台
                 </article>
                 <article class="flex">
                     AQI:{{ AQI }} <div class="tag">
@@ -89,7 +89,7 @@ const searchForm = {
 };
 
 const drawBar = async () => {
-    const data = await get24AvgData({measure: measure.value});
+    const data = await get24AvgData({measure: 'so2'});
     option.value = {
         xAxis: {
 
@@ -122,7 +122,6 @@ const getLastestAlarmsHandler = async () => {
     msgList.value = await getLastestAlarms({pageNum: 1, pageSize: 5});
 };
 getAQIHandler();
-getHotmapData();
 getLastestAlarmsHandler();
 const store = useUserStore();
 </script>

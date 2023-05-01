@@ -24,7 +24,6 @@ const dataSet = ref({
     data: [],
     max: 500
 });
-
 watch(
     () => props.searchForm,
     (val) => {
@@ -78,6 +77,7 @@ const getDeviceDataHandler = async () => {
 
 const getDeviceListHandler = async () => {
     // deviceList.value
+
     deviceList.value = await getDeviceList({ bizModule: store.currentApp.bizModule});
     getDeviceDataHandler();
 };

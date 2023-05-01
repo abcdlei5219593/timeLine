@@ -4,6 +4,7 @@ import type { User } from '../types/app';
 import { useRoute } from 'vue-router';
 import { APP_LIST } from '@/config';
 
+
 export const useUserStore = defineStore('user', () => {
     const userInfo = ref<User | null>();
 
@@ -22,15 +23,23 @@ export const useSettingStore = defineStore('systemSetting', () => {
     const route = useRoute();
     const isCollapse = ref<boolean>(false);
     const mapCenter = [104.06, 30.59];
+    const measureList = ref([]);
     const setCollapse = () => {
         isCollapse.value = !isCollapse.value;
     };
+    // const getMeasureList = async () => {
+    //     measureList.value = await getMeasureList();
+    // };
+
     const currentApp = APP_LIST.find(app => route.path.includes(app.url));
+
     return {
         isCollapse,
         setCollapse,
         mapCenter,
-        currentApp
+        currentApp,
+        // getMeasureList,
+        measureList
     };
 });
 

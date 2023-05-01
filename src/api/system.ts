@@ -46,3 +46,20 @@ export const listUserModule = (data: object = {}) =>
         data,
         showLoading: true
     } as AxiosRequestConfig);
+
+// 获取登录用户菜单
+export const getAllConfig = (params: object = {}) =>
+    $http({
+        url: '/config/getAll',
+        method: 'get',
+        params,
+        showLoading: true
+    } as AxiosRequestConfig);
+
+export const getMeasureList = (data: object = {}) =>
+    $http({
+        url: '/admin/common/getMeasureList',
+        method: 'get',
+        params: data,
+        showLoading: true
+    } as AxiosRequestConfig);
