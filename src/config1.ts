@@ -72,11 +72,13 @@ export const routePath = (basePath: string): Menu =>
             name: '设备管理',
             icon: 'iconfont icon-shebeiguanli',
             // children里为单菜单里的详情,noSubMenu是有详情的单菜单
-            noSubMenu: true,
+            // noSubMenu: true,
+            isButton: false,
             children: [
                 {
                     url: basePath + '/device/viewPage',
                     name: '页面访问',
+                    isButton: true,
                 },
 
                 {
