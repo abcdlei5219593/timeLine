@@ -1,12 +1,12 @@
 <template>
     <div class="main-content warn-con">
         <ElRow class="search-row">
-            <ElCol :span="6">
+            <!-- <ElCol :span="6">
                 <span class="search-label">告警类型：</span>
                 <ElSelect v-model="AirWarnParams.alarmType" placeholder="请选择" size="default" @change="searchChange">
                     <ElOption v-for="item in warnOptions" :key="item.value" :label="item.label" :value="item.value" />
                 </ElSelect>
-            </ElCol>
+            </ElCol> -->
             <ElCol :span="6">
                 <span class="search-label">微站选择：</span>
                 <ElSelect v-model="AirWarnParams.stationId" placeholder="请选择" size="default" @change="searchChange">

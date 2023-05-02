@@ -52,14 +52,14 @@
                     <ElFormItem v-if="!isEdit" label="密码" prop="password">
                         <el-input v-model="addData.password" type="password" size="default" placeholder="请输入密码" />
                     </ElFormItem>
-                    <ElFormItem v-if="!isEdit" label="确认密码" prop="newPwdAgain">
-                        <el-input v-model="addData.newPwdAgain" type="password" size="default" placeholder="请确认密码" />
-                    </ElFormItem>
                     <ElFormItem label="角色分配" prop="roleIds">
                         <ElSelect v-model="addData.roleIds" placeholder="请选择" size="default">
                             <ElOption v-for="( item, i ) in roleListArray " :key="i" :label="item.roleName"
                                 :value="item.roleId" />
                         </ElSelect>
+                    </ElFormItem>
+                    <ElFormItem v-if="!isEdit" label="确认密码" prop="newPwdAgain">
+                        <el-input v-model="addData.newPwdAgain" type="password" size="default" placeholder="请确认密码" />
                     </ElFormItem>
                     <ElFormItem label="状态" prop="status">
                         <el-radio-group v-model="addData.status">

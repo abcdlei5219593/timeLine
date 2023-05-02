@@ -1,8 +1,8 @@
 <template>
     <div class="header-right">
-        <ElBadge :value="2" class="item">
+        <!-- <ElBadge :value="2" class="item">
             <i class="iconfont icon-xiaoxi header-message"></i>
-        </ElBadge>
+        </ElBadge> -->
         <ElDropdown>
             <div class="user-box">
                 <img class="avatar" />
