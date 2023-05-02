@@ -14,6 +14,7 @@ import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 import echarts from './echarts';
 
+
 initAMapApiLoader({
     key: AMAP_KEY,
     securityJsCode: SECURITY_CODE, // 新版key需要配合安全密钥使用

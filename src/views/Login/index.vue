@@ -32,8 +32,8 @@
                 <div class="login-other">
                     <p>使用其他方式登录</p>
                     <div class="login-method">
-                        <!-- <i class="iconfont icon-weixin" @mouseenter="showWeixin = true" @mouseleave="showWeixin = false"></i> -->
-                        <i class="iconfont icon-weixin" @mouseenter="showWeixin = true"></i>
+                        <i class="iconfont icon-weixin" @mouseenter="showWeixin = true"
+                            @mouseleave="showWeixin = false"></i>
                         <i id="qqLogin" class="iconfont icon-qq"></i>
                         <div v-if="showWeixin" class="wx-code">
                             <Qrcode></Qrcode>
@@ -47,7 +47,7 @@
 
 <script setup lang="ts">
 import { ElButton, ElInput, ElForm, ElFormItem, FormInstance } from 'element-plus';
-import { ref, reactive, getCurrentInstance, onMounted } from 'vue';
+import { ref, reactive, getCurrentInstance, onMounted, defineExpose } from 'vue';
 import { FormType } from './ModelDefines';
 import { login, listUserModule } from '@/api/login';
 import md5 from 'js-md5';
@@ -111,13 +111,17 @@ const loginFun = async () => {
 
 // 获取用户菜单
 const getUserMenu = async () => {
+    let menu: any = [];
     try {
         const res: any = await listUserModule();
         const store = storeMenu();
         store.getMenu(res.menu);
+        menu = res.menu;
         sessionStorage.setItem('menuList', JSON.stringify(res.menu));
     } catch (err) { }
+    return menu;
 };
+
 
 // 获取用户基本信息
 const getUser = async () => {

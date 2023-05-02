@@ -58,7 +58,7 @@ export const useSettingStore = defineStore('systemSetting', () => {
 });
 
 export const storeMenu = defineStore({
-    id: 'user',
+    id: 'menu',
     state() {
         const menuList: any = [];
         const getMenu = (val: any) => {
