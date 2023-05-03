@@ -47,9 +47,29 @@ export const getDeepTreeData = (sourceTree, targetTree) => {
             };
         }
         if(item.children && item.children.length) {
-            target.children =getDeepTreeData(itemInSourceTree.children, item.children);
+            target.children = getDeepTreeData(itemInSourceTree.children, item.children);
         }
         temp.push(target);
     }
     return temp;
+};
+
+
+/**
+ * 设置Eltree默认选中节点
+ * @param sourcetree 源树据
+ * @param target  接收参数
+ * @returns
+ */
+
+export const getFlatDeepTreeData = (sourcetree, target) => {
+    for (const item of sourcetree) {
+        if(item.children && item.children.length) {
+            getFlatDeepTreeData(item.children,target);
+        }else {
+            // 当穷尽到最后一层路由时，收集选中路由
+            target.push(item);
+        }
+    }
+    return target;
 };

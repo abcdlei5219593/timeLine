@@ -16,8 +16,10 @@
             </ElButton>
             <!-- </ElCol> -->
         </ElRow>
-        <ElTable id="userTable" class="table" :data="tableData"
-            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
+        <ElTable
+            id="userTable" class="table" :data="tableData"
+            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
+        >
             <ElTableColumn prop="userName" label="账号" />
             <ElTableColumn prop="roleName" label="角色" />
             <ElTableColumn prop="status" label="状态" />
@@ -34,15 +36,19 @@
             </ElTableColumn>
         </ElTable>
 
-        <ElPagination class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="total"
+        <ElPagination
+            class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="total"
             :current-page="roleParams.pageNum" :page-sizes="[10, 20, 50, 100]" :page-size="roleParams.pageSize"
-            @size-change="handleSizeChange" @current-change="handleCurrentChange" />
+            @size-change="handleSizeChange" @current-change="handleCurrentChange"
+        />
 
         <!--新增或编辑角色-->
         <ElDialog v-model="addShow" :title="isEdit ? '编辑' : '新增'" width="30%">
             <div class="dialog">
-                <ElForm ref="formDataRef" :model="addData" :rules="rules" label-width="120px" label-position="top"
-                    class="demo-ruleForm">
+                <ElForm
+                    ref="formDataRef" :model="addData" :rules="rules" label-width="120px" label-position="top"
+                    class="demo-ruleForm"
+                >
                     <ElFormItem label="角色名" prop="roleName">
                         <el-input v-model="addData.roleName" size="default" />
                     </ElFormItem>
@@ -60,8 +66,10 @@
         <!--授权-->
         <ElDialog v-model="showRoot" title="授权" width="50%">
             <div class="dialog">
-                <ElTree ref="tree" :data="allMenu" :props="props" show-checkbox node-key="moduleId"
-                    @check-change="handleCheckChange" />
+                <ElTree
+                    ref="tree" :data="allMenu" :props="props" show-checkbox node-key="moduleId"
+                    @check-change="handleCheckChange"
+                />
             </div>
             <span slot="footer" class="dialog-footer">
                 <ElButton size="default" @click="closeFun">取 消</ElButton>
@@ -80,6 +88,7 @@ import { listAllModule, getRoleList } from '@/api/system';
 import { roleParamsType, addRoleType } from './ModelDefines';
 import { ElMessage, ElTree, FormInstance } from 'element-plus';
 import authTreeModal from './components/authTreeModal.vue';
+import { getFlatDeepTreeData } from '@/utils/common';
 
 const tableData: any = ref([]);
 const addShow = ref<boolean>(false);
@@ -183,20 +192,22 @@ const rootFun = async (row: any) => {
 
     // 授权回显
     let node: any = [];
-    res.forEach((r: any) => {
-        allMenu.value.forEach((a: any) => {
-            if (r.moduleId === a.moduleId) {
-                r.children.forEach((item: any) => {
-                    a.children.forEach((t: any) => {
-                        if (item.moduleId === t.moduleId) {
-                            node.push(t);
-                            tree.value.setCheckedNodes(node);
-                        }
-                    });
-                });
-            }
-        });
-    });
+    tree.value.setCheckedNodes(getFlatDeepTreeData(res,node));
+
+    // res.forEach((r: any) => {
+    //     allMenu.value.forEach((a: any) => {
+    //         if (r.moduleId === a.moduleId) {
+    //             r.children.forEach((item: any) => {
+    //                 a.children.forEach((t: any) => {
+    //                     if (item.moduleId === t.moduleId) {
+    //                         node.push(t);
+
+    //                     }
+    //                 });
+    //             });
+    //         }
+    //     });
+    // });
 
 
     // res[0].children.forEach((item: any) => {
