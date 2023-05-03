@@ -21,6 +21,7 @@ initAMapApiLoader({
 });
 
 const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
 
 const app = createApp(App);
 app.config.globalProperties.$echarts = echarts;

@@ -32,8 +32,10 @@
                 <div class="login-other">
                     <p>使用其他方式登录</p>
                     <div class="login-method">
-                        <i class="iconfont icon-weixin" @mouseenter="showWeixin = true"
-                            @mouseleave="showWeixin = false"></i>
+                        <i
+                            class="iconfont icon-weixin" @mouseenter="showWeixin = true"
+                            @mouseleave="showWeixin = false"
+                        ></i>
                         <i id="qqLogin" class="iconfont icon-qq"></i>
                         <div v-if="showWeixin" class="wx-code">
                             <Qrcode></Qrcode>
@@ -56,6 +58,8 @@ import Cookie from 'js-cookie';
 import { useRouter } from 'vue-router';
 import { basic } from '@/api/user';
 import Qrcode from './Qrcode.vue';
+import { getDeepTreeData } from '@/utils/common';
+import { APP_LIST } from '@/config';
 // import QC from 'qc';
 
 const router = useRouter();
@@ -115,9 +119,10 @@ const getUserMenu = async () => {
     try {
         const res: any = await listUserModule();
         const store = storeMenu();
-        store.getMenu(res.menu);
         menu = res.menu;
-        sessionStorage.setItem('menuList', JSON.stringify(res.menu));
+        const authMenu = getDeepTreeData(APP_LIST, menu);
+        store.getMenu(authMenu);
+
     } catch (err) { }
     return menu;
 };

@@ -14,8 +14,10 @@
         </ElHeader>
         <ElContainer>
             <ElAside v-if="hasAside">
-                <Menu class="app-menu" :router="true" mode="vertical" :menu-list="currentAppMenu"
-                    :collapse="store.isCollapse">
+                <Menu
+                    class="app-menu" :router="true" mode="vertical" :menu-list="currentAppMenu"
+                    :collapse="store.isCollapse"
+                >
                 </Menu>
                 <div class="toggle-menu" @click="store.setCollapse">
                     <i v-if="!store.isCollapse" class="iconfont icon-shouqidaohang"></i>
@@ -42,15 +44,16 @@ import Breadcrumb from './Breadcrumb/index.vue';
 import { APP_LIST } from '@/config';
 import { Menu as MenuType, MenuItem } from './types/menu';
 import { useRoute, useRouter } from 'vue-router';
-import { useSettingStore } from '@/store/app';
+import { useSettingStore, storeMenu as useMenuStore } from '@/store/app';
+
 
 const route = useRoute();
 const router = useRouter();
 const store = useSettingStore();
+const menuStore = useMenuStore();
 const hasAside = computed(() => route.path.startsWith('/app'));
 
-const appList = APP_LIST.map(({ url, name }) => ({ url, name }));
-
+const appList = computed(() => menuStore.menuList.map(({ url, name }) => ({ url, name })));
 
 
 const routePath = computed(() => route.path);
@@ -62,24 +65,25 @@ const layoutHeight = showBread.value ? '100% - 40px' : '100%';
 // const isCollapse = ref(store.state.app.isCollapse);
 
 const currentAppMenu = computed<MenuType | []>(() => {
-    const target = APP_LIST.find(({ url }) => routePath.value.includes(url));
+    const target = menuStore.menuList.find(({ url }) => routePath.value.includes(url));
     return target ? target.children : [];
 });
 
 const getFistFullpath = (route: MenuItem) => {
     let temp = '';
-    if (route.children) {
+    if (route.children && route.children.length) {
         temp = getFistFullpath(route.children[0]);
     } else {
         temp = route.url;
     }
+
     return temp;
 };
 
 watch(
     routePath,
     (path) => {
-        const target = APP_LIST.find(({ url }) => url === path);
+        const target = menuStore.menuList.find(({ url }) => url === path);
         if (target) {
             router.replace(getFistFullpath(target));
         }

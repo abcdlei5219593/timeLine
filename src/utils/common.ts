@@ -25,3 +25,31 @@ export function getFormatDate(dateStr: string, format = 'YYYY-mm-dd') {
     }
     return fmt;
 }
+
+
+/**
+ * 比较前端定义菜单与后端权限菜单，获取最终权限路由
+ * @param sourceTree 见config/app.ts 定义
+ * @param targetTree  接口返回的权限路由
+ * @return array
+ */
+
+export const getDeepTreeData = (sourceTree, targetTree) => {
+    const temp = [];
+    for (const item of targetTree) {
+        debugger;
+        let target = {};
+        const itemInSourceTree = sourceTree.find(sourceItem => item.url === sourceItem.url);
+        if(itemInSourceTree) {
+            target = {
+                ...itemInSourceTree,
+                children: []
+            };
+        }
+        if(item.children && item.children.length) {
+            target.children =getDeepTreeData(itemInSourceTree.children, item.children);
+        }
+        temp.push(target);
+    }
+    return temp;
+};

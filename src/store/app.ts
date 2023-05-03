@@ -8,18 +8,20 @@ import { APP_LIST } from '@/config';
 export const useUserStore = defineStore({
     id: 'user',
     state() {
-        const userInfo = ref<User | null>();
-        const getUserInfo = async (val: User) => {
-            userInfo.value = val;
-        };
         return {
-            userInfo,
-            getUserInfo
+            userInfo: null,
         };
     },
+    actions: {
+        getUserInfo(userInfo) {
+            this.userInfo = userInfo;
+        },
+
+    },
+
     // 添加如下配置
     persist: {
-        // 开启持久化
+        // 开启持久化A
         enabled: true,
         strategies: [
             {
@@ -60,14 +62,21 @@ export const useSettingStore = defineStore('systemSetting', () => {
 export const storeMenu = defineStore({
     id: 'menu',
     state() {
-        const menuList: any = [];
-        const getMenu = (val: any) => {
-            menuList.value = val;
-        };
         return {
-            menuList,
-            getMenu
+            menuList: [],
         };
+    },
+    getters: {
+        currentMenu: (state) => {
+            
+        }
+
+    },
+    actions: {
+        getMenu(menuList) {
+            this.menuList = menuList;
+        },
+
     },
     // 添加如下配置
     persist: {
