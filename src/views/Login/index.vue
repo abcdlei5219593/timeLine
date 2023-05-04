@@ -121,9 +121,7 @@ const getUserMenu = async () => {
         const res: any = await listUserModule();
 
         let menu: any = res.menu;
-        alert(1);
         const authMenu = getDeepTreeData(APP_LIST, menu);
-        alert(12);
         store.getMenu(authMenu,res.button);
 
     } catch (err) { }
