@@ -148,7 +148,8 @@ const deviceData = reactive<deviceDataType>({
     sv: '',
     latitude: 0,
     longitude: 0,
-    bizModule: store.bizModule,
+    bizModule: [],
+    // bizModule: store.bizModule,
 });
 
 const toSensor = (row: any) => {
@@ -234,7 +235,6 @@ const editFun = (row: any) => {
     deviceData.latitude = row.latitude;
     deviceData.longitude = row.longitude;
     deviceData.bizModule = row.bizModule.split('');
-    console.log(deviceData, 'deviceData');
 };
 
 onMounted(() => {

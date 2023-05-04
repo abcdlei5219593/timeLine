@@ -4,4 +4,5 @@ export interface ParamsType {
     endTime: string;
     pageNum: number;
     pageSize: number;
+    bizModule: any;
 }
