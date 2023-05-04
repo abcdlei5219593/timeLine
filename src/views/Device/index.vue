@@ -4,16 +4,20 @@
             <ElCol :span="6">
                 <span class="search-label">微站选择：</span>
                 <ElSelect v-model="stationId" placeholder="请选择" size="default" @change="selectChange">
-                    <ElOption v-for="item in tableData" :key="item.deviceId" :label="item.stationName"
-                        :value="item.deviceId" />
+                    <ElOption
+                        v-for="item in tableData" :key="item.deviceId" :label="item.stationName"
+                        :value="item.deviceId"
+                    />
                 </ElSelect>
             </ElCol>
             <ElButton class="add-btn" type="primary" size="default" @click="addFun">
                 新增设备
             </ElButton>
         </ElRow>
-        <ElTable id="deviceTable" class="table" :data="tableData"
-            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
+        <ElTable
+            id="deviceTable" class="table" :data="tableData"
+            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
+        >
             <ElTableColumn prop="deviceId" label="主板" />
             <ElTableColumn prop="stationName" label="微站名称" />
             <ElTableColumn prop="stationAddress" label="微站地址" />
@@ -32,7 +36,7 @@
                     <!-- <ElButton link type="primary" size="default" @click="reportInterval(scope.row)">
                         上报间隔
                     </ElButton> -->
-                    <ElButton link type="primary" size="default" @click="toSensor(scope.row)">
+                    <ElButton v-permission="'/deviceSensor'" link type="primary" size="default" @click="toSensor(scope.row)">
                         传感器
                     </ElButton>
                     <!-- <ElButton link type="primary" size="default" class="red-text-btn">

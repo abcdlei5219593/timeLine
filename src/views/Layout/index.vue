@@ -6,7 +6,7 @@
                     大气监测管理系统
                 </div>
                 <section>
-                    <AppBar :menu-list="appList" @select="changeApp">
+                    <AppBar :menu-list="appList">
                     </AppBar>
                 </section>
                 <HeaderRight></HeaderRight>

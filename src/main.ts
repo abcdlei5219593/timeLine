@@ -13,7 +13,7 @@ import '@vuemap/vue-amap/dist/style.css';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 import echarts from './echarts';
-
+import { permission } from '@/directives/index';
 
 initAMapApiLoader({
     key: AMAP_KEY,
@@ -25,6 +25,7 @@ pinia.use(piniaPluginPersistedstate);
 
 const app = createApp(App);
 app.config.globalProperties.$echarts = echarts;
+app.directive('permission', permission);
 app
     .use(router)
     .use(pinia)

@@ -115,16 +115,19 @@ const loginFun = async () => {
 
 // 获取用户菜单
 const getUserMenu = async () => {
-    let menu: any = [];
+    const store = storeMenu();
     try {
+
         const res: any = await listUserModule();
-        const store = storeMenu();
-        menu = res.menu;
+
+        let menu: any = res.menu;
+        alert(1);
         const authMenu = getDeepTreeData(APP_LIST, menu);
-        store.getMenu(authMenu);
+        alert(12);
+        store.getMenu(authMenu,res.button);
 
     } catch (err) { }
-    return menu;
+
 };
 
 

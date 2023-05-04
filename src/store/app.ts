@@ -64,17 +64,20 @@ export const storeMenu = defineStore({
     state() {
         return {
             menuList: [],
+            buttonList: []
         };
     },
     getters: {
         currentMenu: (state) => {
-            
+
         }
 
     },
     actions: {
-        getMenu(menuList) {
+        getMenu(menuList, buttonList) {
+            console.log(buttonList);
             this.menuList = menuList;
+            this.buttonList = buttonList;
         },
 
     },
@@ -87,6 +90,11 @@ export const storeMenu = defineStore({
                 key: 'menuList',// 给一个要保存的名称
                 storage: sessionStorage,// sessionStorage / localStorage 存储方式
                 paths: ['menuList']
+            },
+            {
+                key: 'buttonList',// 给一个要保存的名称
+                storage: sessionStorage,// sessionStorage / localStorage 存储方式
+                paths: ['buttonList']
             }
         ]
     }
