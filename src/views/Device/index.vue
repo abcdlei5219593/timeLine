@@ -171,7 +171,7 @@ const selectChange = () => {
 };
 const getList = async () => {
     try {
-        const res: any = await getDeviceList({ bizModule: 1 });
+        const res: any = await getDeviceList({ bizModule: store.bizModule });
         tableData.value = res;
     } catch (err) { }
 };

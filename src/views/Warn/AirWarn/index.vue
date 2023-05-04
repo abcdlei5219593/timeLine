@@ -156,7 +156,7 @@ const closeFun = async (alarmId: number) => {
 const stationArr: any = ref([]);
 const getStationList = async () => {
     try {
-        const res: any = await getDeviceList({ bizModule: 1 });
+        const res: any = await getDeviceList({ bizModule: store.bizModule });
         stationArr.value = res;
     } catch (err) { }
 };

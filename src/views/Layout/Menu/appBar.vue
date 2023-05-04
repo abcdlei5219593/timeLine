@@ -1,13 +1,8 @@
 <template>
     <ul role="menubar" class="el-menu el-menu--horizontal">
-        <li
-            v-for="(item, index) in menuList"
-            :key="index"
-            :class="[route.path.includes(item.url) ? 'is-active' : '', 'el-menu-item']"
-            role="menuitem"
-            tabindex="0"
-            @click="handleClick(item)"
-        >
+        <li v-for="(item, index) in menuList" :key="index"
+            :class="[route.path.includes(item.url) ? 'is-active' : '', 'el-menu-item']" role="menuitem" tabindex="0"
+            @click="handleClick(item)">
             {{ item.name }}
         </li>
     </ul>
@@ -32,9 +27,10 @@ const handleClick = (menu: MenuItem) => {
     const bizModule = APP_LIST.find((m) => {
         return m.url == menu.url;
     });
+    console.log(bizModule.bizModule, 'bizModule.bizModule');
     store.getBizModule(bizModule.bizModule);
 
-    let url: string = '';
+    let url = '';
     store.menuList.forEach((item: any) => {
         if (item.url === menu.url) {
             if (item.children[0].children.length > 0) {

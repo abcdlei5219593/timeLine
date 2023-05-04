@@ -1,11 +1,10 @@
 <template>
     <div class="main-content history-con">
         <ElRow class="search-row">
-            <ElCol :span="5">
+            <ElCol :span="6">
                 <span class="search-label">微站选择：</span>
-                <ElSelect v-model="params.microStation" placeholder="请选择" size="default" @click="searchChange">
-                    <ElOption v-for="item in stationArr" :key="item.deviceId" :label="item.stationName"
-                        :value="item.deviceId" />
+                <ElSelect v-model="params.stationId" placeholder="请选择" size="default" @change="searchChange">
+                    <ElOption v-for="(item, i) in stationArr" :key="i" :label="item.stationName" :value="item.stationId" />
                 </ElSelect>
             </ElCol>
             <ElCol :span="8">
