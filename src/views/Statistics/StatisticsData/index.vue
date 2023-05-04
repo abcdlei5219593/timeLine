@@ -3,9 +3,9 @@
         <ElRow class="search-row">
             <ElCol :span="5">
                 <span class="search-label">微站选择：</span>
-                <ElSelect v-model="params.microStation" placeholder="请选择" size="default">
-                    <ElOption v-for="item in microStationOptions" :key="item.value" :label="item.label"
-                        :value="item.value" />
+                <ElSelect v-model="params.microStation" placeholder="请选择" size="default" @click="searchChange">
+                    <ElOption v-for="item in stationArr" :key="item.deviceId" :label="item.stationName"
+                        :value="item.deviceId" />
                 </ElSelect>
             </ElCol>
             <ElCol :span="8">
@@ -45,6 +45,10 @@ import { ref, reactive, onMounted } from 'vue';
 import useTableSetting from '@/hooks/useTableSetting';
 import { getMonitorData } from '@/api/analyse';
 import { getFormatDate } from '@/utils/common';
+import { storeMenu } from '@/store/app';
+import { getDeviceList } from '@/api/device';
+
+const store = storeMenu();
 
 const tableData: any = ref([]);
 const total: any = ref(0);
@@ -56,7 +60,6 @@ const params: any = ref({
     startTime: '',
     endTime: '',
 });
-const microStationOptions = ref<any>([]);
 
 const timeChange = (val: any) => {
     date.value = val;
@@ -96,7 +99,16 @@ const handleCurrentChange = (page: number) => {
     getList();
 };
 
+const stationArr: any = ref([]);
+const getStationList = async () => {
+    try {
+        const res: any = await getDeviceList({ bizModule: store.bizModule, });
+        stationArr.value = res;
+    } catch (err) { }
+};
+
 onMounted(() => {
+    getStationList();
     setDefaultTime();
     getList();
 });

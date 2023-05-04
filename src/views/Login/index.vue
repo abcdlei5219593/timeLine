@@ -1,9 +1,13 @@
 <template>
     <div class="login">
         <div class="login-main">
-            <p class="login-title">大气污染监测系统</p>
+            <p class="login-title">
+                大气污染监测系统
+            </p>
             <div class="login-box">
-                <p class="login-text">账号登录</p>
+                <p class="login-text">
+                    账号登录
+                </p>
                 <ElForm ref="formDataRef" :model="formData" :rules="rules" status-icon>
                     <ElFormItem label="" prop="userName">
                         <ElInput v-model="formData.userName" size="large">
@@ -28,11 +32,8 @@
                 <div class="login-other">
                     <p>使用其他方式登录</p>
                     <div class="login-method">
-                        <i
-                            class="iconfont icon-weixin"
-                            @mouseenter="showWeixin = true"
-                            @mouseleave="showWeixin = false"
-                        ></i>
+                        <i class="iconfont icon-weixin" @mouseenter="showWeixin = true"
+                            @mouseleave="showWeixin = false"></i>
                         <i id="qqLogin" class="iconfont icon-qq"></i>
                         <div v-if="showWeixin" class="wx-code">
                             <Qrcode></Qrcode>
@@ -119,12 +120,12 @@ const getUserMenu = async () => {
         let menu: any = res.menu;
         const authMenu = getDeepTreeData(APP_LIST, menu);
         store.getMenu(authMenu, res.button);
-        //设置默认 bizModule
+        // 设置默认 bizModule
         const bizModule = APP_LIST.find((m) => {
             return m.url === menu[0].url;
         });
-        store.getBizModule(bizModule.bizModule);
-    } catch (err) {}
+        store.getBizModule(bizModule.bizModule ? bizModule.bizModule : 1);
+    } catch (err) { }
 };
 
 // 获取用户基本信息
@@ -134,7 +135,7 @@ const getUser = async () => {
         const store = useUserStore();
         console.log(res, '9888888');
         store.getUserInfo(res);
-    } catch (err) {}
+    } catch (err) { }
 };
 onMounted(() => {
     // window.QC.Login({

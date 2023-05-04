@@ -4,22 +4,16 @@
             <ElCol :span="6">
                 <span class="search-label">微站选择：</span>
                 <ElSelect v-model="stationId" placeholder="请选择" size="default" @change="selectChange">
-                    <ElOption
-                        v-for="item in tableData"
-                        :key="item.deviceId"
-                        :label="item.stationName"
-                        :value="item.deviceId"
-                    />
+                    <ElOption v-for="item in tableData" :key="item.deviceId" :label="item.stationName"
+                        :value="item.deviceId" />
                 </ElSelect>
             </ElCol>
-            <ElButton class="add-btn" type="primary" size="default" @click="addFun"> 新增设备 </ElButton>
+            <ElButton class="add-btn" type="primary" size="default" @click="addFun">
+                新增设备
+            </ElButton>
         </ElRow>
-        <ElTable
-            id="deviceTable"
-            class="table"
-            :data="tableData"
-            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
-        >
+        <ElTable id="deviceTable" class="table" :data="tableData"
+            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
             <ElTableColumn prop="deviceId" label="主板" />
             <ElTableColumn prop="stationName" label="微站名称" />
             <ElTableColumn prop="stationAddress" label="微站地址" />
@@ -38,19 +32,16 @@
                     <!-- <ElButton link type="primary" size="default" @click="reportInterval(scope.row)">
                         上报间隔
                     </ElButton> -->
-                    <ElButton
-                        v-permission="'/deviceSensor'"
-                        link
-                        type="primary"
-                        size="default"
-                        @click="toSensor(scope.row)"
-                    >
+                    <ElButton v-permission="'/deviceSensor'" link type="primary" size="default"
+                        @click="toSensor(scope.row)">
                         传感器
                     </ElButton>
                     <!-- <ElButton link type="primary" size="default" class="red-text-btn">
                         重启
                     </ElButton> -->
-                    <ElButton link type="primary" size="default" @click="editFun(scope.row)"> 编辑 </ElButton>
+                    <ElButton link type="primary" size="default" @click="editFun(scope.row)">
+                        编辑
+                    </ElButton>
                 </template>
             </ElTableColumn>
         </ElTable>
@@ -60,7 +51,9 @@
     <ElDialog v-model="isTimeSet" title="上报间隔时间设置" width="30%">
         <div class="device-dialog">
             <ElRow>
-                <ElCol :span="8"> 间隔时间 </ElCol>
+                <ElCol :span="8">
+                    间隔时间
+                </ElCol>
                 <ElCol :span="16">
                     <ElInput v-model="intervalTime" type="number" placeholder="请输入内容"></ElInput>
                 </ElCol>
@@ -122,6 +115,7 @@ import { getDeviceList, getStations, deviceAdd, deviceEdit } from '@/api/device'
 import { deviceDataType } from './ModelDefines';
 import { getDataDictionary } from '@/api/system';
 import { storeMenu } from '@/store/app';
+
 const store = storeMenu();
 
 const router = useRouter();
@@ -179,17 +173,17 @@ const getList = async () => {
     try {
         const res: any = await getDeviceList({ bizModule: 1 });
         tableData.value = res;
-    } catch (err) {}
+    } catch (err) { }
 };
 
 // 新增或编辑
 const save = async () => {
     try {
-        (await isEdit.value) ? deviceEdit(deviceData) : deviceAdd(deviceData);
+        await isEdit.value ? deviceEdit(deviceData) : deviceAdd(deviceData);
         addShow.value = false;
         ElMessage.success('操作成功');
         getList();
-    } catch (err) {}
+    } catch (err) { }
 };
 // 提交
 const formDataRef = ref<FormInstance>();
@@ -234,7 +228,8 @@ const editFun = (row: any) => {
     deviceData.sv = row.sv;
     deviceData.latitude = row.latitude;
     deviceData.longitude = row.longitude;
-    deviceData.bizModule = row.bizModule.split('');
+    console.log(typeof row.bizModule, 'row.bizModule');
+    // deviceData.bizModule = row.bizModule.split('');
 };
 
 onMounted(() => {
@@ -254,8 +249,7 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'deviceTable
     }
 }
 
-.device-con {
-}
+.device-con {}
 
 .device-dialog {
     height: 100px;

@@ -18,7 +18,7 @@
         </ElCol>
         <ElCol :span="12" class="h-340">
             <ElCard shadow="never" class="msg ">
-                <h3>最新消息情况</h3>
+                <h3>消息情况</h3>
                 <ul>
                     <li v-for="msg in msgList" :key="msg.id">
                         {{ msg.title }}
@@ -56,7 +56,7 @@
 
 <script setup lang="ts">
 import { ElCard, ElSelect, ElRow, ElCol } from 'element-plus';
-import{ useUserStore } from '@/store/app';
+import { useUserStore } from '@/store/app';
 import { get24AvgData, getAQI, getLastestAlarms } from '@/api/home';
 import { getHotmapData } from '@/api/analyse';
 import { ref, onMounted } from 'vue';
@@ -83,13 +83,13 @@ const measure = ref('aqi');
 const searchForm = {
     measure: 'aqi',
     date: [
-        dayjs().subtract(3,'day').format('YYYY-MM-DD'),
+        dayjs().subtract(3, 'day').format('YYYY-MM-DD'),
         dayjs().format('YYYY-MM-DD')
     ]
 };
 
 const drawBar = async () => {
-    const data = await get24AvgData({measure: 'so2'});
+    const data = await get24AvgData({ measure: 'so2' });
     option.value = {
         xAxis: {
 
@@ -119,7 +119,7 @@ const getAQIHandler = async () => {
     AQI.value = await getAQI();
 };
 const getLastestAlarmsHandler = async () => {
-    msgList.value = await getLastestAlarms({pageNum: 1, pageSize: 5});
+    msgList.value = await getLastestAlarms({ pageNum: 1, pageSize: 5 });
 };
 getAQIHandler();
 getLastestAlarmsHandler();
@@ -127,85 +127,103 @@ const store = useUserStore();
 </script>
 
 <style scoped lang="scss">
-.h-340{
-   height: calc((100% - 40px) * 0.47 );
+.h-340 {
+    height: calc((100% - 40px) * 0.47);
 }
-.h-390{
+
+.h-390 {
     height: calc((100% - 40px) * 0.53);
 }
-.el-col{
+
+.el-col {
 
     margin-top: $containerSpace;
     align-items: stretch;
-    .el-card{
+
+    .el-card {
 
         box-sizing: border-box;
-        height:100%;
-        h3,.inner-title{
+        height: 100%;
+
+        h3,
+        .inner-title {
             font-weight: 600;
             font-size: 18px;
             color: #252525;
         }
-        h3{
+
+        h3 {
             font-size: 18px;
         }
-        .inner-title{
+
+        .inner-title {
             font-size: 16px;
         }
     }
-    .welcome{
-        .flex{
-            @include flex(flex-start,center);
+
+    .welcome {
+        .flex {
+            @include flex(flex-start, center);
         }
-        article{
+
+        article {
             margin-top: 24px;
-            .tag{
+
+            .tag {
                 margin-left: 10px;
                 font-size: 12px;
                 background: #F5BA18;
                 border-radius: 4px;
 
-                padding:4px 8px;
-                color:#fff;
+                padding: 4px 8px;
+                color: #fff;
             }
         }
     }
+
     .msg {
         ul {
             margin-top: 7px;
             padding-left: 15px;
-            li{
-                @include flex(space-between,center);
+
+            li {
+                @include flex(space-between, center);
                 padding: 13px 0;
-                list-style-type:disc;
-                & + li {
-                    border-top: 1px solid  #18181814;;
+                list-style-type: disc;
+
+                &+li {
+                    border-top: 1px solid #18181814;
+                    ;
                 }
-                .date{
+
+                .date {
                     flex-shrink: 0;
-                    color:#999999;
+                    color: #999999;
                 }
             }
         }
     }
-    .draw-container ::v-deep(.el-card__body){
+
+    .draw-container ::v-deep(.el-card__body) {
         box-sizing: border-box;
         height: 100%;
         @include flex();
         flex-direction: column;
-        .map-layout{
+
+        .map-layout {
             margin-top: 20px;
-            flex:1;
+            flex: 1;
             width: 100%;
         }
-        .chat-title{
+
+        .chat-title {
             margin-top: -8px;
             width: 100%;
             @include flex(space-between, center);
-            .el-select{
+
+            .el-select {
                 width: 80px;
             }
         }
     }
-}
-</style>
+}</style>
