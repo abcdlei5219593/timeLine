@@ -5,6 +5,7 @@ export interface DevceWarnParamsType {
     endTime: string;
     pageNum: number;
     pageSize: number;
+    bizModule: number | string;
 }
 
 export interface AirWarnParamsType {
@@ -16,6 +17,7 @@ export interface AirWarnParamsType {
     unclosed: boolean,
     pageNum: number;
     pageSize: number;
+    bizModule: number | string;
 }
 
 export interface options {

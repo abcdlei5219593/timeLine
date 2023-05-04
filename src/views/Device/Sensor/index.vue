@@ -1,7 +1,11 @@
 <template>
     <div class="main-content device-con">
-        <ElTable id="sensorTable" class="table" :data="tableData"
-            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
+        <ElTable
+            id="sensorTable"
+            class="table"
+            :data="tableData"
+            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
+        >
             <ElTableColumn prop="deviceId" label="主板ID" />
             <ElTableColumn prop="sensorCode" label="传感器类型" />
             <ElTableColumn prop="standardValue" label="校准" />
@@ -10,9 +14,7 @@
             <ElTableColumn prop="threshold3" label="严重告警阈值" />
             <ElTableColumn fixed="right" label="操作">
                 <template #default="scoped">
-                    <ElButton link type="primary" size="default" @click="setShowFun(scoped.row)">
-                        设置阈值
-                    </ElButton>
+                    <ElButton link type="primary" size="default" @click="setShowFun(scoped.row)"> 设置阈值 </ElButton>
                 </template>
             </ElTableColumn>
         </ElTable>
@@ -48,6 +50,8 @@ import useTableSetting from '@/hooks/useTableSetting';
 import { FormType } from './../ModelDefines';
 import { getSensors, deviceSet } from '@/api/device';
 import { ElMessage } from 'element-plus';
+import { storeMenu } from '@/store/app';
+const store = storeMenu();
 
 const router = useRoute();
 
@@ -57,6 +61,7 @@ const formData = reactive<FormType>({
     threshold1: null,
     threshold2: null,
     threshold3: null,
+    bizModule: store.bizModule,
 });
 
 const tableData: any = ref([]);
@@ -70,14 +75,14 @@ const setThreshold = async () => {
         await deviceSet(formData);
         ElMessage.success('操作成功');
         isThreshold.value = false;
-    } catch (err) { }
+    } catch (err) {}
 };
 
 const getSensorsList = async (deviceId: any) => {
     try {
         const res: any = await getSensors({ deviceId: deviceId });
         tableData.value = res;
-    } catch (err) { }
+    } catch (err) {}
 };
 // 显示设置阈值
 const setShowFun = (row: any) => {

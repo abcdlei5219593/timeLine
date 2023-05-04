@@ -9,17 +9,37 @@
             </ElCol> -->
             <ElCol :span="6">
                 <span class="search-label">微站选择：</span>
-                <ElSelect v-model="DevceWarnParams.stationId" placeholder="请选择" size="default" @change="searchChange">
-                    <ElOption v-for="(item, i) in stationArr" :key="i" :label="item.stationName" :value="item.stationId" />
+                <ElSelect
+                    v-model="DevceWarnParams.stationId"
+                    placeholder="请选择"
+                    size="default"
+                    @change="searchChange"
+                >
+                    <ElOption
+                        v-for="(item, i) in stationArr"
+                        :key="i"
+                        :label="item.stationName"
+                        :value="item.stationId"
+                    />
                 </ElSelect>
             </ElCol>
             <ElCol :span="8">
                 <span class="search-label">时间：</span>
-                <ElDatePicker v-model="date" type="datetimerange" range-separator="-" size="default" @change="timeChange" />
+                <ElDatePicker
+                    v-model="date"
+                    type="datetimerange"
+                    range-separator="-"
+                    size="default"
+                    @change="timeChange"
+                />
             </ElCol>
         </ElRow>
-        <ElTable id="deviceWarnTable" class="table" :data="tableData"
-            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
+        <ElTable
+            id="deviceWarnTable"
+            class="table"
+            :data="tableData"
+            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
+        >
             <ElTableColumn prop="deviceId" label="主板" />
             <ElTableColumn prop="stationName" label="微站名称" />
             <ElTableColumn prop="status" label="告警值" />
@@ -33,9 +53,17 @@
             </ElTableColumn>
             <ElTableColumn prop="createTime" label="时间" />
         </ElTable>
-        <ElPagination class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="total"
-            :current-page="DevceWarnParams.pageNum" :page-sizes="[10, 20, 50, 100]" :page-size="DevceWarnParams.pageSize"
-            @size-change="handleSizeChange" @current-change="handleCurrentChange" />
+        <ElPagination
+            class="pagination"
+            background
+            layout="total,sizes,prev, pager, next,jumper"
+            :total="total"
+            :current-page="DevceWarnParams.pageNum"
+            :page-sizes="[10, 20, 50, 100]"
+            :page-size="DevceWarnParams.pageSize"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+        />
     </div>
 </template>
 
@@ -47,6 +75,9 @@ import { alarmList } from '@/api/warn';
 import { getStations } from '@/api/device';
 import { getFormatDate } from '@/utils/common';
 import { getDeviceList } from '@/api/device';
+import { storeMenu } from '@/store/app';
+
+const store = storeMenu();
 
 const tableData: any = ref([]);
 const DevceWarnParams = reactive<DevceWarnParamsType>({
@@ -56,6 +87,7 @@ const DevceWarnParams = reactive<DevceWarnParamsType>({
     endTime: '',
     pageNum: 1,
     pageSize: 20,
+    bizModule: store.bizModule,
 });
 const total = ref<number>(0);
 const microStationOptions = ref<any>([]);
@@ -74,7 +106,7 @@ const getList = async () => {
         DevceWarnParams.pageNum = res.pageNum;
         DevceWarnParams.pageSize = res.pageSize;
         total.value = res.total;
-    } catch (err) { }
+    } catch (err) {}
 };
 
 // 查询微站
@@ -104,7 +136,10 @@ const handleCurrentChange = (page: number) => {
 
 const setDefaultTime = () => {
     DevceWarnParams.endTime = getFormatDate(new Date(), 'YYYY-mm-dd HH:MM:SS');
-    DevceWarnParams.startTime = getFormatDate(new Date(new Date().getTime() - 7 * 24 * 3600 * 1000), 'YYYY-mm-dd HH:MM:SS');
+    DevceWarnParams.startTime = getFormatDate(
+        new Date(new Date().getTime() - 7 * 24 * 3600 * 1000),
+        'YYYY-mm-dd HH:MM:SS'
+    );
     date.value = [DevceWarnParams.startTime, DevceWarnParams.endTime];
     searchChange();
 };
@@ -115,7 +150,7 @@ const getStationList = async () => {
     try {
         const res: any = await getDeviceList({ bizModule: 1 });
         stationArr.value = res;
-    } catch (err) { }
+    } catch (err) {}
 };
 
 onMounted(() => {
@@ -128,5 +163,6 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'deviceWarnT
 </script>
 
 <style scoped lang="scss">
-.flag-con {}
+.flag-con {
+}
 </style>

@@ -13,7 +13,10 @@
             </div>
             <template #dropdown>
                 <ElDropdownMenu>
-                    <ElDropdownItem style="width: 120px; height: 30px; justify-content: center" @click="toPersonalCenter">
+                    <ElDropdownItem
+                        style="width: 120px; height: 30px; justify-content: center"
+                        @click="toPersonalCenter"
+                    >
                         个人中心
                     </ElDropdownItem>
                 </ElDropdownMenu>
@@ -38,7 +41,6 @@ const store = useUserStore();
 
 const loginOut = () => {
     Cookie.set('token', null);
-    sessionStorage.setItem('menuList', null);
     router.push('/login');
 };
 const toPersonalCenter = () => {

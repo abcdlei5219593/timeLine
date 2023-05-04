@@ -51,6 +51,7 @@ export const APP_LIST: Menu = [
     {
         url: '/app/water',
         name: '水质探测管理',
+        bizModule: 2,
         children: routeWaterPath('/app/water')
     },
     {
@@ -73,6 +74,7 @@ export const APP_LIST: Menu = [
     {
         url: '/app/user',
         name: '用户与权限',
+        bizModule: null,
         children: routeUserPath('/app/user')
     },
 ];

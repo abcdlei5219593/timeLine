@@ -2,12 +2,9 @@
     <ElContainer>
         <ElHeader>
             <ElContainer>
-                <div class="logo fs-18 fw-600">
-                    大气监测管理系统
-                </div>
+                <div class="logo fs-18 fw-600">大气监测管理系统</div>
                 <section>
-                    <AppBar :menu-list="appList">
-                    </AppBar>
+                    <AppBar :menu-list="appList"> </AppBar>
                 </section>
                 <HeaderRight></HeaderRight>
             </ElContainer>
@@ -15,7 +12,10 @@
         <ElContainer>
             <ElAside v-if="hasAside">
                 <Menu
-                    class="app-menu" :router="true" mode="vertical" :menu-list="currentAppMenu"
+                    class="app-menu"
+                    :router="true"
+                    mode="vertical"
+                    :menu-list="currentAppMenu"
                     :collapse="store.isCollapse"
                 >
                 </Menu>
@@ -27,8 +27,7 @@
             </ElAside>
             <ElMain>
                 <Breadcrumb v-if="showBread" />
-                <RouterView class="main-view">
-                </RouterView>
+                <RouterView class="main-view"> </RouterView>
             </ElMain>
         </ElContainer>
     </ElContainer>
@@ -46,7 +45,6 @@ import { Menu as MenuType, MenuItem } from './types/menu';
 import { useRoute, useRouter } from 'vue-router';
 import { useSettingStore, storeMenu as useMenuStore } from '@/store/app';
 
-
 const route = useRoute();
 const router = useRouter();
 const store = useSettingStore();
@@ -54,7 +52,6 @@ const menuStore = useMenuStore();
 const hasAside = computed(() => route.path.startsWith('/app'));
 
 const appList = computed(() => menuStore.menuList.map(({ url, name }) => ({ url, name })));
-
 
 const routePath = computed(() => route.path);
 

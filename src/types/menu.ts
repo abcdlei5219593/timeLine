@@ -6,7 +6,8 @@ export interface MenuItem {
     noSubMenu?: boolean,
     children?: MenuItem[],
     menu?: MenuItem[],
-    isButton?: boolean
+    isButton?: boolean,
+    bizModule?: number | null,
 }
 
 export type Menu = MenuItem[]

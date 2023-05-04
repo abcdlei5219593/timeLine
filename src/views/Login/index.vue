@@ -1,13 +1,9 @@
 <template>
     <div class="login">
         <div class="login-main">
-            <p class="login-title">
-                大气污染监测系统
-            </p>
+            <p class="login-title">大气污染监测系统</p>
             <div class="login-box">
-                <p class="login-text">
-                    账号登录
-                </p>
+                <p class="login-text">账号登录</p>
                 <ElForm ref="formDataRef" :model="formData" :rules="rules" status-icon>
                     <ElFormItem label="" prop="userName">
                         <ElInput v-model="formData.userName" size="large">
@@ -33,7 +29,8 @@
                     <p>使用其他方式登录</p>
                     <div class="login-method">
                         <i
-                            class="iconfont icon-weixin" @mouseenter="showWeixin = true"
+                            class="iconfont icon-weixin"
+                            @mouseenter="showWeixin = true"
                             @mouseleave="showWeixin = false"
                         ></i>
                         <i id="qqLogin" class="iconfont icon-qq"></i>
@@ -117,17 +114,18 @@ const loginFun = async () => {
 const getUserMenu = async () => {
     const store = storeMenu();
     try {
-
         const res: any = await listUserModule();
 
         let menu: any = res.menu;
         const authMenu = getDeepTreeData(APP_LIST, menu);
-        store.getMenu(authMenu,res.button);
-
-    } catch (err) { }
-
+        store.getMenu(authMenu, res.button);
+        //设置默认 bizModule
+        const bizModule = APP_LIST.find((m) => {
+            return m.url === menu[0].url;
+        });
+        store.getBizModule(bizModule.bizModule);
+    } catch (err) {}
 };
-
 
 // 获取用户基本信息
 const getUser = async () => {
@@ -136,20 +134,18 @@ const getUser = async () => {
         const store = useUserStore();
         console.log(res, '9888888');
         store.getUserInfo(res);
-    } catch (err) { }
+    } catch (err) {}
 };
 onMounted(() => {
     // window.QC.Login({
     //     btnId: 'qqLogin'
     // });
 });
-
-
 </script>
 
 <style scoped lang="scss">
 .login {
-    background: #2D8CF0 url(@/assets/login/bg.png) no-repeat;
+    background: #2d8cf0 url(@/assets/login/bg.png) no-repeat;
     position: absolute;
     top: 0;
     left: 0;
@@ -246,24 +242,23 @@ onMounted(() => {
                 i {
                     width: 40px;
                     height: 40px;
-                    border: 1px solid #DCDCDC;
+                    border: 1px solid #dcdcdc;
                     border-radius: 100%;
                     display: block;
                     font-size: 24px;
                     text-align: center;
                     line-height: 40px;
-                    color: #04BE02;
+                    color: #04be02;
                     margin-right: 30px;
                     cursor: pointer;
 
                     &:nth-child(2) {
-                        color: #1FA9F5;
+                        color: #1fa9f5;
                         margin-right: 0;
                     }
                 }
             }
         }
     }
-
 }
 </style>

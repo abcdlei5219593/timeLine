@@ -64,7 +64,8 @@ export const storeMenu = defineStore({
     state() {
         return {
             menuList: [],
-            buttonList: []
+            buttonList: [],
+            bizModule: 1,
         };
     },
     getters: {
@@ -79,6 +80,9 @@ export const storeMenu = defineStore({
             this.menuList = menuList;
             this.buttonList = buttonList;
         },
+        getBizModule(bizModule) {
+            this.bizModule = bizModule
+        }
 
     },
     // 添加如下配置
@@ -95,6 +99,11 @@ export const storeMenu = defineStore({
                 key: 'buttonList',// 给一个要保存的名称
                 storage: sessionStorage,// sessionStorage / localStorage 存储方式
                 paths: ['buttonList']
+            },
+            {
+                key: 'bizModule',// 给一个要保存的名称
+                storage: sessionStorage,// sessionStorage / localStorage 存储方式
+                paths: ['bizModule']
             }
         ]
     }

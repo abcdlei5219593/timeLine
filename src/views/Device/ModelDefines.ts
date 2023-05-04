@@ -4,11 +4,13 @@ export interface FormType {
     threshold1: number | null;
     threshold2: number | null;
     threshold3: number | null;
+    bizModule: any,
 }
 
 export interface ParamsType {
     pageNum: number;
     pageSize: number;
+    bizModule: any,
 }
 
 export interface deviceDataType {

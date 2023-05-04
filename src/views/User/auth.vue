@@ -6,47 +6,49 @@
                 <ElInput v-model="roleParams.roleName" size="default" placeholder="请输入关键词搜索"></ElInput>
             </ElCol>
             <ElCol :span="3">
-                <ElButton type="primary" size="default" @click="getList">
-                    搜索
-                </ElButton>
+                <ElButton type="primary" size="default" @click="getList"> 搜索 </ElButton>
             </ElCol>
             <!-- <ElCol :span="3"> -->
-            <ElButton class="add-btn" type="primary" size="default" @click="addShow = true">
-                新增角色
-            </ElButton>
+            <ElButton class="add-btn" type="primary" size="default" @click="addShow = true"> 新增角色 </ElButton>
             <!-- </ElCol> -->
         </ElRow>
         <ElTable
-            id="userTable" class="table" :data="tableData"
+            id="userTable"
+            class="table"
+            :data="tableData"
             :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
         >
-            <ElTableColumn prop="userName" label="账号" />
-            <ElTableColumn prop="roleName" label="角色" />
-            <ElTableColumn prop="status" label="状态" />
+            <ElTableColumn prop="roleName" label="角色名" />
             <ElTableColumn prop="roleDesc" label="备注" />
             <ElTableColumn prop="address" fixed="right" label="操作" width="200">
                 <template #default="scope">
-                    <ElButton link type="primary" size="default" @click="rootFun(scope.row)">
-                        授权
-                    </ElButton>
-                    <ElButton link type="primary" size="default" @click="editFun(scope.row)">
-                        编辑
-                    </ElButton>
+                    <ElButton link type="primary" size="default" @click="rootFun(scope.row)"> 授权 </ElButton>
+                    <ElButton link type="primary" size="default" @click="editFun(scope.row)"> 编辑 </ElButton>
                 </template>
             </ElTableColumn>
         </ElTable>
 
         <ElPagination
-            class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="total"
-            :current-page="roleParams.pageNum" :page-sizes="[10, 20, 50, 100]" :page-size="roleParams.pageSize"
-            @size-change="handleSizeChange" @current-change="handleCurrentChange"
+            class="pagination"
+            background
+            layout="total,sizes,prev, pager, next,jumper"
+            :total="total"
+            :current-page="roleParams.pageNum"
+            :page-sizes="[10, 20, 50, 100]"
+            :page-size="roleParams.pageSize"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
         />
 
         <!--新增或编辑角色-->
         <ElDialog v-model="addShow" :title="isEdit ? '编辑' : '新增'" width="30%">
             <div class="dialog">
                 <ElForm
-                    ref="formDataRef" :model="addData" :rules="rules" label-width="120px" label-position="top"
+                    ref="formDataRef"
+                    :model="addData"
+                    :rules="rules"
+                    label-width="120px"
+                    label-position="top"
                     class="demo-ruleForm"
                 >
                     <ElFormItem label="角色名" prop="roleName">
@@ -67,7 +69,11 @@
         <ElDialog v-model="showRoot" title="授权" width="50%">
             <div class="dialog">
                 <ElTree
-                    ref="tree" :data="allMenu" :props="props" show-checkbox node-key="moduleId"
+                    ref="tree"
+                    :data="allMenu"
+                    :props="props"
+                    show-checkbox
+                    node-key="moduleId"
                     @check-change="handleCheckChange"
                 />
             </div>
@@ -112,9 +118,7 @@ const addData = reactive<addRoleType>({
 const allMenu: any = ref([]);
 
 const rules = reactive({
-    roleName: [
-        { required: true, message: '请输入角色名', trigger: 'blur' },
-    ],
+    roleName: [{ required: true, message: '请输入角色名', trigger: 'blur' }],
 });
 
 const getList = async () => {
@@ -124,7 +128,7 @@ const getList = async () => {
         roleParams.pageNum = res.pageNum;
         roleParams.pageSize = res.pageSize;
         total.value = res.total;
-    } catch (err) { }
+    } catch (err) {}
 };
 
 const handleSizeChange = (rows: number) => {
@@ -154,12 +158,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
 const save = async () => {
     try {
-        await isEdit.value ? roleEdit(addData) : roleAdd(addData);
+        (await isEdit.value) ? roleEdit(addData) : roleAdd(addData);
         addShow.value = false;
         ElMessage.success('操作成功');
         getList();
-    } catch (err) { }
-
+    } catch (err) {}
 };
 
 const editFun = async (row: any) => {
@@ -186,13 +189,13 @@ const rootFun = async (row: any) => {
     addData.roleDesc = row.roleDesc;
     await nextTick();
     const res: any = await getRoleList({
-        roleId: row.roleId
+        roleId: row.roleId,
     });
     moduleIds.value = res;
 
     // 授权回显
     let node: any = [];
-    tree.value.setCheckedNodes(getFlatDeepTreeData(res,node));
+    tree.value.setCheckedNodes(getFlatDeepTreeData(res, node));
 
     // res.forEach((r: any) => {
     //     allMenu.value.forEach((a: any) => {
@@ -209,7 +212,6 @@ const rootFun = async (row: any) => {
     //     });
     // });
 
-
     // res[0].children.forEach((item: any) => {
     //     allMenu.value[0].children.forEach((t: any) => {
     //         if (item.moduleId === t.moduleId) {
@@ -225,7 +227,7 @@ const getAllMenu = async () => {
     try {
         const res: any = await listAllModule();
         allMenu.value = res;
-    } catch (err) { }
+    } catch (err) {}
 };
 
 // 授权修改
@@ -235,7 +237,6 @@ const handleCheckChange = (val) => {
     moduleIds.value = [...new Set([tree.value.getCheckedKeys(), ...tree.value.getHalfCheckedKeys()])].join(',');
     // console.log(moduleIds.value, 'moduleIds.valuemoduleIds.value');
 };
-
 
 // 授权保存
 const rootSave = async () => {
@@ -248,16 +249,14 @@ const rootSave = async () => {
         ElMessage.success('操作成功');
         showRoot.value = false;
         getList();
-    } catch (err) {
-
-    }
+    } catch (err) {}
 };
 
 // 获取角色授权
 const getRoleRoot = async (roleId: any) => {
     try {
         await getRoleList(roleId);
-    } catch (err) { }
+    } catch (err) {}
 };
 
 onMounted(() => {
