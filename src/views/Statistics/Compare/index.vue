@@ -22,6 +22,7 @@
                 <el-date-picker
                     v-model="searchForm.date"
                     size="default"
+                    :disabled-date="disabledDate"
                     type="datetimerange"
                     value-format="YYYY-MM-DD HH:mm:ss"
                     @change="handleSearch"
@@ -89,6 +90,10 @@ const chartOptions = ref({
     },
     series: [],
 });
+
+const disabledDate = (time: Date) => {
+    return time.getTime() > Date.now();
+};
 // getStations({pageNum: 1, pageSize: 1000, bizModule: store.currentApp.bizModule});
 
 const handleSearch = async () => {

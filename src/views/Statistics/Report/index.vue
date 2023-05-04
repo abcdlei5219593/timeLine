@@ -5,6 +5,7 @@
                 <el-date-picker
                     v-model="searchForm.date"
                     size="default"
+                    :disabled-date="disabledDate"
                     type="daterange"
                     value-format="YYYY-MM-DD"
                     @change="handleSearch"
@@ -96,6 +97,9 @@ const chartOptions = ref({
 });
 // getStations({pageNum: 1, pageSize: 1000, bizModule: store.currentApp.bizModule});
 
+const disabledDate = (time: Date) => {
+    return time.getTime() > Date.now();
+};
 const handleSearch = async () => {
     const params = {
         measure: 'aqi',
@@ -143,6 +147,7 @@ const handleColumnClick = async (row, column, event) => {
     }
     chartOptions.value.series = series;
 };
+
 
 const getDeviceListHandler = async () => {
     // deviceList.value

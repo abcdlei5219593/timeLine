@@ -5,6 +5,7 @@
                 <span class="search-label">时间：</span>
                 <ElDatePicker
                     v-model="date"
+                    :disabled-date="disabledDate"
                     type="datetimerange"
                     range-separator="-"
                     size="default"
@@ -84,6 +85,10 @@ const handleSizeChange = (rows: number) => {
 const handleCurrentChange = (page: number) => {
     params.pageNum = page;
     getList();
+};
+
+const disabledDate = (time: Date) => {
+    return time.getTime() > Date.now();
 };
 
 onMounted(() => {

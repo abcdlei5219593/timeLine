@@ -18,7 +18,7 @@
         </ElCol>
         <ElCol :span="12" class="h-340">
             <ElCard shadow="never" class="msg ">
-                <h3>消息情况</h3>
+                <h3>告警消息</h3>
                 <ul>
                     <li v-for="msg in msgList" :key="msg.id">
                         {{ msg.title }}
@@ -55,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-import { ElCard, ElSelect, ElRow, ElCol } from 'element-plus';
+import { ElCard, ElSelect, ElRow, ElCol, valueEquals } from 'element-plus';
 import { useUserStore } from '@/store/app';
 import { get24AvgData, getAQI, getLastestAlarms } from '@/api/home';
 import { getHotmapData } from '@/api/analyse';
@@ -92,13 +92,27 @@ const drawBar = async () => {
     const data = await get24AvgData({ measure: 'so2' });
     option.value = {
         xAxis: {
-
-            data: data.map(item => dayjs(item.time).format('YYYY-MM-DD HH:mm:ss')),
+            axisLabel: {
+                formatter(value){
+                    return value.split(' ')[1];
+                }
+            }, // item => dayjs(item.time).format('DD日HH时')
+            data: data.map(item => dayjs(item.time).format('YYYY-MM-DD DD日HH时')),
 
         },
-        yAxis: {},
+        tooltip: {
+            show: true,
+
+        },
+        yAxis: {
+
+            show: true,
+            type: 'value',
+            position: 'left'
+        },
         grid: {
-            left: 0,
+
+            left: 25,
             right: 0,
             top: 10,
             bottom: 0,

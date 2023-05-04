@@ -13,6 +13,7 @@
                 <ElFormItem label="时间:">
                     <el-date-picker
                         v-model="searchForm.date"
+                        :disabled-date="disabledDate"
                         type="daterange"
 
                         value-format="YYYY-MM-DD"
@@ -41,7 +42,9 @@ const searchForm = reactive({
         dayjs().format('YYYY-MM-DD')
     ]
 });
-
+const disabledDate = (time: Date) => {
+    return time.getTime() > Date.now();
+};
 
 
 </script>

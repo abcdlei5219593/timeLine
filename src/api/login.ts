@@ -7,7 +7,6 @@ export const login = (params = {}) =>
         url: '/login',
         method: 'post',
         params,
-        showLoading: true
     } as AxiosRequestConfig);
 
 export const getRoleList = (data: object | null = null) =>
@@ -15,7 +14,6 @@ export const getRoleList = (data: object | null = null) =>
         url: '/module/listRoleModule',
         method: 'get',
         params: data,
-        showLoading: true
     } as AxiosRequestConfig);
 
 // 获取登录用户菜单权限
@@ -24,5 +22,4 @@ export const listUserModule = (params = {}) =>
         url: '/module/listUserModule',
         method: 'post',
         params,
-        showLoading: true
     } as AxiosRequestConfig);
