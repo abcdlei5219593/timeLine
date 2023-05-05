@@ -83,7 +83,7 @@ const date: any = ref([]);
 
 const AirWarnParams = reactive<AirWarnParamsType>({
     alarmType: null,
-    stationId: null,
+    stationId: '',
     startTime: '',
     endTime: '',
     sensorCode: 'pm2_5',
@@ -157,7 +157,7 @@ const stationArr: any = ref([]);
 const getStationList = async () => {
     try {
         const res: any = await getDeviceList({ bizModule: store.bizModule });
-        stationArr.value = res;
+        stationArr.value = [{ stationName: '全部微站', deviceId: '' }, ...res];
     } catch (err) { }
 };
 

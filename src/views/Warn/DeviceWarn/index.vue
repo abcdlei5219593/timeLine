@@ -54,7 +54,7 @@ const store = storeMenu();
 const tableData: any = ref([]);
 const DevceWarnParams = reactive<DevceWarnParamsType>({
     alarmType: null,
-    stationId: null,
+    stationId: '',
     startTime: '',
     endTime: '',
     pageNum: 1,
@@ -121,7 +121,7 @@ const stationArr: any = ref([]);
 const getStationList = async () => {
     try {
         const res: any = await getDeviceList({ bizModule: store.bizModule });
-        stationArr.value = res;
+        stationArr.value = [{ stationName: '全部微站', deviceId: '' }, ...res];
     } catch (err) { }
 };
 

@@ -1,39 +1,21 @@
 <template>
     <div class="main-content flag-con">
         <ElRow class="search-row">
-            <ElCol :span="6">
+            <ElCol :span="8">
                 <span class="search-label">时间：</span>
-                <ElDatePicker
-                    v-model="date"
-                    :disabled-date="disabledDate"
-                    type="datetimerange"
-                    range-separator="-"
-                    size="default"
-                    @change="timeChange"
-                />
+                <ElDatePicker v-model="date" :disabled-date="disabledDate" type="datetimerange" range-separator="-"
+                    size="default" @change="timeChange" />
             </ElCol>
         </ElRow>
-        <ElTable
-            id="flagTable"
-            class="table"
-            :data="tableData"
-            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
-        >
+        <ElTable id="flagTable" class="table" :data="tableData"
+            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
             <ElTableColumn prop="userName" label="用户名" />
             <ElTableColumn prop="operationContent" label="操作" />
             <ElTableColumn prop="operationTime" label="时间" />
         </ElTable>
-        <ElPagination
-            class="pagination"
-            background
-            layout="total,sizes,prev, pager, next,jumper"
-            :total="total"
-            :current-page="params.pageNum"
-            :page-sizes="[10, 20, 50, 100]"
-            :page-size="params.pageSize"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-        />
+        <ElPagination class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="total"
+            :current-page="params.pageNum" :page-sizes="[10, 20, 50, 100]" :page-size="params.pageSize"
+            @size-change="handleSizeChange" @current-change="handleCurrentChange" />
     </div>
 </template>
 
@@ -66,7 +48,16 @@ const getList = async () => {
         params.pageNum = res.pageNum;
         params.pageSize = res.pageSize;
         total.value = res.total;
-    } catch (err) {}
+    } catch (err) { }
+};
+
+const setDefaultTime = () => {
+    params.endTime = getFormatDate(new Date(), 'YYYY-mm-dd HH:MM:SS');
+    params.startTime = getFormatDate(
+        new Date(new Date().getTime() - 7 * 24 * 3600 * 1000),
+        'YYYY-mm-dd HH:MM:SS'
+    );
+    date.value = [params.startTime, params.endTime];
 };
 
 const timeChange = (val: any) => {
@@ -92,6 +83,7 @@ const disabledDate = (time: Date) => {
 };
 
 onMounted(() => {
+    setDefaultTime();
     getList();
 });
 
@@ -99,6 +91,5 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'flagTable',
 </script>
 
 <style scoped lang="scss">
-.flag-con {
-}
+.flag-con {}
 </style>
