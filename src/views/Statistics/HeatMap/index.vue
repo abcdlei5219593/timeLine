@@ -6,7 +6,12 @@
             <elForm inline>
                 <ElFormItem label="类型:">
                     <ElSelect v-model="searchForm.measure" size="medium">
-                        <ElOption label="AQI" value="aqi"></ElOption>
+                        <ElOption
+                            v-for="item in store.measureList"
+                            :key="item.code"
+                            :label="item.name"
+                            :value="item.code"
+                        ></ElOption>
                         <ElOption label="PM2.5" value="pm2_5"></ElOption>
                     </ElSelect>
                 </ElFormItem>
@@ -33,7 +38,9 @@ import { ElCard, ElForm, ElFormItem, ElSelect, ElOption,ElDatePicker } from 'ele
 import { computed, ref, reactive } from 'vue';
 import HeatMap from './HeatMap.vue';
 import dayjs from '@/helper/dayjs';
+import { useSettingStore } from '@/store/app';
 
+const store = useSettingStore();
 
 const searchForm = reactive({
     measure: 'aqi',

@@ -24,16 +24,23 @@ const dataSet = ref({
     data: [],
     max: 500
 });
+let timer;
 watch(
     () => props.searchForm,
     (val) => {
         getDeviceDataHandler();
+    },
+    {
+        deep: true
     }
 );
 const start = () => {
     if(timeLine.length) {
+        if(timer) {
+            clearInterval(timer);
+        }
         let idx = 0;
-        setInterval(() => {
+        timer = setInterval(() => {
             dataSet.value = timeLine[idx];
             if(idx === timeLine.length - 1) {
                 idx = 0;

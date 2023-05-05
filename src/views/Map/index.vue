@@ -6,8 +6,12 @@
             <elForm>
                 <ElFormItem label="类型:">
                     <ElSelect v-model="dataType" size="medium">
-                        <ElOption label="AQI" value="aqi"></ElOption>
-                        <ElOption label="PM2.5" value="pm25"></ElOption>
+                        <ElOption
+                            v-for="item in store.measureList"
+                            :key="item.code"
+                            :label="item.name"
+                            :value="item.code"
+                        ></ElOption>
                     </ElSelect>
                 </ElFormItem>
             </elForm>

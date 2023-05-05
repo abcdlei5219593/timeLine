@@ -14,8 +14,10 @@
         </ElHeader>
         <ElContainer>
             <ElAside v-if="hasAside">
-                <Menu class="app-menu" :router="true" mode="vertical" :menu-list="currentAppMenu"
-                    :collapse="store.isCollapse">
+                <Menu
+                    class="app-menu" :router="true" mode="vertical" :menu-list="currentAppMenu"
+                    :collapse="store.isCollapse"
+                >
                 </Menu>
                 <div class="toggle-menu" @click="store.setCollapse">
                     <i v-if="!store.isCollapse" class="iconfont icon-shouqidaohang"></i>
@@ -86,6 +88,19 @@ watch(
     },
     {
         immediate: true,
+    }
+);
+
+watch(
+    () => store.currentApp,
+    (app) => {
+        if(app) {
+            store.getMeasureListHandler({ bizModule: app.bizModule});
+        }
+    },
+    {
+        deep: true,
+        immediate: true
     }
 );
 </script>
