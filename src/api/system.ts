@@ -63,3 +63,12 @@ export const getMeasureList = (data: object = {}) =>
         params: data,
         showLoading: true
     } as AxiosRequestConfig);
+
+// 查询业务模块列表
+export const getModuleList = (data: object = {}) =>
+    $http({
+        url: '/admin/common/getModuleList',
+        method: 'get',
+        params: data,
+        showLoading: true
+    } as AxiosRequestConfig);

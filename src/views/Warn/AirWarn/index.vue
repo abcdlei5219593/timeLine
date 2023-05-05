@@ -20,8 +20,8 @@
             </ElCol>
             <ElCol :span="6">
                 <span class="search-label">传感器类型：</span>
-                <ElSelect v-model="AirWarnParams.sensorType" placeholder="请选择" size="default" @change="searchChange">
-                    <ElOption v-for="item in sensorTypeOptions" :key="item.value" :label="item.label" :value="item.value" />
+                <ElSelect v-model="AirWarnParams.sensorCode" placeholder="请选择" size="default" @change="searchChange">
+                    <ElOption v-for="item in sensorTypeOptions" :key="item.code" :label="item.name" :value="item.code" />
                 </ElSelect>
             </ElCol>
             <ElCol :span="5" @change="searchChange">
@@ -66,7 +66,7 @@ import { ElMessage } from 'element-plus';
 import { ref, reactive, onMounted } from 'vue';
 import { AirWarnParamsType, warnOptions } from './../ModelDefines';
 import useTableSetting from '@/hooks/useTableSetting';
-import { getDataDictionary } from '@/api/system';
+import { getDataDictionary, getMeasureList } from '@/api/system';
 import { alarmList, alarmClose } from '@/api/warn';
 import { getFormatDate } from '@/utils/common';
 import { getDeviceList } from '@/api/device';
@@ -86,7 +86,7 @@ const AirWarnParams = reactive<AirWarnParamsType>({
     stationId: '',
     startTime: '',
     endTime: '',
-    sensorCode: 'pm2_5',
+    sensorCode: '',
     unclosed: false,
     pageNum: 1,
     pageSize: 20,
@@ -97,14 +97,6 @@ const timeChange = (val: any) => {
     date.value = val;
     AirWarnParams.startTime = val[0];
     AirWarnParams.endTime = val[1];
-};
-
-// 获取传感器
-const geStationList = async () => {
-    try {
-        const res: any = await getDataDictionary('sensorCode');
-        sensorTypeOptions.value = res;
-    } catch (err) { }
 };
 
 const getList = async () => {
@@ -161,11 +153,16 @@ const getStationList = async () => {
     } catch (err) { }
 };
 
+// 获取传感器类型
+const getMeasureListInfo = async () => {
+    sensorTypeOptions.value = await getMeasureList({ bizModule: store.bizModule });
+};
+
 onMounted(() => {
+    getMeasureListInfo();
     getStationList();
     setDefaultTime();
     getList();
-    geStationList();
 });
 
 const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'deviceWarnTable', offsetBottom: 100 });

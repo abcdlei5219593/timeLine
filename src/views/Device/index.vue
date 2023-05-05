@@ -228,7 +228,6 @@ const editFun = (row: any) => {
 };
 
 onMounted(() => {
-    // getStationslist();
     getList();
 });
 
