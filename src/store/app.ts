@@ -38,7 +38,7 @@ export const useUserStore = defineStore({
 export const useSettingStore = defineStore('systemSetting', () => {
     const route = useRoute();
     const isCollapse = ref<boolean>(false);
-    const mapCenter = [104.06, 30.59];
+    const mapCenter = [104.832038,28.73803];
     const measureList = ref([]);
     const setCollapse = () => {
         isCollapse.value = !isCollapse.value;
@@ -81,7 +81,7 @@ export const storeMenu = defineStore({
             this.buttonList = buttonList;
         },
         getBizModule(bizModule) {
-            this.bizModule = bizModule
+            this.bizModule = bizModule;
         }
 
     },

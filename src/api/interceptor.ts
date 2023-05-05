@@ -35,6 +35,7 @@ $http.interceptors.request.use((config) => {
         loadingInstance = ElLoading.service({
             lock: true,
             text: '数据加载中...',
+            background: 'transparent'
         });
     }
     return config;
