@@ -3,6 +3,11 @@ import { Menu } from './types/menu';
 export const routeWaterPath = (basePath: string): Menu =>
     [
         {
+            url: basePath + '/home',
+            name: '首页',
+            icon: 'iconfont icon-shouye',
+        },
+        {
             url: basePath + '/map',
             name: '地图展示',
             icon: 'iconfont icon-dituzhanshi',

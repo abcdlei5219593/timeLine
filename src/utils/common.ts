@@ -35,7 +35,6 @@ export function getFormatDate(dateStr: string, format = 'YYYY-mm-dd') {
  */
 
 export const getDeepTreeData = (sourceTree, targetTree) => {
-    debugger
     const temp = [];
     for (const item of targetTree) {
         let target = {};

@@ -2,15 +2,26 @@
     <div shadow="never" class="container">
         <elForm inline>
             <ElFormItem label="微站选择:">
-                <ElSelect v-model="searchForm.deviceId" value-key="stationId" collapse-tags size="default" multiple="">
+                <ElSelect
+                    v-model="searchForm.deviceId"
+                    value-key="stationId"
+                    collapse-tags
+                    size="default"
+                    multiple=""
+                    @change="handleSearch"
+                >
                     <ElOption v-for="item in deviceList" :key="item.stationId" :label="item.stationName" :value="item">
                     </ElOption>
                 </ElSelect>
             </ElFormItem>
             <ElFormItem label="类型">
-                <ElSelect v-model="searchForm.measure" size="default">
-                    <ElOption label="AQI" value="aqi"></ElOption>
-                    <ElOption label="PM2.5" value="pm2_5"></ElOption>
+                <ElSelect v-model="searchForm.measure" size="default" @change="handleSearch">
+                    <ElOption
+                        v-for="item in store.measureList"
+                        :key="item.code"
+                        :label="item.name"
+                        :value="item.code"
+                    ></ElOption>
                 </ElSelect>
             </ElFormItem>
             <ElFormItem label="时间:">
@@ -33,7 +44,7 @@
 <script setup lang="ts" name="Map">
 import { ElCard, ElForm, ElFormItem, ElSelect, ElOption, ElDatePicker } from 'element-plus';
 import { getDeviceList, getStations } from '@/api/device';
-import { getHotmapData, getCurvesData } from '@/api/analyse';
+import http from '@/api/analyse';
 import { computed, ref, reactive } from 'vue';
 import VChart from 'vue-echarts';
 import { useSettingStore } from '@/store/app';
@@ -43,7 +54,7 @@ const store = useSettingStore();
 const deviceList: any = ref([]);
 const searchForm = reactive({
     deviceId: [],
-    measure: 'aqi',
+    measure: store.currentApp.defaultMeasure,
     date: [],
     startTime: '',
     endTime: '',
@@ -78,6 +89,7 @@ const chartOptions = ref({
         boundaryGap: [0, '100%'],
     },
     series: [],
+    color: ['#0052D9','#029CD4']
 });
 
 const disabledDate = (time: Date) => {
@@ -92,9 +104,8 @@ const handleSearch = async () => {
         endTime: searchForm.date.length ? searchForm.date[1] : '',
         measure: searchForm.measure,
     };
-    const data = await getCurvesData(params);
+    const data = await http[store.currentApp.url].getCurvesData(params);
     const lengend = searchForm.deviceId.map(({ stationName }) => stationName);
-    chartOptions.value.legend.data = lengend;
 
     let series = [];
     for (const device of searchForm.deviceId) {
@@ -114,15 +125,23 @@ const handleSearch = async () => {
         }
         series.push(temp);
     }
-    console.log(series);
-    chartOptions.value.series = series;
-    console.log(chartOptions.value.series);
+    chartOptions.value = {
+        ...chartOptions.value,
+        series,
+        legend: {
+            data: lengend
+        }
+    };
+
+
 };
 
 const getDeviceListHandler = async () => {
     // deviceList.value
-    const res: any = await getDeviceList({ bizModule: store.currentApp.bizModule });
-    deviceList.value = [{ stationName: '全部微站', stationId: '' }, ...res];
+    const res = await getDeviceList({ bizModule: store.currentApp.bizModule });
+    // deviceList.value = [{ stationName: '全部微站', stationId: '' }, ...res];
+    deviceList.value = res;
+    searchForm.deviceId = res;
     // getDeviceDataHandler();
 };
 

@@ -3,12 +3,18 @@
         <ElCol :span="12" class="h-340">
             <ElCard shadow="never" class="welcome">
                 <h3>欢迎你，{{ store.userInfo?.name }}</h3>
-                <article class="inner-title">微站检测平台</article>
-                <article class="flex">
-                    AQI:{{ AQI }}
-                    <div class="tag">良</div>
+                <article class="inner-title">
+                    微站检测平台
                 </article>
-                <article class="">2023年更新</article>
+                <article class="flex">
+                    {{ appStore.currentApp.meta.AQIName }}:{{ AQI }}
+                    <div class="tag">
+                        良
+                    </div>
+                </article>
+                <article class="">
+                    2023年更新
+                </article>
             </ElCard>
         </ElCol>
         <ElCol :span="12" class="h-340">
@@ -37,8 +43,12 @@
                 <div class="chat-title">
                     <h3>微站24小时平均值</h3>
                     <ElSelect v-model="measure" size="medium" @change="drawBar">
-                        <ElOption label="AQI" value="aqi" />
-                        <ElOption label="PM2.5" value="pm2_5" />
+                        <ElOption
+                            v-for="item in appStore.measureList"
+                            :key="item.code"
+                            :label="item.name"
+                            :value="item.code"
+                        ></ElOption>
                     </ElSelect>
                 </div>
                 <div class="map-layout">
@@ -51,36 +61,43 @@
 
 <script setup lang="ts">
 import { ElCard, ElSelect, ElRow, ElCol, valueEquals } from 'element-plus';
-import { useUserStore } from '@/store/app';
-import { get24AvgData, getAQI, getLastestAlarms } from '@/api/home';
-import { getHotmapData } from '@/api/analyse';
+import { useUserStore, useSettingStore } from '@/store/app';
+import http from '@/api/home';
 import { ref, onMounted } from 'vue';
 import VChart from 'vue-echarts';
 import HeatMap from '../Statistics/HeatMap/HeatMap.vue';
 import dayjs from '@/helper/dayjs';
+import { computed } from 'vue';
 
+const appStore = useSettingStore();
 const AQI = ref<number>(null);
 const msgList = ref([]);
 const option = ref({
     tooltip: {},
     legend: {
-        data: ['产量'],
+
     },
     xAxis: {
-        data: ['大米', '棉花', '小米'],
+
     },
     yAxis: {},
-    series: [{ name: '产量', type: 'bar', data: [100, 200, 300] }],
+    series: [],
 });
-const measure = ref('aqi');
+
+
+const measure = ref(appStore.currentApp.defaultMeasure);
+
+
 
 const searchForm = {
-    measure: 'aqi',
+    measure: appStore.currentApp.defaultMeasure,
     date: [dayjs().subtract(3, 'day').format('YYYY-MM-DD'), dayjs().format('YYYY-MM-DD')],
 };
 
+
 const drawBar = async () => {
-    const data = await get24AvgData({ measure: 'so2' });
+
+    const data = await http[appStore.currentApp.url].get24AvgData({ measure: measure.value });
     option.value = {
         xAxis: {
             axisLabel: {
@@ -108,19 +125,21 @@ const drawBar = async () => {
         series: [
             {
                 type: 'bar',
+
                 data: data.map((item) => item.avg),
             },
         ],
+        color: ['#07A872','#F5BA18']
     };
 };
 onMounted(() => {
     drawBar();
 });
 const getAQIHandler = async () => {
-    AQI.value = await getAQI();
+    AQI.value = await http[appStore.currentApp.url].getAQI();
 };
 const getLastestAlarmsHandler = async () => {
-    msgList.value = await getLastestAlarms({ pageNum: 1, pageSize: 5 });
+    msgList.value = await http[appStore.currentApp.url].getLastestAlarms({ pageNum: 1, pageSize: 5 });
 };
 getAQIHandler();
 getLastestAlarmsHandler();

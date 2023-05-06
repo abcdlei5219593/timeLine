@@ -23,11 +23,12 @@
 
 <script setup lang="ts">
 import { ElCard, ElTable, ElTableColumn } from 'element-plus';
-import { getAQIHourAvgInMonth } from '@/api/analyse';
+import http from '@/api/analyse';
 import useTableSetting from '@/hooks/useTableSetting';
+import { useSettingStore } from '@/store/app';
 import { ref } from 'vue';
 
-
+const store = useSettingStore();
 const { maxTableHeight } = useTableSetting();
 const cellStyle = ({ row, column, rowIndex, columnIndex }) => {
     if(columnIndex !== 0 && columnIndex !== tableColumn.length - 1) {
@@ -96,7 +97,7 @@ const tableColumn = [
 ];
 
 const getTableData = async () => {
-    const data = await getAQIHourAvgInMonth({year: new Date().getFullYear(), month: new Date().getMonth() + 1});
+    const data = await http[store.currentApp.url].getAQIHourAvgInMonth({year: new Date().getFullYear(), month: new Date().getMonth() + 1});
     console.log(data);
     const arr = [];
     for(const [index,station] of data.entries()) {

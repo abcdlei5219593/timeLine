@@ -12,7 +12,7 @@
 import {ref , reactive, watch } from 'vue';
 import { useSettingStore } from '@/store/app';
 import { getDeviceList } from '@/api/device';
-import { getHotmapData } from '@/api/analyse';
+import http from '@/api/analyse';
 
 const props = defineProps<{
     searchForm: object
@@ -58,7 +58,7 @@ const getDeviceDataHandler = async () => {
         endTime: props.searchForm.date.length ? `${props.searchForm.date[1]} 23:59:59` : '',
         measure: props.searchForm.measure
     };
-    const data = await getHotmapData(params);
+    const data = await http[store.currentApp.url].getHotmapData(params);
     for (const device of data) {
         const current = deviceList.value.find(item => item.deviceId === device.deviceId);
         if(current) {

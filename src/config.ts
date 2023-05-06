@@ -46,13 +46,24 @@ export const APP_LIST: Menu = [
         url: '/app/airContent',
         name: '大气气体含量探测',
         bizModule: 1,
-        children: routeAirPath('/app/airContent')
+        defaultMeasure: 'aqi',
+        children: routeAirPath('/app/airContent'),
+        meta: {
+            AQIName: 'AQI',
+            categoryName: '空气'
+
+        }
     },
     {
         url: '/app/water',
         name: '水质探测管理',
         bizModule: 2,
-        children: routeWaterPath('/app/water')
+        defaultMeasure: 'cwqi',
+        children: routeWaterPath('/app/water'),
+        meta: {
+            AQIName: 'CWQI',
+            categoryName: '水质'
+        }
     },
     {
         url: '/app/pm',

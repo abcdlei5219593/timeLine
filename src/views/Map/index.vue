@@ -36,7 +36,7 @@
                     :avoid="true"
                     :auto-move="true"
                     :offset="[15, -10]"
-                    :position="[104.06,30.59]"
+                    :position="markerPosition"
                 >
                     <div class="header">
                         <span class="station">{{ currentMaker.stationName }}</span>
@@ -86,12 +86,12 @@ import { useSettingStore } from '@/store/app';
 
 const store = useSettingStore();
 const deviceList = ref([]);
-const dataType = ref('aqi');
+const dataType = ref(store.currentApp.defaultMeasure);
 const visible = ref(false);
 import markerUrl from '@/assets/img/marker.png';
 
 const currentMaker = ref({ data: {api: ''}});
-
+const markerPosition = ref(store.mapCenter);
 const markerText = computed(() => (data) =>
     `<div
                 class="marker-content"
@@ -104,15 +104,15 @@ const markerText = computed(() => (data) =>
 const getDeviceListHandler = async () => {
     // deviceList.value
     let data = await getDeviceList({ bizModule: store.currentApp.bizModule});
+
+    const deviceIds = data.map(({ deviceId }) => deviceId);
+    let deviceData = await getDeviceData(deviceIds);
     if( store.currentApp.bizModule === 1) {
-        data = data.map(item => ({
+        deviceData = deviceData.map(item => ({
             ...item,
             pm2_5: item.pm25
         }));
     }
-    const deviceIds = data.map(({ deviceId }) => deviceId);
-    const deviceData = await getDeviceData(deviceIds);
-
     for (const item of data) {
         const idx = deviceData.findIndex(({ deviceId }) => deviceId === item.deviceId);
 
@@ -126,6 +126,7 @@ const getDeviceListHandler = async () => {
 
 const mouseoverHandler = (e, marker) => {
     currentMaker.value = marker;
+    markerPosition.value=[marker.longitude, marker.latitude];
     visible.value = true;
 };
 getDeviceListHandler();

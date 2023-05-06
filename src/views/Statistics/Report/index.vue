@@ -23,12 +23,12 @@
                 :row-class-name="tableRowClassName"
                 @row-click="handleColumnClick"
             >
-                <ElTableColumn label="空气质量指数报告">
+                <ElTableColumn :label="`${store.currentApp.meta.categoryName}质量指数报告`">
                     <template #default="scope">
                         <div class="table-column-layout" @click="active = scope.$index">
                             <p>{{ scope.row.stationName }}</p>
                             <p>
-                                本周空气质量平均值为{{ scope.row.avgVal }}，最大值为{{ scope.row.maxVal }}，最小值为{{
+                                本周{{ store.currentApp.meta.categoryName }}质量平均值为{{ scope.row.avgVal }}，最大值为{{ scope.row.maxVal }}，最小值为{{
                                     scope.row.minVal
                                 }}
                             </p>
@@ -44,7 +44,7 @@
 <script setup lang="ts" name="Map">
 import { ElTable, ElForm, ElFormItem, ElTableColumn, ElOption, ElDatePicker } from 'element-plus';
 import { getDeviceList, getStations } from '@/api/device';
-import { getHotmapData, getCurvesData, getAllStationAnalyses } from '@/api/analyse';
+import http from '@/api/analyse';
 import { computed, ref, reactive } from 'vue';
 import VChart from 'vue-echarts';
 import { useSettingStore } from '@/store/app';
@@ -97,6 +97,7 @@ const chartOptions = ref({
         boundaryGap: [0, '100%'],
     },
     series: [],
+    color: ['#0052D9','#029CD4']
 });
 // getStations({pageNum: 1, pageSize: 1000, bizModule: store.currentApp.bizModule});
 
@@ -105,12 +106,12 @@ const disabledDate = (time: Date) => {
 };
 const handleSearch = async () => {
     const params = {
-        measure: 'aqi',
+        measure: store.currentApp.defaultMeasure,
         startTime: searchForm.date.length ? `${searchForm.date[0]} 00:00:00` : '',
         endTime: searchForm.date.length ? `${searchForm.date[1]} 23:59:59` : '',
-        bizModule: 1,
+        bizModule: store.currentApp.bizModule,
     };
-    const data = await getAllStationAnalyses(params);
+    const data = await http[store.currentApp.url].getAllStationAnalyses(params);
 
     tableData.value = data;
     tableData.value.length && handleColumnClick(tableData.value[0], '', '');
@@ -121,9 +122,9 @@ const handleColumnClick = async (row: any, column: any, event: any) => {
         deviceId: [row.deviceId],
         startTime: searchForm.date.length ? `${searchForm.date[0]} 00:00:00` : '',
         endTime: searchForm.date.length ? `${searchForm.date[1]} 23:59:59` : '',
-        measure: 'aqi',
+        measure: store.currentApp.defaultMeasure,
     };
-    const data = await getCurvesData(params);
+    const data = await http[store.currentApp.url].getCurvesData(params);
     // const lengend = searchForm.deviceId.map(({ stationName }) => stationName);
     chartOptions.value.legend.data = [row.stationName];
 
@@ -148,7 +149,7 @@ const handleColumnClick = async (row: any, column: any, event: any) => {
     chartOptions.value.series = series;
 };
 
-//初始化默认一周
+// 初始化默认一周
 const setDefaultTime = () => {
     searchForm.endTime = dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss');
     searchForm.startTime = dayjs(new Date(new Date().getTime() - 7 * 24 * 3600 * 1000)).format('YYYY-MM-DD HH:mm:ss');

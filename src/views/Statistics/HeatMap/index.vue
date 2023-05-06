@@ -42,7 +42,7 @@ import { useSettingStore } from '@/store/app';
 const store = useSettingStore();
 
 const searchForm = reactive({
-    measure: 'aqi',
+    measure: store.currentApp.defaultMeasure,
     date: [
         dayjs().subtract(3,'day').format('YYYY-MM-DD'),
         dayjs().format('YYYY-MM-DD')
