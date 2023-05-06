@@ -1,7 +1,7 @@
 <template>
     <div shadow="never" class="container">
         <ElRow class="search-row">
-            <ElCol :span="6">
+            <ElCol :span="8">
                 <span class="search-label">时间：</span>
                 <el-date-picker
                     v-model="searchForm.date"

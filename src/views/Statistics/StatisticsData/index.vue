@@ -29,14 +29,14 @@
             :data="tableData"
             :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
         >
-            <ElTableColumn prop="deviceId" label="名称" />
-            <ElTableColumn prop="AQI" label="AQI" />
-            <ElTableColumn prop="PM10" label="PM10（ug/m3）" />
-            <ElTableColumn prop="PM2_5" label="PM2.5（ug/m3）" />
-            <ElTableColumn prop="CO" label="一氧化碳（ug/m3）" />
-            <ElTableColumn prop="NO2" label="二氧化氮（ug/m3）" />
-            <ElTableColumn prop="O3" label="臭氧（ug/m3）" />
-            <ElTableColumn prop="SO2" label="二氧化硫（ug/m3）" />
+            <ElTableColumn prop="deviceId" label="名称" width="150" />
+            <ElTableColumn prop="aqi" label="AQI" />
+            <ElTableColumn prop="pm10" label="PM10（ug/m3）" />
+            <ElTableColumn prop="pm25" label="PM2.5（ug/m3）" />
+            <ElTableColumn prop="co" label="一氧化碳（ug/m3）" />
+            <ElTableColumn prop="no2" label="二氧化氮（ug/m3）" />
+            <ElTableColumn prop="o3" label="臭氧（ug/m3）" />
+            <ElTableColumn prop="so2" label="二氧化硫（ug/m3）" />
             <ElTableColumn prop="temp" label="温度" />
             <ElTableColumn prop="humi" label="湿度" />
             <ElTableColumn prop="wsp" label="风速" />
@@ -46,7 +46,7 @@
                 </template>
             </ElTableColumn>
             <ElTableColumn prop="wd" label="风向" />
-            <ElTableColumn prop="createTime" label="上传时间" />
+            <ElTableColumn prop="createTime" label="上传时间" width="170" />
         </ElTable>
         <ElPagination
             class="pagination"
@@ -81,6 +81,7 @@ const params: any = ref({
     pageSize: 20,
     startTime: '',
     endTime: '',
+    stationId: '',
 });
 
 const timeChange = (val: any) => {

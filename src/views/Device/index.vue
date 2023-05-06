@@ -120,7 +120,6 @@ import { useRouter } from 'vue-router';
 import useTableSetting from '@/hooks/useTableSetting';
 import { getDeviceList, getStations, deviceAdd, deviceEdit } from '@/api/device';
 import { deviceDataType } from './ModelDefines';
-import { getDataDictionary } from '@/api/system';
 import { storeMenu } from '@/store/app';
 
 const store = storeMenu();
