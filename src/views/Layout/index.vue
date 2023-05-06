@@ -2,12 +2,9 @@
     <ElContainer>
         <ElHeader>
             <ElContainer>
-                <div class="logo fs-18 fw-600">
-                    大气监测管理系统
-                </div>
+                <div class="logo fs-18 fw-600">大气监测管理系统</div>
                 <section>
-                    <AppBar :menu-list="appList">
-                    </AppBar>
+                    <AppBar :menu-list="appList"> </AppBar>
                 </section>
                 <HeaderRight></HeaderRight>
             </ElContainer>
@@ -15,7 +12,10 @@
         <ElContainer>
             <ElAside v-if="hasAside">
                 <Menu
-                    class="app-menu" :router="true" mode="vertical" :menu-list="currentAppMenu"
+                    class="app-menu"
+                    :router="true"
+                    mode="vertical"
+                    :menu-list="currentAppMenu"
                     :collapse="store.isCollapse"
                 >
                 </Menu>
@@ -27,8 +27,7 @@
             </ElAside>
             <ElMain>
                 <Breadcrumb v-if="showBread" />
-                <RouterView class="main-view">
-                </RouterView>
+                <RouterView class="main-view"> </RouterView>
             </ElMain>
         </ElContainer>
     </ElContainer>
@@ -94,13 +93,13 @@ watch(
 watch(
     () => store.currentApp,
     (app) => {
-        if(app) {
-            store.getMeasureListHandler({ bizModule: app.bizModule});
+        if (app) {
+            store.getMeasureListHandler({ bizModule: app.bizModule });
         }
     },
     {
         deep: true,
-        immediate: true
+        immediate: true,
     }
 );
 </script>
@@ -167,7 +166,7 @@ watch(
         .icon-shouqidaohang,
         .icon-zhankaidaohang {
             font-size: 24px;
-            margin: 0 10px 0 26px;
+            margin: 0 10px 0 20px;
             display: block;
         }
     }

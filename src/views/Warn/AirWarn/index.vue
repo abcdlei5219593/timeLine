@@ -187,7 +187,7 @@ onMounted(() => {
     getMeasureListInfo();
     getStationList();
     setDefaultTime();
-    getList();
+    // getList();
 });
 
 const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'deviceWarnTable', offsetBottom: 100 });

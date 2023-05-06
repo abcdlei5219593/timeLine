@@ -22,7 +22,7 @@
     </div>
 
     <!--设置阈值-->
-    <ElDialog v-model="isThreshold" title="阈值设置" width="30%">
+    <ElDialog class="dialog" v-model="isThreshold" title="阈值设置" width="30%">
         <div class="device-dialog">
             <ElForm ref="form" :model="formData" label-width="120px" label-position="top" class="demo-ruleForm">
                 <ElFormItem label="预警阈值" prop="threshold1">
@@ -72,7 +72,7 @@ const isThreshold = ref<boolean>(false);
 // 设置阈值调用接口
 const setThreshold = async () => {
     try {
-        await deviceSet(formData);
+        const res: any = await deviceSet(formData);
         ElMessage.success('操作成功');
         isThreshold.value = false;
     } catch (err) {}
@@ -87,6 +87,9 @@ const getSensorsList = async (deviceId: any) => {
 // 显示设置阈值
 const setShowFun = (row: any) => {
     formData.sensorCode = row.sensorCode;
+    formData.threshold1 = row.threshold1;
+    formData.threshold2 = row.threshold2;
+    formData.threshold3 = row.threshold3;
     isThreshold.value = true;
 };
 
@@ -105,7 +108,7 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'sensorTable
 }
 
 .device-dialog {
-    height: 240px;
+    height: 300px;
 
     p {
         color: #000;

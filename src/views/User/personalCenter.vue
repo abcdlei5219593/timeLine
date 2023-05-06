@@ -1,18 +1,10 @@
 <template>
     <div class="user-top">
-        <p class="user-title">
-            个人信息
-        </p>
+        <p class="user-title">个人信息</p>
         <div class="user-btn">
-            <el-button v-if="!isEdit" size="default" @click="editFun">
-                编辑
-            </el-button>
-            <el-button v-if="isEdit" size="default" @click="cancel">
-                取消
-            </el-button>
-            <el-button v-if="isEdit" size="default" @click="save">
-                保存
-            </el-button>
+            <el-button v-if="!isEdit" size="default" @click="editFun"> 编辑 </el-button>
+            <el-button v-if="isEdit" size="default" @click="cancel"> 取消 </el-button>
+            <el-button v-if="isEdit" size="default" @click="save"> 保存 </el-button>
         </div>
         <ElRow>
             <ElCol :span="7">
@@ -29,12 +21,8 @@
                 <span class="user-label">性别：</span>
                 <span v-if="!isEdit">测试</span>
                 <ElRadioGroup v-else v-model="userInfo.gender">
-                    <ElRadio label="男" size="default">
-                        男
-                    </ElRadio>
-                    <ElRadio label="女" size="default">
-                        女
-                    </ElRadio>
+                    <ElRadio label="男" size="default"> 男 </ElRadio>
+                    <ElRadio label="女" size="default"> 女 </ElRadio>
                 </ElRadioGroup>
             </ElCol>
             <ElCol :span="7">
@@ -50,10 +38,8 @@
         </ElRow>
     </div>
     <div class="user-bottom">
-        <p class="user-title">
-            修改密码
-        </p>
-        <ElForm ref="formDataRef" :model="formData" :rules="rules" label-width="80px" status-icon>
+        <p class="user-title">修改密码</p>
+        <ElForm ref="formDataRef" :model="formData" :rules="rules" label-width="80px">
             <ElFormItem label="旧密码" prop="oldPwd">
                 <el-input v-model="formData.oldPwd" type="password" size="default" placeholder="请输入旧密码" />
             </ElFormItem>
@@ -64,16 +50,25 @@
                 <el-input v-model="formData.newPwdAgain" type="password" size="default" placeholder="请确认密码" />
             </ElFormItem>
             <ElFormItem>
-                <ElButton type="primary" size="default" @click="submitForm(formDataRef)">
-                    确认修改
-                </ElButton>
+                <ElButton type="primary" size="default" @click="submitForm(formDataRef)"> 确认修改 </ElButton>
             </ElFormItem>
         </ElForm>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ElButton, ElInput, ElRow, ElCol, ElForm, ElFormItem, FormInstance, ElMessage, ElRadioGroup, ElRadio } from 'element-plus';
+import {
+    ElButton,
+    ElInput,
+    ElRow,
+    ElCol,
+    ElForm,
+    ElFormItem,
+    FormInstance,
+    ElMessage,
+    ElRadioGroup,
+    ElRadio,
+} from 'element-plus';
 import { ref, reactive, getCurrentInstance, onMounted } from 'vue';
 import md5 from 'js-md5';
 import { basic, changePassword, editUserInfo } from '@/api/user';
@@ -104,15 +99,31 @@ const validatePass = (rule: any, value: any, callback: any) => {
 const rules = reactive({
     oldPwd: [
         { required: true, message: '请输入旧密码', trigger: 'blur' },
-        { required: true, pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/, message: '请输入6-20位字母+数字的密码', trigger: 'blur' },
+        {
+            required: true,
+            pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/,
+            message: '请输入6-20位字母+数字的密码',
+            trigger: 'blur',
+        },
     ],
     newPwd: [
         { required: true, message: '请输入新密码', trigger: 'blur' },
-        { required: true, pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/, message: '请输入6-20位字母+数字的密码', trigger: 'blur' }],
+        {
+            required: true,
+            pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/,
+            message: '请输入6-20位字母+数字的密码',
+            trigger: 'blur',
+        },
+    ],
     newPwdAgain: [
         { required: true, message: '请确认密码', trigger: 'blur' },
-        { pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/, message: '请输入6-20位字母+数字的密码', trigger: 'blur' },
-        { required: true, validator: validatePass, message: '两次输入不相同', trigger: 'blur' }],
+        {
+            pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/,
+            message: '请输入6-20位字母+数字的密码',
+            trigger: 'blur',
+        },
+        { required: true, validator: validatePass, message: '两次输入不相同', trigger: 'blur' },
+    ],
 });
 
 const userInfo = reactive<UserInfoType>({
@@ -150,7 +161,7 @@ const getUser = async () => {
         userInfo.email = res.email;
         const store = useUserStore();
         store.getUserInfo(res);
-    } catch (err) { }
+    } catch (err) {}
 };
 
 const { proxy } = getCurrentInstance() as any;
@@ -165,12 +176,11 @@ const changePasswordFun = async () => {
         });
         ElMessage.success('修改成功');
         router.push('/login');
-    } catch (err) { }
+    } catch (err) {}
 };
 
 const editFun = () => {
     isEdit.value = true;
-
 };
 const cancel = () => {
     isEdit.value = false;
@@ -179,7 +189,7 @@ const save = async () => {
     try {
         await editUserInfo(userInfo);
         isEdit.value = false;
-    } catch (err) { }
+    } catch (err) {}
 };
 
 onMounted(() => {
@@ -228,6 +238,9 @@ onMounted(() => {
     .el-form {
         width: 340px;
         margin-top: 20px;
+    }
+    :deep(.el-form-item__label) {
+        line-height: 32px;
     }
 }
 

@@ -11,6 +11,7 @@
 //search
 .search-row {
     width: 100%;
+
     .el-col {
         display: flex;
         margin-bottom: 20px;
@@ -29,13 +30,19 @@
         .el-select {
             width: 100%;
             padding-right: 40px;
+
+            .el-input {
+                padding-right: 0 !important;
+            }
         }
 
         .el-input {
             padding-right: 20px;
         }
-        .el-date-editor{
+
+        .el-date-editor {
             margin-right: 20px;
+            padding: 0 0 0 10px;
         }
     }
 }
@@ -65,13 +72,22 @@
         font-size: 14px;
         color: #000;
     }
-    .cell{
-        padding:0 0 0 24px !important;
+
+    //cell自带8px
+    thead tr th:first-child,
+    tr td:first-child {
+        padding-left: 16px;
     }
-    tr:hover>td{
+
+    thead tr th:last-child,
+    tr td:last-child {
+        padding-right: 16px;
+    }
+
+    tr:hover>td {
         background-color: #F2F3F5 !important;
-      }
-    
+    }
+
 }
 
 //通用分页
@@ -93,8 +109,25 @@
 }
 
 //Dialog
-.el-dialog {
+.dialog.el-dialog {
     position: relative;
+
+    .el-dialog__body {
+        padding: 14px 24px 0 24px;
+        overflow-y: initial;
+    }
+
+    .el-dialog__title {
+        font-size: 16px;
+        font-weight: 500;
+        color: #333333;
+    }
+
+    .dialog-content {
+        box-sizing: border-box;
+        overflow-y: auto;
+        padding-bottom: 66px;
+    }
 }
 
 .dialog-footer {
@@ -104,10 +137,14 @@
     width: 100%;
     text-align: right;
     // border-top: 1px solid #e6e6e6;
-    padding: 10px;
+    padding: 10px 24px 24px 10px;
     background: #fff;
     z-index: 10;
     box-sizing: border-box;
+
+    .el-button+.el-button {
+        margin-left: 16px;
+    }
 }
 
 :deep(.el-dialog__header) {

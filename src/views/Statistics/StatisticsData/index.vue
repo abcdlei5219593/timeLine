@@ -4,61 +4,38 @@
             <ElCol :span="6">
                 <span class="search-label">微站选择：</span>
                 <ElSelect v-model="params.stationId" placeholder="请选择" size="default" @change="searchChange">
-                    <ElOption
-                        v-for="(item, i) in stationArr"
-                        :key="i"
-                        :label="item.stationName"
-                        :value="item.stationId"
-                    />
+                    <ElOption v-for="(item, i) in stationArr" :key="i" :label="item.stationName" :value="item.stationId" />
                 </ElSelect>
             </ElCol>
             <ElCol :span="8">
                 <span class="search-label">时间：</span>
-                <ElDatePicker
-                    v-model="date"
-                    type="datetimerange"
-                    range-separator="-"
-                    size="default"
-                    @change="timeChange"
-                />
+                <ElDatePicker v-model="date" type="datetimerange" range-separator="-" size="default" @change="timeChange" />
             </ElCol>
         </ElRow>
-        <ElTable
-            id="historyTable"
-            class="table"
-            :data="tableData"
-            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
-        >
-            <ElTableColumn prop="deviceId" label="名称" />
-            <ElTableColumn prop="AQI" label="AQI" />
-            <ElTableColumn prop="PM10" label="PM10（ug/m3）" />
-            <ElTableColumn prop="PM2_5" label="PM2.5（ug/m3）" />
-            <ElTableColumn prop="CO" label="一氧化碳（ug/m3）" />
-            <ElTableColumn prop="NO2" label="二氧化氮（ug/m3）" />
-            <ElTableColumn prop="O3" label="臭氧（ug/m3）" />
-            <ElTableColumn prop="SO2" label="二氧化硫（ug/m3）" />
-            <ElTableColumn prop="temp" label="温度" />
-            <ElTableColumn prop="humi" label="湿度" />
-            <ElTableColumn prop="wsp" label="风速" />
-            <ElTableColumn prop="" label="风压">
+        <ElTable id="historyTable" class="table" :data="tableData"
+            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
+            <ElTableColumn prop="deviceId" label="名称" width="150" />
+            <ElTableColumn prop="aqi" label="AQI" width="60" />
+            <ElTableColumn prop="pm10" label="PM10（ug/m3）" width="100" />
+            <ElTableColumn prop="pm25" label="PM2.5（ug/m3）" width="100" />
+            <ElTableColumn prop="co" label="一氧化碳（ug/m3）" width="100" />
+            <ElTableColumn prop="no2" label="二氧化氮（ug/m3）" width="100" />
+            <ElTableColumn prop="o3" label="臭氧（ug/m3）" width="100" />
+            <ElTableColumn prop="so2" label="二氧化硫（ug/m3）" width="100" />
+            <ElTableColumn prop="temp" label="温度" width="100" />
+            <ElTableColumn prop="humi" label="湿度" width="100" />
+            <ElTableColumn prop="wsp" label="风速" width="100" />
+            <ElTableColumn prop="" label="风压" width="100">
                 <template #default="scope">
                     <p>/</p>
                 </template>
             </ElTableColumn>
-            <ElTableColumn prop="wd" label="风向" />
-            <ElTableColumn prop="createTime" label="上传时间" />
+            <ElTableColumn prop="wd" label="风向" width="100" />
+            <ElTableColumn prop="createTime" label="上传时间" width="170" />
         </ElTable>
-        <ElPagination
-            class="pagination"
-            background
-            layout="total,sizes,prev, pager, next,jumper"
-            :total="total"
-            :current-page="params.pageNum"
-            :page-sizes="[10, 20, 50, 100]"
-            :page-size="params.pageSize"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-        />
+        <ElPagination class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="total"
+            :current-page="params.pageNum" :page-sizes="[10, 20, 50, 100]" :page-size="params.pageSize"
+            @size-change="handleSizeChange" @current-change="handleCurrentChange" />
     </div>
 </template>
 
@@ -81,6 +58,7 @@ const params: any = ref({
     pageSize: 20,
     startTime: '',
     endTime: '',
+    stationId: '',
 });
 
 const timeChange = (val: any) => {
@@ -112,7 +90,7 @@ const getList = async () => {
         params.value.pageNum = res.pageNum;
         params.value.pageSize = res.pageSize;
         total.value = res.total;
-    } catch (err) {}
+    } catch (err) { }
 };
 const handleSizeChange = (rows: number) => {
     params.value.pageNum = 1;
@@ -129,20 +107,19 @@ const getStationList = async () => {
     try {
         const res: any = await getDeviceList({ bizModule: store.bizModule });
         stationArr.value = [{ stationName: '全部微站', stationId: '' }, ...res];
-    } catch (err) {}
+    } catch (err) { }
 };
 
 onMounted(() => {
     getStationList();
     setDefaultTime();
-    getList();
+    // getList();
 });
 
 const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'historyTable', offsetBottom: 120 });
 </script>
 
 <style scoped lang="scss">
-.history-con {
-}
+.history-con {}
 </style>
 

@@ -1,5 +1,5 @@
 <template>
-    <ElDialog custom-class="tree-dialog" :model-value="modelValue" @close="handleClose">
+    <ElDialog class="dialog" custom-class="tree-dialog" :model-value="modelValue" @close="handleClose">
         <ElTree ref="tree" :data="allMenu" :props="{ label: 'name' }" show-checkbox node-key="url" highlight-current>
         </ElTree>
         {{ allMenu }}
@@ -19,14 +19,14 @@ import { Menu } from '@/types/menu';
 import { ref } from 'vue';
 
 const props = defineProps<{
-    modelValue: boolean,
+    modelValue: boolean;
     allMenu: {
-        type: Object,
-        default: () => {},
-    },
+        type: Object;
+        default: () => {};
+    };
 }>();
 const emits = defineEmits<{
-    (e: 'update:modelValue', value: boolean): void
+    (e: 'update:modelValue', value: boolean): void;
 }>();
 
 // const appData = ref<Menu>(APP_LIST);

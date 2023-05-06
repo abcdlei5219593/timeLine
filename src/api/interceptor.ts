@@ -54,8 +54,6 @@ $http.interceptors.response.use((response) => {
     }
     ElMessage.error(response.data.msg);
     return Promise.reject();
-
-
 }, (error) => {
     console.log(import.meta.env);
     if (error.response) {

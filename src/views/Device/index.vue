@@ -4,23 +4,17 @@
             <ElCol :span="6">
                 <span class="search-label">微站选择：</span>
                 <ElSelect v-model="stationId" placeholder="请选择" size="default" @change="selectChange">
-                    <ElOption
-                        v-for="item in tableData"
-                        :key="item.stationId"
-                        :label="item.stationName"
-                        :value="item.stationId"
-                    />
+                    <ElOption v-for="item in stationArr" :key="item.stationId" :label="item.stationName"
+                        :value="item.stationId" />
                 </ElSelect>
             </ElCol>
-            <ElButton class="add-btn" type="primary" size="default" @click="addFun"> 新增设备 </ElButton>
+            <ElButton class="add-btn" type="primary" size="default" @click="addFun">
+                新增设备
+            </ElButton>
         </ElRow>
-        <ElTable
-            id="deviceTable"
-            class="table"
-            :data="tableData"
-            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
-        >
-            <ElTableColumn prop="deviceId" label="主板" />
+        <ElTable id="deviceTable" class="table" :data="tableData"
+            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
+            <ElTableColumn prop="deviceId" label="主板" width="150" />
             <ElTableColumn prop="stationName" label="微站名称" />
             <ElTableColumn prop="stationAddress" label="微站地址" />
             <ElTableColumn prop="hv" label="硬件版本" />
@@ -38,29 +32,28 @@
                     <!-- <ElButton link type="primary" size="default" @click="reportInterval(scope.row)">
                         上报间隔
                     </ElButton> -->
-                    <ElButton
-                        v-permission="'/deviceSensor'"
-                        link
-                        type="primary"
-                        size="default"
-                        @click="toSensor(scope.row)"
-                    >
+                    <ElButton v-permission="'/deviceSensor'" link type="primary" size="default"
+                        @click="toSensor(scope.row)">
                         传感器
                     </ElButton>
                     <!-- <ElButton link type="primary" size="default" class="red-text-btn">
                         重启
                     </ElButton> -->
-                    <ElButton link type="primary" size="default" @click="editFun(scope.row)"> 编辑 </ElButton>
+                    <ElButton link type="primary" size="default" @click="editFun(scope.row)">
+                        编辑
+                    </ElButton>
                 </template>
             </ElTableColumn>
         </ElTable>
     </div>
 
     <!--上报间隔-->
-    <ElDialog v-model="isTimeSet" title="上报间隔时间设置" width="30%">
+    <ElDialog v-model="isTimeSet" class="dialog" title="上报间隔时间设置" width="30%">
         <div class="device-dialog">
             <ElRow>
-                <ElCol :span="8"> 间隔时间 </ElCol>
+                <ElCol :span="8">
+                    间隔时间
+                </ElCol>
                 <ElCol :span="16">
                     <ElInput v-model="intervalTime" type="number" placeholder="请输入内容"></ElInput>
                 </ElCol>
@@ -73,9 +66,9 @@
     </ElDialog>
 
     <!--添加编辑设备-->
-    <ElDialog v-model="addShow" :title="isEdit ? '编辑设备' : '新增设备'" width="50%">
-        <div class="device">
-            <ElForm ref="formDataRef" :model="deviceData" :rules="rules" label-width="80px" status-icon>
+    <ElDialog v-model="addShow" class="dialog" :title="isEdit ? '编辑设备' : '新增设备'" width="480px">
+        <div class="device dialog-content">
+            <ElForm ref="formDataRef" :model="deviceData" :rules="rules" label-position="top">
                 <ElFormItem label="主板ID" prop="deviceId">
                     <el-input v-model="deviceData.deviceId" size="default" placeholder="请输入" />
                 </ElFormItem>
@@ -120,7 +113,6 @@ import { useRouter } from 'vue-router';
 import useTableSetting from '@/hooks/useTableSetting';
 import { getDeviceList, getStations, deviceAdd, deviceEdit } from '@/api/device';
 import { deviceDataType } from './ModelDefines';
-import { getDataDictionary } from '@/api/system';
 import { storeMenu } from '@/store/app';
 
 const store = storeMenu();
@@ -130,12 +122,20 @@ const router = useRouter();
 const stationId: any = ref('');
 const microStationOptions = ref<any>([]);
 const tableData: any = ref([]);
+const stationArr: any = ref([]);
 const addShow = ref<boolean>(false);
 const isEdit = ref<boolean>(false);
 
 const isTimeSet = ref<boolean>(false);
 
 const intervalTime = ref<number>(0);
+
+const rules = reactive({
+    deviceId: [{ required: true, message: '请输入主板ID', trigger: 'blur' }],
+    longitude: [{ required: true, message: '请输入经度', trigger: 'blur' }],
+    latitude: [{ required: true, message: '请输入维度', trigger: 'blur' }],
+    bizModule: [{ required: true, message: '请选择微站类型', trigger: 'change' }],
+});
 
 const reportInterval = () => {
     isTimeSet.value = true;
@@ -147,8 +147,8 @@ const deviceData = reactive<deviceDataType>({
     stationAddress: '',
     hv: '',
     sv: '',
-    latitude: 0,
-    longitude: 0,
+    latitude: '',
+    longitude: '',
     bizModule: [],
     // bizModule: store.bizModule,
 });
@@ -175,18 +175,19 @@ const selectChange = () => {
 const getList = async () => {
     try {
         const res: string[] = await getDeviceList({ bizModule: store.bizModule, stationId: stationId.value });
-        tableData.value = [{ stationName: '全部微站', stationId: '' }, ...res];
-    } catch (err) {}
+        stationArr.value = [{ stationName: '全部微站', stationId: '' }, ...res];
+        tableData.value = res;
+    } catch (err) { }
 };
 
 // 新增或编辑
 const save = async () => {
     try {
-        (await isEdit.value) ? deviceEdit(deviceData) : deviceAdd(deviceData);
+        const res: any = isEdit.value ? await deviceEdit(deviceData) : await deviceAdd(deviceData);
         addShow.value = false;
         ElMessage.success('操作成功');
         getList();
-    } catch (err) {}
+    } catch (err) { }
 };
 // 提交
 const formDataRef = ref<FormInstance>();
@@ -214,8 +215,8 @@ const addFun = () => {
     deviceData.stationAddress = '';
     deviceData.hv = '';
     deviceData.sv = '';
-    deviceData.latitude = 0;
-    deviceData.longitude = 0;
+    deviceData.latitude = '';
+    deviceData.longitude = '';
     deviceData.bizModule = [];
 };
 
@@ -250,9 +251,6 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'deviceTable
     }
 }
 
-.device-con {
-}
-
 .device-dialog {
     height: 100px;
     display: flex;
@@ -260,6 +258,7 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'deviceTable
 
 .device {
     height: 400px;
+    // padding-bottom: 186px;
 }
 
 .red-text-btn {

@@ -6,16 +6,16 @@
                 <ElInput v-model="userParams.userName" size="default" placeholder="请输入关键词搜索"></ElInput>
             </ElCol>
             <ElCol :span="3">
-                <ElButton type="primary" size="default" @click="getList">
-                    搜索
-                </ElButton>
+                <ElButton type="primary" size="default" @click="getList"> 搜索 </ElButton>
             </ElCol>
-            <ElButton class="add-btn" type="primary" size="default" @click="addFun">
-                新增用户
-            </ElButton>
+            <ElButton class="add-btn" type="primary" size="default" @click="addFun"> 新增用户 </ElButton>
         </ElRow>
-        <ElTable id="userTable" class="table" :data="tableData"
-            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
+        <ElTable
+            id="userTable"
+            class="table"
+            :data="tableData"
+            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
+        >
             <ElTableColumn prop="userName" label="账号" />
             <ElTableColumn prop="belongRole" label="角色" />
             <ElTableColumn prop="status" label="状态">
@@ -27,9 +27,7 @@
             <ElTableColumn prop="remark" label="备注" />
             <ElTableColumn prop="address" fixed="right" label="操作" width="200">
                 <template #default="scope">
-                    <ElButton link type="primary" size="default" @click="editFun(scope.row)">
-                        编辑
-                    </ElButton>
+                    <ElButton link type="primary" size="default" @click="editFun(scope.row)"> 编辑 </ElButton>
                     <ElButton link type="primary" size="default" @click="showChangePassword(scope.row)">
                         密码修改
                     </ElButton>
@@ -37,38 +35,57 @@
             </ElTableColumn>
         </ElTable>
 
-        <ElPagination class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="total"
-            :current-page="userParams.pageNum" :page-sizes="[10, 20, 50, 100]" :page-size="userParams.pageSize"
-            @size-change="handleSizeChange" @current-change="handleCurrentChange" />
+        <ElPagination
+            class="pagination"
+            background
+            layout="total,sizes,prev, pager, next,jumper"
+            :total="total"
+            :current-page="userParams.pageNum"
+            :page-sizes="[10, 20, 50, 100]"
+            :page-size="userParams.pageSize"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+        />
 
         <!--新增或编辑用户-->
-        <ElDialog v-model="addShow" :title="isEdit ? '编辑' : '新增'" width="50%">
-            <div class="dialog">
-                <ElForm ref="formAdd" :model="addData" :rules="isEdit ? rulesEdit : rulesAdd" label-width="120px"
-                    label-position="top" class="demo-ruleForm">
+        <ElDialog class="dialog" v-model="addShow" :title="isEdit ? '编辑' : '新增'" width="600px">
+            <div class="dialog dialog-content">
+                <ElForm
+                    ref="formAdd"
+                    :model="addData"
+                    :rules="isEdit ? rulesEdit : rulesAdd"
+                    label-width="120px"
+                    label-position="top"
+                    class="demo-ruleForm"
+                >
                     <ElFormItem label="手机号" prop="mobilePhone">
                         <el-input v-model.number="addData.mobilePhone" size="default" />
                     </ElFormItem>
                     <ElFormItem v-if="!isEdit" label="密码" prop="password">
                         <el-input v-model="addData.password" type="password" size="default" placeholder="请输入密码" />
                     </ElFormItem>
+                    <ElFormItem v-if="!isEdit" label="确认密码" prop="newPwdAgain">
+                        <el-input
+                            v-model="addData.newPwdAgain"
+                            type="password"
+                            size="default"
+                            placeholder="请确认密码"
+                        />
+                    </ElFormItem>
                     <ElFormItem label="角色分配" prop="roleIds">
                         <ElSelect v-model="addData.roleIds" placeholder="请选择" size="default">
-                            <ElOption v-for="( item, i ) in roleListArray " :key="i" :label="item.roleName"
-                                :value="item.roleId" />
+                            <ElOption
+                                v-for="(item, i) in roleListArray"
+                                :key="i"
+                                :label="item.roleName"
+                                :value="item.roleId"
+                            />
                         </ElSelect>
-                    </ElFormItem>
-                    <ElFormItem v-if="!isEdit" label="确认密码" prop="newPwdAgain">
-                        <el-input v-model="addData.newPwdAgain" type="password" size="default" placeholder="请确认密码" />
                     </ElFormItem>
                     <ElFormItem label="状态" prop="status">
                         <el-radio-group v-model="addData.status">
-                            <el-radio :label="'0'">
-                                禁用
-                            </el-radio>
-                            <el-radio :label="'1'">
-                                启用
-                            </el-radio>
+                            <el-radio :label="'0'"> 禁用 </el-radio>
+                            <el-radio :label="'1'"> 启用 </el-radio>
                         </el-radio-group>
                     </ElFormItem>
                     <ElFormItem label="备注说明">
@@ -83,14 +100,24 @@
         </ElDialog>
 
         <!--密码修改-->
-        <ElDialog v-model="passwordShow" title="密码修改" width="50%">
-            <div class="dialog">
-                <ElForm ref="formDataRef" :model="editPassword" :rules="rules" label-width="80px" status-icon>
+        <ElDialog class="dialog" v-model="passwordShow" title="密码修改" width="600px">
+            <div class="dialog dialog-content">
+                <ElForm ref="formDataRef" :model="editPassword" :rules="rules" label-position="top">
                     <ElFormItem label="新密码" prop="password">
-                        <el-input v-model="editPassword.password" type="password" size="default" placeholder="请输入新密码" />
+                        <el-input
+                            v-model="editPassword.password"
+                            type="password"
+                            size="default"
+                            placeholder="请输入新密码"
+                        />
                     </ElFormItem>
                     <ElFormItem label="再次输入密码" prop="newPwdAgain">
-                        <el-input v-model="editPassword.newPwdAgain" type="password" size="default" placeholder="请确认密码" />
+                        <el-input
+                            v-model="editPassword.newPwdAgain"
+                            type="password"
+                            size="default"
+                            placeholder="请确认密码"
+                        />
                     </ElFormItem>
                 </ElForm>
             </div>
@@ -118,7 +145,7 @@ const roleListArray: any = ref([]);
 const editPassword = reactive<editPasswordType>({
     userId: null,
     password: '',
-    newPwdAgain: ''
+    newPwdAgain: '',
 });
 const passwordShow = ref<boolean>(false);
 const isEdit = ref<boolean>(false);
@@ -145,7 +172,7 @@ const getList = async () => {
         userParams.pageNum = res.pageNum;
         userParams.pageSize = res.pageSize;
         total.value = res.total;
-    } catch (err) { }
+    } catch (err) {}
 };
 
 const handleSizeChange = (rows: number) => {
@@ -162,7 +189,7 @@ const handleCurrentChange = (page: number) => {
 const getRoleList = async () => {
     try {
         roleListArray.value = await listRoleSelect({});
-    } catch (err) { }
+    } catch (err) {}
 };
 
 const save = async () => {
@@ -171,12 +198,11 @@ const save = async () => {
     addData.userName = userName;
     addData.password = password;
     try {
-        await isEdit.value ? userEdit(addData) : userAdd(addData);
+        const res: any = isEdit.value ? await userEdit(addData) : await userAdd(addData);
         addShow.value = false;
         ElMessage.success('操作成功');
         getList();
-    } catch (err) { }
-
+    } catch (err) {}
 };
 
 const addFun = () => {
@@ -233,28 +259,33 @@ const rulesAdd = reactive({
         { required: true, message: '请输入手机号', trigger: 'blur' },
         { required: true, pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' },
     ],
-    roleIds: [
-        { required: true, message: '请请选择角色', trigger: 'change' },
-    ],
+    roleIds: [{ required: true, message: '请请选择角色', trigger: 'change' }],
     password: [
         { required: true, message: '请输入新密码', trigger: 'blur' },
-        { required: true, pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/, message: '请输入6-20位字母+数字的密码', trigger: 'blur' },
+        {
+            required: true,
+            pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/,
+            message: '请输入6-20位字母+数字的密码',
+            trigger: 'blur',
+        },
     ],
     newPwdAgain: [
         { required: true, message: '请确认密码', trigger: 'blur' },
-        { pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/, message: '请输入6-20位字母+数字的密码', trigger: 'blur' },
-        { required: true, validator: validatePassAdd, message: '两次输入不相同', trigger: 'blur' }],
+        {
+            pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/,
+            message: '请输入6-20位字母+数字的密码',
+            trigger: 'blur',
+        },
+        { required: true, validator: validatePassAdd, message: '两次输入不相同', trigger: 'blur' },
+    ],
 });
 const rulesEdit = reactive({
     mobilePhone: [
         { required: true, message: '请输入手机号', trigger: 'blur' },
         { required: true, pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' },
     ],
-    roleIds: [
-        { required: true, message: '请请选择角色', trigger: 'change' },
-    ],
+    roleIds: [{ required: true, message: '请请选择角色', trigger: 'change' }],
 });
-
 
 const showChangePassword = (row: any) => {
     editPassword.userId = row.userId;
@@ -275,24 +306,34 @@ const validatePass = (rule: any, value: any, callback: any) => {
 const rules = reactive({
     password: [
         { required: true, message: '请输入新密码', trigger: 'blur' },
-        { required: true, pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/, message: '请输入6-20位字母+数字的密码', trigger: 'blur' },
+        {
+            required: true,
+            pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/,
+            message: '请输入6-20位字母+数字的密码',
+            trigger: 'blur',
+        },
     ],
     newPwdAgain: [
         { required: true, message: '请确认密码', trigger: 'blur' },
-        { pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/, message: '请输入6-20位字母+数字的密码', trigger: 'blur' },
-        { required: true, validator: validatePass, message: '两次输入不相同', trigger: 'blur' }],
+        {
+            pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/,
+            message: '请输入6-20位字母+数字的密码',
+            trigger: 'blur',
+        },
+        { required: true, validator: validatePass, message: '两次输入不相同', trigger: 'blur' },
+    ],
 });
 
 // 重置密码
 const resetPasswordFun = async () => {
     try {
-        await resetPassword({
+        const res: any = await resetPassword({
             password: md5(editPassword.password).substr(8, 16),
-            userId: editPassword.userId
+            userId: editPassword.userId,
         });
         ElMessage.success('操作成功');
         passwordShow.value = false;
-    } catch (err) { }
+    } catch (err) {}
 };
 
 const formDataRef = ref<FormInstance>();
@@ -336,12 +377,7 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'userTable',
     }
 
     .el-form-item {
-        width: calc(50% - 10px);
-        margin-right: 20px;
-
-        &:nth-child(2n) {
-            margin-right: 0 !important;
-        }
+        width: 100%;
     }
 }
 </style>

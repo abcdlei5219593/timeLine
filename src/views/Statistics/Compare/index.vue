@@ -1,7 +1,8 @@
 <template>
     <div shadow="never" class="container">
-        <elForm inline>
-            <ElFormItem label="微站选择:">
+        <ElRow class="search-row">
+            <ElCol :span="6">
+                <span class="search-label">微站选择：</span>
                 <ElSelect
                     v-model="searchForm.deviceId"
                     value-key="stationId"
@@ -13,8 +14,9 @@
                     <ElOption v-for="item in deviceList" :key="item.stationId" :label="item.stationName" :value="item">
                     </ElOption>
                 </ElSelect>
-            </ElFormItem>
-            <ElFormItem label="类型">
+            </ElCol>
+            <ElCol :span="6">
+                <span class="search-label">类型：</span>
                 <ElSelect v-model="searchForm.measure" size="default" @change="handleSearch">
                     <ElOption
                         v-for="item in store.measureList"
@@ -23,8 +25,9 @@
                         :value="item.code"
                     ></ElOption>
                 </ElSelect>
-            </ElFormItem>
-            <ElFormItem label="时间:">
+            </ElCol>
+            <ElCol :span="8">
+                <span class="search-label">时间：</span>
                 <el-date-picker
                     v-model="searchForm.date"
                     size="default"
@@ -33,8 +36,8 @@
                     value-format="YYYY-MM-DD HH:mm:ss"
                     @change="handleSearch"
                 />
-            </ElFormItem>
-        </elForm>
+            </ElCol>
+        </ElRow>
         <div class="map-container">
             <v-chart class="chart" :option="chartOptions" autoresize />
         </div>
@@ -176,6 +179,14 @@ getDeviceListHandler();
         margin-top: 24px;
         width: 100%;
         flex: 1;
+    }
+
+    :deep(.el-select__tags) {
+        .el-tag {
+            background: #e7e7e7;
+            font-size: 12px;
+            color: #000000;
+        }
     }
 }
 </style>
