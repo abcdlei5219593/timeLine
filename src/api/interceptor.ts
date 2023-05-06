@@ -53,7 +53,7 @@ $http.interceptors.response.use((response) => {
         return response.data.data;
     }
     ElMessage.error(response.data.msg);
-    return Promise.reject(response.data);
+    return Promise.reject();
 }, (error) => {
     console.log(import.meta.env);
     if (error.response) {

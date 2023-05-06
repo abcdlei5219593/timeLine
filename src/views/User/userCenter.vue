@@ -198,12 +198,10 @@ const save = async () => {
     addData.userName = userName;
     addData.password = password;
     try {
-        const res: any = (await isEdit.value) ? userEdit(addData) : userAdd(addData);
-        if (res.code === 0) {
-            addShow.value = false;
-            ElMessage.success('操作成功');
-            getList();
-        }
+        const res: any = isEdit.value ? await userEdit(addData) : await userAdd(addData);
+        addShow.value = false;
+        ElMessage.success('操作成功');
+        getList();
     } catch (err) {}
 };
 
@@ -333,10 +331,8 @@ const resetPasswordFun = async () => {
             password: md5(editPassword.password).substr(8, 16),
             userId: editPassword.userId,
         });
-        if (res.code === 0) {
-            ElMessage.success('操作成功');
-            passwordShow.value = false;
-        }
+        ElMessage.success('操作成功');
+        passwordShow.value = false;
     } catch (err) {}
 };
 

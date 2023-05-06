@@ -73,10 +73,8 @@ const isThreshold = ref<boolean>(false);
 const setThreshold = async () => {
     try {
         const res: any = await deviceSet(formData);
-        if (res.code === 0) {
-            ElMessage.success('操作成功');
-            isThreshold.value = false;
-        }
+        ElMessage.success('操作成功');
+        isThreshold.value = false;
     } catch (err) {}
 };
 
@@ -89,6 +87,9 @@ const getSensorsList = async (deviceId: any) => {
 // 显示设置阈值
 const setShowFun = (row: any) => {
     formData.sensorCode = row.sensorCode;
+    formData.threshold1 = row.threshold1;
+    formData.threshold2 = row.threshold2;
+    formData.threshold3 = row.threshold3;
     isThreshold.value = true;
 };
 
@@ -107,7 +108,7 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'sensorTable
 }
 
 .device-dialog {
-    height: 240px;
+    height: 300px;
 
     p {
         color: #000;

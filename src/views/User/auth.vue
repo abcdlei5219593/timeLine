@@ -158,12 +158,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
 const save = async () => {
     try {
-        const res: any = (await isEdit.value) ? roleEdit(addData) : roleAdd(addData);
-        if (res.code === 0) {
-            addShow.value = false;
-            ElMessage.success('操作成功');
-            getList();
-        }
+        const res: any = isEdit.value ? await roleEdit(addData) : await roleAdd(addData);
+        addShow.value = false;
+        ElMessage.success('操作成功');
+        getList();
     } catch (err) {}
 };
 
@@ -248,11 +246,9 @@ const rootSave = async () => {
             roleId: addData.roleId,
             roleName: addData.roleName,
         });
-        if (res.code === 0) {
-            ElMessage.success('操作成功');
-            showRoot.value = false;
-            getList();
-        }
+        ElMessage.success('操作成功');
+        showRoot.value = false;
+        getList();
     } catch (err) {}
 };
 

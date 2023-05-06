@@ -5,7 +5,7 @@
                 <span class="search-label">微站选择：</span>
                 <ElSelect v-model="stationId" placeholder="请选择" size="default" @change="selectChange">
                     <ElOption
-                        v-for="item in tableData"
+                        v-for="item in stationArr"
                         :key="item.stationId"
                         :label="item.stationName"
                         :value="item.stationId"
@@ -129,6 +129,7 @@ const router = useRouter();
 const stationId: any = ref('');
 const microStationOptions = ref<any>([]);
 const tableData: any = ref([]);
+const stationArr: any = ref([]);
 const addShow = ref<boolean>(false);
 const isEdit = ref<boolean>(false);
 
@@ -181,19 +182,18 @@ const selectChange = () => {
 const getList = async () => {
     try {
         const res: string[] = await getDeviceList({ bizModule: store.bizModule, stationId: stationId.value });
-        tableData.value = [{ stationName: '全部微站', stationId: '' }, ...res];
+        stationArr.value = [{ stationName: '全部微站', stationId: '' }, ...res];
+        tableData.value = res;
     } catch (err) {}
 };
 
 // 新增或编辑
 const save = async () => {
     try {
-        const res: any = (await isEdit.value) ? deviceEdit(deviceData) : deviceAdd(deviceData);
-        if (res.code === 0) {
-            addShow.value = false;
-            ElMessage.success('操作成功');
-            getList();
-        }
+        const res: any = isEdit.value ? await deviceEdit(deviceData) : await deviceAdd(deviceData);
+        addShow.value = false;
+        ElMessage.success('操作成功');
+        getList();
     } catch (err) {}
 };
 // 提交
