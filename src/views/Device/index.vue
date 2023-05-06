@@ -57,7 +57,7 @@
     </div>
 
     <!--上报间隔-->
-    <ElDialog v-model="isTimeSet" title="上报间隔时间设置" width="30%">
+    <ElDialog class="dialog" v-model="isTimeSet" title="上报间隔时间设置" width="30%">
         <div class="device-dialog">
             <ElRow>
                 <ElCol :span="8"> 间隔时间 </ElCol>
@@ -73,9 +73,9 @@
     </ElDialog>
 
     <!--添加编辑设备-->
-    <ElDialog v-model="addShow" :title="isEdit ? '编辑设备' : '新增设备'" width="50%">
-        <div class="device">
-            <ElForm ref="formDataRef" :model="deviceData" :rules="rules" label-width="80px" status-icon>
+    <ElDialog class="dialog" v-model="addShow" :title="isEdit ? '编辑设备' : '新增设备'" width="480px">
+        <div class="device dialog-content">
+            <ElForm ref="formDataRef" :model="deviceData" :rules="rules" label-position="top">
                 <ElFormItem label="主板ID" prop="deviceId">
                     <el-input v-model="deviceData.deviceId" size="default" placeholder="请输入" />
                 </ElFormItem>
@@ -136,6 +136,13 @@ const isTimeSet = ref<boolean>(false);
 
 const intervalTime = ref<number>(0);
 
+const rules = reactive({
+    deviceId: [{ required: true, message: '请输入主板ID', trigger: 'blur' }],
+    longitude: [{ required: true, message: '请输入经度', trigger: 'blur' }],
+    latitude: [{ required: true, message: '请输入维度', trigger: 'blur' }],
+    bizModule: [{ required: true, message: '请选择微站类型', trigger: 'change' }],
+});
+
 const reportInterval = () => {
     isTimeSet.value = true;
 };
@@ -146,8 +153,8 @@ const deviceData = reactive<deviceDataType>({
     stationAddress: '',
     hv: '',
     sv: '',
-    latitude: 0,
-    longitude: 0,
+    latitude: '',
+    longitude: '',
     bizModule: [],
     // bizModule: store.bizModule,
 });
@@ -181,10 +188,12 @@ const getList = async () => {
 // 新增或编辑
 const save = async () => {
     try {
-        (await isEdit.value) ? deviceEdit(deviceData) : deviceAdd(deviceData);
-        addShow.value = false;
-        ElMessage.success('操作成功');
-        getList();
+        const res: any = (await isEdit.value) ? deviceEdit(deviceData) : deviceAdd(deviceData);
+        if (res.code === 0) {
+            addShow.value = false;
+            ElMessage.success('操作成功');
+            getList();
+        }
     } catch (err) {}
 };
 // 提交
@@ -213,8 +222,8 @@ const addFun = () => {
     deviceData.stationAddress = '';
     deviceData.hv = '';
     deviceData.sv = '';
-    deviceData.latitude = 0;
-    deviceData.longitude = 0;
+    deviceData.latitude = '';
+    deviceData.longitude = '';
     deviceData.bizModule = [];
 };
 
@@ -249,9 +258,6 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'deviceTable
     }
 }
 
-.device-con {
-}
-
 .device-dialog {
     height: 100px;
     display: flex;
@@ -259,6 +265,7 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'deviceTable
 
 .device {
     height: 400px;
+    // padding-bottom: 186px;
 }
 
 .red-text-btn {

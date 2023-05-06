@@ -97,8 +97,24 @@
 }
 
 //Dialog
-.el-dialog {
+.dialog.el-dialog {
     position: relative;
+
+    .el-dialog__body{
+        padding:14px 24px 0 24px;
+        overflow-y: initial;
+    }
+
+    .el-dialog__title{
+        font-size: 16px;
+        font-weight: 500;
+        color: #333333;
+    }
+    .dialog-content{
+        box-sizing: border-box;
+        overflow-y: auto;
+        padding-bottom: 66px;
+    }
 }
 
 .dialog-footer {
@@ -108,10 +124,14 @@
     width: 100%;
     text-align: right;
     // border-top: 1px solid #e6e6e6;
-    padding: 10px;
+    padding: 10px 24px 24px 10px;
     background: #fff;
     z-index: 10;
     box-sizing: border-box;
+
+    .el-button+.el-button{
+        margin-left: 16px;
+    }
 }
 
 :deep(.el-dialog__header) {

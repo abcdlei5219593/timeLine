@@ -20,7 +20,7 @@ export interface deviceDataType {
     stationAddress: string,
     hv: string,
     sv: string,
-    latitude: number,
-    longitude: number,
+    latitude: number | string,
+    longitude: number | string,
     bizModule: any,
 }

@@ -22,7 +22,7 @@
     </div>
 
     <!--设置阈值-->
-    <ElDialog v-model="isThreshold" title="阈值设置" width="30%">
+    <ElDialog class="dialog" v-model="isThreshold" title="阈值设置" width="30%">
         <div class="device-dialog">
             <ElForm ref="form" :model="formData" label-width="120px" label-position="top" class="demo-ruleForm">
                 <ElFormItem label="预警阈值" prop="threshold1">
@@ -72,9 +72,11 @@ const isThreshold = ref<boolean>(false);
 // 设置阈值调用接口
 const setThreshold = async () => {
     try {
-        await deviceSet(formData);
-        ElMessage.success('操作成功');
-        isThreshold.value = false;
+        const res: any = await deviceSet(formData);
+        if (res.code === 0) {
+            ElMessage.success('操作成功');
+            isThreshold.value = false;
+        }
     } catch (err) {}
 };
 

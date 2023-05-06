@@ -41,7 +41,7 @@
         />
 
         <!--新增或编辑角色-->
-        <ElDialog v-model="addShow" :title="isEdit ? '编辑' : '新增'" width="30%">
+        <ElDialog class="dialog" v-model="addShow" :title="isEdit ? '编辑' : '新增'" width="30%">
             <div class="dialog">
                 <ElForm
                     ref="formDataRef"
@@ -66,7 +66,7 @@
         </ElDialog>
 
         <!--授权-->
-        <ElDialog v-model="showRoot" title="授权" width="50%">
+        <ElDialog class="dialog" v-model="showRoot" title="授权" width="50%">
             <div class="dialog">
                 <ElTree
                     ref="tree"
@@ -158,10 +158,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
 const save = async () => {
     try {
-        (await isEdit.value) ? roleEdit(addData) : roleAdd(addData);
-        addShow.value = false;
-        ElMessage.success('操作成功');
-        getList();
+        const res: any = (await isEdit.value) ? roleEdit(addData) : roleAdd(addData);
+        if (res.code === 0) {
+            addShow.value = false;
+            ElMessage.success('操作成功');
+            getList();
+        }
     } catch (err) {}
 };
 
@@ -241,14 +243,16 @@ const handleCheckChange = (val) => {
 // 授权保存
 const rootSave = async () => {
     try {
-        await roleEdit({
+        const res: any = await roleEdit({
             moduleIds: moduleIds.value,
             roleId: addData.roleId,
             roleName: addData.roleName,
         });
-        ElMessage.success('操作成功');
-        showRoot.value = false;
-        getList();
+        if (res.code === 0) {
+            ElMessage.success('操作成功');
+            showRoot.value = false;
+            getList();
+        }
     } catch (err) {}
 };
 

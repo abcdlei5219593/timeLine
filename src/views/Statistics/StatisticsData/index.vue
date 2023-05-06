@@ -136,7 +136,7 @@ const getStationList = async () => {
 onMounted(() => {
     getStationList();
     setDefaultTime();
-    getList();
+    // getList();
 });
 
 const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'historyTable', offsetBottom: 120 });
