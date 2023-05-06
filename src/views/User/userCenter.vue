@@ -48,8 +48,8 @@
         />
 
         <!--新增或编辑用户-->
-        <ElDialog class="dialog" v-model="addShow" :title="isEdit ? '编辑' : '新增'" width="50%">
-            <div class="dialog">
+        <ElDialog class="dialog" v-model="addShow" :title="isEdit ? '编辑' : '新增'" width="600px">
+            <div class="dialog dialog-content">
                 <ElForm
                     ref="formAdd"
                     :model="addData"
@@ -64,6 +64,14 @@
                     <ElFormItem v-if="!isEdit" label="密码" prop="password">
                         <el-input v-model="addData.password" type="password" size="default" placeholder="请输入密码" />
                     </ElFormItem>
+                    <ElFormItem v-if="!isEdit" label="确认密码" prop="newPwdAgain">
+                        <el-input
+                            v-model="addData.newPwdAgain"
+                            type="password"
+                            size="default"
+                            placeholder="请确认密码"
+                        />
+                    </ElFormItem>
                     <ElFormItem label="角色分配" prop="roleIds">
                         <ElSelect v-model="addData.roleIds" placeholder="请选择" size="default">
                             <ElOption
@@ -73,14 +81,6 @@
                                 :value="item.roleId"
                             />
                         </ElSelect>
-                    </ElFormItem>
-                    <ElFormItem v-if="!isEdit" label="确认密码" prop="newPwdAgain">
-                        <el-input
-                            v-model="addData.newPwdAgain"
-                            type="password"
-                            size="default"
-                            placeholder="请确认密码"
-                        />
                     </ElFormItem>
                     <ElFormItem label="状态" prop="status">
                         <el-radio-group v-model="addData.status">
@@ -100,9 +100,9 @@
         </ElDialog>
 
         <!--密码修改-->
-        <ElDialog class="dialog" v-model="passwordShow" title="密码修改" width="50%">
-            <div class="dialog">
-                <ElForm ref="formDataRef" :model="editPassword" :rules="rules" label-width="80px" status-icon>
+        <ElDialog class="dialog" v-model="passwordShow" title="密码修改" width="600px">
+            <div class="dialog dialog-content">
+                <ElForm ref="formDataRef" :model="editPassword" :rules="rules" label-position="top">
                     <ElFormItem label="新密码" prop="password">
                         <el-input
                             v-model="editPassword.password"
@@ -377,12 +377,7 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'userTable',
     }
 
     .el-form-item {
-        width: calc(50% - 10px);
-        margin-right: 20px;
-
-        &:nth-child(2n) {
-            margin-right: 0 !important;
-        }
+        width: 100%;
     }
 }
 </style>

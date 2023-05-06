@@ -41,7 +41,7 @@
         />
 
         <!--新增或编辑角色-->
-        <ElDialog class="dialog" v-model="addShow" :title="isEdit ? '编辑' : '新增'" width="30%">
+        <ElDialog class="dialog" v-model="addShow" :title="isEdit ? '编辑' : '新增'" width="600px">
             <div class="dialog">
                 <ElForm
                     ref="formDataRef"
@@ -66,8 +66,13 @@
         </ElDialog>
 
         <!--授权-->
-        <ElDialog class="dialog" v-model="showRoot" title="授权" width="50%">
-            <div class="dialog">
+        <ElDialog class="dialog" v-model="showRoot" title="授权" width="600px">
+            <div class="root-dialog dialog-content">
+                <p class="root-title">
+                    为“<span>{{ currentRole }}</span
+                    >”授予权限
+                </p>
+                <p class="root-btn">权限资源</p>
                 <ElTree
                     ref="tree"
                     :data="allMenu"
@@ -101,6 +106,7 @@ const addShow = ref<boolean>(false);
 const total = ref<number>(0);
 const isEdit = ref<boolean>(false);
 const showRoot = ref<boolean>(false);
+const currentRole: any = ref('');
 
 const props = {
     label: 'label',
@@ -184,6 +190,7 @@ const tree = ref(null);
 const moduleIds: any = ref('');
 const rootFun = async (row: any) => {
     showRoot.value = true;
+    currentRole.value = row.roleName;
     addData.roleId = row.roleId;
     addData.roleName = row.roleName;
     addData.roleDesc = row.roleDesc;
@@ -290,6 +297,44 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'userTable',
         &:nth-child(2n) {
             margin-right: 0 !important;
         }
+    }
+}
+.root-dialog {
+    height: 450px;
+    .root-title {
+        color: #333333;
+
+        span {
+            color: #ff6600;
+            font-weight: 600;
+        }
+    }
+    .root-btn {
+        width: 88px;
+        height: 32px;
+        text-align: center;
+        line-height: 32px;
+        background: rgba(45, 140, 240, 0.2);
+        border-radius: 4px;
+        display: block;
+        color: #2d8cf0;
+        font-weight: 500;
+        margin: 22px 0 18px 0;
+    }
+}
+:deep(.el-tree) {
+    .el-tree-node {
+        margin-bottom: 9px;
+
+        &:last-child {
+            margin-bottom: 0 !important;
+        }
+    }
+    .el-tree-node__content {
+        margin-top: 10px;
+    }
+    .el-tree-node__content > .el-tree-node__expand-icon {
+        padding-left: 0;
     }
 }
 </style>
