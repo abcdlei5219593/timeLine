@@ -1,8 +1,13 @@
 <template>
     <ul role="menubar" class="el-menu el-menu--horizontal">
-        <li v-for="(item, index) in menuList" :key="index"
-            :class="[route.path.includes(item.url) ? 'is-active' : '', 'el-menu-item']" role="menuitem" tabindex="0"
-            @click="handleClick(item)">
+        <li
+            v-for="(item, index) in menuList"
+            :key="index"
+            :class="[route.path.includes(item.url) ? 'is-active' : '', 'el-menu-item']"
+            role="menuitem"
+            tabindex="0"
+            @click="handleClick(item)"
+        >
             {{ item.name }}
         </li>
     </ul>
@@ -59,7 +64,7 @@ const handleClick = (menu: MenuItem) => {
 
         &.is-active,
         &:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.2) !important;
             color: rgba(255, 255, 255, 0.9) !important;
             border-radius: 3px;
         }

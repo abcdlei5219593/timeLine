@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { ref,computed } from 'vue';
+import { ref, computed } from 'vue';
 import type { User } from '../types/app';
 import { useRoute } from 'vue-router';
 import { APP_LIST } from '@/config';
@@ -38,12 +38,15 @@ export const useUserStore = defineStore({
 export const useSettingStore = defineStore('systemSetting', () => {
     const route = useRoute();
     const isCollapse = ref<boolean>(false);
-    const mapCenter = [104.832038,28.73803];
+    const mapCenter = [104.832038, 28.73803];
     const measureList = ref([]);
     const setCollapse = () => {
         isCollapse.value = !isCollapse.value;
     };
     const getMeasureListHandler = async (params) => {
+        if (!params.bizModule) {
+            return
+        }
         measureList.value = await getMeasureList(params);
     };
 

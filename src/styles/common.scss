@@ -33,6 +33,9 @@
         .el-input {
             padding-right: 20px;
         }
+        .el-date-editor{
+            margin-right: 20px;
+        }
     }
 }
 
@@ -61,6 +64,13 @@
         font-size: 14px;
         color: #000;
     }
+    .cell{
+        padding:0 0 0 24px !important;
+    }
+    tr:hover>td{
+        background-color: #F2F3F5 !important;
+      }
+    
 }
 
 //通用分页

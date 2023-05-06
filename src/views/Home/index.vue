@@ -1,23 +1,18 @@
 <template>
     <ElRow :gutter="20">
         <ElCol :span="12" class="h-340">
-            <ElCard shadow="never" class="welcome ">
+            <ElCard shadow="never" class="welcome">
                 <h3>欢迎你，{{ store.userInfo?.name }}</h3>
-                <article class="inner-title">
-                    微站检测平台
-                </article>
+                <article class="inner-title">微站检测平台</article>
                 <article class="flex">
-                    AQI:{{ AQI }} <div class="tag">
-                        良
-                    </div>
+                    AQI:{{ AQI }}
+                    <div class="tag">良</div>
                 </article>
-                <article class="">
-                    2023年更新
-                </article>
+                <article class="">2023年更新</article>
             </ElCard>
         </ElCol>
         <ElCol :span="12" class="h-340">
-            <ElCard shadow="never" class="msg ">
+            <ElCard shadow="never" class="msg">
                 <h3>告警消息</h3>
                 <ul>
                     <li v-for="msg in msgList" :key="msg.id">
@@ -51,7 +46,7 @@
                 </div>
             </ElCard>
         </ElCol>
-    </elrow>
+    </ElRow>
 </template>
 
 <script setup lang="ts">
@@ -76,16 +71,12 @@ const option = ref({
     },
     yAxis: {},
     series: [{ name: '产量', type: 'bar', data: [100, 200, 300] }],
-},
-);
+});
 const measure = ref('aqi');
 
 const searchForm = {
     measure: 'aqi',
-    date: [
-        dayjs().subtract(3, 'day').format('YYYY-MM-DD'),
-        dayjs().format('YYYY-MM-DD')
-    ]
+    date: [dayjs().subtract(3, 'day').format('YYYY-MM-DD'), dayjs().format('YYYY-MM-DD')],
 };
 
 const drawBar = async () => {
@@ -93,35 +84,31 @@ const drawBar = async () => {
     option.value = {
         xAxis: {
             axisLabel: {
-                formatter(value){
+                formatter(value) {
                     return value.split(' ')[1];
-                }
+                },
             }, // item => dayjs(item.time).format('DD日HH时')
-            data: data.map(item => dayjs(item.time).format('YYYY-MM-DD DD日HH时')),
-
+            data: data.map((item) => dayjs(item.time).format('YYYY-MM-DD DD日HH时')),
         },
         tooltip: {
             show: true,
-
         },
         yAxis: {
-
             show: true,
             type: 'value',
-            position: 'left'
+            position: 'left',
         },
         grid: {
-
             left: 25,
             right: 0,
             top: 10,
             bottom: 0,
-            containLabel: true
+            containLabel: true,
         },
         series: [
             {
                 type: 'bar',
-                data: data.map(item => item.avg)
+                data: data.map((item) => item.avg),
             },
         ],
     };
@@ -150,12 +137,10 @@ const store = useUserStore();
 }
 
 .el-col {
-
     margin-top: $containerSpace;
     align-items: stretch;
 
     .el-card {
-
         box-sizing: border-box;
         height: 100%;
 
@@ -186,7 +171,7 @@ const store = useUserStore();
             .tag {
                 margin-left: 10px;
                 font-size: 12px;
-                background: #F5BA18;
+                background: #f5ba18;
                 border-radius: 4px;
 
                 padding: 4px 8px;
@@ -198,16 +183,15 @@ const store = useUserStore();
     .msg {
         ul {
             margin-top: 7px;
-            padding-left: 15px;
+            // padding-left: 15px;
 
             li {
                 @include flex(space-between, center);
                 padding: 13px 0;
                 list-style-type: disc;
 
-                &+li {
+                & + li {
                     border-top: 1px solid #18181814;
-                    ;
                 }
 
                 .date {
@@ -240,4 +224,5 @@ const store = useUserStore();
             }
         }
     }
-}</style>
+}
+</style>
