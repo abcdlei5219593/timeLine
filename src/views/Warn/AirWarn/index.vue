@@ -180,7 +180,7 @@ const stationArr: any = ref([]);
 const getStationList = async () => {
     try {
         const res: any = await getDeviceList({ bizModule: store.bizModule });
-        stationArr.value = [{ stationName: '全部微站', deviceId: '' }, ...res];
+        stationArr.value = [{ stationName: '全部微站', stationId: '' }, ...res];
     } catch (err) {}
 };
 

@@ -14,8 +14,14 @@
                 </ElSelect>
             </ElFormItem>
             <ElFormItem label="时间:">
-                <el-date-picker v-model="searchForm.date" size="default" :disabled-date="disabledDate" type="datetimerange"
-                    value-format="YYYY-MM-DD HH:mm:ss" @change="handleSearch" />
+                <el-date-picker
+                    v-model="searchForm.date"
+                    size="default"
+                    :disabled-date="disabledDate"
+                    type="datetimerange"
+                    value-format="YYYY-MM-DD HH:mm:ss"
+                    @change="handleSearch"
+                />
             </ElFormItem>
         </elForm>
         <div class="map-container">
@@ -40,7 +46,7 @@ const searchForm = reactive({
     measure: 'aqi',
     date: [],
     startTime: '',
-    endTime: ''
+    endTime: '',
 });
 
 const chartOptions = ref({
@@ -53,12 +59,7 @@ const chartOptions = ref({
         formatter: (params) => {
             let res = '';
             for (let i = 0; i < params.length; i++) {
-                res
-                    += '<li>'
-                    + params[i].seriesName
-                    + '：'
-                    + params[i].value
-                    + '</li>';
+                res += '<li>' + params[i].seriesName + '：' + params[i].value + '</li>';
             }
             return res;
         },
@@ -75,7 +76,6 @@ const chartOptions = ref({
     yAxis: {
         type: 'value',
         boundaryGap: [0, '100%'],
-
     },
     series: [],
 });
@@ -90,7 +90,7 @@ const handleSearch = async () => {
         deviceId: searchForm.deviceId.map(({ deviceId }) => deviceId),
         startTime: searchForm.date.length ? searchForm.date[0] : '',
         endTime: searchForm.date.length ? searchForm.date[1] : '',
-        measure: searchForm.measure
+        measure: searchForm.measure,
     };
     const data = await getCurvesData(params);
     const lengend = searchForm.deviceId.map(({ stationName }) => stationName);
@@ -101,18 +101,15 @@ const handleSearch = async () => {
         const temp = {
             type: 'line',
             name: device.stationName,
-            data: []
+            data: [],
         };
 
-        const deviceData = data.find(item => item.deviceId === device.deviceId);
+        const deviceData = data.find((item) => item.deviceId === device.deviceId);
 
         if (deviceData) {
             temp.data = deviceData.data.map(({ avg, time }) => ({
                 name: dayjs(time).format('YYYY-MM-DD HH:mm:ss'),
-                value: [
-                    dayjs(time).format('YYYY-MM-DD HH:mm:ss'),
-                    avg
-                ]
+                value: [dayjs(time).format('YYYY-MM-DD HH:mm:ss'), avg],
             }));
         }
         series.push(temp);
@@ -125,12 +122,11 @@ const handleSearch = async () => {
 const getDeviceListHandler = async () => {
     // deviceList.value
     const res: any = await getDeviceList({ bizModule: store.currentApp.bizModule });
-    deviceList.value = [{ stationName: '全部微站', deviceId: '' }, ...res];
+    deviceList.value = [{ stationName: '全部微站', stationId: '' }, ...res];
     // getDeviceDataHandler();
 };
 
 getDeviceListHandler();
-
 </script>
 
 <style scoped lang="scss">
@@ -162,6 +158,5 @@ getDeviceListHandler();
         width: 100%;
         flex: 1;
     }
-
 }
 </style>
