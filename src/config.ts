@@ -50,7 +50,22 @@ export const APP_LIST: Menu = [
         children: routeAirPath('/app/airContent'),
         meta: {
             AQIName: 'AQI',
-            categoryName: '空气'
+            categoryName: '空气',
+            stasticsColumns: [
+                { prop: 'api', label: 'AQI', width: 60},
+                { prop: 'pm10', label: 'PM10（ug/m3）', width: 100},
+                { prop: 'pm25', label: 'PM2.5（ug/m3）', width: 100},
+                { prop: 'co', label: '一氧化碳（ug/m3）', width: 100},
+                { prop: 'no2', label: '二氧化氮（ug/m3）', width: 100},
+                { prop: 'o3', label: '臭氧（ug/m3）', width: 100},
+                { prop: 'so2', label: '氧化硫（ug/m3）', width: 100},
+                { prop: 'temp', label: '温度', width: 100},
+                { prop: 'humi', label: '湿度', width: 100},
+                { prop: 'wsp', label: '风速', width: 100},
+                { prop: '', label: '风压', width: 100},
+                { prop: 'wd', label: '风向', width: 60},
+                { prop: 'wsp', label: '风速', width: 100},
+            ]
 
         }
     },
@@ -62,7 +77,16 @@ export const APP_LIST: Menu = [
         children: routeWaterPath('/app/water'),
         meta: {
             AQIName: 'CWQI',
-            categoryName: '水质'
+            categoryName: '水质',
+            stasticsColumns: [
+                { prop: 'cwqi', label: 'CWQI'},
+                { prop: 'ph', label: 'PH'},
+                { prop: 'd0', label: '溶解氧mg/L'},
+                { prop: 'ec', label: '电导率μS/cm'},
+                { prop: 'wt', label: '浊度NTU'},
+                { prop: 'temp', label: '温度°C'},
+
+            ]
         }
     },
     {

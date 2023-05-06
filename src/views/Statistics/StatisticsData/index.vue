@@ -12,42 +12,47 @@
                 <ElDatePicker v-model="date" type="datetimerange" range-separator="-" size="default" @change="timeChange" />
             </ElCol>
         </ElRow>
-        <ElTable id="historyTable" class="table" :data="tableData"
-            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
+        <ElTable
+            id="historyTable" class="table" :data="tableData"
+            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
+        >
             <ElTableColumn prop="deviceId" label="名称" width="150" />
-            <ElTableColumn prop="aqi" label="AQI" width="60" />
-            <ElTableColumn prop="pm10" label="PM10（ug/m3）" width="100" />
-            <ElTableColumn prop="pm25" label="PM2.5（ug/m3）" width="100" />
-            <ElTableColumn prop="co" label="一氧化碳（ug/m3）" width="100" />
-            <ElTableColumn prop="no2" label="二氧化氮（ug/m3）" width="100" />
-            <ElTableColumn prop="o3" label="臭氧（ug/m3）" width="100" />
-            <ElTableColumn prop="so2" label="二氧化硫（ug/m3）" width="100" />
-            <ElTableColumn prop="temp" label="温度" width="100" />
-            <ElTableColumn prop="humi" label="湿度" width="100" />
-            <ElTableColumn prop="wsp" label="风速" width="100" />
-            <ElTableColumn prop="" label="风压" width="100">
+            <ElTableColumn
+                v-for="(item, index) in appStore.currentApp.meta.stasticsColumns"
+                :key="index"
+                :label="item.label"
+                :width="item.width"
+            >
                 <template #default="scope">
-                    <p>/</p>
+                    <div v-if="item.prop && scope.row[item.prop] ">
+                        {{ scope.row[item.prop] }}
+                    </div>
+                    <div v-else>
+                        /
+                    </div>
                 </template>
             </ElTableColumn>
-            <ElTableColumn prop="wd" label="风向" width="100" />
             <ElTableColumn prop="createTime" label="上传时间" width="170" />
         </ElTable>
-        <ElPagination class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="total"
+        <ElPagination
+            class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="total"
             :current-page="params.pageNum" :page-sizes="[10, 20, 50, 100]" :page-size="params.pageSize"
-            @size-change="handleSizeChange" @current-change="handleCurrentChange" />
+            @size-change="handleSizeChange" @current-change="handleCurrentChange"
+        />
     </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue';
 import useTableSetting from '@/hooks/useTableSetting';
-import { getMonitorData } from '@/api/analyse';
+import http from '@/api/analyse';
 import { getFormatDate } from '@/utils/common';
 import { storeMenu } from '@/store/app';
 import { getDeviceList } from '@/api/device';
+import { useSettingStore } from '@/store/app';
 
 const store = storeMenu();
+const appStore = useSettingStore();
 
 const tableData: any = ref([]);
 const total: any = ref(0);
@@ -85,7 +90,7 @@ const setDefaultTime = () => {
 
 const getList = async () => {
     try {
-        const res: any = await getMonitorData(params.value);
+        const res: any = await http[appStore.currentApp.url].getMonitorData(params.value);
         tableData.value = res.list;
         params.value.pageNum = res.pageNum;
         params.value.pageSize = res.pageSize;

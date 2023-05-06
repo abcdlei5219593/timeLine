@@ -51,7 +51,7 @@ import { useSettingStore } from '@/store/app';
 import dayjs from '@/helper/dayjs';
 import useTableSetting from '@/hooks/useTableSetting';
 
-const { maxTableHeight } = useTableSetting();
+const { maxTableHeight } = useTableSetting('xc-table',0);
 const store = useSettingStore();
 const deviceList = ref([]);
 const tableData = ref([]);
