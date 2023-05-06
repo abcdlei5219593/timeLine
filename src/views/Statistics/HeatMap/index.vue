@@ -12,7 +12,6 @@
                             :label="item.name"
                             :value="item.code"
                         ></ElOption>
-                        <ElOption label="PM2.5" value="pm2_5"></ElOption>
                     </ElSelect>
                 </ElFormItem>
                 <ElFormItem label="时间:">
