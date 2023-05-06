@@ -4,8 +4,8 @@
             <ElCol :span="6">
                 <span class="search-label">微站选择：</span>
                 <ElSelect v-model="stationId" placeholder="请选择" size="default" @change="selectChange">
-                    <ElOption v-for="item in tableData" :key="item.deviceId" :label="item.stationName"
-                        :value="item.deviceId" />
+                    <ElOption v-for="item in tableData" :key="item.stationId" :label="item.stationName"
+                        :value="item.stationId" />
                 </ElSelect>
             </ElCol>
             <ElButton class="add-btn" type="primary" size="default" @click="addFun">
@@ -122,7 +122,7 @@ const router = useRouter();
 
 const stationId: any = ref('');
 const microStationOptions = ref<any>([]);
-const tableData = ref([]);
+const tableData: any = ref([]);
 const addShow = ref<boolean>(false);
 const isEdit = ref<boolean>(false);
 
@@ -161,18 +161,14 @@ const stationType: any = ref([
         value: 2,
     },
 ]);
-// const geStationType = async () => {
-//     try {
-//         stationType.value = await getDataDictionary('bizModule');
-//     } catch (err) { }
-// };
+
 const selectChange = () => {
     getList();
 };
 const getList = async () => {
     try {
-        const res: any = await getDeviceList({ bizModule: store.bizModule });
-        tableData.value = res;
+        const res: string[] = await getDeviceList({ bizModule: store.bizModule, stationId: stationId.value });
+        tableData.value = [{ stationName: '全部微站', deviceId: '' }, ...res];
     } catch (err) { }
 };
 
@@ -228,12 +224,10 @@ const editFun = (row: any) => {
     deviceData.sv = row.sv;
     deviceData.latitude = row.latitude;
     deviceData.longitude = row.longitude;
-    console.log(typeof row.bizModule, 'row.bizModule');
-    // deviceData.bizModule = row.bizModule.split('');
+    deviceData.bizModule = row.bizModules;
 };
 
 onMounted(() => {
-    // getStationslist();
     getList();
 });
 

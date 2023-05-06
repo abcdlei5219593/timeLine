@@ -1,15 +1,10 @@
 <template>
     <div shadow="never" class="container">
         <elForm inline>
-            <ElFormItem label="微站:">
+            <ElFormItem label="微站选择:">
                 <ElSelect v-model="searchForm.deviceId" value-key="stationId" collapse-tags size="default" multiple="">
-                    <ElOption
-                        v-for="item in deviceList"
-                        :key="item.stationId"
-
-                        :label="item.stationName"
-                        :value="item"
-                    ></ElOption>
+                    <ElOption v-for="item in deviceList" :key="item.stationId" :label="item.stationName" :value="item">
+                    </ElOption>
                 </ElSelect>
             </ElFormItem>
             <ElFormItem label="类型">
@@ -19,14 +14,8 @@
                 </ElSelect>
             </ElFormItem>
             <ElFormItem label="时间:">
-                <el-date-picker
-                    v-model="searchForm.date"
-                    size="default"
-                    :disabled-date="disabledDate"
-                    type="datetimerange"
-                    value-format="YYYY-MM-DD HH:mm:ss"
-                    @change="handleSearch"
-                />
+                <el-date-picker v-model="searchForm.date" size="default" :disabled-date="disabledDate" type="datetimerange"
+                    value-format="YYYY-MM-DD HH:mm:ss" @change="handleSearch" />
             </ElFormItem>
         </elForm>
         <div class="map-container">
@@ -36,7 +25,7 @@
 </template>
 
 <script setup lang="ts" name="Map">
-import { ElCard, ElForm, ElFormItem, ElSelect, ElOption,ElDatePicker } from 'element-plus';
+import { ElCard, ElForm, ElFormItem, ElSelect, ElOption, ElDatePicker } from 'element-plus';
 import { getDeviceList, getStations } from '@/api/device';
 import { getHotmapData, getCurvesData } from '@/api/analyse';
 import { computed, ref, reactive } from 'vue';
@@ -45,7 +34,7 @@ import { useSettingStore } from '@/store/app';
 import dayjs from '@/helper/dayjs';
 
 const store = useSettingStore();
-const deviceList = ref([]);
+const deviceList: any = ref([]);
 const searchForm = reactive({
     deviceId: [],
     measure: 'aqi',
@@ -65,11 +54,11 @@ const chartOptions = ref({
             let res = '';
             for (let i = 0; i < params.length; i++) {
                 res
-                += '<li>'
-                + params[i].seriesName
-                + '：'
-                + params[i].value
-                + '</li>';
+                    += '<li>'
+                    + params[i].seriesName
+                    + '：'
+                    + params[i].value
+                    + '</li>';
             }
             return res;
         },
@@ -117,7 +106,7 @@ const handleSearch = async () => {
 
         const deviceData = data.find(item => item.deviceId === device.deviceId);
 
-        if(deviceData) {
+        if (deviceData) {
             temp.data = deviceData.data.map(({ avg, time }) => ({
                 name: dayjs(time).format('YYYY-MM-DD HH:mm:ss'),
                 value: [
@@ -135,7 +124,8 @@ const handleSearch = async () => {
 
 const getDeviceListHandler = async () => {
     // deviceList.value
-    deviceList.value = await getDeviceList({bizModule: store.currentApp.bizModule});
+    const res: any = await getDeviceList({ bizModule: store.currentApp.bizModule });
+    deviceList.value = [{ stationName: '全部微站', deviceId: '' }, ...res];
     // getDeviceDataHandler();
 };
 
@@ -145,25 +135,29 @@ getDeviceListHandler();
 
 <style scoped lang="scss">
 .container {
-    padding:24px;
+    padding: 24px;
     background: #fff;
     border-radius: 4px;
     @include flex();
     flex-direction: column;
-    .title{
+
+    .title {
         width: 100%;
         @include flex(space-between, center);
-        h3{
+
+        h3 {
             font-weight: 600;
             font-size: 16px;
             color: #000;
         }
+
         .el-form-item {
             align-items: center;
             margin-bottom: 0;
         }
     }
-    .map-container{
+
+    .map-container {
         margin-top: 24px;
         width: 100%;
         flex: 1;

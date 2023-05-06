@@ -5,7 +5,7 @@
         </ElBadge> -->
         <ElDropdown>
             <div class="user-box">
-                <img class="avatar" />
+                <img class="avatar" src="@/assets/img/avatar.png" />
                 <p class="user-name">
                     {{ store.userInfo?.userName }}
                 </p>
@@ -13,10 +13,7 @@
             </div>
             <template #dropdown>
                 <ElDropdownMenu>
-                    <ElDropdownItem
-                        style="width: 120px; height: 30px; justify-content: center"
-                        @click="toPersonalCenter"
-                    >
+                    <ElDropdownItem style="width: 120px; height: 30px; justify-content: center" @click="toPersonalCenter">
                         个人中心
                     </ElDropdownItem>
                 </ElDropdownMenu>
