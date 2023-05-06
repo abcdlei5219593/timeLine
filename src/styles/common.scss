@@ -10,6 +10,7 @@
 
 //search
 .search-row {
+    width: 100%;
     .el-col {
         display: flex;
         margin-bottom: 20px;
@@ -44,7 +45,7 @@
 }
 
 //通用table
-.el-table {
+.table.el-table {
 
     .el-table__header {
         height: 44px;
