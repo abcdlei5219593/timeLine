@@ -72,3 +72,17 @@ export const getFlatDeepTreeData = (sourcetree, target) => {
     }
     return target;
 };
+
+
+
+/**
+ * 在指定字符串中查找匹配值的索引
+ * @param string 源字符串
+ * @param subString 需要匹配的字符串
+ * @param index 第N个匹配
+ * @returns
+ */
+
+export const getPositioninStr = (string: string, subString: string, index = 1): number => {
+    return string.split(subString, index).join(subString).length;
+};
