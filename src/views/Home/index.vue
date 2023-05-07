@@ -4,7 +4,7 @@
             <ElCard shadow="never" class="welcome">
                 <h3>欢迎你， {{ store.userInfo?.userName }}</h3>
                 <article class="inner-title">
-                    微站检测平台
+                    {{ appStore.factroyName }}
                 </article>
                 <article class="flex">
                     {{ appStore.currentApp.meta.AQIName }}：{{ AQI }}

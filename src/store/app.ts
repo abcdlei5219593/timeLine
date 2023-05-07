@@ -39,13 +39,14 @@ export const useSettingStore = defineStore('systemSetting', () => {
     const route = useRoute();
     const isCollapse = ref<boolean>(false);
     const mapCenter = [104.832038, 28.73803];
+    const factroyName = '宜宾三江新区长江工业园';
     const measureList = ref([]);
     const setCollapse = () => {
         isCollapse.value = !isCollapse.value;
     };
     const getMeasureListHandler = async (params) => {
         if (!params.bizModule) {
-            return
+            return;
         }
         measureList.value = await getMeasureList(params);
     };
@@ -53,6 +54,7 @@ export const useSettingStore = defineStore('systemSetting', () => {
     const currentApp = computed(() => APP_LIST.find(app => route.path.includes(app.url)));
 
     return {
+        factroyName,
         isCollapse,
         setCollapse,
         mapCenter,

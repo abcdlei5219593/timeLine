@@ -1,7 +1,7 @@
 <template>
     <div shadow="never" class="container">
         <div class="title">
-            <h3>微站检测平台</h3>
+            <h3>{{ store.factroyName }}</h3>
 
             <elForm inline>
                 <ElFormItem label="类型:">
