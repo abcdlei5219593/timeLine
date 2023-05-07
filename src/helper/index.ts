@@ -40,3 +40,41 @@ export const getColrByApi = (aqiVal: number): string | undefined => {
     }
     return undefined;
 };
+
+export const getCurrentTime = () => {
+    return dayjs().format('YYYY-MM-DD HH:MM:ss');
+};
+
+export const getLevelByMesure = ( mesure: number) => {
+    if (mesure <= 50) {
+        return {
+            color: 'green',
+            level: '优'
+        };
+    } else if (mesure <= 100) {
+        return {
+            color: 'yellow',
+            level: '良'
+        };
+    } else if (mesure <= 150) {
+        return {
+            color: 'orange',
+            level: '轻度污染'
+        };
+    } else if (mesure <= 200) {
+        return {
+            color: 'red',
+            level: '中度污染'
+        };
+    } else if (mesure <= 300) {
+        return {
+            color: 'perple',
+            level: '重度污染'
+        };
+    } else if (mesure > 300) {
+        return {
+            color: 'darkRed',
+            level: '严重污染'
+        };
+    }
+};

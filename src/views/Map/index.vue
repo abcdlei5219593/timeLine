@@ -43,33 +43,18 @@
                         <span>{{ currentMaker.updateTime }}</span>
                     </div>
                     <ul class="info">
-                        <li class="item">
-                            <span class="value">{{ currentMaker.data.aqi }}</span>
-                            <span class="label mb24">AQI</span>
-                            <span class="value">{{ currentMaker.data.pm25 }}</span>
-                            <span class="label">PM2.5</span>
-                        </li>
-                        <li class="item">
-                            <span class="value">{{ currentMaker.data.co }}</span>
-                            <span class="label mb24">一氧化碳</span>
-                            <span class="value">{{ currentMaker.data.pm10 }}</span>
-                            <span class="label">PM10</span>
-                        </li>
-                        <li class="item">
-                            <span class="value">{{ currentMaker.data.so2 }}</span>
-                            <span class="label mb24">二氧化硫</span>
-                            <span class="value">{{ currentMaker.data.temp }}</span>
-                            <span class="label">温度</span>
-                        </li>
-                        <li class="item">
-                            <span class="value">{{ currentMaker.data.no2 }}</span>
-                            <span class="label mb24">二氧化氮</span>
-                            <span class="value">{{ currentMaker.data.humi }}</span>
-                            <span class="label">湿度</span>
-                        </li>
-                        <li class="item">
-                            <span class="value">{{ currentMaker.data.h2s }}</span>
-                            <span class="label">臭氧</span>
+                        <li
+                            v-for="(item,index) in store.currentApp.meta.markerWindowField"
+                            :key="index"
+                            class="item"
+                        >
+                            <template
+                                v-for="(column,idx) in item"
+                                :key="idx"
+                            >
+                                <span class="value">{{ column.label }}</span>
+                                <span class="label mb24">{{ currentMaker.data[column.prop] }}</span>
+                            </template>
                         </li>
                     </ul>
                 </el-amap-info-window>
@@ -80,7 +65,8 @@
 
 <script setup lang="ts" name="Map">
 import { ElCard, ElForm, ElFormItem, ElSelect, ElOption } from 'element-plus';
-import { getDeviceData, getDeviceList } from '@/api/device';
+import { getDeviceList } from '@/api/device';
+import http from '@/api/analyse';
 import { computed, ref } from 'vue';
 import { useSettingStore } from '@/store/app';
 
@@ -106,7 +92,7 @@ const getDeviceListHandler = async () => {
     let data = await getDeviceList({ bizModule: store.currentApp.bizModule});
 
     const deviceIds = data.map(({ deviceId }) => deviceId);
-    let deviceData = await getDeviceData(deviceIds);
+    let deviceData = await http[store.currentApp.url].getDeviceData(deviceIds);
     if( store.currentApp.bizModule === 1) {
         deviceData = deviceData.map(item => ({
             ...item,

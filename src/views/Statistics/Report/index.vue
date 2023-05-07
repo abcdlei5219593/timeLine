@@ -50,8 +50,10 @@ import VChart from 'vue-echarts';
 import { useSettingStore } from '@/store/app';
 import dayjs from '@/helper/dayjs';
 import useTableSetting from '@/hooks/useTableSetting';
+import useDefaultDate from '@/hooks/useDefaultDate';
 
-const { maxTableHeight } = useTableSetting('xc-table',0);
+const { maxTableHeight } = useTableSetting({ id: 'xc-table', offsetBottom: 50});
+const{ startDate, endDate} = useDefaultDate();
 const store = useSettingStore();
 const deviceList = ref([]);
 const tableData = ref([]);
@@ -95,6 +97,13 @@ const chartOptions = ref({
     yAxis: {
         type: 'value',
         boundaryGap: [0, '100%'],
+    },
+    grid: {
+        left: 25,
+        right: 0,
+        top: 50,
+        bottom: 0,
+        containLabel: true,
     },
     series: [],
     color: ['#0052D9','#029CD4']
@@ -151,8 +160,8 @@ const handleColumnClick = async (row: any, column: any, event: any) => {
 
 // 初始化默认一周
 const setDefaultTime = () => {
-    searchForm.endTime = dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss');
-    searchForm.startTime = dayjs(new Date(new Date().getTime() - 7 * 24 * 3600 * 1000)).format('YYYY-MM-DD HH:mm:ss');
+    searchForm.endTime = endDate;
+    searchForm.startTime = startDate;
     searchForm.date = [searchForm.startTime, searchForm.endTime];
 };
 

@@ -52,15 +52,17 @@ import { computed, ref, reactive } from 'vue';
 import VChart from 'vue-echarts';
 import { useSettingStore } from '@/store/app';
 import dayjs from '@/helper/dayjs';
+import useDefaultDate from '@/hooks/useDefaultDate';
 
+const { startDate, endDate} = useDefaultDate();
 const store = useSettingStore();
 const deviceList: any = ref([]);
 const searchForm = reactive({
     deviceId: [],
     measure: store.currentApp.defaultMeasure,
-    date: [],
-    startTime: '',
-    endTime: '',
+    date: [startDate, endDate],
+    startTime: startDate,
+    endTime: endDate,
 });
 
 const chartOptions = ref({
@@ -145,7 +147,7 @@ const getDeviceListHandler = async () => {
     // deviceList.value = [{ stationName: '全部微站', stationId: '' }, ...res];
     deviceList.value = res;
     searchForm.deviceId = res;
-    // getDeviceDataHandler();
+    handleSearch();
 };
 
 getDeviceListHandler();

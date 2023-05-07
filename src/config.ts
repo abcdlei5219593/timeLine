@@ -65,9 +65,30 @@ export const APP_LIST: Menu = [
                 { prop: '', label: '风压', width: 100},
                 { prop: 'wd', label: '风向', width: 60},
                 { prop: 'wsp', label: '风速', width: 100},
+            ],
+            markerWindowField: [
+                [
+                    { prop: 'aqi', label: 'AQI'},
+                    { prop: 'pm25', label: 'PM'},
+                ],
+                [
+                    { prop: 'co', label: '一氧化碳'},
+                    { prop: 'pm10', label: 'PM10'},
+                ],
+                [
+                    { prop: 'so2', label: '二氧化硫'},
+                    { prop: 'temp', label: '温度'},
+                ],
+                [
+                    { prop: 'no2', label: '二氧化氮'},
+                    { prop: 'humi', label: '湿度'},
+                ],
+                [
+                    { prop: 'h2s', label: '臭氧'},
+                ]
             ]
 
-        }
+        },
     },
     {
         url: '/app/water',
@@ -86,6 +107,25 @@ export const APP_LIST: Menu = [
                 { prop: 'wt', label: '浊度NTU'},
                 { prop: 'temp', label: '温度°C'},
 
+            ],
+            markerWindowField: [
+                [
+                    { prop: 'cwqi', label: 'CWQI'},
+                    { prop: 'temp', label: '温度'},
+                ],
+                [
+                    { prop: 'ph', label: 'PH'},
+                ],
+                [
+                    { prop: 'd0', label: '溶解氧'},
+
+                ],
+                [
+                    { prop: 'ec', label: '电导率'},
+                ],
+                [
+                    { prop: 'wt', label: '浊度'},
+                ]
             ]
         }
     },
@@ -113,3 +153,4 @@ export const APP_LIST: Menu = [
         children: routeUserPath('/app/user')
     },
 ];
+

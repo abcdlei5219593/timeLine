@@ -6,18 +6,17 @@
             <span>高值</span>
         </section>
 
-        <ElTable id="xc-table" :data="tableData" border="" :cell-style="cellStyle" :height="maxTableHeight">
+        <ElTable id="xc-table" class="table" :data="tableData" border="" :cell-style="cellStyle" :height="maxTableHeight">
             <ElTableColumn
                 v-for="(item, index) in tableColumn"
                 :key="index"
                 :label="item.label"
                 :prop="item.prop"
-                :width="(index === 0 || index === tableColumn.length - 1) ? 120 : 50"
+                :width="(index === 0 || index === tableColumn.length - 1) ? 120 : 60"
                 align="center"
             >
             </ElTableColumn>
-        </ElTable>
-        22
+        </eltable>
     </ElCard>
 </template>
 
@@ -29,7 +28,7 @@ import { useSettingStore } from '@/store/app';
 import { ref } from 'vue';
 
 const store = useSettingStore();
-const { maxTableHeight } = useTableSetting();
+const { maxTableHeight } = useTableSetting({ id: 'xc-table', offsetBottom: 50 });
 const cellStyle = ({ row, column, rowIndex, columnIndex }) => {
     if(columnIndex !== 0 && columnIndex !== tableColumn.length - 1) {
         const val = row[column.property];

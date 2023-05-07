@@ -2,18 +2,18 @@
     <ElRow :gutter="20">
         <ElCol :span="12" class="h-340">
             <ElCard shadow="never" class="welcome">
-                <h3>欢迎你，{{ store.userInfo?.name }}</h3>
+                <h3>欢迎你， {{ store.userInfo?.userName }}</h3>
                 <article class="inner-title">
                     微站检测平台
                 </article>
                 <article class="flex">
-                    {{ appStore.currentApp.meta.AQIName }}:{{ AQI }}
-                    <div class="tag">
-                        良
+                    {{ appStore.currentApp.meta.AQIName }}：{{ AQI }}
+                    <div class="tag" :style="{ background: mesureLevel.color}">
+                        {{ mesureLevel.level }}
                     </div>
                 </article>
                 <article class="">
-                    2023年更新
+                    {{ updateTime }}更新
                 </article>
             </ElCard>
         </ElCol>
@@ -67,11 +67,14 @@ import { ref, onMounted } from 'vue';
 import VChart from 'vue-echarts';
 import HeatMap from '../Statistics/HeatMap/HeatMap.vue';
 import dayjs from '@/helper/dayjs';
+import { getCurrentTime } from '@/helper/index';
 import { computed } from 'vue';
+import { getLevelByMesure } from '@/helper/index';
 
 const appStore = useSettingStore();
 const AQI = ref<number>(null);
 const msgList = ref([]);
+const updateTime = getCurrentTime();
 const option = ref({
     tooltip: {},
     legend: {
@@ -84,6 +87,7 @@ const option = ref({
     series: [],
 });
 
+const mesureLevel = computed(() => getLevelByMesure(AQI.value));
 
 const measure = ref(appStore.currentApp.defaultMeasure);
 
