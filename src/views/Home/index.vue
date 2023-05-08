@@ -129,8 +129,12 @@ const drawBar = async () => {
         series: [
             {
                 type: 'bar',
-
-                data: data.map((item) => item.avg),
+                data: data.map(item => ({
+                    value: item.avg,
+                    itemStyle: {
+                        color: getLevelByMesure(item.avg)?.color
+                    }
+                })),
             },
         ],
         color: ['#07A872','#F5BA18']

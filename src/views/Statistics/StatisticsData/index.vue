@@ -110,8 +110,9 @@ const handleCurrentChange = (page: number) => {
 const stationArr: any = ref([]);
 const getStationList = async () => {
     try {
-        const res: any = await getDeviceList({ bizModule: store.bizModule });
-        stationArr.value = [{ stationName: '全部微站', stationId: '' }, ...res];
+        stationArr.value = await getDeviceList({ bizModule: store.bizModule });
+        params.value.stationId = stationArr.value[0].stationId;
+
     } catch (err) { }
 };
 

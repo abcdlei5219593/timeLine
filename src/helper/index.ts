@@ -48,32 +48,32 @@ export const getCurrentTime = () => {
 export const getLevelByMesure = ( mesure: number) => {
     if (mesure <= 50) {
         return {
-            color: 'green',
+            color: '#07A872',
             level: '优'
         };
     } else if (mesure <= 100) {
         return {
-            color: 'yellow',
+            color: '#F5BA18',
             level: '良'
         };
     } else if (mesure <= 150) {
         return {
-            color: 'orange',
+            color: '#F57E18',
             level: '轻度污染'
         };
     } else if (mesure <= 200) {
         return {
-            color: 'red',
+            color: '#DA1811',
             level: '中度污染'
         };
     } else if (mesure <= 300) {
         return {
-            color: 'perple',
+            color: '#792BBB',
             level: '重度污染'
         };
     } else if (mesure > 300) {
         return {
-            color: 'darkRed',
+            color: '#A21A10',
             level: '严重污染'
         };
     }

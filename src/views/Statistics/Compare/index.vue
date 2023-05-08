@@ -146,7 +146,7 @@ const getDeviceListHandler = async () => {
     const res = await getDeviceList({ bizModule: store.currentApp.bizModule });
     // deviceList.value = [{ stationName: '全部微站', stationId: '' }, ...res];
     deviceList.value = res;
-    searchForm.deviceId = res;
+    searchForm.deviceId = [res[0]];
     handleSearch();
 };
 
