@@ -43,9 +43,9 @@ const defaultActive = route.fullPath;
 .menu-title {
     padding-left: 8px;
 }
-:deep(.el-menu-item) {
-    padding-left: 22px !important;
-}
+// :deep(.el-menu-item) {
+//     padding-left: 16px !important;
+// }
 :deep(.el-menu-item .el-menu-tooltip__trigger) {
     justify-content: center;
 }
