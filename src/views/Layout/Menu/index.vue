@@ -36,12 +36,19 @@ const defaultActive = route.fullPath;
 </script>
 
 <style scoped lang="scss">
+.el-menu {
+    padding-left: 10px;
+    padding-right: 10px;
+}
 .menu-icon {
     font-size: 20px;
     // margin-right: 8px;
 }
 .menu-title {
     padding-left: 8px;
+}
+:deep(.el-menu-item) {
+    padding-left: 22px !important;
 }
 :deep(.el-menu-item .el-menu-tooltip__trigger) {
     justify-content: center;

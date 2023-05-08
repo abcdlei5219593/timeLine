@@ -34,23 +34,25 @@ export function getFormatDate(dateStr: string, format = 'YYYY-mm-dd') {
  * @return array
  */
 
-export const getDeepTreeData = (sourceTree, targetTree) => {
-    const temp = [];
-    for (const item of targetTree) {
-        let target = {};
-        const itemInSourceTree = sourceTree.find(sourceItem => item.url === sourceItem.url);
-        if(itemInSourceTree) {
-            target = {
-                ...itemInSourceTree,
-                children: []
-            };
+export const getDeepTreeData = (sourceTree: any, targetTree: any) => {
+    return new Promise(async (resolve, reject) => {
+        const temp = [];
+        for (const item of targetTree) {
+            let target = {};
+            const itemInSourceTree = sourceTree && sourceTree.find(sourceItem => item.url === sourceItem.url);
+            if (itemInSourceTree) {
+                target = {
+                    ...itemInSourceTree,
+                    children: []
+                };
+            }
+            if (item.children && item.children.length) {
+                target.children = await getDeepTreeData(itemInSourceTree.children ? itemInSourceTree.children : '', item.children ? item.children : '');
+            }
+            temp.push(target);
         }
-        if(item.children && item.children.length) {
-            target.children = getDeepTreeData(itemInSourceTree.children, item.children);
-        }
-        temp.push(target);
-    }
-    return temp;
+        resolve(temp)
+    })
 };
 
 
@@ -63,9 +65,9 @@ export const getDeepTreeData = (sourceTree, targetTree) => {
 
 export const getFlatDeepTreeData = (sourcetree, target) => {
     for (const item of sourcetree) {
-        if(item.children && item.children.length) {
-            getFlatDeepTreeData(item.children,target);
-        }else {
+        if (item.children && item.children.length) {
+            getFlatDeepTreeData(item.children, target);
+        } else {
             // 当穷尽到最后一层路由时，收集选中路由
             target.push(item);
         }

@@ -117,7 +117,7 @@ const getUserMenu = async () => {
         const res: any = await listUserModule();
 
         let menu: any = res.menu;
-        const authMenu = getDeepTreeData(APP_LIST, menu);
+        const authMenu = await getDeepTreeData(APP_LIST, menu);
         store.getMenu(authMenu, res.button);
         // 设置默认 bizModule
         const bizModule = APP_LIST.find((m) => {
