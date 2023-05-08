@@ -4,33 +4,18 @@
             <ElCol :span="6">
                 <span class="search-label">微站选择：</span>
                 <ElSelect v-model="AirWarnParams.stationId" placeholder="请选择" size="default" @change="searchChange">
-                    <ElOption
-                        v-for="item in stationArr"
-                        :key="item.stationId"
-                        :label="item.stationName"
-                        :value="item.stationId"
-                    />
+                    <ElOption v-for="item in stationArr" :key="item.stationId" :label="item.stationName"
+                        :value="item.stationId" />
                 </ElSelect>
             </ElCol>
             <ElCol :span="8">
                 <span class="search-label">时间：</span>
-                <ElDatePicker
-                    v-model="date"
-                    type="datetimerange"
-                    range-separator="-"
-                    size="default"
-                    @change="timeChange"
-                />
+                <ElDatePicker v-model="date" type="datetimerange" range-separator="-" size="default" @change="timeChange" />
             </ElCol>
             <ElCol :span="6">
                 <span class="search-label">传感器类型：</span>
                 <ElSelect v-model="AirWarnParams.sensorCode" placeholder="请选择" size="default" @change="searchChange">
-                    <ElOption
-                        v-for="item in sensorTypeOptions"
-                        :key="item.code"
-                        :label="item.name"
-                        :value="item.code"
-                    />
+                    <ElOption v-for="item in sensorTypeOptions" :key="item.code" :label="item.name" :value="item.code" />
                 </ElSelect>
             </ElCol>
             <ElCol :span="2" @change="searchChange">
@@ -39,12 +24,8 @@
                 </ElCheckbox>
             </ElCol>
         </ElRow>
-        <ElTable
-            id="deviceWarnTable"
-            class="table"
-            :data="tableData"
-            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
-        >
+        <ElTable id="deviceWarnTable" class="table" :data="tableData"
+            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
             <ElTableColumn prop="deviceId" label="主板" />
             <ElTableColumn prop="stationName" label="微站名称" />
             <ElTableColumn prop="status" label="告警值" />
@@ -59,31 +40,19 @@
             <ElTableColumn prop="createTime" label="时间" />
             <ElTableColumn fixed="right" label="操作">
                 <template #default="scope">
-                    <ElButton
-                        v-if="scope.row.unclosed"
-                        link
-                        type="primary"
-                        size="default"
-                        v-permission="'/closeWarn'"
-                        @click="closeFun(scope.row.id)"
-                    >
+                    <ElButton v-if="scope.row.unclosed" v-permission="'/closeWarn'" link type="primary" size="default"
+                        @click="closeFun(scope.row.id)">
                         关闭告警
                     </ElButton>
-                    <p v-else>已关闭</p>
+                    <p v-else>
+                        已关闭
+                    </p>
                 </template>
             </ElTableColumn>
         </ElTable>
-        <ElPagination
-            class="pagination"
-            background
-            layout="total,sizes,prev, pager, next,jumper"
-            :total="total"
-            :current-page="AirWarnParams.pageNum"
-            :page-sizes="[10, 20, 50, 100]"
-            :page-size="AirWarnParams.pageSize"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-        />
+        <ElPagination class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="total"
+            :current-page="AirWarnParams.pageNum" :page-sizes="[10, 20, 50, 100]" :page-size="AirWarnParams.pageSize"
+            @size-change="handleSizeChange" @current-change="handleCurrentChange" />
     </div>
 </template>
 
@@ -132,7 +101,7 @@ const getList = async () => {
         AirWarnParams.pageNum = res.pageNum;
         AirWarnParams.pageSize = res.pageSize;
         total.value = res.total;
-    } catch (err) {}
+    } catch (err) { }
 };
 
 const searchChange = () => {
@@ -167,7 +136,7 @@ const closeFun = async (alarmId: number) => {
     try {
         await alarmClose({ alarmId: alarmIdArr.value });
         ElMessage.success('修改成功');
-    } catch (err) {}
+    } catch (err) { }
 };
 
 // 微站
@@ -176,7 +145,7 @@ const getStationList = async () => {
     try {
         const res: any = await getDeviceList({ bizModule: store.bizModule });
         stationArr.value = [{ stationName: '全部微站', stationId: '' }, ...res];
-    } catch (err) {}
+    } catch (err) { }
 };
 
 // 获取传感器类型
@@ -195,6 +164,5 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'deviceWarnT
 </script>
 
 <style scoped lang="scss">
-.warn-con {
-}
+.warn-con {}
 </style>
