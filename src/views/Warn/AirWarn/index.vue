@@ -64,6 +64,7 @@
                         link
                         type="primary"
                         size="default"
+                        v-permission="'/closeWarn'"
                         @click="closeFun(scope.row.id)"
                     >
                         关闭告警

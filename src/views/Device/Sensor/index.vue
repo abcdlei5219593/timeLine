@@ -14,7 +14,15 @@
             <ElTableColumn prop="threshold3" label="严重告警阈值" />
             <ElTableColumn fixed="right" label="操作">
                 <template #default="scoped">
-                    <ElButton link type="primary" size="default" @click="setShowFun(scoped.row)"> 设置阈值 </ElButton>
+                    <ElButton
+                        link
+                        type="primary"
+                        size="default"
+                        v-permission="'/setThreshold'"
+                        @click="setShowFun(scoped.row)"
+                    >
+                        设置阈值
+                    </ElButton>
                 </template>
             </ElTableColumn>
         </ElTable>

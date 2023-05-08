@@ -169,8 +169,8 @@ watch(
 
         .icon-shouqidaohang,
         .icon-zhankaidaohang {
-            font-size: 24px;
-            margin: 0 10px 0 20px;
+            font-size: 20px;
+            margin: 0 8px 0 22px;
             display: block;
         }
     }
