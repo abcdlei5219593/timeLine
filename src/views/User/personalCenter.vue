@@ -2,40 +2,54 @@
     <div class="user-top">
         <p class="user-title">个人信息</p>
         <div class="user-btn">
-            <el-button v-if="!isEdit" size="default" @click="editFun"> 编辑 </el-button>
-            <el-button v-if="isEdit" size="default" @click="cancel"> 取消 </el-button>
-            <el-button v-if="isEdit" size="default" @click="save"> 保存 </el-button>
+            <ElButton class="border-btn" type="" v-if="!isEdit" size="default" @click="editFun"> 编辑 </ElButton>
+            <ElButton type="" v-if="isEdit" size="default" @click="cancel"> 取消 </ElButton>
+            <ElButton class="border-btn" type="" v-if="isEdit" size="default" @click="submitFormEdit(formEditRef)">
+                保存
+            </ElButton>
         </div>
-        <ElRow>
-            <ElCol :span="7">
-                <span class="user-label">姓名：</span>
-                <span v-if="!isEdit">{{ userInfo.realName }}</span>
-                <ElInput v-else v-model="userInfo.realName" placeholder="请输入" size="default"></ElInput>
-            </ElCol>
-            <ElCol :span="7">
-                <span class="user-label">邮箱：</span>
-                <span v-if="!isEdit">{{ userInfo.email }}</span>
-                <ElInput v-else v-model="userInfo.email" placeholder="请输入" size="default"></ElInput>
-            </ElCol>
-            <ElCol :span="7">
-                <span class="user-label">性别：</span>
-                <span v-if="!isEdit">测试</span>
-                <ElRadioGroup v-else v-model="userInfo.gender">
-                    <ElRadio label="男" size="default"> 男 </ElRadio>
-                    <ElRadio label="女" size="default"> 女 </ElRadio>
-                </ElRadioGroup>
-            </ElCol>
-            <ElCol :span="7">
-                <span class="user-label">登录名：</span>
-                <span v-if="!isEdit">{{ userInfo.userName }}</span>
-                <ElInput v-else v-model="userInfo.userName" placeholder="请输入" size="default"></ElInput>
-            </ElCol>
-            <ElCol :span="7">
-                <span class="user-label">手机号：</span>
-                <span v-if="!isEdit">{{ userInfo.mobilePhone }}</span>
-                <ElInput v-else v-model="userInfo.mobilePhone" placeholder="请输入" size="default"></ElInput>
-            </ElCol>
-        </ElRow>
+        <ElForm ref="formEditRef" :model="userInfo" :rules="editRules">
+            <ElRow>
+                <ElCol :span="7">
+                    <span class="user-label">姓名：</span>
+                    <span v-if="!isEdit">{{ userInfo.realName }}</span>
+                    <ElFormItem prop="realName" v-else>
+                        <ElInput v-model="userInfo.realName" placeholder="请输入" size="default"></ElInput>
+                    </ElFormItem>
+                </ElCol>
+                <ElCol :span="7">
+                    <span class="user-label">邮箱：</span>
+                    <span v-if="!isEdit">{{ userInfo.email }}</span>
+                    <ElFormItem prop="email" v-else>
+                        <ElInput v-model="userInfo.email" placeholder="请输入" size="default"></ElInput>
+                    </ElFormItem>
+                </ElCol>
+                <ElCol :span="7">
+                    <span class="user-label">性别：</span>
+                    <span v-if="!isEdit">{{ userInfo.gender }}</span>
+                    <ElFormItem prop="gender" v-else>
+                        <ElRadioGroup v-model="userInfo.gender">
+                            <ElRadio label="男" size="default"> 男 </ElRadio>
+                            <ElRadio label="女" size="default"> 女 </ElRadio>
+                        </ElRadioGroup>
+                    </ElFormItem>
+                </ElCol>
+                <ElCol :span="7">
+                    <span class="user-label">登录名：</span>
+                    <span v-if="!isEdit">{{ userInfo.userName }}</span>
+                    <ElFormItem prop="userName" v-else>
+                        <ElInput v-model="userInfo.userName" placeholder="请输入" size="default"></ElInput>
+                    </ElFormItem>
+                </ElCol>
+                <ElCol :span="7">
+                    <span class="user-label">手机号：</span>
+                    <span v-if="!isEdit">{{ userInfo.mobilePhone }}</span>
+                    <ElFormItem prop="mobilePhone" v-else>
+                        <ElInput v-model="userInfo.mobilePhone" placeholder="请输入" size="default"></ElInput>
+                    </ElFormItem>
+                </ElCol>
+            </ElRow>
+        </ElForm>
     </div>
     <div class="user-bottom">
         <p class="user-title">修改密码</p>
@@ -57,18 +71,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-    ElButton,
-    ElInput,
-    ElRow,
-    ElCol,
-    ElForm,
-    ElFormItem,
-    FormInstance,
-    ElMessage,
-    ElRadioGroup,
-    ElRadio,
-} from 'element-plus';
+import { FormInstance, ElMessage } from 'element-plus';
 import { ref, reactive, getCurrentInstance, onMounted } from 'vue';
 import md5 from 'js-md5';
 import { basic, changePassword, editUserInfo } from '@/api/user';
@@ -79,6 +82,7 @@ import { useUserStore } from '@/store/app';
 const router = useRouter();
 
 const formDataRef = ref<FormInstance>();
+const formEditRef = ref<FormInstance>();
 
 const formData = reactive<any>({
     oldPwd: '',
@@ -96,6 +100,29 @@ const validatePass = (rule: any, value: any, callback: any) => {
         callback();
     }
 };
+
+//修改个人信息rules
+const editRules = reactive({
+    mobilePhone: [
+        { required: true, message: '请输入手机号', trigger: 'blur' },
+        {
+            required: true,
+            pattern: /^1[3-9]\d{9}$/,
+            message: '请输入正确的手机号',
+            trigger: 'blur',
+        },
+    ],
+    email: [
+        {
+            required: false,
+            pattern: /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/,
+            message: '请输入正确的邮箱',
+            trigger: 'blur',
+        },
+    ],
+});
+
+//修改密码rules
 const rules = reactive({
     oldPwd: [
         { required: true, message: '请输入旧密码', trigger: 'blur' },
@@ -192,6 +219,20 @@ const save = async () => {
     } catch (err) {}
 };
 
+const submitFormEdit = async (formEl: FormInstance | undefined) => {
+    if (!formEl) {
+        return;
+    }
+    await formEl.validate((valid, fields) => {
+        if (valid) {
+            console.log('submit!');
+            save();
+        } else {
+            console.log('error submit!', fields);
+        }
+    });
+};
+
 onMounted(() => {
     getUser();
 });
@@ -207,13 +248,24 @@ onMounted(() => {
         position: absolute;
         right: 20px;
         top: 20px;
+        z-index: 10;
+
+        .border-btn {
+            border: 1px solid #2d8cf0;
+            color: #2d8cf0;
+        }
+    }
+
+    .el-row {
+        padding: 6px 0 10px 0;
     }
 
     .el-col {
         color: #333333;
-        margin-top: 20px;
+        margin-top: 16px;
         display: flex;
         line-height: 32px;
+        height: 32px;
 
         .user-label {
             color: #999999;
@@ -221,6 +273,7 @@ onMounted(() => {
             text-align: right;
             white-space: nowrap;
             display: block;
+            height: 32px;
             line-height: 32px;
         }
 
@@ -242,10 +295,14 @@ onMounted(() => {
     :deep(.el-form-item__label) {
         line-height: 32px;
     }
+    :deep(.el-form-item) {
+        margin-bottom: 24px;
+    }
 }
 
 .user-title {
     font-size: 16px;
     color: #333;
+    line-height: 22px;
 }
 </style>
