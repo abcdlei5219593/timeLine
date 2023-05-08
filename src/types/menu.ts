@@ -8,6 +8,7 @@ export interface MenuItem {
     menu?: MenuItem[],
     isButton?: boolean,
     bizModule?: number | null,
+    meta?: object | null,
 }
 
 export type Menu = MenuItem[]

@@ -36,10 +36,6 @@ const defaultActive = route.fullPath;
 </script>
 
 <style scoped lang="scss">
-.el-menu {
-    padding-left: 10px;
-    padding-right: 10px;
-}
 .menu-icon {
     font-size: 20px;
     // margin-right: 8px;
