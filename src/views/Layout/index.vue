@@ -2,9 +2,12 @@
     <ElContainer>
         <ElHeader>
             <ElContainer>
-                <div class="logo fs-18 fw-600">大气监测管理系统</div>
+                <div class="logo fs-18 fw-600">
+                    大气监测管理系统
+                </div>
                 <section>
-                    <AppBar :menu-list="appList"> </AppBar>
+                    <AppBar :menu-list="appList">
+                    </AppBar>
                 </section>
                 <HeaderRight></HeaderRight>
             </ElContainer>
@@ -27,7 +30,8 @@
             </ElAside>
             <ElMain>
                 <Breadcrumb v-if="showBread" />
-                <RouterView class="main-view"> </RouterView>
+                <RouterView class="main-view">
+                </RouterView>
             </ElMain>
         </ElContainer>
     </ElContainer>

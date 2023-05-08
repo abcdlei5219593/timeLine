@@ -12,12 +12,12 @@
 <script setup lang="ts">
 import { ElBreadcrumb, ElBreadcrumbItem } from 'element-plus';
 import { useRouter } from 'vue-router';
-import { ref } from 'vue';
+import { computed } from 'vue';
 import { ArrowRight } from '@element-plus/icons-vue';
 
 const router = useRouter();
-const breadcrumbList = ref([]);
-const mapRoutes = () => {
+// const breadcrumbList = ref([]);
+const breadcrumbList = computed(() => {
     const routes = router.currentRoute.value.matched;
     const appkey: any = router.currentRoute.value.params.appkey;
     const _routes: any = [];
@@ -31,9 +31,9 @@ const mapRoutes = () => {
         }
     });
     console.log(_routes, '_routes_routes_routes', router.currentRoute);
-    breadcrumbList.value = _routes;
-};
-mapRoutes();
+    return _routes;
+});
+
 </script>
 
 <style lang="scss" scoped>
