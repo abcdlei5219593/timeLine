@@ -4,8 +4,12 @@
             <ElCol :span="6">
                 <span class="search-label">微站选择：</span>
                 <ElSelect v-model="stationId" placeholder="请选择" size="default" @change="selectChange">
-                    <ElOption v-for="item in stationArr" :key="item.stationId" :label="item.stationName"
-                        :value="item.stationId" />
+                    <ElOption
+                        v-for="item in stationArr"
+                        :key="item.stationId"
+                        :label="item.stationName"
+                        :value="item.stationId"
+                    />
                 </ElSelect>
             </ElCol>
             <ElButton class="add-btn" type="primary" size="default" @click="addFun">
@@ -13,13 +17,17 @@
                 新增设备
             </ElButton>
         </ElRow>
-        <ElTable id="deviceTable" class="table" :data="tableData"
-            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
+        <ElTable
+            id="deviceTable"
+            class="table"
+            :data="tableData"
+            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
+        >
             <ElTableColumn prop="deviceId" label="主板" width="150" />
             <ElTableColumn prop="stationName" label="微站名称" />
             <ElTableColumn prop="stationAddress" label="微站地址" />
-            <ElTableColumn prop="hv" label="硬件版本" />
-            <ElTableColumn prop="sv" label="软件版本" />
+            <!-- <ElTableColumn prop="hv" label="硬件版本" />
+            <ElTableColumn prop="sv" label="软件版本" /> -->
             <ElTableColumn prop="longitude" label="经度" />
             <ElTableColumn prop="latitude" label="纬度" />
             <ElTableColumn prop="status" label="状态">
@@ -33,17 +41,20 @@
                     <!-- <ElButton link type="primary" size="default" @click="reportInterval(scope.row)">
                         上报间隔
                     </ElButton> -->
-                    <ElButton v-permission="'/deviceSensor'" link type="primary" size="default"
-                        @click="toSensor(scope.row)">
+                    <ElButton
+                        v-permission="'/deviceSensor'"
+                        link
+                        type="primary"
+                        size="default"
+                        @click="toSensor(scope.row)"
+                    >
                         传感器
                     </ElButton>
                     <!-- <ElButton link type="primary" size="default" class="red-text-btn">
                         重启
                     </ElButton> -->
                     <!-- <ElButton v-permission="'/deviceEdit'" link type="primary" size="default" @click="editFun(scope.row)"> -->
-                    <ElButton link type="primary" size="default" @click="editFun(scope.row)">
-                        编辑
-                    </ElButton>
+                    <ElButton link type="primary" size="default" @click="editFun(scope.row)"> 编辑 </ElButton>
                 </template>
             </ElTableColumn>
         </ElTable>
@@ -53,9 +64,7 @@
     <ElDialog v-model="isTimeSet" class="dialog" title="上报间隔时间设置" width="30%">
         <div class="device-dialog">
             <ElRow>
-                <ElCol :span="8">
-                    间隔时间
-                </ElCol>
+                <ElCol :span="8"> 间隔时间 </ElCol>
                 <ElCol :span="16">
                     <ElInput v-model="intervalTime" type="number" placeholder="请输入内容"></ElInput>
                 </ElCol>
@@ -80,12 +89,12 @@
                 <ElFormItem label="微站地址" prop="stationAddress">
                     <el-input v-model="deviceData.stationAddress" size="default" placeholder="请输入" />
                 </ElFormItem>
-                <ElFormItem label="硬件版本" prop="hv">
+                <!-- <ElFormItem label="硬件版本" prop="hv">
                     <el-input v-model="deviceData.hv" size="default" placeholder="请输入" />
                 </ElFormItem>
                 <ElFormItem label="软件版本" prop="sv">
                     <el-input v-model="deviceData.sv" size="default" placeholder="请输入" />
-                </ElFormItem>
+                </ElFormItem> -->
                 <ElFormItem label="经度" prop="longitude">
                     <el-input v-model="deviceData.longitude" size="default" placeholder="请输入" />
                 </ElFormItem>
@@ -179,7 +188,7 @@ const getList = async () => {
         const res: string[] = await getDeviceList({ bizModule: store.bizModule, stationId: stationId.value });
         stationArr.value = [{ stationName: '全部微站', stationId: '' }, ...res];
         tableData.value = res;
-    } catch (err) { }
+    } catch (err) {}
 };
 
 // 新增或编辑
@@ -189,7 +198,7 @@ const save = async () => {
         addShow.value = false;
         ElMessage.success('操作成功');
         getList();
-    } catch (err) { }
+    } catch (err) {}
 };
 // 提交
 const formDataRef = ref<FormInstance>();
