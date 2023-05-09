@@ -65,6 +65,7 @@ import dayjs from '@/helper/dayjs';
 import useTableSetting from '@/hooks/useTableSetting';
 import useDefaultDate from '@/hooks/useDefaultDate';
 import ExportPreview from './ExportPreview.vue';
+import { getFormatDate } from '@/utils/common';
 
 const { maxTableHeight } = useTableSetting({ id: 'xc-table', offsetBottom: 50 });
 const { startDate, endDate } = useDefaultDate();
@@ -201,11 +202,13 @@ const getDeviceListHandler = async () => {
 };
 
 //导出预览
-const exportFun = () => {
+const exportFun = async () => {
     exportShow.value = true;
-    deviceList.value.forEach((item, index) => {
-        handleColumnClick(item, '', '', index);
-    });
+    await Promise.all(
+        deviceList.value.map(async (item, index) => {
+            await handleColumnClick(item, '', '', index);
+        })
+    );
 };
 
 setDefaultTime();
