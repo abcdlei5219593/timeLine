@@ -3,27 +3,16 @@
         <ElRow class="search-row">
             <ElCol :span="8">
                 <span class="search-label">时间：</span>
-                <el-date-picker
-                    v-model="searchForm.date"
-                    size="default"
-                    :disabled-date="disabledDate"
-                    type="daterange"
-                    value-format="YYYY-MM-DD"
-                    @change="handleSearch"
-                />
+                <el-date-picker v-model="searchForm.date" size="default" :disabled-date="disabledDate" type="daterange"
+                    value-format="YYYY-MM-DD" @change="handleSearch" />
             </ElCol>
-            <ElButton class="add-btn" type="primary" size="default" @click="exportFun"> 导出预览 </ElButton>
+            <ElButton class="add-btn" type="primary" size="default" @click="exportFun">
+                导出预览
+            </ElButton>
         </ElRow>
         <div class="map-container">
-            <ElTable
-                id="xc-table"
-                class="report-table"
-                :data="tableData"
-                border=""
-                :height="maxTableHeight"
-                :row-class-name="tableRowClassName"
-                @row-click="handleColumnClick"
-            >
+            <ElTable id="xc-table" class="report-table" :data="tableData" border="" :height="maxTableHeight"
+                :row-class-name="tableRowClassName" @row-click="handleColumnClick">
                 <ElTableColumn :label="`${store.currentApp.meta.categoryName}质量指数报告`">
                     <template #default="scope">
                         <div class="table-column-layout" @click="active = scope.$index">
@@ -41,15 +30,10 @@
         </div>
     </div>
     <!--导出预览-->
-    <ElDialog class="dialog" v-model="exportShow" title="导出预览" width="60%">
+    <ElDialog v-model="exportShow" class="dialog" title="导出预览" width="60%">
         <div class="dialog-export dialog-content">
-            <ExportPreview
-                :tableData="tableData"
-                :chartOptionsArr="chartOptionsArr"
-                @handleColumnClick="handleColumnClick"
-                :searchForm="searchForm"
-                @cancel="cancel"
-            ></ExportPreview>
+            <ExportPreview :table-data="tableData" :chart-options-arr="chartOptionsArr" :search-form="searchForm"
+                @handleColumnClick="handleColumnClick" @cancel="cancel"></ExportPreview>
         </div>
     </ElDialog>
 </template>
@@ -125,8 +109,46 @@ const chartOptions = ref({
     color: ['#0052D9', '#029CD4'],
 });
 // getStations({pageNum: 1, pageSize: 1000, bizModule: store.currentApp.bizModule});
-
-//导出折线图的数组
+// 导出使用
+const chartOptionsExport = ref({
+    title: {
+        text: '',
+    },
+    tooltip: {
+        trigger: 'axis',
+        position: ['40%', '20%'],
+        formatter: (params) => {
+            let res = '';
+            for (let i = 0; i < params.length; i++) {
+                res += '<li>' + params[i].seriesName + '：' + params[i].value + '</li>';
+            }
+            return res;
+        },
+    },
+    legend: {
+        data: [],
+    },
+    xAxis: {
+        type: 'time',
+        splitLine: {
+            show: false,
+        },
+    },
+    yAxis: {
+        type: 'value',
+        boundaryGap: [0, '100%'],
+    },
+    grid: {
+        left: 25,
+        right: 0,
+        top: 50,
+        bottom: 0,
+        containLabel: true,
+    },
+    series: [],
+    color: ['#0052D9', '#029CD4'],
+});
+// 导出折线图的数组
 const chartOptionsArr = reactive([]);
 const disabledDate = (time: Date) => {
     return time.getTime() > Date.now();
@@ -177,11 +199,41 @@ const handleColumnClick = async (row: any, column: any, event: any, index: any) 
         series.push(temp);
     }
     chartOptions.value.series = series;
+};
+const handleColumnExportClick = async (row: any, column: any, event: any, index: any) => {
+    const params = {
+        deviceId: [row.deviceId],
+        startTime: searchForm.date.length ? `${searchForm.date[0]} 00:00:00` : '',
+        endTime: searchForm.date.length ? `${searchForm.date[1]} 23:59:59` : '',
+        measure: store.currentApp.defaultMeasure,
+    };
+    const data = await http[store.currentApp.url].getCurvesData(params);
+    // const lengend = searchForm.deviceId.map(({ stationName }) => stationName);
+    chartOptionsExport.value.legend.data = [row.stationName];
+    let series = [];
+    for (const device of params.deviceId) {
+        const temp = {
+            type: 'line',
+            name: row.stationName,
+            data: [],
+        };
 
-    //导出预览
+        const deviceData = data.find((item) => item.deviceId === device);
+
+        if (deviceData) {
+            temp.data = deviceData.data.map(({ avg, time }) => ({
+                name: dayjs(time).format('YYYY-MM-DD HH:mm:ss'),
+                value: [dayjs(time).format('YYYY-MM-DD HH:mm:ss'), avg],
+            }));
+        }
+        series.push(temp);
+    }
+    chartOptionsExport.value.series = series;
+
+    // 导出预览
     if (index >= 0) {
         // chartOptionsArr[index].series = series;
-        const chartOptionsValue = JSON.parse(JSON.stringify(chartOptions.value));
+        const chartOptionsValue = JSON.parse(JSON.stringify(chartOptionsExport.value));
         chartOptionsArr[index] = chartOptionsValue;
     }
 };
@@ -201,12 +253,12 @@ const getDeviceListHandler = async () => {
     });
 };
 
-//导出预览
+// 导出预览
 const exportFun = async () => {
     exportShow.value = true;
     await Promise.all(
         deviceList.value.map(async (item, index) => {
-            await handleColumnClick(item, '', '', index);
+            await handleColumnExportClick(item, '', '', index);
         })
     );
 };
@@ -223,6 +275,7 @@ getDeviceListHandler();
     border-radius: 4px;
     @include flex();
     flex-direction: column;
+
     .search-row {
         justify-content: space-between;
 
@@ -230,27 +283,33 @@ getDeviceListHandler();
             margin-left: auto;
         }
     }
+
     .title {
         width: 100%;
         @include flex(space-between, center);
+
         h3 {
             font-weight: 600;
             font-size: 16px;
             color: #000;
         }
+
         .el-form-item {
             align-items: center;
             margin-bottom: 0;
         }
     }
+
     .map-container {
         @include flex();
         margin-top: 24px;
         width: 100%;
         flex: 1;
+
         .el-table {
             width: 40%;
         }
+
         .echarts {
             width: 60%;
         }
@@ -266,30 +325,38 @@ getDeviceListHandler();
                 font-weight: 600;
             }
         }
+
         :deep(tbody tr) {
             height: 80px;
             cursor: pointer;
+
             .table-column-layout p {
                 &:first-child {
                     color: #000000;
                 }
+
                 &:last-child {
                     color: #666666;
                 }
             }
         }
+
         :deep(tbody tr:hover > td) {
             background-color: #f3f3f3;
         }
+
         :deep(tbody .active) {
             background: #ecf4fc !important;
+
             .table-column-layout p:first-child {
                 color: #2d8cf0 !important;
             }
-            &:hover > td {
+
+            &:hover>td {
                 background: #ecf4fc !important;
             }
         }
+
         :deep(.cell) {
             padding: 0 23px !important;
         }
