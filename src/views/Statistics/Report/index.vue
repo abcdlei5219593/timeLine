@@ -12,6 +12,7 @@
                     @change="handleSearch"
                 />
             </ElCol>
+            <ElButton class="add-btn" type="primary" size="default" @click="exportFun"> 导出预览 </ElButton>
         </ElRow>
         <div class="map-container">
             <ElTable
@@ -28,9 +29,9 @@
                         <div class="table-column-layout" @click="active = scope.$index">
                             <p>{{ scope.row.stationName }}</p>
                             <p>
-                                本周{{ store.currentApp.meta.categoryName }}质量平均值为{{ scope.row.avgVal }}，最大值为{{ scope.row.maxVal }}，最小值为{{
-                                    scope.row.minVal
-                                }}
+                                本周{{ store.currentApp.meta.categoryName }}质量平均值为{{
+                                    scope.row.avgVal
+                                }}，最大值为{{ scope.row.maxVal }}，最小值为{{ scope.row.minVal }}
                             </p>
                         </div>
                     </template>
@@ -39,6 +40,18 @@
             <v-chart class="chart" :option="chartOptions" autoresize :style="{ height: `${maxTableHeight}px` }" />
         </div>
     </div>
+    <!--导出预览-->
+    <ElDialog class="dialog" v-model="exportShow" title="导出预览" width="60%">
+        <div class="dialog-export dialog-content">
+            <ExportPreview
+                :tableData="tableData"
+                :chartOptionsArr="chartOptionsArr"
+                @handleColumnClick="handleColumnClick"
+                :searchForm="searchForm"
+                @cancel="cancel"
+            ></ExportPreview>
+        </div>
+    </ElDialog>
 </template>
 
 <script setup lang="ts" name="Map">
@@ -51,9 +64,10 @@ import { useSettingStore } from '@/store/app';
 import dayjs from '@/helper/dayjs';
 import useTableSetting from '@/hooks/useTableSetting';
 import useDefaultDate from '@/hooks/useDefaultDate';
+import ExportPreview from './ExportPreview.vue';
 
-const { maxTableHeight } = useTableSetting({ id: 'xc-table', offsetBottom: 50});
-const{ startDate, endDate} = useDefaultDate();
+const { maxTableHeight } = useTableSetting({ id: 'xc-table', offsetBottom: 50 });
+const { startDate, endDate } = useDefaultDate();
 const store = useSettingStore();
 const deviceList = ref([]);
 const tableData = ref([]);
@@ -63,6 +77,7 @@ const searchForm: any = reactive({
     endTime: '',
 });
 const active = ref(0);
+const exportShow = ref(false);
 
 const tableRowClassName = ({ row, rowIndex }) => {
     if (rowIndex === active.value) {
@@ -106,10 +121,12 @@ const chartOptions = ref({
         containLabel: true,
     },
     series: [],
-    color: ['#0052D9','#029CD4']
+    color: ['#0052D9', '#029CD4'],
 });
 // getStations({pageNum: 1, pageSize: 1000, bizModule: store.currentApp.bizModule});
 
+//导出折线图的数组
+const chartOptionsArr = reactive([]);
 const disabledDate = (time: Date) => {
     return time.getTime() > Date.now();
 };
@@ -126,7 +143,11 @@ const handleSearch = async () => {
     tableData.value.length && handleColumnClick(tableData.value[0], '', '');
 };
 
-const handleColumnClick = async (row: any, column: any, event: any) => {
+const cancel = () => {
+    exportShow.value = false;
+};
+
+const handleColumnClick = async (row: any, column: any, event: any, index: any) => {
     const params = {
         deviceId: [row.deviceId],
         startTime: searchForm.date.length ? `${searchForm.date[0]} 00:00:00` : '',
@@ -136,7 +157,6 @@ const handleColumnClick = async (row: any, column: any, event: any) => {
     const data = await http[store.currentApp.url].getCurvesData(params);
     // const lengend = searchForm.deviceId.map(({ stationName }) => stationName);
     chartOptions.value.legend.data = [row.stationName];
-
     let series = [];
     for (const device of params.deviceId) {
         const temp = {
@@ -156,6 +176,13 @@ const handleColumnClick = async (row: any, column: any, event: any) => {
         series.push(temp);
     }
     chartOptions.value.series = series;
+
+    //导出预览
+    if (index >= 0) {
+        // chartOptionsArr[index].series = series;
+        const chartOptionsValue = JSON.parse(JSON.stringify(chartOptions.value));
+        chartOptionsArr[index] = chartOptionsValue;
+    }
 };
 
 // 初始化默认一周
@@ -164,11 +191,21 @@ const setDefaultTime = () => {
     searchForm.startTime = startDate;
     searchForm.date = [searchForm.startTime, searchForm.endTime];
 };
-
 const getDeviceListHandler = async () => {
     // deviceList.value
     deviceList.value = await getDeviceList({ bizModule: store.currentApp.bizModule });
-    // getDeviceDataHandler();
+    deviceList.value.forEach((item) => {
+        const chartOptionsValue = JSON.parse(JSON.stringify(chartOptions.value));
+        chartOptionsArr.push(chartOptionsValue);
+    });
+};
+
+//导出预览
+const exportFun = () => {
+    exportShow.value = true;
+    deviceList.value.forEach((item, index) => {
+        handleColumnClick(item, '', '', index);
+    });
 };
 
 setDefaultTime();
@@ -183,6 +220,13 @@ getDeviceListHandler();
     border-radius: 4px;
     @include flex();
     flex-direction: column;
+    .search-row {
+        justify-content: space-between;
+
+        .add-btn {
+            margin-left: auto;
+        }
+    }
     .title {
         width: 100%;
         @include flex(space-between, center);
@@ -247,5 +291,10 @@ getDeviceListHandler();
             padding: 0 23px !important;
         }
     }
+}
+
+.dialog-export {
+    height: 500px;
+    overflow-y: auto;
 }
 </style>
