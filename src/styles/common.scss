@@ -111,6 +111,7 @@
 //Dialog
 .dialog.el-dialog {
     position: relative;
+    overflow: hidden;
 
     .el-dialog__body {
         padding: 14px 24px 0 24px;

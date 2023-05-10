@@ -41,7 +41,7 @@
         </div>
     </div>
     <!--导出预览-->
-    <ElDialog v-model="exportShow" class="dialog" title="导出预览" width="60%">
+    <ElDialog v-model="exportShow" class="dialog" title="导出预览" width="70%">
         <div class="dialog-export dialog-content">
             <ExportPreview
                 :table-data="tableData"
@@ -377,7 +377,6 @@ getDeviceListHandler();
         }
     }
 }
-
 .dialog-export {
     height: 500px;
     overflow-y: auto;
