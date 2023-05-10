@@ -107,11 +107,11 @@ export const routeWindPath = (basePath: string): Menu =>
                     name: '设备告警',
                 },
                 {
-                    url: basePath + '/warn/airWarn',
-                    name: '水质告警',
+                    url: basePath + '/warn/windWarn',
+                    name: '风速告警',
                     children: [
                         {
-                            url: basePath + '/device/airWarn/view',
+                            url: basePath + '/device/windWarn/view',
                             name: '页面访问',
 
                         },

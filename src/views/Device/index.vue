@@ -3,12 +3,12 @@
         <ElRow class="search-row">
             <ElCol :span="6">
                 <span class="search-label">微站选择：</span>
-                <ElSelect v-model="stationId" placeholder="请选择" size="default" @change="selectChange">
+                <ElSelect v-model="deviceId" placeholder="请选择" size="default" @change="selectChange">
                     <ElOption
                         v-for="item in stationArr"
-                        :key="item.stationId"
+                        :key="item.deviceId"
                         :label="item.stationName"
-                        :value="item.stationId"
+                        :value="item.deviceId"
                     />
                 </ElSelect>
             </ElCol>
@@ -132,7 +132,7 @@ const store = storeMenu();
 const router = useRouter();
 const routers = useRoute();
 
-const stationId: any = ref('');
+const deviceId: any = ref('');
 const microStationOptions = ref<any>([]);
 const tableData: any = ref([]);
 const stationArr: any = ref([]);
@@ -156,9 +156,8 @@ const reportInterval = () => {
     isTimeSet.value = true;
 };
 const deviceData = reactive<deviceDataType>({
-    deviceId: null,
+    deviceId: '',
     stationName: '',
-    stationId: null,
     stationAddress: '',
     latitude: null,
     longitude: null,
@@ -188,8 +187,8 @@ const selectChange = () => {
 };
 const getList = async () => {
     try {
-        const res: string[] = await getDeviceList({ bizModule: store.bizModule, stationId: stationId.value });
-        stationArr.value = [{ stationName: '全部微站', stationId: '' }, ...res];
+        const res: string[] = await getDeviceList({ bizModule: store.bizModule, deviceId: deviceId.value });
+        stationArr.value = [{ stationName: '全部微站', deviceId: '' }, ...res];
         tableData.value = res;
     } catch (err) {}
 };
@@ -225,7 +224,6 @@ const addFun = () => {
     isEdit.value = false;
     deviceData.deviceId = null;
     deviceData.stationName = '';
-    deviceData.stationId = null;
     deviceData.stationAddress = '';
     deviceData.latitude = null;
     deviceData.longitude = null;
@@ -238,7 +236,6 @@ const editFun = (row: any) => {
     isEdit.value = true;
     deviceData.deviceId = row.deviceId;
     deviceData.stationName = row.stationName;
-    deviceData.stationId = row.stationId;
     deviceData.stationAddress = row.stationAddress;
     deviceData.latitude = row.latitude;
     deviceData.longitude = row.longitude;

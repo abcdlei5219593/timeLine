@@ -9,17 +9,12 @@
             </ElCol> -->
             <ElCol :span="6">
                 <span class="search-label">微站选择：</span>
-                <ElSelect
-                    v-model="DevceWarnParams.stationId"
-                    placeholder="请选择"
-                    size="default"
-                    @change="searchChange"
-                >
+                <ElSelect v-model="DevceWarnParams.deviceId" placeholder="请选择" size="default" @change="searchChange">
                     <ElOption
                         v-for="(item, i) in stationArr"
                         :key="i"
                         :label="item.stationName"
-                        :value="item.stationId"
+                        :value="item.deviceId"
                     />
                 </ElSelect>
             </ElCol>
@@ -82,7 +77,7 @@ const store = storeMenu();
 const tableData: any = ref([]);
 const DevceWarnParams = reactive<DevceWarnParamsType>({
     alarmType: null,
-    stationId: '',
+    deviceId: '',
     startTime: '',
     endTime: '',
     pageNum: 1,
@@ -149,7 +144,7 @@ const stationArr: any = ref([]);
 const getStationList = async () => {
     try {
         const res: any = await getDeviceList({ bizModule: store.bizModule });
-        stationArr.value = [{ stationName: '全部微站', stationId: '' }, ...res];
+        stationArr.value = [{ stationName: '全部微站', deviceId: '' }, ...res];
     } catch (err) {}
 };
 

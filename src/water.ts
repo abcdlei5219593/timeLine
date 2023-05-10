@@ -107,11 +107,11 @@ export const routeWaterPath = (basePath: string): Menu =>
                     name: '设备告警',
                 },
                 {
-                    url: basePath + '/warn/airWarn',
+                    url: basePath + '/warn/waterWarn',
                     name: '水质告警',
                     children: [
                         {
-                            url: basePath + '/device/airWarn/view',
+                            url: basePath + '/device/waterWarn/view',
                             name: '页面访问',
 
                         },

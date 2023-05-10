@@ -139,6 +139,30 @@ const routes: Array<RouteRecordRaw> = [
                             title: '水质告警'
                         }
                     },
+                    {
+                        path: 'windWarn',
+                        name: 'WindWarn',
+                        component: () => import('@/views/Warn/AirWarn/index.vue'),
+                        meta: {
+                            title: '风速告警'
+                        }
+                    },
+                    {
+                        path: 'ptuWarn',
+                        name: 'PTUWarn',
+                        component: () => import('@/views/Warn/AirWarn/index.vue'),
+                        meta: {
+                            title: 'Ptu告警'
+                        }
+                    },
+                    {
+                        path: 'rainWarn',
+                        name: 'RainWarn',
+                        component: () => import('@/views/Warn/AirWarn/index.vue'),
+                        meta: {
+                            title: '雨量告警'
+                        }
+                    },
                 ]
             },
             {

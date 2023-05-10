@@ -108,7 +108,7 @@ export const routePtuPath = (basePath: string): Menu =>
                 },
                 {
                     url: basePath + '/warn/airWarn',
-                    name: '水质告警',
+                    name: 'PTU告警',
                     children: [
                         {
                             url: basePath + '/device/airWarn/view',

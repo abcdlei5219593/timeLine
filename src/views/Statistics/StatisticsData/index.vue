@@ -4,16 +4,29 @@
             <ElCol :span="6">
                 <span class="search-label">微站选择：</span>
                 <ElSelect v-model="params.stationId" placeholder="请选择" size="default" @change="searchChange">
-                    <ElOption v-for="(item, i) in stationArr" :key="i" :label="item.stationName" :value="item.stationId" />
+                    <ElOption
+                        v-for="(item, i) in stationArr"
+                        :key="i"
+                        :label="item.stationName"
+                        :value="item.stationId"
+                    />
                 </ElSelect>
             </ElCol>
             <ElCol :span="8">
                 <span class="search-label">时间：</span>
-                <ElDatePicker v-model="date" type="datetimerange" range-separator="-" size="default" @change="timeChange" />
+                <ElDatePicker
+                    v-model="date"
+                    type="datetimerange"
+                    range-separator="-"
+                    size="default"
+                    @change="timeChange"
+                />
             </ElCol>
         </ElRow>
         <ElTable
-            id="historyTable" class="table" :data="tableData"
+            id="historyTable"
+            class="table"
+            :data="tableData"
             :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
         >
             <ElTableColumn prop="deviceId" label="名称" width="150" />
@@ -24,20 +37,24 @@
                 :width="item.width"
             >
                 <template #default="scope">
-                    <div v-if="item.prop && scope.row[item.prop] ">
+                    <div v-if="item.prop && scope.row[item.prop]">
                         {{ scope.row[item.prop] }}
                     </div>
-                    <div v-else>
-                        /
-                    </div>
+                    <div v-else>/</div>
                 </template>
             </ElTableColumn>
             <ElTableColumn prop="createTime" label="上传时间" width="170" />
         </ElTable>
         <ElPagination
-            class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="total"
-            :current-page="params.pageNum" :page-sizes="[10, 20, 50, 100]" :page-size="params.pageSize"
-            @size-change="handleSizeChange" @current-change="handleCurrentChange"
+            class="pagination"
+            background
+            layout="total,sizes,prev, pager, next,jumper"
+            :total="total"
+            :current-page="params.pageNum"
+            :page-sizes="[10, 20, 50, 100]"
+            :page-size="params.pageSize"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
         />
     </div>
 </template>
@@ -95,7 +112,7 @@ const getList = async () => {
         params.value.pageNum = res.pageNum;
         params.value.pageSize = res.pageSize;
         total.value = res.total;
-    } catch (err) { }
+    } catch (err) {}
 };
 const handleSizeChange = (rows: number) => {
     params.value.pageNum = 1;
@@ -112,8 +129,7 @@ const getStationList = async () => {
     try {
         stationArr.value = await getDeviceList({ bizModule: store.bizModule });
         params.value.stationId = stationArr.value[0].stationId;
-
-    } catch (err) { }
+    } catch (err) {}
 };
 
 onMounted(() => {
@@ -126,6 +142,7 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'historyTabl
 </script>
 
 <style scoped lang="scss">
-.history-con {}
+.history-con {
+}
 </style>
 
