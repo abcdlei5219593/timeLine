@@ -3,16 +3,27 @@
         <ElRow class="search-row">
             <ElCol :span="8">
                 <span class="search-label">时间：</span>
-                <el-date-picker v-model="searchForm.date" size="default" :disabled-date="disabledDate" type="daterange"
-                    value-format="YYYY-MM-DD" @change="handleSearch" />
+                <el-date-picker
+                    v-model="searchForm.date"
+                    size="default"
+                    :disabled-date="disabledDate"
+                    type="daterange"
+                    value-format="YYYY-MM-DD"
+                    @change="handleSearch"
+                />
             </ElCol>
-            <ElButton class="add-btn" type="primary" size="default" @click="exportFun">
-                导出预览
-            </ElButton>
+            <ElButton class="add-btn" type="primary" size="default" @click="exportFun"> 导出预览 </ElButton>
         </ElRow>
         <div class="map-container">
-            <ElTable id="xc-table" class="report-table" :data="tableData" border="" :height="maxTableHeight"
-                :row-class-name="tableRowClassName" @row-click="handleColumnClick">
+            <ElTable
+                id="xc-table"
+                class="report-table"
+                :data="tableData"
+                border=""
+                :height="maxTableHeight"
+                :row-class-name="tableRowClassName"
+                @row-click="handleColumnClick"
+            >
                 <ElTableColumn :label="`${store.currentApp.meta.categoryName}质量指数报告`">
                     <template #default="scope">
                         <div class="table-column-layout" @click="active = scope.$index">
@@ -32,8 +43,13 @@
     <!--导出预览-->
     <ElDialog v-model="exportShow" class="dialog" title="导出预览" width="60%">
         <div class="dialog-export dialog-content">
-            <ExportPreview :table-data="tableData" :chart-options-arr="chartOptionsArr" :search-form="searchForm"
-                @handleColumnClick="handleColumnClick" @cancel="cancel"></ExportPreview>
+            <ExportPreview
+                :table-data="tableData"
+                :chart-options-arr="chartOptionsArr"
+                :search-form="searchForm"
+                @handleColumnClick="handleColumnClick"
+                @cancel="cancel"
+            ></ExportPreview>
         </div>
     </ElDialog>
 </template>
@@ -200,42 +216,45 @@ const handleColumnClick = async (row: any, column: any, event: any, index: any) 
     }
     chartOptions.value.series = series;
 };
+//另外提出是因为会影响弹窗外的图表
 const handleColumnExportClick = async (row: any, column: any, event: any, index: any) => {
-    const params = {
-        deviceId: [row.deviceId],
-        startTime: searchForm.date.length ? `${searchForm.date[0]} 00:00:00` : '',
-        endTime: searchForm.date.length ? `${searchForm.date[1]} 23:59:59` : '',
-        measure: store.currentApp.defaultMeasure,
-    };
-    const data = await http[store.currentApp.url].getCurvesData(params);
-    // const lengend = searchForm.deviceId.map(({ stationName }) => stationName);
-    chartOptionsExport.value.legend.data = [row.stationName];
-    let series = [];
-    for (const device of params.deviceId) {
-        const temp = {
-            type: 'line',
-            name: row.stationName,
-            data: [],
-        };
+    new Promise(async (resolve, reject) => {
+        // 导出预览
+        if (index >= 0) {
+            const params = {
+                deviceId: [row.deviceId],
+                startTime: searchForm.date.length ? `${searchForm.date[0]} 00:00:00` : '',
+                endTime: searchForm.date.length ? `${searchForm.date[1]} 23:59:59` : '',
+                measure: store.currentApp.defaultMeasure,
+            };
+            const data = await http[store.currentApp.url].getCurvesData(params);
+            // const lengend = searchForm.deviceId.map(({ stationName }) => stationName);
+            chartOptionsExport.value.legend.data = [row.stationName];
+            let series = [];
+            for (const device of params.deviceId) {
+                const temp = {
+                    type: 'line',
+                    name: row.stationName,
+                    data: [],
+                };
 
-        const deviceData = data.find((item) => item.deviceId === device);
+                const deviceData = data.find((item) => item.deviceId === device);
 
-        if (deviceData) {
-            temp.data = deviceData.data.map(({ avg, time }) => ({
-                name: dayjs(time).format('YYYY-MM-DD HH:mm:ss'),
-                value: [dayjs(time).format('YYYY-MM-DD HH:mm:ss'), avg],
-            }));
+                if (deviceData) {
+                    temp.data = deviceData.data.map(({ avg, time }) => ({
+                        name: dayjs(time).format('YYYY-MM-DD HH:mm:ss'),
+                        value: [dayjs(time).format('YYYY-MM-DD HH:mm:ss'), avg],
+                    }));
+                }
+                series.push(temp);
+            }
+            chartOptionsExport.value.series = series;
+
+            // chartOptionsArr[index].series = series;
+            const chartOptionsValue = JSON.parse(JSON.stringify(chartOptionsExport.value));
+            chartOptionsArr[index] = chartOptionsValue;
         }
-        series.push(temp);
-    }
-    chartOptionsExport.value.series = series;
-
-    // 导出预览
-    if (index >= 0) {
-        // chartOptionsArr[index].series = series;
-        const chartOptionsValue = JSON.parse(JSON.stringify(chartOptionsExport.value));
-        chartOptionsArr[index] = chartOptionsValue;
-    }
+    });
 };
 
 // 初始化默认一周
@@ -247,17 +266,13 @@ const setDefaultTime = () => {
 const getDeviceListHandler = async () => {
     // deviceList.value
     deviceList.value = await getDeviceList({ bizModule: store.currentApp.bizModule });
-    deviceList.value.forEach((item) => {
-        const chartOptionsValue = JSON.parse(JSON.stringify(chartOptions.value));
-        chartOptionsArr.push(chartOptionsValue);
-    });
 };
 
 // 导出预览
 const exportFun = async () => {
     exportShow.value = true;
     await Promise.all(
-        deviceList.value.map(async (item, index) => {
+        tableData.value.map(async (item, index) => {
             await handleColumnExportClick(item, '', '', index);
         })
     );
@@ -352,7 +367,7 @@ getDeviceListHandler();
                 color: #2d8cf0 !important;
             }
 
-            &:hover>td {
+            &:hover > td {
                 background: #ecf4fc !important;
             }
         }
