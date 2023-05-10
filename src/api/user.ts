@@ -15,7 +15,7 @@ export const changePassword = (data: object = {}) =>
     $http({
         url: '/userInfo/changePassword',
         method: 'post',
-        data,
+        params: data,
         showLoading: true
     } as AxiosRequestConfig);
 

@@ -78,6 +78,7 @@ import { basic, changePassword, editUserInfo } from '@/api/user';
 import { useRouter } from 'vue-router';
 import { UserInfoType } from './ModelDefines';
 import { useUserStore } from '@/store/app';
+import Cookie from 'js-cookie';
 
 const router = useRouter();
 
@@ -202,6 +203,7 @@ const changePasswordFun = async () => {
             newPwd: newPwd.value,
         });
         ElMessage.success('修改成功');
+        Cookie.set('token', null);
         router.push('/login');
     } catch (err) {}
 };

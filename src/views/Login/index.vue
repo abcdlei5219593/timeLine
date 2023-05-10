@@ -68,13 +68,18 @@ const rules = reactive({
     userName: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
     password: [
         { required: true, message: '请输入密码', trigger: 'blur' },
-        // { required: true, pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/, message: '请输入6-20位字母+数字的密码', trigger: 'blur' }
+        {
+            required: true,
+            pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/,
+            message: '请输入6-20位字母+数字的密码',
+            trigger: 'blur',
+        },
     ],
 });
 
 const formData = reactive<FormType>({
     userName: 'superadmin',
-    password: '123456',
+    password: '123456a',
     token: 'token',
 });
 

@@ -83,6 +83,7 @@ const setThreshold = async () => {
         const res: any = await deviceSet(formData);
         ElMessage.success('操作成功');
         isThreshold.value = false;
+        getSensorsList(formData.deviceId);
     } catch (err) {}
 };
 
