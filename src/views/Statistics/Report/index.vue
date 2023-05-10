@@ -381,5 +381,6 @@ getDeviceListHandler();
 .dialog-export {
     height: 500px;
     overflow-y: auto;
+    padding-bottom: 66px;
 }
 </style>

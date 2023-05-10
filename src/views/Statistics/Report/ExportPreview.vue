@@ -1,18 +1,13 @@
 <template>
     <div id="export-container">
+        <p class="p-title">xxxx分析报告</p>
         <p class="p-date">
             时间：{{ getFormatDate(new Date(searchForm.startTime), 'YYYY-mm-dd') }} -
             {{ getFormatDate(new Date(searchForm.endTime), 'YYYY-mm-dd') }}
         </p>
         <div class="export-container" v-for="(item, index) in tableData" :key="index">
-            <ElTable
-                class="report-table"
-                :data="[item]"
-                border=""
-                :height="maxTableHeight"
-                :row-class-name="tableRowClassName"
-            >
-                <ElTableColumn :label="`${store.currentApp.meta.categoryName}质量指数报告`">
+            <ElTable class="report-table" :data="[item]" :height="maxTableHeight" :row-class-name="tableRowClassName">
+                <ElTableColumn>
                     <template #default="scope">
                         <div class="table-column-layout" @click="active = scope.$index">
                             <p>{{ scope.row.stationName }}</p>
@@ -136,6 +131,16 @@ const exportPDF = () => {
 <style lang="scss" scoped>
 #export-container {
     padding: 24px;
+    .p-title {
+        font-size: 20px;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    .p-date {
+        text-align: center;
+        margin-bottom: 15px;
+    }
 }
 .export-container {
     // padding: 24px;
@@ -183,8 +188,10 @@ const exportPDF = () => {
     }
 
     .report-table {
+        margin-top: 50px;
         :deep(thead) {
-            height: 62px;
+            // height: 62px;
+            display: none;
 
             th {
                 color: #000000;
@@ -218,6 +225,11 @@ const exportPDF = () => {
         }
         :deep(.cell) {
             padding: 0 23px !important;
+        }
+        :deep(.el-table__inner-wrapper) {
+            &::before {
+                display: none;
+            }
         }
     }
 }
