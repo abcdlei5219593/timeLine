@@ -1,6 +1,6 @@
 <template>
     <div id="export-container">
-        <p class="p-title">xxxx分析报告</p>
+        <p class="p-title">{{ exportName() }}分析报告</p>
         <p class="p-date">
             时间：{{ getFormatDate(new Date(searchForm.startTime), 'YYYY-mm-dd') }} -
             {{ getFormatDate(new Date(searchForm.endTime), 'YYYY-mm-dd') }}
@@ -35,11 +35,13 @@
 </template>
 <script setup lang="ts" name="Map">
 import { ref, watch, defineProps, defineEmits } from 'vue';
-import { useSettingStore } from '@/store/app';
+import { useSettingStore, storeMenu } from '@/store/app';
 import VChart from 'vue-echarts';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { getFormatDate } from '@/utils/common';
+
+const stores = storeMenu();
 const props = defineProps({
     tableData: {
         type: Array,
@@ -70,6 +72,30 @@ const handleColumnClick = (row: any, column: any, event: any) => {
 };
 const cancel = () => {
     emits('cancel');
+};
+
+const exportName = () => {
+    let name = '';
+    switch (stores.bizModule) {
+        case 1:
+            name = '空气质量';
+            break;
+        case 2:
+            name = '水质质量';
+            break;
+        case 3:
+            name = '风速';
+            break;
+        case 4:
+            name = '土壤湿度';
+            break;
+        case 5:
+            name = '雨量';
+            break;
+        default:
+            name = '';
+    }
+    return name;
 };
 
 const exportPDF = () => {
