@@ -2,8 +2,8 @@
     <div id="export-container">
         <p class="p-title">{{ exportName() }}分析报告</p>
         <p class="p-date">
-            时间：{{ getFormatDate(new Date(searchForm.startTime), 'YYYY-mm-dd') }} -
-            {{ getFormatDate(new Date(searchForm.endTime), 'YYYY-mm-dd') }}
+            时间：{{ getFormatDate(new Date(searchForm.date[0]), 'YYYY-mm-dd') }} -
+            {{ getFormatDate(new Date(searchForm.date[1]), 'YYYY-mm-dd') }}
         </p>
         <div class="export-container" v-for="(item, index) in tableData" :key="index">
             <ElTable class="report-table" :data="[item]" :height="maxTableHeight" :row-class-name="tableRowClassName">

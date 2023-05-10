@@ -177,8 +177,6 @@ const handleSearch = async () => {
         bizModule: store.currentApp.bizModule,
     };
     const data = await http[store.currentApp.url].getAllStationAnalyses(params);
-    searchForm.startTime = searchForm.date.length ? `${searchForm.date[0]} 00:00:00` : '';
-    searchForm.endTime = searchForm.date.length ? `${searchForm.date[1]} 00:00:00` : '';
     tableData.value = data;
     tableData.value.length && handleColumnClick(tableData.value[0], '', '');
 };
