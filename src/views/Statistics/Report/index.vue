@@ -208,8 +208,8 @@ const handleColumnClick = async (row: any, column: any, event: any, index: any) 
 
         if (deviceData) {
             temp.data = deviceData.data.map(({ avg, time }) => ({
-                name: dayjs(time).format('YYYY-MM-DD HH:mm:ss'),
-                value: [dayjs(time).format('YYYY-MM-DD HH:mm:ss'), avg],
+                name: dayjs(time * 1000).format('YYYY-MM-DD HH:mm:ss'),
+                value: [dayjs(time * 1000).format('YYYY-MM-DD HH:mm:ss'), avg],
             }));
         }
         series.push(temp);
@@ -242,8 +242,8 @@ const handleColumnExportClick = async (row: any, column: any, event: any, index:
 
                 if (deviceData) {
                     temp.data = deviceData.data.map(({ avg, time }) => ({
-                        name: dayjs(time).format('YYYY-MM-DD HH:mm:ss'),
-                        value: [dayjs(time).format('YYYY-MM-DD HH:mm:ss'), avg],
+                        name: dayjs(time * 1000).format('YYYY-MM-DD HH:mm:ss'),
+                        value: [dayjs(time * 1000).format('YYYY-MM-DD HH:mm:ss'), avg],
                     }));
                 }
                 series.push(temp);
