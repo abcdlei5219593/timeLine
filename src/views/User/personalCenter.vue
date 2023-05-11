@@ -36,10 +36,7 @@
                 </ElCol>
                 <ElCol :span="7">
                     <span class="user-label">登录名：</span>
-                    <span v-if="!isEdit">{{ userInfo.userName }}</span>
-                    <ElFormItem prop="userName" v-else>
-                        <ElInput v-model="userInfo.userName" placeholder="请输入" size="default"></ElInput>
-                    </ElFormItem>
+                    <span>{{ userInfo.userName }}</span>
                 </ElCol>
                 <ElCol :span="7">
                     <span class="user-label">手机号：</span>

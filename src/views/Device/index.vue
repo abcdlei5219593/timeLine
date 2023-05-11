@@ -12,10 +12,7 @@
                     />
                 </ElSelect>
             </ElCol>
-            <ElButton class="add-btn" type="primary" size="default" @click="addFun">
-                <!-- <ElButton v-permission="'/deviceAdd'" class="add-btn" type="primary" size="default" @click="addFun"> -->
-                新增设备
-            </ElButton>
+            <ElButton class="add-btn" type="primary" size="default" @click="addFun" :icon="Plus"> 新增设备 </ElButton>
         </ElRow>
         <ElTable
             id="deviceTable"
@@ -125,6 +122,7 @@ import { getDeviceList, getStations, deviceAdd, deviceEdit } from '@/api/device'
 import { deviceDataType } from './ModelDefines';
 import { storeMenu } from '@/store/app';
 import { APP_LIST } from '@/config';
+import { Plus } from '@element-plus/icons-vue';
 
 const store = storeMenu();
 

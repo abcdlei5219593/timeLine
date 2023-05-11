@@ -3,12 +3,17 @@
         <ElRow class="search-row">
             <ElCol :span="6">
                 <span class="search-label">搜索：</span>
-                <ElInput v-model="userParams.userName" size="default" placeholder="请输入关键词搜索"></ElInput>
+                <ElInput
+                    v-model="userParams.userName"
+                    size="default"
+                    placeholder="请输入关键词搜索"
+                    :prefix-icon="Search"
+                ></ElInput>
             </ElCol>
             <ElCol :span="3">
                 <ElButton type="primary" size="default" @click="getList"> 搜索 </ElButton>
             </ElCol>
-            <ElButton class="add-btn" type="primary" size="default" @click="addFun"> 新增用户 </ElButton>
+            <ElButton class="add-btn" type="primary" size="default" @click="addFun" :icon="Plus"> 新增用户 </ElButton>
         </ElRow>
         <ElTable
             id="userTable"
@@ -137,6 +142,7 @@ import { useRouter } from 'vue-router';
 import { userList, userAdd, listRoleSelect, resetPassword, userEdit } from '@/api/user';
 import { UserParamsType, addUserType, editPasswordType } from './ModelDefines';
 import md5 from 'js-md5';
+import { Search, Plus } from '@element-plus/icons-vue';
 
 const tableData: any = ref([]);
 const addShow = ref<boolean>(false);
