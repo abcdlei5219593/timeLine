@@ -377,7 +377,7 @@ getDeviceListHandler();
     }
 }
 .dialog-export {
-    height: 500px;
+    height: 60vh;
     overflow-y: auto;
     padding-bottom: 66px;
 }

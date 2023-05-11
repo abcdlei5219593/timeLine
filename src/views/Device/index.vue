@@ -4,8 +4,12 @@
             <ElCol :span="6">
                 <span class="search-label">微站选择：</span>
                 <ElSelect v-model="deviceId" placeholder="请选择" size="default" @change="selectChange">
-                    <ElOption v-for="item in stationArr" :key="item.deviceId" :label="item.stationName"
-                        :value="item.deviceId" />
+                    <ElOption
+                        v-for="item in stationArr"
+                        :key="item.deviceId"
+                        :label="item.stationName"
+                        :value="item.deviceId"
+                    />
                 </ElSelect>
             </ElCol>
             <ElButton class="add-btn" type="primary" size="default" @click="addFun">
@@ -13,8 +17,17 @@
                 新增设备
             </ElButton>
         </ElRow>
-        <ElTable id="deviceTable" class="table" :data="tableData"
-            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
+        <ElTable
+            id="deviceTable"
+            class="table"
+            :data="tableData"
+            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
+        >
+            <ElTableColumn prop="" label="序号" width="80">
+                <template #default="scope">
+                    <p>{{ scope.$index + 1 }}</p>
+                </template>
+            </ElTableColumn>
             <ElTableColumn prop="deviceId" label="主板" width="180" />
             <ElTableColumn prop="stationName" label="微站名称" />
             <ElTableColumn prop="stationAddress" label="微站地址" />
@@ -24,8 +37,8 @@
             <ElTableColumn prop="latitude" label="纬度" />
             <ElTableColumn prop="status" label="状态">
                 <template #default="scope">
-                    <span v-if="scope.row.status === 1">在线</span>
-                    <span v-else-if="scope.row.status === 0">离线</span>
+                    <span v-if="scope.row.status === 1" class="status online">上线</span>
+                    <span v-else-if="scope.row.status === 0" class="status">下线</span>
                 </template>
             </ElTableColumn>
             <ElTableColumn prop="address" fixed="right" label="操作" width="240">
@@ -33,17 +46,20 @@
                     <!-- <ElButton link type="primary" size="default" @click="reportInterval(scope.row)">
                         上报间隔
                     </ElButton> -->
-                    <ElButton v-permission="'/deviceSensor'" link type="primary" size="default"
-                        @click="toSensor(scope.row)">
+                    <ElButton
+                        v-permission="'/deviceSensor'"
+                        link
+                        type="primary"
+                        size="default"
+                        @click="toSensor(scope.row)"
+                    >
                         传感器
                     </ElButton>
                     <!-- <ElButton link type="primary" size="default" class="red-text-btn">
                         重启
                     </ElButton> -->
                     <!-- <ElButton v-permission="'/deviceEdit'" link type="primary" size="default" @click="editFun(scope.row)"> -->
-                    <ElButton link type="primary" size="default" @click="editFun(scope.row)">
-                        编辑
-                    </ElButton>
+                    <ElButton link type="primary" size="default" @click="editFun(scope.row)"> 编辑 </ElButton>
                 </template>
             </ElTableColumn>
         </ElTable>
@@ -53,9 +69,7 @@
     <ElDialog v-model="isTimeSet" class="dialog" title="上报间隔时间设置" width="30%">
         <div class="device-dialog">
             <ElRow>
-                <ElCol :span="8">
-                    间隔时间
-                </ElCol>
+                <ElCol :span="8"> 间隔时间 </ElCol>
                 <ElCol :span="16">
                     <ElInput v-model="intervalTime" type="number" placeholder="请输入内容"></ElInput>
                 </ElCol>
@@ -80,12 +94,6 @@
                 <ElFormItem label="微站地址" prop="stationAddress">
                     <el-input v-model="deviceData.stationAddress" size="default" placeholder="请输入" />
                 </ElFormItem>
-                <!-- <ElFormItem label="硬件版本" prop="hv">
-                    <el-input v-model="deviceData.hv" size="default" placeholder="请输入" />
-                </ElFormItem>
-                <ElFormItem label="软件版本" prop="sv">
-                    <el-input v-model="deviceData.sv" size="default" placeholder="请输入" />
-                </ElFormItem> -->
                 <ElFormItem label="经度" prop="longitude">
                     <el-input v-model="deviceData.longitude" type="number" size="default" placeholder="请输入" />
                 </ElFormItem>
@@ -182,13 +190,13 @@ const getList = async () => {
         const res: string[] = await getDeviceList({ bizModule: store.bizModule, deviceId: deviceId.value });
         tableData.value = res;
         searchDeviceList.value = res;
-    } catch (err) { }
+    } catch (err) {}
 };
 const getSearchList = async () => {
     try {
         const res: string[] = await getDeviceList({ bizModule: store.bizModule });
         stationArr.value = [{ stationName: '全部微站', deviceId: '' }, ...res];
-    } catch (err) { }
+    } catch (err) {}
 };
 
 // 新增或编辑
@@ -198,7 +206,7 @@ const save = async () => {
         addShow.value = false;
         ElMessage.success('操作成功');
         getList();
-    } catch (err) { }
+    } catch (err) {}
 };
 // 提交
 const formDataRef = ref<FormInstance>();
@@ -263,11 +271,32 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'deviceTable
 }
 
 .device {
-    height: 400px;
+    height: 60vh;
     // padding-bottom: 186px;
 }
 
 .red-text-btn {
     color: $redTextBtnColor;
+}
+.status {
+    position: relative;
+    padding-left: 10px;
+
+    &::before {
+        content: '';
+        width: 5px;
+        height: 5px;
+        border-radius: 100%;
+        display: block;
+        background: #fc5a5a;
+        position: absolute;
+        top: 50%;
+        left: 0px;
+        margin-top: -2.5px;
+    }
+
+    &.online::before {
+        background: #22ac4e !important;
+    }
 }
 </style>

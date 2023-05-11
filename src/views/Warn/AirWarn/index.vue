@@ -4,18 +4,33 @@
             <ElCol :span="6">
                 <span class="search-label">微站选择：</span>
                 <ElSelect v-model="AirWarnParams.deviceId" placeholder="请选择" size="default" @change="searchChange">
-                    <ElOption v-for="item in stationArr" :key="item.deviceId" :label="item.stationName"
-                        :value="item.deviceId" />
+                    <ElOption
+                        v-for="item in stationArr"
+                        :key="item.deviceId"
+                        :label="item.stationName"
+                        :value="item.deviceId"
+                    />
                 </ElSelect>
             </ElCol>
             <ElCol :span="8">
                 <span class="search-label">时间：</span>
-                <ElDatePicker v-model="date" type="datetimerange" range-separator="-" size="default" @change="timeChange" />
+                <ElDatePicker
+                    v-model="date"
+                    type="datetimerange"
+                    range-separator="-"
+                    size="default"
+                    @change="timeChange"
+                />
             </ElCol>
             <ElCol :span="6">
                 <span class="search-label">传感器类型：</span>
                 <ElSelect v-model="AirWarnParams.sensorCode" placeholder="请选择" size="default" @change="searchChange">
-                    <ElOption v-for="item in sensorTypeOptions" :key="item.code" :label="item.name" :value="item.code" />
+                    <ElOption
+                        v-for="item in sensorTypeOptions"
+                        :key="item.code"
+                        :label="item.name"
+                        :value="item.code"
+                    />
                 </ElSelect>
             </ElCol>
             <ElCol :span="2" @change="searchChange">
@@ -24,13 +39,17 @@
                 </ElCheckbox>
             </ElCol>
         </ElRow>
-        <ElTable id="deviceWarnTable" class="table" :data="tableData"
-            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }">
-            <ElTableColumn prop="deviceId" label="主板" />
+        <ElTable
+            id="deviceWarnTable"
+            class="table"
+            :data="tableData"
+            :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
+        >
+            <!-- <ElTableColumn prop="deviceId" label="主板" /> -->
             <ElTableColumn prop="stationName" label="微站名称" />
-            <ElTableColumn prop="status" label="告警值" />
+            <ElTableColumn prop="status" label="值" />
             <ElTableColumn prop="sensorCode" label="传感器类型" />
-            <ElTableColumn prop="alarmDesc" label="告警类型" />
+            <ElTableColumn prop="alarmDesc" label="状态" />
             <!-- <ElTableColumn prop="type" label="告警类型">
                 <template #default="scope">
                     <span v-if="scope.row.type === 1">设备告警</span>
@@ -41,24 +60,36 @@
             <ElTableColumn prop="createTime" label="时间" />
             <ElTableColumn fixed="right" label="操作">
                 <template #default="scope">
-                    <ElButton v-if="scope.row.unclosed" v-permission="'/closeWarn'" link type="primary" size="default"
-                        @click="closeFun(scope.row.id)">
+                    <ElButton
+                        v-if="scope.row.status === 1"
+                        v-permission="'/closeWarn'"
+                        link
+                        type="primary"
+                        size="default"
+                        @click="closeFun(scope.row.id)"
+                    >
                         关闭告警
                     </ElButton>
-                    <p v-else>
-                        已关闭
-                    </p>
+                    <p v-else-if="scope.row.status === 0">已关闭</p>
                 </template>
             </ElTableColumn>
         </ElTable>
-        <ElPagination class="pagination" background layout="total,sizes,prev, pager, next,jumper" :total="total"
-            :current-page="AirWarnParams.pageNum" :page-sizes="[10, 20, 50, 100]" :page-size="AirWarnParams.pageSize"
-            @size-change="handleSizeChange" @current-change="handleCurrentChange" />
+        <ElPagination
+            class="pagination"
+            background
+            layout="total,sizes,prev, pager, next,jumper"
+            :total="total"
+            :current-page="AirWarnParams.pageNum"
+            :page-sizes="[10, 20, 50, 100]"
+            :page-size="AirWarnParams.pageSize"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+        />
     </div>
 </template>
 
 <script setup lang="ts">
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import { ref, reactive, onMounted } from 'vue';
 import { AirWarnParamsType, warnOptions } from './../ModelDefines';
 import useTableSetting from '@/hooks/useTableSetting';
@@ -102,7 +133,7 @@ const getList = async () => {
         AirWarnParams.pageNum = res.pageNum;
         AirWarnParams.pageSize = res.pageSize;
         total.value = res.total;
-    } catch (err) { }
+    } catch (err) {}
 };
 
 const searchChange = () => {
@@ -133,11 +164,22 @@ const handleCurrentChange = (page: number) => {
 const alarmIdArr: any = ref([]);
 // 关闭操作
 const closeFun = async (alarmId: number) => {
-    alarmIdArr.value = [alarmId];
-    try {
-        await alarmClose({ alarmId: alarmIdArr.value });
-        ElMessage.success('修改成功');
-    } catch (err) { }
+    alarmIdArr.value = [];
+    alarmIdArr.value.push(alarmId);
+    ElMessageBox.confirm('确定关闭告警?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        buttonSize: 'default',
+    })
+        .then(async () => {
+            try {
+                await alarmClose(alarmIdArr.value);
+                ElMessage.success('操作成功');
+                getList();
+            } catch (err) {}
+        })
+        .catch(() => {});
 };
 
 // 微站
@@ -146,7 +188,7 @@ const getStationList = async () => {
     try {
         const res: any = await getDeviceList({ bizModule: store.bizModule });
         stationArr.value = [{ stationName: '全部微站', deviceId: '' }, ...res];
-    } catch (err) { }
+    } catch (err) {}
 };
 
 // 获取传感器类型
@@ -165,5 +207,6 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'deviceWarnT
 </script>
 
 <style scoped lang="scss">
-.warn-con {}
+.warn-con {
+}
 </style>

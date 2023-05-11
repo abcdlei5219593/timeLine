@@ -194,5 +194,8 @@ watch(
             background: $asideActiveBackground;
         }
     }
+    :deep(.el-sub-menu .el-menu-item) {
+        padding-left: 48px !important;
+    }
 }
 </style>

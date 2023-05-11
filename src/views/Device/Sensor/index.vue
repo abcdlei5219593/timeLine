@@ -89,7 +89,7 @@ const setThreshold = async () => {
 
 const getSensorsList = async (deviceId: any) => {
     try {
-        const res: any = await getSensors({ deviceId: deviceId });
+        const res: any = await getSensors({ deviceId: deviceId, bizModule: store.bizModule });
         tableData.value = res;
     } catch (err) {}
 };
