@@ -1,10 +1,16 @@
 <template>
     <div class="user-top">
-        <p class="user-title">个人信息</p>
+        <p class="user-title">
+            个人信息
+        </p>
         <div class="user-btn">
-            <ElButton class="border-btn" type="" v-if="!isEdit" size="default" @click="editFun"> 编辑 </ElButton>
-            <ElButton type="" v-if="isEdit" size="default" @click="cancel"> 取消 </ElButton>
-            <ElButton class="border-btn" type="" v-if="isEdit" size="default" @click="submitFormEdit(formEditRef)">
+            <ElButton v-if="!isEdit" class="border-btn" type="" size="default" @click="editFun">
+                编辑
+            </ElButton>
+            <ElButton v-if="isEdit" type="" size="default" @click="cancel">
+                取消
+            </ElButton>
+            <ElButton v-if="isEdit" class="border-btn" type="" size="default" @click="submitFormEdit(formEditRef)">
                 保存
             </ElButton>
         </div>
@@ -13,24 +19,28 @@
                 <ElCol :span="7">
                     <span class="user-label">姓名：</span>
                     <span v-if="!isEdit">{{ userInfo.nickName }}</span>
-                    <ElFormItem prop="nickName" v-else>
+                    <ElFormItem v-else prop="nickName">
                         <ElInput v-model="userInfo.nickName" placeholder="请输入" size="default"></ElInput>
                     </ElFormItem>
                 </ElCol>
                 <ElCol :span="7">
                     <span class="user-label">邮箱：</span>
                     <span v-if="!isEdit">{{ userInfo.email }}</span>
-                    <ElFormItem prop="email" v-else>
+                    <ElFormItem v-else prop="email">
                         <ElInput v-model="userInfo.email" placeholder="请输入" size="default"></ElInput>
                     </ElFormItem>
                 </ElCol>
                 <ElCol :span="7">
                     <span class="user-label">性别：</span>
                     <span v-if="!isEdit">{{ userInfo.gender }}</span>
-                    <ElFormItem prop="gender" v-else>
+                    <ElFormItem v-else prop="gender">
                         <ElRadioGroup v-model="userInfo.gender">
-                            <ElRadio label="男" size="default"> 男 </ElRadio>
-                            <ElRadio label="女" size="default"> 女 </ElRadio>
+                            <ElRadio label="男" size="default">
+                                男
+                            </ElRadio>
+                            <ElRadio label="女" size="default">
+                                女
+                            </ElRadio>
                         </ElRadioGroup>
                     </ElFormItem>
                 </ElCol>
@@ -46,7 +56,9 @@
         </ElForm>
     </div>
     <div class="user-bottom">
-        <p class="user-title">修改密码</p>
+        <p class="user-title">
+            修改密码
+        </p>
         <ElForm ref="formDataRef" :model="formData" :rules="rules" label-width="80px">
             <ElFormItem label="旧密码" prop="oldPwd">
                 <el-input v-model="formData.oldPwd" type="password" size="default" placeholder="请输入旧密码" />
@@ -58,7 +70,9 @@
                 <el-input v-model="formData.newPwdAgain" type="password" size="default" placeholder="请确认密码" />
             </ElFormItem>
             <ElFormItem>
-                <ElButton type="primary" size="default" @click="submitForm(formDataRef)"> 确认修改 </ElButton>
+                <ElButton type="primary" size="default" @click="submitForm(formDataRef)">
+                    确认修改
+                </ElButton>
             </ElFormItem>
         </ElForm>
     </div>
@@ -96,17 +110,17 @@ const validatePass = (rule: any, value: any, callback: any) => {
     }
 };
 
-//修改个人信息rules
+// 修改个人信息rules
 const editRules = reactive({
-    mobilePhone: [
-        { required: true, message: '请输入手机号', trigger: 'blur' },
-        {
-            required: true,
-            pattern: /^1[3-9]\d{9}$/,
-            message: '请输入正确的手机号',
-            trigger: 'blur',
-        },
-    ],
+    // mobilePhone: [
+    //     { required: true, message: '请输入手机号', trigger: 'blur' },
+    //     {
+    //         required: true,
+    //         pattern: /^1[3-9]\d{9}$/,
+    //         message: '请输入正确的手机号',
+    //         trigger: 'blur',
+    //     },
+    // ],
     email: [
         {
             required: false,
@@ -117,7 +131,7 @@ const editRules = reactive({
     ],
 });
 
-//修改密码rules
+// 修改密码rules
 const rules = reactive({
     oldPwd: [
         { required: true, message: '请输入旧密码', trigger: 'blur' },
@@ -182,7 +196,7 @@ const getUser = async () => {
         userInfo.email = res.email;
         const store = useUserStore();
         store.getUserInfo(res);
-    } catch (err) {}
+    } catch (err) { }
 };
 
 const { proxy } = getCurrentInstance() as any;
@@ -198,7 +212,7 @@ const changePasswordFun = async () => {
         ElMessage.success('修改成功');
         Cookie.set('token', null);
         router.push('/login');
-    } catch (err) {}
+    } catch (err) { }
 };
 
 const editFun = () => {
@@ -212,7 +226,7 @@ const save = async () => {
         await editUserInfo(userInfo);
         isEdit.value = false;
         getUser();
-    } catch (err) {}
+    } catch (err) { }
 };
 
 const submitFormEdit = async (formEl: FormInstance | undefined) => {
@@ -288,9 +302,11 @@ onMounted(() => {
         width: 340px;
         margin-top: 20px;
     }
+
     :deep(.el-form-item__label) {
         line-height: 32px;
     }
+
     :deep(.el-form-item) {
         margin-bottom: 24px;
     }
