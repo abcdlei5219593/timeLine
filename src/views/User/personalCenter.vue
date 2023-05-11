@@ -40,10 +40,7 @@
                 </ElCol>
                 <ElCol :span="7">
                     <span class="user-label">手机号：</span>
-                    <span v-if="!isEdit">{{ userInfo.mobilePhone }}</span>
-                    <ElFormItem prop="mobilePhone" v-else>
-                        <ElInput v-model="userInfo.mobilePhone" placeholder="请输入" size="default"></ElInput>
-                    </ElFormItem>
+                    <span>{{ userInfo.mobilePhone }}</span>
                 </ElCol>
             </ElRow>
         </ElForm>
@@ -215,6 +212,7 @@ const save = async () => {
     try {
         await editUserInfo(userInfo);
         isEdit.value = false;
+        getUser();
     } catch (err) {}
 };
 
