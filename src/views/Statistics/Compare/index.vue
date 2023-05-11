@@ -3,39 +3,23 @@
         <ElRow class="search-row">
             <ElCol :span="6">
                 <span class="search-label">微站选择：</span>
-                <ElSelect
-                    v-model="searchForm.deviceId"
-                    value-key="stationId"
-                    collapse-tags
-                    size="default"
-                    multiple=""
-                    @change="handleSearch"
-                >
-                    <ElOption v-for="item in deviceList" :key="item.stationId" :label="item.stationName" :value="item">
+                <ElSelect v-model="searchForm.deviceId" value-key="deviceId" collapse-tags size="default" multiple=""
+                    @change="handleSearch">
+                    <ElOption v-for="item in deviceList" :key="item.deviceId" :label="item.stationName" :value="item">
                     </ElOption>
                 </ElSelect>
             </ElCol>
             <ElCol :span="6">
                 <span class="search-label">类型：</span>
                 <ElSelect v-model="searchForm.measure" size="default" @change="handleSearch">
-                    <ElOption
-                        v-for="item in store.measureList"
-                        :key="item.code"
-                        :label="item.name"
-                        :value="item.code"
-                    ></ElOption>
+                    <ElOption v-for="item in store.measureList" :key="item.code" :label="item.name" :value="item.code">
+                    </ElOption>
                 </ElSelect>
             </ElCol>
             <ElCol :span="8">
                 <span class="search-label">时间：</span>
-                <el-date-picker
-                    v-model="searchForm.date"
-                    size="default"
-                    :disabled-date="disabledDate"
-                    type="datetimerange"
-                    value-format="YYYY-MM-DD HH:mm:ss"
-                    @change="handleSearch"
-                />
+                <el-date-picker v-model="searchForm.date" size="default" :disabled-date="disabledDate" type="datetimerange"
+                    value-format="YYYY-MM-DD HH:mm:ss" @change="handleSearch" />
             </ElCol>
         </ElRow>
         <div class="map-container">
@@ -54,7 +38,7 @@ import { useSettingStore } from '@/store/app';
 import dayjs from '@/helper/dayjs';
 import useDefaultDate from '@/hooks/useDefaultDate';
 
-const { startDate, endDate} = useDefaultDate();
+const { startDate, endDate } = useDefaultDate();
 const store = useSettingStore();
 const deviceList: any = ref([]);
 const searchForm = reactive({
@@ -94,7 +78,7 @@ const chartOptions = ref({
         boundaryGap: [0, '100%'],
     },
     series: [],
-    color: ['#0052D9','#029CD4']
+    color: ['#0052D9', '#029CD4']
 });
 
 const disabledDate = (time: Date) => {
