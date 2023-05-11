@@ -152,7 +152,7 @@ const routes: Array<RouteRecordRaw> = [
                         name: 'PTUWarn',
                         component: () => import('@/views/Warn/AirWarn/index.vue'),
                         meta: {
-                            title: 'Ptu告警'
+                            title: 'PTU告警'
                         }
                     },
                     {

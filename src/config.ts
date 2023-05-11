@@ -9,6 +9,7 @@ import { routeWaterPath } from './water';
 import { routeAirPath } from './air';
 import { routeWindPath } from './wind';
 import { routePtuPath } from './ptu';
+import { routeRainPath } from './rain';
 
 
 export const AMAP_KEY = '859de6e2d55150331e795f3cbfe21915';
@@ -143,7 +144,7 @@ export const APP_LIST: Menu = [
         children: routeWindPath('/app/wind'),
         meta: {
             AQIName: 'CWQI',
-            categoryName: '水质',
+            categoryName: '风',
             stasticsColumns: [
                 { prop: 'cwqi', label: 'CWQI' },
                 { prop: 'ph', label: 'PH' },
@@ -176,7 +177,41 @@ export const APP_LIST: Menu = [
     },
     {
         url: '/app/rain',
-        name: '降水测量管理'
+        bizModule: 5,
+        name: '降水测量管理',
+        children: routeRainPath('/app/rain'),
+        meta: {
+            AQIName: 'CWQI',
+            categoryName: '降水',
+            stasticsColumns: [
+                { prop: 'cwqi', label: 'CWQI' },
+                { prop: 'ph', label: 'PH' },
+                { prop: 'd0', label: '溶解氧mg/L' },
+                { prop: 'ec', label: '电导率μS/cm' },
+                { prop: 'wt', label: '浊度NTU' },
+                { prop: 'temp', label: '温度°C' },
+
+            ],
+            markerWindowField: [
+                [
+                    { prop: 'cwqi', label: 'CWQI' },
+                    { prop: 'temp', label: '温度' },
+                ],
+                [
+                    { prop: 'ph', label: 'PH' },
+                ],
+                [
+                    { prop: 'd0', label: '溶解氧' },
+
+                ],
+                [
+                    { prop: 'ec', label: '电导率' },
+                ],
+                [
+                    { prop: 'wt', label: '浊度' },
+                ]
+            ]
+        }
     },
     {
         url: '/app/ptu',
@@ -185,7 +220,7 @@ export const APP_LIST: Menu = [
         children: routePtuPath('/app/ptu'),
         meta: {
             AQIName: 'CWQI',
-            categoryName: '水质',
+            categoryName: 'PTU',
             stasticsColumns: [
                 { prop: 'cwqi', label: 'CWQI' },
                 { prop: 'ph', label: 'PH' },

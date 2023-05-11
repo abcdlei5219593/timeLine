@@ -47,7 +47,7 @@ export const getDeepTreeData = (sourceTree: any, targetTree: any) => {
                 };
             }
             if (item.children && item.children.length) {
-                target.children = await getDeepTreeData(itemInSourceTree.children ? itemInSourceTree.children : '', item.children ? item.children : '');
+                target.children = await getDeepTreeData(itemInSourceTree && itemInSourceTree.children ? itemInSourceTree.children : '', item.children ? item.children : '');
             }
             temp.push(target);
         }

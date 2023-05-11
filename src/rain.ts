@@ -1,6 +1,6 @@
 import { Menu } from './types/menu';
 
-export const routeWindPath = (basePath: string): Menu =>
+export const routeRainPath = (basePath: string): Menu =>
     [
         {
             url: basePath + '/home',
@@ -107,8 +107,8 @@ export const routeWindPath = (basePath: string): Menu =>
                     name: '设备告警',
                 },
                 {
-                    url: basePath + '/warn/windWarn',
-                    name: '风速告警',
+                    url: basePath + '/warn/rainWarn',
+                    name: '雨量告警',
                     children: [
                         {
                             url: basePath + '/device/airWarn/view',
