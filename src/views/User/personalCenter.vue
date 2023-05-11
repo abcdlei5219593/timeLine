@@ -12,9 +12,9 @@
             <ElRow>
                 <ElCol :span="7">
                     <span class="user-label">姓名：</span>
-                    <span v-if="!isEdit">{{ userInfo.realName }}</span>
-                    <ElFormItem prop="realName" v-else>
-                        <ElInput v-model="userInfo.realName" placeholder="请输入" size="default"></ElInput>
+                    <span v-if="!isEdit">{{ userInfo.nickName }}</span>
+                    <ElFormItem prop="nickName" v-else>
+                        <ElInput v-model="userInfo.nickName" placeholder="请输入" size="default"></ElInput>
                     </ElFormItem>
                 </ElCol>
                 <ElCol :span="7">
@@ -152,7 +152,6 @@ const userInfo = reactive<UserInfoType>({
     nickName: '',
     gender: '',
     mobilePhone: '',
-    realName: '',
     userName: '',
     email: '',
 });
@@ -178,7 +177,7 @@ const getUser = async () => {
         userInfo.nickName = res.nickName;
         userInfo.gender = res.gender;
         userInfo.mobilePhone = res.mobilePhone;
-        userInfo.realName = res.realName;
+        // userInfo.realName = res.realName;
         userInfo.userName = res.userName;
         userInfo.email = res.email;
         const store = useUserStore();
