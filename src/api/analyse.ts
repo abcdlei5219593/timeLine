@@ -103,6 +103,57 @@ export default {
                 showLoading: true
             } as AxiosRequestConfig)
 
+    },
+    '/app/wind': {
+        getDeviceData: (data: object) =>
+            $http({
+                url: '/admin/wind/analyse/getDeviceData',
+                method: 'post',
+                data,
+                showLoading: true
+            } as AxiosRequestConfig),
+
+        getHotmapData: (data: object = {}) =>
+            $http({
+                url: '/admin/wind/analyse/getHotmapData',
+                method: 'post',
+                data,
+                showLoading: true
+            } as AxiosRequestConfig),
+
+        getAQIHourAvgInMonth: (params: object = {}) =>
+            $http({
+                url: '/admin/wind/analyse/getAQIHourAvgInMonth',
+                method: 'get',
+                params,
+                showLoading: true
+            } as AxiosRequestConfig),
+
+
+        getMonitorData: (data: object = {}) =>
+            $http({
+                url: '/admin/wind/analyse/getMonitorData',
+                method: 'post',
+                data,
+                showLoading: true
+            } as AxiosRequestConfig),
+
+        getCurvesData: (data: object = {}) =>
+            $http({
+                url: '/admin/wind/analyse/getCurvesData',
+                method: 'post',
+                data,
+                showLoading: true
+            } as AxiosRequestConfig),
+
+        getAllStationAnalyses: (data: object = {}) =>
+            $http({
+                url: '/admin/wind/analyse/getAllStationAnalyses',
+                method: 'post',
+                data,
+                showLoading: true
+            } as AxiosRequestConfig)
+
     }
 };
 

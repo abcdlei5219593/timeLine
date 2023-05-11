@@ -83,7 +83,7 @@ const markerText = computed(() => (data) =>
                 class="marker-content"
                 style="background-image:url(${markerUrl});width:30px;height:36px;color:#fff;line-height:30px;text-align:center;">
 
-              ${String(parseInt(data[dataType.value]),10)}
+              ${data ? String(parseInt(data[dataType.value]),10) : ''}
               </div>`
 );
 
@@ -92,6 +92,7 @@ const getDeviceListHandler = async () => {
     let data = await getDeviceList({ bizModule: store.currentApp.bizModule});
 
     const deviceIds = data.map(({ deviceId }) => deviceId);
+
     let deviceData = await http[store.currentApp.url].getDeviceData(deviceIds);
     if( store.currentApp.bizModule === 1) {
         deviceData = deviceData.map(item => ({
