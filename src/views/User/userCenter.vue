@@ -64,7 +64,7 @@
                     class="demo-ruleForm"
                 >
                     <ElFormItem label="手机号" prop="mobilePhone">
-                        <el-input v-model.number="addData.mobilePhone" size="default" />
+                        <el-input :disabled="isEdit" v-model.number="addData.mobilePhone" size="default" />
                     </ElFormItem>
                     <ElFormItem v-if="!isEdit" label="密码" prop="password">
                         <el-input v-model="addData.password" type="password" size="default" placeholder="请输入密码" />
@@ -78,7 +78,7 @@
                         />
                     </ElFormItem>
                     <ElFormItem label="角色分配" prop="roleIds">
-                        <ElSelect v-model="addData.roleIds" placeholder="请选择" size="default">
+                        <ElSelect v-model="addData.roleIds" placeholder="请选择" size="default" style="width: 100%">
                             <ElOption
                                 v-for="(item, i) in roleListArray"
                                 :key="i"
@@ -262,8 +262,8 @@ const validatePassAdd = (rule: any, value: any, callback: any) => {
 };
 const rulesAdd = reactive({
     mobilePhone: [
-        { required: true, message: '请输入手机号', trigger: 'blur' },
-        { required: true, pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' },
+        { required: !isEdit.value, message: '请输入手机号', trigger: 'blur' },
+        { required: !isEdit.value, pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' },
     ],
     roleIds: [{ required: true, message: '请请选择角色', trigger: 'change' }],
     password: [
