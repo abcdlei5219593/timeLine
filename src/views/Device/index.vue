@@ -94,7 +94,7 @@
                 <ElFormItem label="经度" prop="longitude">
                     <el-input v-model="deviceData.longitude" type="number" size="default" placeholder="请输入" />
                 </ElFormItem>
-                <ElFormItem label="维度" prop="latitude">
+                <ElFormItem label="纬度" prop="latitude">
                     <el-input v-model="deviceData.latitude" type="number" size="default" placeholder="请输入" />
                 </ElFormItem>
                 <ElFormItem label="微站类型" prop="bizModules">
@@ -145,7 +145,7 @@ const rules = reactive({
     stationName: [{ required: true, message: '请输入微站名', trigger: 'blur' }],
     stationAddress: [{ required: true, message: '请输入微站地址', trigger: 'blur' }],
     longitude: [{ required: true, message: '请输入经度', trigger: 'blur' }],
-    latitude: [{ required: true, message: '请输入维度', trigger: 'blur' }],
+    latitude: [{ required: true, message: '请输入纬度', trigger: 'blur' }],
     bizModules: [{ required: true, message: '请选择微站类型', trigger: 'change' }],
 });
 
@@ -176,6 +176,18 @@ const stationType: any = ref([
     {
         label: '水质监测',
         value: 2,
+    },
+    {
+        label: '风速监测',
+        value: 3,
+    },
+    {
+        label: 'ptu监测',
+        value: 4,
+    },
+    {
+        label: '雨量监测',
+        value: 5,
     },
 ]);
 
