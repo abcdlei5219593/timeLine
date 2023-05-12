@@ -141,18 +141,14 @@ export const APP_LIST: Menu = [
         url: '/app/wind',
         bizModule: 3,
         name: '风测量管理',
+        defaultMeasure: 'wsp',
         children: routeWindPath('/app/wind'),
         meta: {
             AQIName: 'CWQI',
             categoryName: '风',
             stasticsColumns: [
-                { prop: 'cwqi', label: 'CWQI' },
-                { prop: 'ph', label: 'PH' },
-                { prop: 'd0', label: '溶解氧mg/L' },
-                { prop: 'ec', label: '电导率μS/cm' },
-                { prop: 'wt', label: '浊度NTU' },
-                { prop: 'temp', label: '温度°C' },
-
+                { prop: 'wsp', label: '风速m/s'},
+                { prop: 'wl', label: '风力' , render: value => value ? `${value}级` : '/' },
             ],
             markerWindowField: [
                 [

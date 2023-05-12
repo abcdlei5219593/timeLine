@@ -51,7 +51,32 @@ export default {
                 showLoading: true
             } as AxiosRequestConfig)
 
-    }
+    },
+    '/app/wind': {
+        get24AvgData: (data: object) =>
+            $http({
+                url: '/admin/wind/index/get24AvgData',
+                method: 'get',
+                params: data,
+                showLoading: true
+            } as AxiosRequestConfig),
+        getAQI: (data: object) =>
+            $http({
+                url: '/admin/wind/index/get24Summary',
+                method: 'get',
+                params: data,
+                showLoading: true
+            } as AxiosRequestConfig),
+        getLastestAlarms: (data: object) =>
+            $http({
+                url: '/admin/wind/index/getLastestAlarms',
+                method: 'get',
+                params: data,
+                showLoading: true
+            } as AxiosRequestConfig)
+
+    },
+
 };
 
 

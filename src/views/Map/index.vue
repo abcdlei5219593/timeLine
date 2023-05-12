@@ -93,22 +93,24 @@ const getDeviceListHandler = async () => {
 
     const deviceIds = data.map(({ deviceId }) => deviceId);
 
-    let deviceData = await http[store.currentApp.url].getDeviceData(deviceIds);
-    if( store.currentApp.bizModule === 1) {
-        deviceData = deviceData.map(item => ({
-            ...item,
-            pm2_5: item.pm25
-        }));
-    }
-    for (const item of data) {
-        const idx = deviceData.findIndex(({ deviceId }) => deviceId === item.deviceId);
-
-        if(idx > -1) {
-            item.data = deviceData[idx];
+    if (deviceIds.length) {
+        let deviceData = await http[store.currentApp.url].getDeviceData(deviceIds);
+        if( store.currentApp.bizModule === 1) {
+            deviceData = deviceData.map(item => ({
+                ...item,
+                pm2_5: item.pm25
+            }));
         }
+        for (const item of data) {
+            const idx = deviceData.findIndex(({ deviceId }) => deviceId === item.deviceId);
 
+            if(idx > -1) {
+                item.data = deviceData[idx];
+            }
+
+        }
+        deviceList.value = data;
     }
-    deviceList.value = data;
 };
 
 const mouseoverHandler = (e, marker) => {

@@ -86,7 +86,9 @@ const getDeviceListHandler = async () => {
     // deviceList.value
 
     deviceList.value = await getDeviceList({ bizModule: store.currentApp.bizModule});
-    getDeviceDataHandler();
+    if (deviceList.value && deviceList.value.length) {
+        getDeviceDataHandler();
+    }
 };
 
 getDeviceListHandler();

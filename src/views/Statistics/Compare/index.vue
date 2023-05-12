@@ -72,13 +72,13 @@ const chartOptions = ref({
     tooltip: {
         trigger: 'axis',
         position: ['40%', '20%'],
-        formatter: (params) => {
-            let res = '';
-            for (let i = 0; i < params.length; i++) {
-                res += '<li>' + params[i].seriesName + '：' + params[i].value + '</li>';
-            }
-            return res;
-        },
+        // formatter: (params) => {
+        //     let res = '';
+        //     for (let i = 0; i < params.length; i++) {
+        //         res += '<li>' + params[i].seriesName + '：' + params[i].value + '</li>';
+        //     }
+        //     return res;
+        // },
     },
     legend: {
         data: [],

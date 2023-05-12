@@ -12,7 +12,9 @@
                     @change="handleSearch"
                 />
             </ElCol>
-            <ElButton class="add-btn" type="primary" size="default" @click="exportFun"> 导出预览 </ElButton>
+            <ElButton class="add-btn" type="primary" size="default" @click="exportFun">
+                导出预览
+            </ElButton>
         </ElRow>
         <div class="map-container">
             <ElTable
@@ -207,16 +209,17 @@ const handleColumnClick = async (row: any, column: any, event: any, index: any) 
 
         if (deviceData) {
             temp.data = deviceData.data.map(({ avg, time }) => ({
-                name: dayjs(time * 1000).format('YYYY-MM-DD HH:mm:ss'),
-                value: [dayjs(time * 1000).format('YYYY-MM-DD HH:mm:ss'), avg],
+                name: dayjs(time).format('YYYY-MM-DD HH:mm:ss'),
+                value: [dayjs(time).format('YYYY-MM-DD HH:mm:ss'), avg],
             }));
         }
         series.push(temp);
     }
     chartOptions.value.series = series;
 };
-//另外提出是因为会影响弹窗外的图表
+// 另外提出是因为会影响弹窗外的图表
 const handleColumnExportClick = async (row: any, column: any, event: any, index: any) => {
+    // eslint-disable-next-line no-new
     new Promise(async (resolve, reject) => {
         // 导出预览
         if (index >= 0) {
@@ -241,8 +244,8 @@ const handleColumnExportClick = async (row: any, column: any, event: any, index:
 
                 if (deviceData) {
                     temp.data = deviceData.data.map(({ avg, time }) => ({
-                        name: dayjs(time * 1000).format('YYYY-MM-DD HH:mm:ss'),
-                        value: [dayjs(time * 1000).format('YYYY-MM-DD HH:mm:ss'), avg],
+                        name: dayjs(time).format('YYYY-MM-DD HH:mm:ss'),
+                        value: [dayjs(time).format('YYYY-MM-DD HH:mm:ss'), avg],
                     }));
                 }
                 series.push(temp);
@@ -377,7 +380,7 @@ getDeviceListHandler();
     }
 }
 .dialog-export {
-    height: 60vh;
+    height: 500px;
     overflow-y: auto;
     padding-bottom: 66px;
 }

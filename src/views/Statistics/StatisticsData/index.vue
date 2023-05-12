@@ -37,10 +37,15 @@
                 :width="item.width"
             >
                 <template #default="scope">
+                    <template v-if="item.render">
+                        {{ item.render(scope.row[item.prop]) }}
+                    </template>
                     <div v-if="item.prop && scope.row[item.prop]">
                         {{ scope.row[item.prop] }}
                     </div>
-                    <div v-else>/</div>
+                    <div v-else>
+                        /
+                    </div>
                 </template>
             </ElTableColumn>
             <ElTableColumn prop="createTime" label="上传时间" width="170" />

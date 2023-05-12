@@ -7,10 +7,20 @@
                     {{ appStore.factroyName }}
                 </article>
                 <article class="flex">
-                    {{ appStore.currentApp.meta.AQIName }}：{{ AQI }}
-                    <div class="tag" :style="{ background: mesureLevel.color}">
-                        {{ mesureLevel.level }}
-                    </div>
+                    <template v-if="appStore.currentApp?.bizModule === 3">
+                        <span>
+                            风速： {{ AQI?.wsp }}m/s
+                        </span>
+                        <span>
+                            风力： {{ AQI?.wl }}级
+                        </span>
+                    </template>
+                    <template v-else>
+                        {{ appStore.currentApp.meta.AQIName }}：{{ AQI }}
+                        <div class="tag" :style="{ background: mesureLevel.color}">
+                            {{ mesureLevel.level }}
+                        </div>
+                    </template>
                 </article>
                 <article class="">
                     {{ updateTime }}更新
@@ -203,6 +213,9 @@ const store = useUserStore();
 
                 padding: 4px 8px;
                 color: #fff;
+            }
+            span + span{
+                margin-left: 10px;
             }
         }
     }
