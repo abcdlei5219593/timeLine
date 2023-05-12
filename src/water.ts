@@ -18,6 +18,10 @@ export const routeWaterPath = (basePath: string): Menu =>
             icon: 'iconfont icon-tongjifenxi',
             children: [
                 {
+                    url: basePath + '/statistics/heatMap',
+                    name: '热力图',
+                },
+                {
                     url: basePath + '/statistics/compare',
                     name: '对比图',
                 },
