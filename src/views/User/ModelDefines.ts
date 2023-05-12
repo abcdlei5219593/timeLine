@@ -2,7 +2,7 @@ export interface UserInfoType {
     nickName: string;
     gender: string;
     mobilePhone: string;
-    realName: string;
+    // realName: string;
     userName: string;
     email: string;
 }

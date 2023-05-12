@@ -3,13 +3,20 @@
         <ElRow class="search-row">
             <ElCol :span="6">
                 <span class="search-label">搜索：</span>
-                <ElInput v-model="roleParams.roleName" size="default" placeholder="请输入关键词搜索"></ElInput>
+                <ElInput
+                    v-model="roleParams.roleName"
+                    size="default"
+                    placeholder="请输入关键词搜索"
+                    :prefix-icon="Search"
+                ></ElInput>
             </ElCol>
             <ElCol :span="3">
                 <ElButton type="primary" size="default" @click="getList"> 搜索 </ElButton>
             </ElCol>
             <!-- <ElCol :span="3"> -->
-            <ElButton class="add-btn" type="primary" size="default" @click="addShow = true"> 新增角色 </ElButton>
+            <ElButton class="add-btn" type="primary" size="default" @click="addShow = true" :icon="Plus">
+                新增角色
+            </ElButton>
             <!-- </ElCol> -->
         </ElRow>
         <ElTable
@@ -100,6 +107,7 @@ import { roleParamsType, addRoleType } from './ModelDefines';
 import { ElMessage, ElTree, FormInstance } from 'element-plus';
 import authTreeModal from './components/authTreeModal.vue';
 import { getFlatDeepTreeData } from '@/utils/common';
+import { Search, Plus } from '@element-plus/icons-vue';
 
 const tableData: any = ref([]);
 const addShow = ref<boolean>(false);

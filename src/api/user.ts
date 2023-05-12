@@ -24,7 +24,7 @@ export const editUserInfo = (data: object = {}) =>
     $http({
         url: '/userInfo/editUserInfo',
         method: 'post',
-        data,
+        params: data,
         showLoading: true
     } as AxiosRequestConfig);
 

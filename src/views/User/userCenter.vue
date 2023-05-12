@@ -3,12 +3,17 @@
         <ElRow class="search-row">
             <ElCol :span="6">
                 <span class="search-label">搜索：</span>
-                <ElInput v-model="userParams.userName" size="default" placeholder="请输入关键词搜索"></ElInput>
+                <ElInput
+                    v-model="userParams.userName"
+                    size="default"
+                    placeholder="请输入关键词搜索"
+                    :prefix-icon="Search"
+                ></ElInput>
             </ElCol>
             <ElCol :span="3">
                 <ElButton type="primary" size="default" @click="getList"> 搜索 </ElButton>
             </ElCol>
-            <ElButton class="add-btn" type="primary" size="default" @click="addFun"> 新增用户 </ElButton>
+            <ElButton class="add-btn" type="primary" size="default" @click="addFun" :icon="Plus"> 新增用户 </ElButton>
         </ElRow>
         <ElTable
             id="userTable"
@@ -59,7 +64,7 @@
                     class="demo-ruleForm"
                 >
                     <ElFormItem label="手机号" prop="mobilePhone">
-                        <el-input v-model.number="addData.mobilePhone" size="default" />
+                        <el-input :disabled="isEdit" v-model.number="addData.mobilePhone" size="default" />
                     </ElFormItem>
                     <ElFormItem v-if="!isEdit" label="密码" prop="password">
                         <el-input v-model="addData.password" type="password" size="default" placeholder="请输入密码" />
@@ -73,7 +78,7 @@
                         />
                     </ElFormItem>
                     <ElFormItem label="角色分配" prop="roleIds">
-                        <ElSelect v-model="addData.roleIds" placeholder="请选择" size="default">
+                        <ElSelect v-model="addData.roleIds" placeholder="请选择" size="default" style="width: 100%">
                             <ElOption
                                 v-for="(item, i) in roleListArray"
                                 :key="i"
@@ -137,6 +142,7 @@ import { useRouter } from 'vue-router';
 import { userList, userAdd, listRoleSelect, resetPassword, userEdit } from '@/api/user';
 import { UserParamsType, addUserType, editPasswordType } from './ModelDefines';
 import md5 from 'js-md5';
+import { Search, Plus } from '@element-plus/icons-vue';
 
 const tableData: any = ref([]);
 const addShow = ref<boolean>(false);
@@ -256,8 +262,8 @@ const validatePassAdd = (rule: any, value: any, callback: any) => {
 };
 const rulesAdd = reactive({
     mobilePhone: [
-        { required: true, message: '请输入手机号', trigger: 'blur' },
-        { required: true, pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' },
+        { required: !isEdit.value, message: '请输入手机号', trigger: 'blur' },
+        { required: !isEdit.value, pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号', trigger: 'blur' },
     ],
     roleIds: [{ required: true, message: '请请选择角色', trigger: 'change' }],
     password: [

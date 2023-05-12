@@ -10,39 +10,11 @@ import { routeAirPath } from './air';
 import { routeWindPath } from './wind';
 import { routePtuPath } from './ptu';
 import { routeRainPath } from './rain';
+import { routeUserPath } from './user';
 
 
 export const AMAP_KEY = '859de6e2d55150331e795f3cbfe21915';
 export const SECURITY_CODE = '318d47264ccd25eb7bd2d4cfeda3b50c';
-
-
-
-export const routeUserPath = (basePath: string): Menu =>
-    [
-        {
-            url: basePath + '/userCenter',
-            name: '用户中心',
-            icon: 'iconfont icon-home',
-        },
-        {
-            url: basePath + '/auth',
-            name: '权限管理',
-            icon: 'iconfont icon-map',
-        },
-        {
-            url: basePath + '/personalCenter',
-            name: '个人中心',
-            icon: 'iconfont icon-device',
-            // isButton: true,
-            // children: [
-            //     {
-            //         url: basePath + '/personalCenter',
-            //         name: '个人中心',
-            //         isButton: true,
-            //     }
-            // ]
-        }
-    ];
 
 export const APP_LIST: Menu = [
     {
