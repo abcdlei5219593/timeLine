@@ -9,8 +9,9 @@ export const routeUserPath = (basePath: string): Menu =>
             icon: 'iconfont icon-yonghuzhongxin',
             children: [
                 {
-                    url: basePath + '/userCenter/view',
+                    url: basePath + '/userCenter/viewPage',
                     name: '页面访问',
+
                 },
                 {
                     url: basePath + 'addUser',
@@ -35,7 +36,7 @@ export const routeUserPath = (basePath: string): Menu =>
             icon: 'iconfont icon-quanxianguanli',
             children: [
                 {
-                    url: basePath + '/auth/view',
+                    url: basePath + '/auth/viewPage',
                     name: '页面访问',
                 },
                 {

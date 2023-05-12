@@ -38,7 +38,8 @@ const handleClick = (menu: MenuItem) => {
     let url = '';
     store.menuList.forEach((item: any) => {
         if (item.url === menu.url) {
-            if (item.children[0].children.length > 0) {
+            //防止跳入页面访问权限里
+            if (item.children[0].children.length > 0 && item.children[0].children[0].name.indexOf('页面访问') < 0) {
                 url = item.children[0].children[0].url;
             } else {
                 url = item.children[0].url;

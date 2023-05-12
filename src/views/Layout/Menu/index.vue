@@ -2,7 +2,16 @@
     <ElMenu :default-active="defaultActive" v-bind="$attrs">
         <template v-for="(node, index) in menuList" :key="index">
             <!--noSubMenu 是有详情的单个菜单,node.name !== '设备管理'"原本为!node.noSubMenu,就只有设备管理才有，先写死-->
-            <ElSubMenu v-if="node.children && node.children.length && node.name !== '设备管理'" :index="node.url">
+            <ElSubMenu
+                v-if="
+                    node.children &&
+                    node.children.length &&
+                    node.name !== '设备管理' &&
+                    node.name !== '用户中心' &&
+                    node.name !== '权限管理'
+                "
+                :index="node.url"
+            >
                 <template #title>
                     <i v-if="node.icon" class="menu-icon" :class="node.icon"></i>
                     <span class="menu-title">{{ node.name }}</span>
