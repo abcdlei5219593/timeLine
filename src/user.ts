@@ -6,7 +6,7 @@ export const routeUserPath = (basePath: string): Menu =>
         {
             url: basePath + '/userCenter',
             name: '用户中心',
-            icon: 'iconfont icon-home',
+            icon: 'iconfont icon-yonghuzhongxin',
             children: [
                 {
                     url: basePath + '/userCenter/view',
@@ -32,7 +32,7 @@ export const routeUserPath = (basePath: string): Menu =>
         {
             url: basePath + '/auth',
             name: '权限管理',
-            icon: 'iconfont icon-map',
+            icon: 'iconfont icon-quanxianguanli',
             children: [
                 {
                     url: basePath + '/auth/view',
