@@ -2,6 +2,7 @@ import axios from 'axios';
 import { ElMessage, ElLoading } from 'element-plus';
 import Cookie from 'js-cookie';
 import qs from 'qs';
+import router from '@/router/index';
 
 type LoadingInstance = {
     close: () => void
@@ -49,8 +50,11 @@ $http.interceptors.response.use((response) => {
         loadingInstance.close();
         loadingInstance = null;
     }
-    if (+response.data.code === 0) {
+    if (+response.data.code === 0) { // 正常响应时返回数据
         return response.data.data;
+    } else if (+response.data.code === -103) { // 当登录过期时，重定向到登录页面
+        Cookie.remove('token');
+        router.replace('/login');
     }
     ElMessage.error(response.data.msg);
     return Promise.reject();
