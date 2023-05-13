@@ -26,12 +26,12 @@
                 :row-class-name="tableRowClassName"
                 @row-click="handleColumnClick"
             >
-                <ElTableColumn :label="`${store.currentApp.meta.categoryName}质量指数报告`">
+                <ElTableColumn :label="`${store.currentApp.meta.categoryName}指数报告`">
                     <template #default="scope">
                         <div class="table-column-layout" @click="active = scope.$index">
                             <p>{{ scope.row.stationName }}</p>
                             <p>
-                                本周{{ store.currentApp.meta.categoryName }}质量平均值为{{
+                                本周{{ store.currentApp.meta.categoryName }}平均值为{{
                                     scope.row.avgVal
                                 }}，最大值为{{ scope.row.maxVal }}，最小值为{{ scope.row.minVal }}
                             </p>
@@ -95,22 +95,22 @@ const chartOptions = ref({
     tooltip: {
         trigger: 'axis',
         position: ['40%', '20%'],
-        formatter: (params) => {
-            let res = '';
-            for (let i = 0; i < params.length; i++) {
-                res += '<li>' + params[i].seriesName + '：' + params[i].value + '</li>';
-            }
-            return res;
-        },
+
     },
     legend: {
         data: [],
     },
     xAxis: {
-        type: 'time',
+        type: 'category',
         splitLine: {
             show: false,
         },
+        axisLabel: {
+            formatter(value) {
+                const date = value.split(' ');
+                return `${date[1]}\n${date[0]}`;
+            }
+        }
     },
     yAxis: {
         type: 'value',
@@ -135,22 +135,22 @@ const chartOptionsExport = ref({
     tooltip: {
         trigger: 'axis',
         position: ['40%', '20%'],
-        formatter: (params) => {
-            let res = '';
-            for (let i = 0; i < params.length; i++) {
-                res += '<li>' + params[i].seriesName + '：' + params[i].value + '</li>';
-            }
-            return res;
-        },
+
     },
     legend: {
         data: [],
     },
     xAxis: {
-        type: 'time',
+        type: 'category',
         splitLine: {
             show: false,
         },
+        axisLabel: {
+            formatter(value) {
+                const date = value.split(' ');
+                return `${date[1]}\n${date[0]}`;
+            }
+        }
     },
     yAxis: {
         type: 'value',
@@ -200,6 +200,7 @@ const handleColumnClick = async (row: any, column: any, event: any, index: any) 
     let series = [];
     for (const device of params.deviceId) {
         const temp = {
+            showSymbol: false,
             type: 'line',
             name: row.stationName,
             data: [],
@@ -208,9 +209,9 @@ const handleColumnClick = async (row: any, column: any, event: any, index: any) 
         const deviceData = data.find((item) => item.deviceId === device);
 
         if (deviceData) {
-            temp.data = deviceData.data.map(({ avg, time }) => ({
-                name: dayjs(time).format('YYYY-MM-DD HH:mm:ss'),
-                value: [dayjs(time).format('YYYY-MM-DD HH:mm:ss'), avg],
+            temp.data = deviceData.data.sort((prev,current) => prev.time - current.time).map(({ avg, time }) => ({
+                name: dayjs(time).format('YYYY-MM-DD HH:mm'),
+                value: [dayjs(time).format('YYYY-MM-DD HH:mm'), avg],
             }));
         }
         series.push(temp);
@@ -243,7 +244,7 @@ const handleColumnExportClick = async (row: any, column: any, event: any, index:
                 const deviceData = data.find((item) => item.deviceId === device);
 
                 if (deviceData) {
-                    temp.data = deviceData.data.map(({ avg, time }) => ({
+                    temp.data = deviceData.data.sort((prev,current) => prev.time - current.time).map(({ avg, time }) => ({
                         name: dayjs(time).format('YYYY-MM-DD HH:mm:ss'),
                         value: [dayjs(time).format('YYYY-MM-DD HH:mm:ss'), avg],
                     }));

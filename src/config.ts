@@ -25,7 +25,7 @@ export const APP_LIST: Menu = [
         children: routeAirPath('/app/airContent'),
         meta: {
             AQIName: 'AQI',
-            categoryName: '空气',
+            categoryName: '空气质量',
             stasticsColumns: [
                 { prop: 'api', label: 'AQI', width: 60 },
                 { prop: 'pm10', label: 'PM10（ug/m3）', width: 100 },
@@ -44,7 +44,7 @@ export const APP_LIST: Menu = [
             markerWindowField: [
                 [
                     { prop: 'aqi', label: 'AQI' },
-                    { prop: 'pm25', label: 'PM' },
+                    { prop: 'pm25', label: 'PM2.5' },
                 ],
                 [
                     { prop: 'co', label: '一氧化碳' },
@@ -73,7 +73,7 @@ export const APP_LIST: Menu = [
         children: routeWaterPath('/app/water'),
         meta: {
             AQIName: 'CWQI',
-            categoryName: '水质',
+            categoryName: '水质质量',
             stasticsColumns: [
                 { prop: 'cwqi', label: 'CWQI' },
                 { prop: 'ph', label: 'PH' },
@@ -117,29 +117,18 @@ export const APP_LIST: Menu = [
         children: routeWindPath('/app/wind'),
         meta: {
             AQIName: 'CWQI',
-            categoryName: '风',
+            categoryName: '风速',
             stasticsColumns: [
                 { prop: 'wsp', label: '风速m/s'},
                 { prop: 'wl', label: '风力' , render: value => value ? `${value}级` : '/' },
             ],
             markerWindowField: [
                 [
-                    { prop: 'cwqi', label: 'CWQI' },
-                    { prop: 'temp', label: '温度' },
+                    { prop: 'wsp', label: '风速' },
                 ],
                 [
-                    { prop: 'ph', label: 'PH' },
+                    { prop: 'wl', label: '风力' },
                 ],
-                [
-                    { prop: 'd0', label: '溶解氧' },
-
-                ],
-                [
-                    { prop: 'ec', label: '电导率' },
-                ],
-                [
-                    { prop: 'wt', label: '浊度' },
-                ]
             ]
         }
     },

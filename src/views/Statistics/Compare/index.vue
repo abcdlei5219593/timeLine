@@ -3,9 +3,23 @@
         <ElRow class="search-row">
             <ElCol :span="6">
                 <span class="search-label">微站选择：</span>
-                <ElSelect v-model="searchForm.deviceId" value-key="deviceId" collapse-tags size="default" multiple=""
-                    @change="handleSearch">
-                    <ElOption v-for="item in deviceList" :key="item.deviceId" :label="item.stationName" :value="item">
+                <ElSelect
+                    v-model="searchForm.deviceId"
+                    value-key="deviceId"
+                    collapse-tags size="default"
+                    multiple=""
+                    @change="handleSearch"
+                >
+                    <ElOption
+                        v-for="item in deviceList"
+                        :key="item.deviceId"
+                        :label="item.stationName"
+                        :value="item"
+                        :disabled="
+                            searchForm.deviceId.length === 1
+                                && searchForm.deviceId[0].deviceId === item.deviceId
+                        "
+                    >
                     </ElOption>
                 </ElSelect>
             </ElCol>
@@ -18,8 +32,10 @@
             </ElCol>
             <ElCol :span="8">
                 <span class="search-label">时间：</span>
-                <el-date-picker v-model="searchForm.date" size="default" :disabled-date="disabledDate" type="datetimerange"
-                    value-format="YYYY-MM-DD HH:mm:ss" @change="handleSearch" />
+                <el-date-picker
+                    v-model="searchForm.date" size="default" :disabled-date="disabledDate" type="datetimerange"
+                    value-format="YYYY-MM-DD HH:mm:ss" @change="handleSearch"
+                />
             </ElCol>
         </ElRow>
         <div class="map-container">
@@ -32,7 +48,7 @@
 import { ElCard, ElForm, ElFormItem, ElSelect, ElOption, ElDatePicker } from 'element-plus';
 import { getDeviceList, getStations } from '@/api/device';
 import http from '@/api/analyse';
-import { computed, ref, reactive } from 'vue';
+import { watch, ref, reactive } from 'vue';
 import VChart from 'vue-echarts';
 import { useSettingStore } from '@/store/app';
 import dayjs from '@/helper/dayjs';
@@ -68,17 +84,23 @@ const chartOptions = ref({
         data: [],
     },
     xAxis: {
-        type: 'time',
+        type: 'category',
         splitLine: {
             show: false,
         },
+        axisLabel: {
+            formatter(value) {
+                const date = value.split(' ');
+                return `${date[1]}\n${date[0]}`;
+            }
+        }
     },
     yAxis: {
         type: 'value',
         boundaryGap: [0, '100%'],
     },
     series: [],
-    color: ['#0052D9', '#029CD4']
+    // color: ['#0052D9', '#029CD4']
 });
 
 const disabledDate = (time: Date) => {
@@ -99,6 +121,7 @@ const handleSearch = async () => {
     let series = [];
     for (const device of searchForm.deviceId) {
         const temp = {
+            showSymbol: false,
             type: 'line',
             name: device.stationName,
             data: [],
@@ -107,7 +130,7 @@ const handleSearch = async () => {
         const deviceData = data.find((item) => item.deviceId === device.deviceId);
 
         if (deviceData) {
-            temp.data = deviceData.data.map(({ avg, time }) => ({
+            temp.data = deviceData.data.sort((prev,current) => prev.time - current.time).map(({ avg, time }) => ({
                 name: dayjs(time).format('YYYY-MM-DD HH:mm:ss'),
                 value: [dayjs(time).format('YYYY-MM-DD HH:mm:ss'), avg],
             }));
@@ -124,6 +147,16 @@ const handleSearch = async () => {
 
 
 };
+
+// watch(
+//     () => searchForm.deviceId,
+//     (newVal,oldVal) => {
+//         if(!newVal.length) {
+//             searchForm.deviceId.push(oldVal[0]);
+//         }
+//     }
+// );
+
 
 const getDeviceListHandler = async () => {
     // deviceList.value

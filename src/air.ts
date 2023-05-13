@@ -140,7 +140,7 @@ export const routeAirPath = (basePath: string): Menu =>
         // },
         {
             url: basePath + '/flag',
-            name: '标记管理',
+            name: '操作日志',
             icon: 'iconfont icon-biaojiguanli',
         },
 

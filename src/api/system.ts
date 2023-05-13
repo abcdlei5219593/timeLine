@@ -19,7 +19,7 @@ export const getDataDictionary = (dictType: string | number | null = null) =>
     } as AxiosRequestConfig);
 
 
-// 标记管理
+// 操作日志
 export const operationLog = (data: object | null = null) =>
     $http({
         url: '/operationLog/listData',

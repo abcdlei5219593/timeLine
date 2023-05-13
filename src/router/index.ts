@@ -178,7 +178,7 @@ const routes: Array<RouteRecordRaw> = [
                 name: 'Flag',
                 component: () => import('@/views/Flag/index.vue'),
                 meta: {
-                    title: '标记管理'
+                    title: '操作日志'
                 }
             },
             {
