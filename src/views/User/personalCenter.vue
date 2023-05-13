@@ -1,9 +1,15 @@
 <template>
     <div class="user-top">
-        <p class="user-title">个人信息</p>
+        <p class="user-title">
+            个人信息
+        </p>
         <div class="user-btn">
-            <ElButton v-if="!isEdit" class="border-btn" type="" size="default" @click="editFun"> 编辑 </ElButton>
-            <ElButton v-if="isEdit" type="" size="default" @click="cancel"> 取消 </ElButton>
+            <ElButton v-if="!isEdit" class="border-btn" type="" size="default" @click="editFun">
+                编辑
+            </ElButton>
+            <ElButton v-if="isEdit" type="" size="default" @click="cancel">
+                取消
+            </ElButton>
             <ElButton v-if="isEdit" class="border-btn" type="" size="default" @click="submitFormEdit(formEditRef)">
                 保存
             </ElButton>
@@ -29,8 +35,12 @@
                     <span v-if="!isEdit">{{ userInfo.gender }}</span>
                     <ElFormItem v-else prop="gender">
                         <ElRadioGroup v-model="userInfo.gender">
-                            <ElRadio label="男" size="default"> 男 </ElRadio>
-                            <ElRadio label="女" size="default"> 女 </ElRadio>
+                            <ElRadio label="男" size="default">
+                                男
+                            </ElRadio>
+                            <ElRadio label="女" size="default">
+                                女
+                            </ElRadio>
                         </ElRadioGroup>
                     </ElFormItem>
                 </ElCol>
@@ -46,7 +56,9 @@
         </ElForm>
     </div>
     <div class="user-bottom">
-        <p class="user-title">修改密码</p>
+        <p class="user-title">
+            修改密码
+        </p>
         <ElForm ref="formDataRef" :model="formData" :rules="rules" label-width="80px">
             <ElFormItem label="旧密码" prop="oldPwd">
                 <el-input v-model="formData.oldPwd" type="password" size="default" placeholder="请输入旧密码" />
@@ -58,7 +70,9 @@
                 <el-input v-model="formData.newPwdAgain" type="password" size="default" placeholder="请确认密码" />
             </ElFormItem>
             <ElFormItem>
-                <ElButton type="primary" size="default" @click="submitForm(formDataRef)"> 确认修改 </ElButton>
+                <ElButton type="primary" size="default" @click="submitForm(formDataRef)">
+                    确认修改
+                </ElButton>
             </ElFormItem>
         </ElForm>
     </div>
@@ -196,7 +210,7 @@ const changePasswordFun = async () => {
             newPwd: newPwd.value,
         });
         ElMessage.success('修改成功');
-        Cookie.set('token', null);
+        Cookie.remove('token');
         router.push('/login');
     } catch (err) {}
 };

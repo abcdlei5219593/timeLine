@@ -1,5 +1,6 @@
 import { RouteRecordRaw, createRouter, createWebHashHistory } from 'vue-router';
 import Layout from '@/views/Layout/index.vue';
+import Cookie from 'js-cookie';
 
 const routes: Array<RouteRecordRaw> = [
 
@@ -225,5 +226,12 @@ const router = createRouter({
 // 路由跳转之前调用
 
 
+router.beforeEach((to,from,next) => {
+    const token = Cookie.get('token');
+    if(to.path !== '/login' && !token) {
+        return next('/login');
+    }
+    next();
+});
 
 export default router;
