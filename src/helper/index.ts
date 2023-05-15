@@ -78,3 +78,17 @@ export const getLevelByMesure = ( mesure: number) => {
         };
     }
 };
+
+
+// 获取路径中的字段
+export function GetQueryString(name: string): string | null {
+    // let allQuery = this.$route.query;
+    // return allQuery[name] ? allQuery[name] :null
+    const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
+    const search = window.location.search ? window.location.search : `?${location.href.split('?')[1]}`;
+    const r = search.substr(1).match(reg);
+    if (r != null) {
+        return unescape(r[2]);
+    }
+    return null;
+}

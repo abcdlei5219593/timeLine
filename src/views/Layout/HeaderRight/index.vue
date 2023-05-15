@@ -7,7 +7,7 @@
             <div class="user-box">
                 <img class="avatar" src="@/assets/img/avatar.png" />
                 <p class="user-name">
-                    {{ store.userInfo?.userName }}
+                    {{ userName }}
                 </p>
                 <i class="iconfont icon-xiala"></i>
             </div>
@@ -28,6 +28,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { ElDropdown, ElIcon, ElBadge, ElDropdownMenu, ElDropdownItem } from 'element-plus';
 import { useUserStore } from '@/store/app';
 import Cookie from 'js-cookie';
@@ -36,6 +37,17 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const store = useUserStore();
 
+
+const userName = computed(() => {
+    const { nickName, userName, realName } = store.userInfo;
+    if(nickName) {
+        return nickName;
+    } else if (realName) {
+        return realName;
+    }
+    return userName;
+
+});
 const loginOut = () => {
     Cookie.remove('token');
     router.push('/login');

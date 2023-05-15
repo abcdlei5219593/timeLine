@@ -23,3 +23,11 @@ export const listUserModule = (params = {}) =>
         method: 'post',
         params,
     } as AxiosRequestConfig);
+
+// 获取登录用户菜单权限
+export const ssoLogin = (params = {}) =>
+    $http({
+        url: '/ssoLogin',
+        method: 'post',
+        params,
+    } as AxiosRequestConfig);
