@@ -114,9 +114,11 @@ const getDeviceListHandler = async () => {
 };
 
 const mouseoverHandler = (e, marker) => {
-    currentMaker.value = marker;
-    markerPosition.value=[marker.longitude, marker.latitude];
-    visible.value = true;
+    if (marker.data) {
+        currentMaker.value = marker;
+        markerPosition.value=[marker.longitude, marker.latitude];
+        visible.value = true;
+    }
 };
 getDeviceListHandler();
 </script>
