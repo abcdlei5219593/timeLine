@@ -12,9 +12,9 @@
                         <div class="table-column-layout" @click="active = scope.$index">
                             <p>{{ scope.row.stationName }}</p>
                             <p>
-                                本周{{ store.currentApp.meta.categoryName }}质量平均值为{{
-                                    scope.row.avgVal
-                                }}，最大值为{{ scope.row.maxVal }}，最小值为{{ scope.row.minVal }}
+                                本周{{ store.currentApp.meta.categoryName }}平均值为{{ scope.row.avgVal }}，最大值为{{
+                                    scope.row.maxVal
+                                }}，最小值为{{ scope.row.minVal }}
                             </p>
                         </div>
                     </template>

@@ -12,9 +12,7 @@
                     @change="handleSearch"
                 />
             </ElCol>
-            <ElButton class="add-btn" type="primary" size="default" @click="exportFun">
-                导出预览
-            </ElButton>
+            <ElButton class="add-btn" type="primary" size="default" @click="exportFun"> 导出预览 </ElButton>
         </ElRow>
         <div class="map-container">
             <ElTable
@@ -31,9 +29,9 @@
                         <div class="table-column-layout" @click="active = scope.$index">
                             <p>{{ scope.row.stationName }}</p>
                             <p>
-                                本周{{ store.currentApp.meta.categoryName }}平均值为{{
-                                    scope.row.avgVal
-                                }}，最大值为{{ scope.row.maxVal }}，最小值为{{ scope.row.minVal }}
+                                本周{{ store.currentApp.meta.categoryName }}平均值为{{ scope.row.avgVal }}，最大值为{{
+                                    scope.row.maxVal
+                                }}，最小值为{{ scope.row.minVal }}
                             </p>
                         </div>
                     </template>
@@ -95,7 +93,6 @@ const chartOptions = ref({
     tooltip: {
         trigger: 'axis',
         position: ['40%', '20%'],
-
     },
     legend: {
         data: [],
@@ -109,8 +106,8 @@ const chartOptions = ref({
             formatter(value) {
                 const date = value.split(' ');
                 return `${date[1]}\n${date[0]}`;
-            }
-        }
+            },
+        },
     },
     yAxis: {
         type: 'value',
@@ -135,7 +132,6 @@ const chartOptionsExport = ref({
     tooltip: {
         trigger: 'axis',
         position: ['40%', '20%'],
-
     },
     legend: {
         data: [],
@@ -149,8 +145,8 @@ const chartOptionsExport = ref({
             formatter(value) {
                 const date = value.split(' ');
                 return `${date[1]}\n${date[0]}`;
-            }
-        }
+            },
+        },
     },
     yAxis: {
         type: 'value',
@@ -209,10 +205,12 @@ const handleColumnClick = async (row: any, column: any, event: any, index: any) 
         const deviceData = data.find((item) => item.deviceId === device);
 
         if (deviceData) {
-            temp.data = deviceData.data.sort((prev,current) => prev.time - current.time).map(({ avg, time }) => ({
-                name: dayjs(time).format('YYYY-MM-DD HH:mm'),
-                value: [dayjs(time).format('YYYY-MM-DD HH:mm'), avg],
-            }));
+            temp.data = deviceData.data
+                .sort((prev, current) => prev.time - current.time)
+                .map(({ avg, time }) => ({
+                    name: dayjs(time).format('YYYY-MM-DD HH:mm'),
+                    value: [dayjs(time).format('YYYY-MM-DD HH:mm'), avg],
+                }));
         }
         series.push(temp);
     }
@@ -236,6 +234,7 @@ const handleColumnExportClick = async (row: any, column: any, event: any, index:
             let series = [];
             for (const device of params.deviceId) {
                 const temp = {
+                    showSymbol: false,
                     type: 'line',
                     name: row.stationName,
                     data: [],
@@ -244,10 +243,12 @@ const handleColumnExportClick = async (row: any, column: any, event: any, index:
                 const deviceData = data.find((item) => item.deviceId === device);
 
                 if (deviceData) {
-                    temp.data = deviceData.data.sort((prev,current) => prev.time - current.time).map(({ avg, time }) => ({
-                        name: dayjs(time).format('YYYY-MM-DD HH:mm:ss'),
-                        value: [dayjs(time).format('YYYY-MM-DD HH:mm:ss'), avg],
-                    }));
+                    temp.data = deviceData.data
+                        .sort((prev, current) => prev.time - current.time)
+                        .map(({ avg, time }) => ({
+                            name: dayjs(time).format('YYYY-MM-DD HH:mm'),
+                            value: [dayjs(time).format('YYYY-MM-DD HH:mm'), avg],
+                        }));
                 }
                 series.push(temp);
             }
