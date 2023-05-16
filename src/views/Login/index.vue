@@ -1,23 +1,19 @@
 <template>
     <div v-if="!isFromThirdPlatform" class="login">
         <div class="login-main">
-            <p class="login-title">
-                大气污染监测系统
-            </p>
+            <p class="login-title">大气污染监测系统</p>
             <div class="login-box">
-                <p class="login-text">
-                    账号登录
-                </p>
+                <p class="login-text">账号登录</p>
                 <ElForm ref="formDataRef" :model="formData" :rules="rules">
                     <ElFormItem label="" prop="userName">
-                        <ElInput v-model="formData.userName" size="large">
+                        <ElInput v-model="formData.userName" size="large" placeholder="请输入账号/手机号">
                             <template #prefix>
                                 <i class="iconfont icon-zhanghao"></i>
                             </template>
                         </ElInput>
                     </ElFormItem>
                     <ElFormItem label="" prop="password">
-                        <ElInput v-model="formData.password" type="password" size="large">
+                        <ElInput v-model="formData.password" type="password" size="large" placeholder="请输入密码">
                             <template #prefix>
                                 <i class="iconfont icon-mima"></i>
                             </template>
@@ -85,9 +81,8 @@ const rules = reactive({
 });
 
 const formData = reactive<FormType>({
-    userName: 'superadmin',
-    password: '123456a',
-    token: 'token',
+    userName: '',
+    password: '',
 });
 
 const { proxy } = getCurrentInstance() as any;
@@ -116,7 +111,7 @@ const loginFun = async () => {
         const userMenu = await getUserMenu();
         await getUser();
         loading.value = false;
-        if(userMenu.length) {
+        if (userMenu.length) {
             router.push(userMenu[0].children[0].url);
         } else {
             ElMessage.error('您没有系统操作权限，请联系管理员！');
@@ -168,7 +163,7 @@ const thirdPlatformLogin = async () => {
             Cookie.set('token', res.token);
             const userMenu = await getUserMenu();
             await getUser();
-            if(userMenu.length) {
+            if (userMenu.length) {
                 router.push(userMenu[0].children[0].url);
             } else {
                 ElMessage.error('您没有系统操作权限，请联系管理员！');
@@ -180,7 +175,6 @@ const thirdPlatformLogin = async () => {
 };
 
 thirdPlatformLogin();
-
 </script>
 
 <style scoped lang="scss">
