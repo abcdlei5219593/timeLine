@@ -6,7 +6,7 @@
                 <ElInput
                     v-model="userParams.userName"
                     size="default"
-                    placeholder="请输入关键词搜索"
+                    placeholder="请输入账号关键词搜索"
                     :prefix-icon="Search"
                 ></ElInput>
             </ElCol>
@@ -217,7 +217,6 @@ const save = async () => {
     addData.password = password;
     try {
         const res: any = isEdit.value ? await userEdit(addData) : await userAdd(addData);
-        formAdd.value.clearValidate();
         formAdd.value.resetFields();
         addShow.value = false;
         ElMessage.success('操作成功');
@@ -236,6 +235,7 @@ const addFun = () => {
     addData.newPwdAgain = '';
     isEdit.value = false;
     addShow.value = true;
+    formAdd.value.resetFields();
 };
 
 const editFun = (row: any) => {
@@ -247,6 +247,7 @@ const editFun = (row: any) => {
     addData.userId = row.userId;
     isEdit.value = true;
     addShow.value = true;
+    formAdd.value.resetFields();
 };
 
 // 新增编辑提交
@@ -355,7 +356,6 @@ const resetPasswordFun = async () => {
             password: md5(editPassword.password).substr(8, 16),
             userId: editPassword.userId,
         });
-        formDataRef.value.clearValidate();
         formDataRef.value.resetFields();
         ElMessage.success('操作成功');
         passwordShow.value = false;

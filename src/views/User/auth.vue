@@ -6,7 +6,7 @@
                 <ElInput
                     v-model="roleParams.roleName"
                     size="default"
-                    placeholder="请输入关键词搜索"
+                    placeholder="请输入角色关键词搜索"
                     :prefix-icon="Search"
                 ></ElInput>
             </ElCol>

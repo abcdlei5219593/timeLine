@@ -1,6 +1,6 @@
 <template>
     <div id="export-container">
-        <p class="p-title">{{ exportName() }}分析报告</p>
+        <p class="p-title">{{ exportName }}分析报告</p>
         <p class="p-date">
             时间：{{ getFormatDate(new Date(searchForm.date[0]), 'YYYY-mm-dd') }} -
             {{ getFormatDate(new Date(searchForm.date[1]), 'YYYY-mm-dd') }}
@@ -55,6 +55,10 @@ const props = defineProps({
         type: Object,
         default: () => {},
     },
+    exportName: {
+        type: String,
+        default: '',
+    },
 });
 
 const maxTableHeight = ref(150);
@@ -72,30 +76,6 @@ const handleColumnClick = (row: any, column: any, event: any) => {
 };
 const cancel = () => {
     emits('cancel');
-};
-
-const exportName = () => {
-    let name = '';
-    switch (stores.bizModule) {
-        case 1:
-            name = '空气质量';
-            break;
-        case 2:
-            name = '水质质量';
-            break;
-        case 3:
-            name = '风速';
-            break;
-        case 4:
-            name = '土壤湿度';
-            break;
-        case 5:
-            name = '雨量';
-            break;
-        default:
-            name = '';
-    }
-    return name;
 };
 
 const exportPDF = () => {
@@ -182,10 +162,14 @@ const exportPDF = () => {
         }
     }
     .el-table {
-        width: 40%;
+        width: calc(45% - 25px);
+        margin-right: 25px;
     }
     .chart {
-        width: 60%;
+        width: 55%;
+        // border: 1px solid #ededed;
+        // padding: 25px;
+        box-sizing: border-box;
     }
     .title {
         width: 100%;

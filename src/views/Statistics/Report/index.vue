@@ -47,6 +47,7 @@
                 :table-data="tableData"
                 :chart-options-arr="chartOptionsArr"
                 :search-form="searchForm"
+                :exportName="exportName()"
                 @handleColumnClick="handleColumnClick"
                 @cancel="cancel"
             ></ExportPreview>
@@ -60,7 +61,7 @@ import { getDeviceList, getStations } from '@/api/device';
 import http from '@/api/analyse';
 import { computed, ref, reactive } from 'vue';
 import VChart from 'vue-echarts';
-import { useSettingStore } from '@/store/app';
+import { useSettingStore, storeMenu } from '@/store/app';
 import dayjs from '@/helper/dayjs';
 import useTableSetting from '@/hooks/useTableSetting';
 import useDefaultDate from '@/hooks/useDefaultDate';
@@ -86,9 +87,36 @@ const tableRowClassName = ({ row, rowIndex }) => {
     }
 };
 
+const exportName = () => {
+    let name = '';
+    const stores = storeMenu();
+    switch (stores.bizModule) {
+        case 1:
+            name = '空气质量';
+            break;
+        case 2:
+            name = '水质质量';
+            break;
+        case 3:
+            name = '风速';
+            break;
+        case 4:
+            name = '土壤湿度';
+            break;
+        case 5:
+            name = '雨量';
+            break;
+        default:
+            name = '';
+    }
+    return name;
+};
+
 const chartOptions = ref({
     title: {
-        text: '',
+        text: exportName() + '指数变化曲线',
+        left: 20,
+        top: 0,
     },
     tooltip: {
         trigger: 'axis',
@@ -186,7 +214,9 @@ const handleColumnExportClick = async (row: any, column: any, event: any, index:
         // 导出使用
         const chartOptionsExport = ref({
             title: {
-                text: '',
+                // text: exportName() + '指数变化曲线',
+                // left: 20,
+                // top: 0,
             },
             tooltip: {
                 trigger: 'axis',
@@ -331,11 +361,15 @@ getDeviceListHandler();
         flex: 1;
 
         .el-table {
-            width: 40%;
+            width: calc(45% - 25px);
+            margin-right: 25px;
         }
 
         .echarts {
-            width: 60%;
+            width: 55%;
+            border: 1px solid #ededed;
+            padding: 25px;
+            box-sizing: border-box;
         }
     }
 
