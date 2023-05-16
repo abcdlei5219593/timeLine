@@ -59,10 +59,16 @@
                     class="demo-ruleForm"
                 >
                     <ElFormItem label="角色名" prop="roleName">
-                        <el-input v-model="addData.roleName" size="default" />
+                        <el-input v-model="addData.roleName" size="default" placeholder="请输入角色名" maxlength="10" />
                     </ElFormItem>
                     <ElFormItem label="备注">
-                        <el-input v-model="addData.roleDesc" type="textarea" size="default" />
+                        <el-input
+                            v-model="addData.roleDesc"
+                            type="textarea"
+                            size="default"
+                            placeholder="请输入备注"
+                            maxlength="50"
+                        />
                     </ElFormItem>
                 </ElForm>
             </div>

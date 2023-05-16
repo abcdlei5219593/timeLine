@@ -26,7 +26,7 @@
             <ElTableColumn prop="status" label="状态">
                 <template #default="scope">
                     <span v-if="scope.row.status === '1'">启用</span>
-                    <span v-else-if="scope.row.status === '2'">禁用</span>
+                    <span v-else-if="scope.row.status === '0'">禁用</span>
                 </template>
             </ElTableColumn>
             <ElTableColumn prop="remark" label="备注" />
@@ -64,7 +64,12 @@
                     class="demo-ruleForm"
                 >
                     <ElFormItem label="手机号" prop="mobilePhone">
-                        <el-input :disabled="isEdit" v-model.number="addData.mobilePhone" size="default" />
+                        <el-input
+                            :disabled="isEdit"
+                            v-model.number="addData.mobilePhone"
+                            size="default"
+                            placeholder="请输入手机号"
+                        />
                     </ElFormItem>
                     <ElFormItem v-if="!isEdit" label="密码" prop="password">
                         <el-input v-model="addData.password" type="password" size="default" placeholder="请输入密码" />
@@ -94,7 +99,13 @@
                         </el-radio-group>
                     </ElFormItem>
                     <ElFormItem label="备注说明">
-                        <el-input v-model="addData.remark" type="textarea" size="default" />
+                        <el-input
+                            v-model="addData.remark"
+                            type="textarea"
+                            size="default"
+                            maxlength="50"
+                            placeholder="请输入备注"
+                        />
                     </ElFormItem>
                 </ElForm>
             </div>
@@ -198,6 +209,7 @@ const getRoleList = async () => {
     } catch (err) {}
 };
 
+const formAdd = ref<FormInstance>();
 const save = async () => {
     const userName: any = addData.mobilePhone;
     const password: any = md5(addData.password).substr(8, 16);
@@ -205,6 +217,8 @@ const save = async () => {
     addData.password = password;
     try {
         const res: any = isEdit.value ? await userEdit(addData) : await userAdd(addData);
+        formAdd.value.clearValidate();
+        formAdd.value.resetFields();
         addShow.value = false;
         ElMessage.success('操作成功');
         getList();
@@ -218,6 +232,8 @@ const addFun = () => {
     addData.userName = '';
     addData.remark = '';
     addData.userId = '';
+    addData.password = '';
+    addData.newPwdAgain = '';
     isEdit.value = false;
     addShow.value = true;
 };
@@ -233,7 +249,6 @@ const editFun = (row: any) => {
     addShow.value = true;
 };
 
-const formAdd = ref<FormInstance>();
 // 新增编辑提交
 const submitAdd = async (formEl: FormInstance | undefined) => {
     if (!formEl) {
@@ -295,6 +310,8 @@ const rulesEdit = reactive({
 
 const showChangePassword = (row: any) => {
     editPassword.userId = row.userId;
+    editPassword.password = '';
+    editPassword.newPwdAgain = '';
     passwordShow.value = true;
 };
 
@@ -331,18 +348,20 @@ const rules = reactive({
 });
 
 // 重置密码
+const formDataRef = ref<FormInstance>();
 const resetPasswordFun = async () => {
     try {
         const res: any = await resetPassword({
             password: md5(editPassword.password).substr(8, 16),
             userId: editPassword.userId,
         });
+        formDataRef.value.clearValidate();
+        formDataRef.value.resetFields();
         ElMessage.success('操作成功');
         passwordShow.value = false;
     } catch (err) {}
 };
 
-const formDataRef = ref<FormInstance>();
 // 修改密码的提交
 const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) {
