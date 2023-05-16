@@ -14,7 +14,14 @@
                 <ElButton type="primary" size="default" @click="getList"> 搜索 </ElButton>
             </ElCol>
             <!-- <ElCol :span="3"> -->
-            <ElButton class="add-btn" type="primary" size="default" @click="addShow = true" :icon="Plus">
+            <ElButton
+                class="add-btn"
+                type="primary"
+                size="default"
+                @click="addShow = true"
+                :icon="Plus"
+                v-permission="'/addRole'"
+            >
                 新增角色
             </ElButton>
             <!-- </ElCol> -->
@@ -29,8 +36,18 @@
             <ElTableColumn prop="roleDesc" label="备注" />
             <ElTableColumn prop="address" fixed="right" label="操作" width="200">
                 <template #default="scope">
-                    <ElButton link type="primary" size="default" @click="rootFun(scope.row)"> 授权 </ElButton>
-                    <ElButton link type="primary" size="default" @click="editFun(scope.row)"> 编辑 </ElButton>
+                    <ElButton
+                        link
+                        type="primary"
+                        size="default"
+                        @click="rootFun(scope.row)"
+                        v-permission="'/authorized'"
+                    >
+                        授权
+                    </ElButton>
+                    <ElButton link type="primary" size="default" @click="editFun(scope.row)" v-permission="'/editRole'">
+                        编辑
+                    </ElButton>
                 </template>
             </ElTableColumn>
         </ElTable>
@@ -289,7 +306,7 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'userTable',
 
 <style scoped lang="scss">
 .search-row {
-    justify-content: space-between;
+    // justify-content: space-between;
 
     .add-btn {
         margin-left: auto;

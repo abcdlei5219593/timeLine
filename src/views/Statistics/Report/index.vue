@@ -12,7 +12,15 @@
                     @change="handleSearch"
                 />
             </ElCol>
-            <ElButton class="add-btn" type="primary" size="default" @click="exportFun"> 导出预览 </ElButton>
+            <ElButton
+                class="add-btn"
+                type="primary"
+                size="default"
+                @click="exportFun"
+                v-permission="'/exportStatisticsData'"
+            >
+                导出预览
+            </ElButton>
         </ElRow>
         <div class="map-container">
             <ElTable
@@ -331,7 +339,7 @@ getDeviceListHandler();
     flex-direction: column;
 
     .search-row {
-        justify-content: space-between;
+        // justify-content: space-between;
 
         .add-btn {
             margin-left: auto;

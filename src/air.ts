@@ -101,6 +101,16 @@ export const routeAirPath = (basePath: string): Menu =>
                     name: '重启',
                     isButton: true
                 },
+                {
+                    url: basePath + 'deviceAdd',
+                    name: '新增设备',
+                    isButton: true
+                },
+                {
+                    url: basePath + 'deviceEdit',
+                    name: '编辑',
+                    isButton: true
+                },
             ]
         },
         {

@@ -12,6 +12,7 @@
                     />
                 </ElSelect>
             </ElCol>
+            <!-- <ElButton class="add-btn" v-permission="'/deviceAdd'" type="primary" size="default" @click="addFun" :icon="Plus"> 新增设备 </ElButton> -->
             <ElButton class="add-btn" type="primary" size="default" @click="addFun" :icon="Plus"> 新增设备 </ElButton>
         </ElRow>
         <ElTable
@@ -83,13 +84,13 @@
         <div class="device dialog-content">
             <ElForm ref="formDataRef" :model="deviceData" :rules="rules" label-position="top">
                 <ElFormItem label="主板ID" prop="deviceId">
-                    <el-input v-model="deviceData.deviceId" size="default" placeholder="请输入" />
+                    <el-input v-model="deviceData.deviceId" size="default" placeholder="请输入" maxlength="50" />
                 </ElFormItem>
                 <ElFormItem label="微站名" prop="stationName">
-                    <el-input v-model="deviceData.stationName" size="default" placeholder="请输入" />
+                    <el-input v-model="deviceData.stationName" size="default" placeholder="请输入" maxlength="50" />
                 </ElFormItem>
                 <ElFormItem label="微站地址" prop="stationAddress">
-                    <el-input v-model="deviceData.stationAddress" size="default" placeholder="请输入" />
+                    <el-input v-model="deviceData.stationAddress" size="default" placeholder="请输入" maxlength="100" />
                 </ElFormItem>
                 <ElFormItem label="经度" prop="longitude">
                     <el-input v-model="deviceData.longitude" type="number" size="default" placeholder="请输入" />
@@ -268,7 +269,7 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'deviceTable
 
 <style scoped lang="scss">
 .search-row {
-    justify-content: space-between;
+    // justify-content: space-between;
 
     .add-btn {
         margin-left: auto;
