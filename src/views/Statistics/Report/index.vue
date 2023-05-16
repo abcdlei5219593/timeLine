@@ -124,44 +124,7 @@ const chartOptions = ref({
     color: ['#0052D9', '#029CD4'],
 });
 // getStations({pageNum: 1, pageSize: 1000, bizModule: store.currentApp.bizModule});
-// 导出使用
-const chartOptionsExport = ref({
-    title: {
-        text: '',
-    },
-    tooltip: {
-        trigger: 'axis',
-        position: ['40%', '20%'],
-    },
-    legend: {
-        data: [],
-    },
-    xAxis: {
-        type: 'category',
-        splitLine: {
-            show: false,
-        },
-        axisLabel: {
-            formatter(value) {
-                const date = value.split(' ');
-                return `${date[1]}\n${date[0]}`;
-            },
-        },
-    },
-    yAxis: {
-        type: 'value',
-        boundaryGap: [0, '100%'],
-    },
-    grid: {
-        left: 25,
-        right: 0,
-        top: 50,
-        bottom: 0,
-        containLabel: true,
-    },
-    series: [],
-    color: ['#0052D9', '#029CD4'],
-});
+
 // 导出折线图的数组
 const chartOptionsArr = reactive([]);
 const disabledDate = (time: Date) => {
@@ -220,6 +183,45 @@ const handleColumnClick = async (row: any, column: any, event: any, index: any) 
 const handleColumnExportClick = async (row: any, column: any, event: any, index: any) => {
     // eslint-disable-next-line no-new
     new Promise(async (resolve, reject) => {
+        // 导出使用
+        const chartOptionsExport = ref({
+            title: {
+                text: '',
+            },
+            tooltip: {
+                trigger: 'axis',
+                position: ['40%', '20%'],
+            },
+            legend: {
+                data: [],
+            },
+            xAxis: {
+                type: 'category',
+                splitLine: {
+                    show: false,
+                },
+                axisLabel: {
+                    formatter(value) {
+                        const date = value.split(' ');
+                        return `${date[1]}\n${date[0]}`;
+                    },
+                },
+            },
+            yAxis: {
+                type: 'value',
+                boundaryGap: [0, '100%'],
+            },
+            grid: {
+                left: 25,
+                right: 0,
+                top: 50,
+                bottom: 0,
+                containLabel: true,
+            },
+            series: [],
+            color: ['#0052D9', '#029CD4'],
+        });
+
         // 导出预览
         if (index >= 0) {
             const params = {
@@ -250,12 +252,15 @@ const handleColumnExportClick = async (row: any, column: any, event: any, index:
                             value: [dayjs(time).format('YYYY-MM-DD HH:mm'), avg],
                         }));
                 }
+                // console.log(temp, 'temptemp');
                 series.push(temp);
             }
             chartOptionsExport.value.series = series;
+            console.log(chartOptionsExport, 'chartOptionsExport');
 
             // chartOptionsArr[index].series = series;
-            const chartOptionsValue = JSON.parse(JSON.stringify(chartOptionsExport.value));
+            // const chartOptionsValue = JSON.parse(JSON.stringify(chartOptionsExport.value));
+            const chartOptionsValue = chartOptionsExport.value;
             chartOptionsArr[index] = chartOptionsValue;
         }
     });
