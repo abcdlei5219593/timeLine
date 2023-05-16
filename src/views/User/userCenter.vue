@@ -13,8 +13,16 @@
             <ElCol :span="3">
                 <ElButton type="primary" size="default" @click="getList"> 搜索 </ElButton>
             </ElCol>
-            <!-- <ElButton class="add-btn" v-permission="'/addUser'" type="primary" size="default" @click="addFun" :icon="Plus"> 新增用户 </ElButton> -->
-            <ElButton class="add-btn" type="primary" size="default" @click="addFun" :icon="Plus"> 新增用户 </ElButton>
+            <ElButton
+                class="add-btn"
+                v-permission="'/addUser'"
+                type="primary"
+                size="default"
+                @click="addFun"
+                :icon="Plus"
+            >
+                新增用户
+            </ElButton>
         </ElRow>
         <ElTable
             id="userTable"

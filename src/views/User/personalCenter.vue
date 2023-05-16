@@ -2,8 +2,16 @@
     <div class="user-top">
         <p class="user-title">个人信息</p>
         <div class="user-btn">
-            <!-- <ElButton v-if="!isEdit" class="border-btn" type="" size="default" @click="editFun" v-permission="'/editPersonMessage'"> 编辑 </ElButton> -->
-            <ElButton v-if="!isEdit" class="border-btn" type="" size="default" @click="editFun"> 编辑 </ElButton>
+            <ElButton
+                v-if="!isEdit"
+                class="border-btn"
+                type=""
+                size="default"
+                @click="editFun"
+                v-permission="'/editPersonMessage'"
+            >
+                编辑
+            </ElButton>
             <ElButton v-if="isEdit" type="" size="default" @click="cancel"> 取消 </ElButton>
             <ElButton v-if="isEdit" class="border-btn" type="" size="default" @click="submitFormEdit(formEditRef)">
                 保存

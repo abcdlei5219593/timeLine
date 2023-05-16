@@ -12,8 +12,16 @@
                     />
                 </ElSelect>
             </ElCol>
-            <!-- <ElButton class="add-btn" v-permission="'/deviceAdd'" type="primary" size="default" @click="addFun" :icon="Plus"> 新增设备 </ElButton> -->
-            <ElButton class="add-btn" type="primary" size="default" @click="addFun" :icon="Plus"> 新增设备 </ElButton>
+            <ElButton
+                class="add-btn"
+                v-permission="'/deviceAdd'"
+                type="primary"
+                size="default"
+                @click="addFun"
+                :icon="Plus"
+            >
+                新增设备
+            </ElButton>
         </ElRow>
         <ElTable
             id="deviceTable"
@@ -56,8 +64,15 @@
                     <!-- <ElButton link type="primary" size="default" class="red-text-btn">
                         重启
                     </ElButton> -->
-                    <!-- <ElButton v-permission="'/deviceEdit'" link type="primary" size="default" @click="editFun(scope.row)"> -->
-                    <ElButton link type="primary" size="default" @click="editFun(scope.row)"> 编辑 </ElButton>
+                    <ElButton
+                        v-permission="'/deviceEdit'"
+                        link
+                        type="primary"
+                        size="default"
+                        @click="editFun(scope.row)"
+                    >
+                        编辑
+                    </ElButton>
                 </template>
             </ElTableColumn>
         </ElTable>
@@ -186,10 +201,10 @@ const stationType: any = ref([
         label: 'ptu监测',
         value: 4,
     },
-    {
-        label: '雨量监测',
-        value: 5,
-    },
+    // {
+    //     label: '雨量监测',
+    //     value: 5,
+    // },
 ]);
 
 const selectChange = () => {
