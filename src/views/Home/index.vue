@@ -91,10 +91,23 @@ const option = ref({
 
     },
     xAxis: {
+        axisLine: {
 
+        }
     },
-    yAxis: {},
+    yAxis: {
+        axisLine: {
+
+        }
+    },
     series: [],
+    grid: {
+        left: 25,
+        right: 0,
+        top: 10,
+        bottom: 10,
+        containLabel: true,
+    },
 });
 
 const mesureLevel = computed(() => getLevelByMesure(AQI.value));
@@ -112,43 +125,39 @@ const searchForm = {
 const drawBar = async () => {
 
     const data = await http[appStore.currentApp.url].get24AvgData({ measure: measure.value });
-    option.value = {
-        xAxis: {
-            axisLabel: {
-                formatter(value) {
-                    return value.split(' ')[1];
-                },
-            }, // item => dayjs(item.time).format('DD日HH时')
-            data: data.map((item) => dayjs(item.time).format('YYYY-MM-DD DD日HH时')),
-        },
-        tooltip: {
-            show: true,
-        },
-        yAxis: {
-            show: true,
-            type: 'value',
-            position: 'left',
-        },
-        grid: {
-            left: 25,
-            right: 0,
-            top: 10,
-            bottom: 0,
-            containLabel: true,
-        },
-        series: [
-            {
-                type: 'bar',
-                data: data.map(item => ({
-                    value: item.avg,
-                    itemStyle: {
-                        color: getLevelByMesure(item.avg)?.color
-                    }
-                })),
+    if(data && data.length) {
+        option.value = {
+            xAxis: {
+                axisLabel: {
+                    formatter(value) {
+                        return value.split(' ')[1];
+                    },
+                }, // item => dayjs(item.time).format('DD日HH时')
+                data: data.map((item) => dayjs(item.time).format('YYYY-MM-DD DD日HH时')),
             },
-        ],
-        color: ['#07A872','#F5BA18']
-    };
+            tooltip: {
+                show: true,
+            },
+            yAxis: {
+                show: true,
+                type: 'value',
+                position: 'left',
+            },
+
+            series: [
+                {
+                    type: 'bar',
+                    data: data.map(item => ({
+                        value: item.avg,
+                        itemStyle: {
+                            color: getLevelByMesure(item.avg)?.color
+                        }
+                    })),
+                },
+            ],
+            color: ['#07A872','#F5BA18']
+        };
+    }
 };
 onMounted(() => {
     drawBar();

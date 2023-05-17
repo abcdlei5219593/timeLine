@@ -11,7 +11,7 @@ import { routeWindPath } from './wind';
 import { routePtuPath } from './ptu';
 import { routeRainPath } from './rain';
 import { routeUserPath } from './user';
-
+import { getWindDirection } from '@/helper/index';
 
 export const AMAP_KEY = '859de6e2d55150331e795f3cbfe21915';
 export const SECURITY_CODE = '318d47264ccd25eb7bd2d4cfeda3b50c';
@@ -27,7 +27,7 @@ export const APP_LIST: Menu = [
             AQIName: 'AQI',
             categoryName: '空气质量',
             stasticsColumns: [
-                { prop: 'api', label: 'AQI', width: 60 },
+                { prop: 'aqi', label: 'AQI', width: 60 },
                 { prop: 'pm10', label: 'PM10（ug/m3）', width: 100 },
                 { prop: 'pm25', label: 'PM2.5（ug/m3）', width: 100 },
                 { prop: 'co', label: '一氧化碳（ug/m3）', width: 100 },
@@ -45,21 +45,26 @@ export const APP_LIST: Menu = [
                 [
                     { prop: 'aqi', label: 'AQI' },
                     { prop: 'pm25', label: 'PM2.5' },
+                    { prop: 'db', label: '噪音' },
                 ],
                 [
                     { prop: 'co', label: '一氧化碳' },
                     { prop: 'pm10', label: 'PM10' },
+                    { prop: 'voc', label: 'VOC' },
                 ],
                 [
                     { prop: 'so2', label: '二氧化硫' },
                     { prop: 'temp', label: '温度' },
+                    { prop: 'ap', label: '气压' },
                 ],
                 [
                     { prop: 'no2', label: '二氧化氮' },
                     { prop: 'humi', label: '湿度' },
+                    { prop: 'prcp', label: '雨量' },
                 ],
                 [
                     { prop: 'h2s', label: '臭氧' },
+                    { prop: 'o3', label: 'O3' },
                 ]
             ]
 
@@ -128,6 +133,9 @@ export const APP_LIST: Menu = [
                 ],
                 [
                     { prop: 'wl', label: '风力' },
+                ],
+                [
+                    { prop: 'wd', label: '风向', render: value => getWindDirection(value)},
                 ],
             ]
         }

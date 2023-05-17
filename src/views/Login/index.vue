@@ -1,9 +1,13 @@
 <template>
     <div v-if="!isFromThirdPlatform" class="login">
         <div class="login-main">
-            <p class="login-title">大气污染监测系统</p>
+            <p class="login-title">
+                大气污染监测系统
+            </p>
             <div class="login-box">
-                <p class="login-text">账号登录</p>
+                <p class="login-text">
+                    账号登录
+                </p>
                 <ElForm ref="formDataRef" :model="formData" :rules="rules">
                     <ElFormItem label="" prop="userName">
                         <ElInput v-model="formData.userName" size="large" placeholder="请输入账号/手机号">
@@ -45,10 +49,10 @@
 </template>
 
 <script setup lang="ts">
-import { ElButton, ElInput, ElForm, ElFormItem, FormInstance, ElLoading, ElMessage } from 'element-plus';
+import { ElButton, ElInput, ElForm, ElFormItem, FormInstance, ElMessage } from 'element-plus';
 import { ref, reactive, getCurrentInstance } from 'vue';
 import { FormType } from './ModelDefines';
-import { login, listUserModule, ssoLogin } from '@/api/login';
+import { login, listUserModule } from '@/api/login';
 import md5 from 'js-md5';
 import { storeMenu, useUserStore } from '@/store/app';
 import Cookie from 'js-cookie';
@@ -57,14 +61,12 @@ import { basic } from '@/api/user';
 import Qrcode from './Qrcode.vue';
 import { getDeepTreeData } from '@/utils/common';
 import { APP_LIST } from '@/config';
-import { GetQueryString } from '@/helper/index';
+
 // import QC from 'qc';
 
 const router = useRouter();
 const showWeixin = ref<boolean>(false);
 const loading = ref<boolean>(false);
-
-const isFromThirdPlatform = ref(false);
 
 const formDataRef = ref<FormInstance>();
 const rules = reactive({
@@ -149,32 +151,6 @@ const getUser = async () => {
     } catch (err) {}
 };
 
-const thirdPlatformLogin = async () => {
-    // eslint-disable-next-line new-cap
-    const ticket = GetQueryString('thirdTicket');
-    if (ticket) {
-        let loading = ElLoading.service({
-            lock: true,
-            text: '登录中...',
-        });
-        isFromThirdPlatform.value = true;
-        try {
-            const res = await ssoLogin({ ticket });
-            Cookie.set('token', res.token);
-            const userMenu = await getUserMenu();
-            await getUser();
-            if (userMenu.length) {
-                router.push(userMenu[0].children[0].url);
-            } else {
-                ElMessage.error('您没有系统操作权限，请联系管理员！');
-            }
-        } finally {
-            loading.close();
-        }
-    }
-};
-
-thirdPlatformLogin();
 </script>
 
 <style scoped lang="scss">

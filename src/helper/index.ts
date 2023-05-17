@@ -92,3 +92,26 @@ export function GetQueryString(name: string): string | null {
     }
     return null;
 }
+
+// 获取风向
+export const getWindDirection = (num: number) => {
+    let result = '';
+    if(+num === 0 || +num === 360) {
+        result = '北风';
+    }else if (+num > 0 && +num < 90) {
+        result = '东北风';
+    }else if (+num === 90) {
+        result = '东风';
+    }else if (+num > 90 && +num < 180) {
+        result = '东南风';
+    }else if (+num === 180) {
+        result = '南风';
+    }else if (+num > 180 && +num < 270) {
+        result = '西南风';
+    }else if (+num === 270) {
+        result = '西风';
+    }else if (+num > 270 && +num < 269) {
+        result = '西北风';
+    }
+    return result;
+};

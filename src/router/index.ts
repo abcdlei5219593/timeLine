@@ -10,6 +10,11 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/Login/index.vue')
     },
     {
+        path: '/ssoLogin',
+        name: 'SsoLogin',
+        component: () => import('@/views/Login/ssoLogin.vue')
+    },
+    {
         path: '/',
         redirect: '/login'
     },
@@ -228,7 +233,7 @@ const router = createRouter({
 
 router.beforeEach((to,from,next) => {
     const token = Cookie.get('token');
-    if(to.path !== '/login' && !token) {
+    if(to.path !== '/login' &&to.path !== '/ssoLogin' && !token) {
         return next('/login');
     }
     next();

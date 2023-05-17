@@ -53,7 +53,7 @@
                                 :key="idx"
                             >
                                 <span class="value">{{ column.label }}</span>
-                                <span class="label mb24">{{ currentMaker.data[column.prop] }}</span>
+                                <span class="label mb24">{{ column.render ? column.render(currentMaker.data[column.prop]) : currentMaker.data[column.prop] }}</span>
                             </template>
                         </li>
                     </ul>
