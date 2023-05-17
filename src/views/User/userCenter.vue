@@ -264,7 +264,6 @@ const editFun = (row: any) => {
     addData.userId = row.userId;
     isEdit.value = true;
     addShow.value = true;
-    formAdd.value.resetFields();
 };
 
 // 新增编辑提交
