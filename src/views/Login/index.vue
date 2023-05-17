@@ -259,6 +259,26 @@ thirdPlatformLogin();
                 height: 20px;
                 line-height: 20px;
                 color: #666666;
+                position: relative;
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    width: 120px;
+                    height: 1px;
+                    border-top: 1px dotted #dcdcdc;
+                    left: 0;
+                    top: 10px;
+                }
+                &::after {
+                    content: '';
+                    position: absolute;
+                    width: 120px;
+                    height: 1px;
+                    border-top: 1px dotted #dcdcdc;
+                    right: 0;
+                    top: 10px;
+                }
             }
 
             .login-method {
