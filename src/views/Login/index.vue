@@ -205,6 +205,7 @@ thirdPlatformLogin();
             color: #fff;
             text-align: center;
             margin-bottom: 40px;
+            letter-spacing: 2px;
         }
 
         .login-box {
@@ -220,6 +221,7 @@ thirdPlatformLogin();
                 font-size: 30px;
                 color: #000;
                 font-weight: 600;
+                letter-spacing: 2px;
             }
 
             .el-form {
@@ -260,6 +262,7 @@ thirdPlatformLogin();
                 line-height: 20px;
                 color: #666666;
                 position: relative;
+                letter-spacing: 1px;
 
                 &::before {
                     content: '';
