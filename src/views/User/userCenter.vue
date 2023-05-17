@@ -6,14 +6,23 @@
                 <ElInput
                     v-model="userParams.userName"
                     size="default"
-                    placeholder="请输入关键词搜索"
+                    placeholder="请输入账号关键词搜索"
                     :prefix-icon="Search"
                 ></ElInput>
             </ElCol>
             <ElCol :span="3">
                 <ElButton type="primary" size="default" @click="getList"> 搜索 </ElButton>
             </ElCol>
-            <ElButton class="add-btn" type="primary" size="default" @click="addFun" :icon="Plus"> 新增用户 </ElButton>
+            <ElButton
+                class="add-btn"
+                v-permission="'/addUser'"
+                type="primary"
+                size="default"
+                @click="addFun"
+                :icon="Plus"
+            >
+                新增用户
+            </ElButton>
         </ElRow>
         <ElTable
             id="userTable"
@@ -32,8 +41,16 @@
             <ElTableColumn prop="remark" label="备注" />
             <ElTableColumn prop="address" fixed="right" label="操作" width="200">
                 <template #default="scope">
-                    <ElButton link type="primary" size="default" @click="editFun(scope.row)"> 编辑 </ElButton>
-                    <ElButton link type="primary" size="default" @click="showChangePassword(scope.row)">
+                    <ElButton link type="primary" size="default" @click="editFun(scope.row)" v-permission="'/editUser'">
+                        编辑
+                    </ElButton>
+                    <ElButton
+                        link
+                        type="primary"
+                        size="default"
+                        @click="showChangePassword(scope.row)"
+                        v-permission="'/changePassword'"
+                    >
                         密码修改
                     </ElButton>
                 </template>
@@ -217,7 +234,6 @@ const save = async () => {
     addData.password = password;
     try {
         const res: any = isEdit.value ? await userEdit(addData) : await userAdd(addData);
-        formAdd.value.clearValidate();
         formAdd.value.resetFields();
         addShow.value = false;
         ElMessage.success('操作成功');
@@ -236,6 +252,7 @@ const addFun = () => {
     addData.newPwdAgain = '';
     isEdit.value = false;
     addShow.value = true;
+    formAdd.value.resetFields();
 };
 
 const editFun = (row: any) => {
@@ -247,6 +264,7 @@ const editFun = (row: any) => {
     addData.userId = row.userId;
     isEdit.value = true;
     addShow.value = true;
+    formAdd.value.resetFields();
 };
 
 // 新增编辑提交
@@ -355,7 +373,6 @@ const resetPasswordFun = async () => {
             password: md5(editPassword.password).substr(8, 16),
             userId: editPassword.userId,
         });
-        formDataRef.value.clearValidate();
         formDataRef.value.resetFields();
         ElMessage.success('操作成功');
         passwordShow.value = false;
@@ -386,7 +403,7 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'userTable',
 
 <style scoped lang="scss">
 .search-row {
-    justify-content: space-between;
+    // justify-content: space-between;
 
     .add-btn {
         margin-left: auto;

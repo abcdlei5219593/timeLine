@@ -12,7 +12,16 @@
                     />
                 </ElSelect>
             </ElCol>
-            <ElButton class="add-btn" type="primary" size="default" @click="addFun" :icon="Plus"> 新增设备 </ElButton>
+            <ElButton
+                class="add-btn"
+                v-permission="'/deviceAdd'"
+                type="primary"
+                size="default"
+                @click="addFun"
+                :icon="Plus"
+            >
+                新增设备
+            </ElButton>
         </ElRow>
         <ElTable
             id="deviceTable"
@@ -55,8 +64,15 @@
                     <!-- <ElButton link type="primary" size="default" class="red-text-btn">
                         重启
                     </ElButton> -->
-                    <!-- <ElButton v-permission="'/deviceEdit'" link type="primary" size="default" @click="editFun(scope.row)"> -->
-                    <ElButton link type="primary" size="default" @click="editFun(scope.row)"> 编辑 </ElButton>
+                    <ElButton
+                        v-permission="'/deviceEdit'"
+                        link
+                        type="primary"
+                        size="default"
+                        @click="editFun(scope.row)"
+                    >
+                        编辑
+                    </ElButton>
                 </template>
             </ElTableColumn>
         </ElTable>
@@ -83,13 +99,13 @@
         <div class="device dialog-content">
             <ElForm ref="formDataRef" :model="deviceData" :rules="rules" label-position="top">
                 <ElFormItem label="主板ID" prop="deviceId">
-                    <el-input v-model="deviceData.deviceId" size="default" placeholder="请输入" />
+                    <el-input v-model="deviceData.deviceId" size="default" placeholder="请输入" maxlength="50" />
                 </ElFormItem>
                 <ElFormItem label="微站名" prop="stationName">
-                    <el-input v-model="deviceData.stationName" size="default" placeholder="请输入" />
+                    <el-input v-model="deviceData.stationName" size="default" placeholder="请输入" maxlength="50" />
                 </ElFormItem>
                 <ElFormItem label="微站地址" prop="stationAddress">
-                    <el-input v-model="deviceData.stationAddress" size="default" placeholder="请输入" />
+                    <el-input v-model="deviceData.stationAddress" size="default" placeholder="请输入" maxlength="100" />
                 </ElFormItem>
                 <ElFormItem label="经度" prop="longitude">
                     <el-input v-model="deviceData.longitude" type="number" size="default" placeholder="请输入" />
@@ -185,10 +201,10 @@ const stationType: any = ref([
         label: 'ptu监测',
         value: 4,
     },
-    {
-        label: '雨量监测',
-        value: 5,
-    },
+    // {
+    //     label: '雨量监测',
+    //     value: 5,
+    // },
 ]);
 
 const selectChange = () => {
@@ -268,7 +284,7 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'deviceTable
 
 <style scoped lang="scss">
 .search-row {
-    justify-content: space-between;
+    // justify-content: space-between;
 
     .add-btn {
         margin-left: auto;

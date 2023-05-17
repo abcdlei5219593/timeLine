@@ -12,7 +12,15 @@
                     @change="handleSearch"
                 />
             </ElCol>
-            <ElButton class="add-btn" type="primary" size="default" @click="exportFun"> 导出预览 </ElButton>
+            <ElButton
+                class="add-btn"
+                type="primary"
+                size="default"
+                @click="exportFun"
+                v-permission="'/exportStatisticsData'"
+            >
+                导出预览
+            </ElButton>
         </ElRow>
         <div class="map-container">
             <ElTable
@@ -47,6 +55,7 @@
                 :table-data="tableData"
                 :chart-options-arr="chartOptionsArr"
                 :search-form="searchForm"
+                :exportName="exportName()"
                 @handleColumnClick="handleColumnClick"
                 @cancel="cancel"
             ></ExportPreview>
@@ -60,7 +69,7 @@ import { getDeviceList, getStations } from '@/api/device';
 import http from '@/api/analyse';
 import { computed, ref, reactive } from 'vue';
 import VChart from 'vue-echarts';
-import { useSettingStore } from '@/store/app';
+import { useSettingStore, storeMenu } from '@/store/app';
 import dayjs from '@/helper/dayjs';
 import useTableSetting from '@/hooks/useTableSetting';
 import useDefaultDate from '@/hooks/useDefaultDate';
@@ -86,9 +95,36 @@ const tableRowClassName = ({ row, rowIndex }) => {
     }
 };
 
+const exportName = () => {
+    let name = '';
+    const stores = storeMenu();
+    switch (stores.bizModule) {
+        case 1:
+            name = '空气质量';
+            break;
+        case 2:
+            name = '水质质量';
+            break;
+        case 3:
+            name = '风速';
+            break;
+        case 4:
+            name = '土壤湿度';
+            break;
+        case 5:
+            name = '雨量';
+            break;
+        default:
+            name = '';
+    }
+    return name;
+};
+
 const chartOptions = ref({
     title: {
-        text: '',
+        text: exportName() + '指数变化曲线',
+        left: 20,
+        top: 0,
     },
     tooltip: {
         trigger: 'axis',
@@ -124,44 +160,7 @@ const chartOptions = ref({
     color: ['#0052D9', '#029CD4'],
 });
 // getStations({pageNum: 1, pageSize: 1000, bizModule: store.currentApp.bizModule});
-// 导出使用
-const chartOptionsExport = ref({
-    title: {
-        text: '',
-    },
-    tooltip: {
-        trigger: 'axis',
-        position: ['40%', '20%'],
-    },
-    legend: {
-        data: [],
-    },
-    xAxis: {
-        type: 'category',
-        splitLine: {
-            show: false,
-        },
-        axisLabel: {
-            formatter(value) {
-                const date = value.split(' ');
-                return `${date[1]}\n${date[0]}`;
-            },
-        },
-    },
-    yAxis: {
-        type: 'value',
-        boundaryGap: [0, '100%'],
-    },
-    grid: {
-        left: 25,
-        right: 0,
-        top: 50,
-        bottom: 0,
-        containLabel: true,
-    },
-    series: [],
-    color: ['#0052D9', '#029CD4'],
-});
+
 // 导出折线图的数组
 const chartOptionsArr = reactive([]);
 const disabledDate = (time: Date) => {
@@ -220,6 +219,47 @@ const handleColumnClick = async (row: any, column: any, event: any, index: any) 
 const handleColumnExportClick = async (row: any, column: any, event: any, index: any) => {
     // eslint-disable-next-line no-new
     new Promise(async (resolve, reject) => {
+        // 导出使用
+        const chartOptionsExport = ref({
+            title: {
+                // text: exportName() + '指数变化曲线',
+                // left: 20,
+                // top: 0,
+            },
+            tooltip: {
+                trigger: 'axis',
+                position: ['40%', '20%'],
+            },
+            legend: {
+                data: [],
+            },
+            xAxis: {
+                type: 'category',
+                splitLine: {
+                    show: false,
+                },
+                axisLabel: {
+                    formatter(value) {
+                        const date = value.split(' ');
+                        return `${date[1]}\n${date[0]}`;
+                    },
+                },
+            },
+            yAxis: {
+                type: 'value',
+                boundaryGap: [0, '100%'],
+            },
+            grid: {
+                left: 25,
+                right: 0,
+                top: 50,
+                bottom: 0,
+                containLabel: true,
+            },
+            series: [],
+            color: ['#0052D9', '#029CD4'],
+        });
+
         // 导出预览
         if (index >= 0) {
             const params = {
@@ -250,12 +290,15 @@ const handleColumnExportClick = async (row: any, column: any, event: any, index:
                             value: [dayjs(time).format('YYYY-MM-DD HH:mm'), avg],
                         }));
                 }
+                // console.log(temp, 'temptemp');
                 series.push(temp);
             }
             chartOptionsExport.value.series = series;
+            console.log(chartOptionsExport, 'chartOptionsExport');
 
             // chartOptionsArr[index].series = series;
-            const chartOptionsValue = JSON.parse(JSON.stringify(chartOptionsExport.value));
+            // const chartOptionsValue = JSON.parse(JSON.stringify(chartOptionsExport.value));
+            const chartOptionsValue = chartOptionsExport.value;
             chartOptionsArr[index] = chartOptionsValue;
         }
     });
@@ -296,7 +339,7 @@ getDeviceListHandler();
     flex-direction: column;
 
     .search-row {
-        justify-content: space-between;
+        // justify-content: space-between;
 
         .add-btn {
             margin-left: auto;
@@ -326,11 +369,15 @@ getDeviceListHandler();
         flex: 1;
 
         .el-table {
-            width: 40%;
+            width: calc(45% - 25px);
+            margin-right: 25px;
         }
 
         .echarts {
-            width: 60%;
+            width: 55%;
+            border: 1px solid #ededed;
+            padding: 25px;
+            box-sizing: border-box;
         }
     }
 

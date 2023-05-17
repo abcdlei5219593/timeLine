@@ -181,6 +181,7 @@ const getUser = async () => {
             color: #fff;
             text-align: center;
             margin-bottom: 40px;
+            letter-spacing: 2px;
         }
 
         .login-box {
@@ -196,6 +197,7 @@ const getUser = async () => {
                 font-size: 30px;
                 color: #000;
                 font-weight: 600;
+                letter-spacing: 2px;
             }
 
             .el-form {
@@ -235,6 +237,27 @@ const getUser = async () => {
                 height: 20px;
                 line-height: 20px;
                 color: #666666;
+                position: relative;
+                letter-spacing: 1px;
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    width: 120px;
+                    height: 1px;
+                    border-top: 1px dotted #dcdcdc;
+                    left: 0;
+                    top: 10px;
+                }
+                &::after {
+                    content: '';
+                    position: absolute;
+                    width: 120px;
+                    height: 1px;
+                    border-top: 1px dotted #dcdcdc;
+                    right: 0;
+                    top: 10px;
+                }
             }
 
             .login-method {

@@ -49,7 +49,12 @@
             <ElTableColumn prop="stationName" label="微站名称" />
             <ElTableColumn prop="status" label="值" />
             <ElTableColumn prop="sensorCode" label="传感器类型" />
-            <ElTableColumn prop="alarmDesc" label="状态" />
+            <ElTableColumn prop="status" label="状态">
+                <template #default="scope">
+                    <span v-if="scope.row.status === 1">告警中</span>
+                    <span v-else-if="scope.row.status === 0">已关闭</span>
+                </template>
+            </ElTableColumn>
             <!-- <ElTableColumn prop="type" label="告警类型">
                 <template #default="scope">
                     <span v-if="scope.row.type === 1">设备告警</span>
@@ -122,8 +127,10 @@ const AirWarnParams = reactive<AirWarnParamsType>({
 const total = ref<number>(0);
 const timeChange = (val: any) => {
     date.value = val;
-    AirWarnParams.startTime = val[0];
-    AirWarnParams.endTime = val[1];
+    AirWarnParams.startTime = getFormatDate(new Date(val[0]), 'YYYY-mm-dd HH:MM:SS');
+    AirWarnParams.endTime = getFormatDate(new Date(val[1]), 'YYYY-mm-dd HH:MM:SS');
+    AirWarnParams.pageNum = 1;
+    getList();
 };
 
 const getList = async () => {
@@ -193,7 +200,8 @@ const getStationList = async () => {
 
 // 获取传感器类型
 const getMeasureListInfo = async () => {
-    sensorTypeOptions.value = await getMeasureList({ bizModule: store.bizModule });
+    const res: any = await getMeasureList({ bizModule: store.bizModule });
+    sensorTypeOptions.value = [{ name: '全部', code: '' }, ...res];
 };
 
 onMounted(() => {

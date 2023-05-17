@@ -28,18 +28,14 @@ export const APP_LIST: Menu = [
             categoryName: '空气质量',
             stasticsColumns: [
                 { prop: 'aqi', label: 'AQI', width: 60 },
-                { prop: 'pm10', label: 'PM10（ug/m3）', width: 100 },
-                { prop: 'pm25', label: 'PM2.5（ug/m3）', width: 100 },
-                { prop: 'co', label: '一氧化碳（ug/m3）', width: 100 },
-                { prop: 'no2', label: '二氧化氮（ug/m3）', width: 100 },
-                { prop: 'o3', label: '臭氧（ug/m3）', width: 100 },
-                { prop: 'so2', label: '氧化硫（ug/m3）', width: 100 },
-                { prop: 'temp', label: '温度', width: 100 },
-                { prop: 'humi', label: '湿度', width: 100 },
-                { prop: 'wsp', label: '风速', width: 100 },
-                { prop: '', label: '风压', width: 100 },
-                { prop: 'wd', label: '风向', width: 60 },
-                { prop: 'wsp', label: '风速', width: 100 },
+                { prop: 'pm10', label: 'PM10（ug/m3）', width: 150 },
+                { prop: 'pm25', label: 'PM2.5（ug/m3）', width: 150 },
+                { prop: 'co', label: '一氧化碳（ug/m3）', width: 150 },
+                { prop: 'no2', label: '二氧化氮（ug/m3）', width: 150 },
+                { prop: 'o3', label: '臭氧（ug/m3）', width: 150 },
+                { prop: 'so2', label: '二氧化硫（ug/m3）', width: 150 },
+                { prop: 'temp', label: '温度', width: 150 },
+                { prop: 'humi', label: '湿度', width: 150 },
             ],
             markerWindowField: [
                 [
@@ -124,8 +120,8 @@ export const APP_LIST: Menu = [
             AQIName: 'CWQI',
             categoryName: '风速',
             stasticsColumns: [
-                { prop: 'wsp', label: '风速m/s'},
-                { prop: 'wl', label: '风力' , render: value => value ? `${value}级` : '/' },
+                { prop: 'wsp', label: '风速m/s' },
+                { prop: 'wl', label: '风力', render: value => value ? `${value}级` : '/' },
             ],
             markerWindowField: [
                 [
