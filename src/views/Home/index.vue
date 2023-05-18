@@ -11,6 +11,9 @@
                         <span>
                             风速： {{ AQI?.wsp }}m/s
                         </span>
+                        <span v-if="AQI?.wd">
+                            风向：{{ getWindDirection(AQI?.wd) }} ({{ AQI?.wd }})
+                        </span>
                         <span>
                             风力： {{ AQI?.wl }}级
                         </span>
@@ -84,7 +87,7 @@ import HeatMap from '../Statistics/HeatMap/HeatMap.vue';
 import dayjs from '@/helper/dayjs';
 import { getCurrentTime } from '@/helper/index';
 import { computed } from 'vue';
-import { getLevelByMesure } from '@/helper/index';
+import { getLevelByMesure, getWindDirection } from '@/helper/index';
 import emptyImage from '@/assets/img/empty.png';
 
 const appStore = useSettingStore();
