@@ -55,7 +55,7 @@
                 :table-data="tableData"
                 :chart-options-arr="chartOptionsArr"
                 :search-form="searchForm"
-                :exportName="exportName()"
+                :exportName="store.currentApp.meta.categoryName"
                 @handleColumnClick="handleColumnClick"
                 @cancel="cancel"
             ></ExportPreview>
@@ -95,34 +95,9 @@ const tableRowClassName = ({ row, rowIndex }) => {
     }
 };
 
-const exportName = () => {
-    let name = '';
-    const stores = storeMenu();
-    switch (stores.bizModule) {
-        case 1:
-            name = '空气质量';
-            break;
-        case 2:
-            name = '水质质量';
-            break;
-        case 3:
-            name = '风速';
-            break;
-        case 4:
-            name = '土壤湿度';
-            break;
-        case 5:
-            name = '雨量';
-            break;
-        default:
-            name = '';
-    }
-    return name;
-};
-
 const chartOptions = ref({
     title: {
-        text: exportName() + '指数变化曲线',
+        text: store.currentApp.meta.categoryTitle,
         left: 20,
         top: 0,
     },
@@ -151,7 +126,7 @@ const chartOptions = ref({
     },
     grid: {
         left: 25,
-        right: 0,
+        right: 20,
         top: 50,
         bottom: 0,
         containLabel: true,
@@ -251,7 +226,7 @@ const handleColumnExportClick = async (row: any, column: any, event: any, index:
             },
             grid: {
                 left: 25,
-                right: 0,
+                right: 40,
                 top: 50,
                 bottom: 0,
                 containLabel: true,
@@ -376,7 +351,7 @@ getDeviceListHandler();
         .echarts {
             width: 55%;
             border: 1px solid #ededed;
-            padding: 25px;
+            padding: 18px 20px 20px 20px;
             box-sizing: border-box;
         }
     }

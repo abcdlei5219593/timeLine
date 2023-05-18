@@ -26,6 +26,7 @@ export const APP_LIST: Menu = [
         meta: {
             AQIName: 'AQI',
             categoryName: '空气质量',
+            categoryTitle: '空气质量指数变化曲线',
             stasticsColumns: [
                 { prop: 'aqi', label: 'AQI', width: 60 },
                 { prop: 'pm10', label: 'PM10（ug/m3）', width: 150 },
@@ -75,6 +76,7 @@ export const APP_LIST: Menu = [
         meta: {
             AQIName: 'CWQI',
             categoryName: '水质质量',
+            categoryTitle: '水质质量指数变化曲线',
             stasticsColumns: [
                 { prop: 'cwqi', label: 'CWQI' },
                 { prop: 'ph', label: 'PH' },
@@ -106,11 +108,6 @@ export const APP_LIST: Menu = [
         }
     },
     {
-        url: '/app/pm',
-        name: '可吸入颗粒物探测',
-        children: routeAirPath('/app/pm')
-    },
-    {
         url: '/app/wind',
         bizModule: 3,
         name: '风测量管理',
@@ -119,6 +116,7 @@ export const APP_LIST: Menu = [
         meta: {
             AQIName: 'CWQI',
             categoryName: '风速',
+            categoryTitle: '风速变化曲线',
             stasticsColumns: [
                 { prop: 'wsp', label: '风速m/s' },
                 { prop: 'wl', label: '风力', render: value => value ? `${value}级` : '/' },
@@ -131,7 +129,7 @@ export const APP_LIST: Menu = [
                     { prop: 'wl', label: '风力' },
                 ],
                 [
-                    { prop: 'wd', label: '风向', render: value => getWindDirection(value)},
+                    { prop: 'wd', label: '风向', render: value => getWindDirection(value) },
                 ],
             ]
         }
@@ -144,6 +142,7 @@ export const APP_LIST: Menu = [
         meta: {
             AQIName: 'CWQI',
             categoryName: '降水',
+            categoryTitle: '雨量变化曲线',
             stasticsColumns: [
                 { prop: 'cwqi', label: 'CWQI' },
                 { prop: 'ph', label: 'PH' },
@@ -182,6 +181,7 @@ export const APP_LIST: Menu = [
         meta: {
             AQIName: 'CWQI',
             categoryName: 'PTU',
+            categoryTitle: '土壤湿度变化曲线',
             stasticsColumns: [
                 { prop: 'cwqi', label: 'CWQI' },
                 { prop: 'ph', label: 'PH' },
