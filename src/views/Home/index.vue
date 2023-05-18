@@ -161,6 +161,13 @@ const drawBar = async () => {
                     })),
                 },
             ],
+            grid: {
+                left: 25,
+                right: 0,
+                top: 10,
+                bottom: 0,
+                containLabel: true,
+            },
             color: ['#07A872','#F5BA18']
         };
     }
