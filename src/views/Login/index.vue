@@ -9,14 +9,25 @@
                 <p class="login-text">账号登录</p>
                 <ElForm ref="formDataRef" :model="formData" :rules="rules">
                     <ElFormItem label="" prop="userName">
-                        <ElInput v-model="formData.userName" size="large" placeholder="请输入账号/手机号">
+                        <ElInput
+                            v-model="formData.userName"
+                            size="large"
+                            placeholder="请输入账号/手机号"
+                            maxlength="20"
+                        >
                             <template #prefix>
                                 <i class="iconfont icon-zhanghao"></i>
                             </template>
                         </ElInput>
                     </ElFormItem>
                     <ElFormItem label="" prop="password">
-                        <ElInput v-model="formData.password" type="password" size="large" placeholder="请输入密码">
+                        <ElInput
+                            v-model="formData.password"
+                            type="password"
+                            size="large"
+                            placeholder="请输入密码"
+                            maxlength="20"
+                        >
                             <template #prefix>
                                 <i class="iconfont icon-mima"></i>
                             </template>
