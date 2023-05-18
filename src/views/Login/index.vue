@@ -2,12 +2,11 @@
     <div v-if="!isFromThirdPlatform" class="login">
         <div class="login-main">
             <p class="login-title">
-                大气污染监测系统
+                <img class="login-logo" src="@/assets/login/logo.png" />
+                智慧环境监测系统
             </p>
             <div class="login-box">
-                <p class="login-text">
-                    账号登录
-                </p>
+                <p class="login-text">账号登录</p>
                 <ElForm ref="formDataRef" :model="formData" :rules="rules">
                     <ElFormItem label="" prop="userName">
                         <ElInput v-model="formData.userName" size="large" placeholder="请输入账号/手机号">
@@ -150,7 +149,6 @@ const getUser = async () => {
         store.getUserInfo(res);
     } catch (err) {}
 };
-
 </script>
 
 <style scoped lang="scss">
@@ -169,11 +167,11 @@ const getUser = async () => {
 
     .login-main {
         width: 480px;
-        height: 550px;
+        height: 598px;
         position: absolute;
         left: 50%;
         top: 50%;
-        margin: -275px 0 0 -240px;
+        margin: -319px 0 0 -240px;
 
         .login-title {
             font-size: 36px;
@@ -182,6 +180,17 @@ const getUser = async () => {
             text-align: center;
             margin-bottom: 40px;
             letter-spacing: 2px;
+            display: flex;
+            height: 72px;
+            line-height: 72px;
+            margin-bottom: 40px;
+            justify-content: center;
+
+            .login-logo {
+                width: 80px;
+                height: 72px;
+                margin-right: 12px;
+            }
         }
 
         .login-box {

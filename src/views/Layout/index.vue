@@ -3,11 +3,11 @@
         <ElHeader>
             <ElContainer>
                 <div class="logo fs-18 fw-600">
-                    大气监测管理系统
+                    <img class="logo-img" src="@/assets/login/header-logo.png" />
+                    智慧环境监测系统
                 </div>
                 <section>
-                    <AppBar :menu-list="appList">
-                    </AppBar>
+                    <AppBar :menu-list="appList"> </AppBar>
                 </section>
                 <HeaderRight></HeaderRight>
             </ElContainer>
@@ -30,8 +30,7 @@
             </ElAside>
             <ElMain>
                 <Breadcrumb v-if="showBread" />
-                <RouterView class="main-view">
-                </RouterView>
+                <RouterView class="main-view"> </RouterView>
             </ElMain>
         </ElContainer>
     </ElContainer>
@@ -61,7 +60,7 @@ const routePath = computed(() => route.path);
 
 const showBread = computed(() => !route.path.includes('/home'));
 
-const layoutHeight = computed(() => showBread.value ? '100% - 40px' : '100%');
+const layoutHeight = computed(() => (showBread.value ? '100% - 40px' : '100%'));
 
 // const isCollapse = ref(store.state.app.isCollapse);
 
@@ -121,9 +120,18 @@ watch(
         width: $asideWidth;
         text-align: center;
         color: rgba(255, 255, 255, 0.9);
-        margin: 20px 0;
+        margin: 10px 0 10px 20px;
         height: 24px;
         line-height: 24px;
+        display: flex;
+        height: 44px;
+        line-height: 44px;
+
+        .logo-img {
+            width: 49px;
+            height: 44px;
+            margin-right: 12px;
+        }
     }
 
     padding: 0;
