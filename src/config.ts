@@ -27,6 +27,7 @@ export const APP_LIST: Menu = [
             AQIName: 'AQI',
             categoryName: '空气质量',
             categoryTitle: '空气质量指数变化曲线',
+            avgLabel: '月均浓度',
             stasticsColumns: [
                 { prop: 'aqi', label: 'AQI', width: 60 },
                 { prop: 'pm10', label: 'PM10（ug/m3）', width: 150 },
@@ -77,6 +78,7 @@ export const APP_LIST: Menu = [
             AQIName: 'CWQI',
             categoryName: '水质质量',
             categoryTitle: '水质质量指数变化曲线',
+            avgLabel: '月均数据',
             stasticsColumns: [
                 { prop: 'cwqi', label: 'CWQI' },
                 { prop: 'ph', label: 'PH' },
@@ -121,6 +123,7 @@ export const APP_LIST: Menu = [
                 { prop: 'wsp', label: '风速m/s' },
                 { prop: 'wl', label: '风力', render: value => value ? `${value}级` : '/' },
             ],
+            avgLabel: '月均风速',
             markerWindowField: [
                 [
                     { prop: 'wsp', label: '风速' },

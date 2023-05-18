@@ -26,8 +26,16 @@
             <ElCol :span="6">
                 <span class="search-label">类型：</span>
                 <ElSelect v-model="searchForm.measure" size="default" @change="handleSearch">
-                    <ElOption v-for="item in store.measureList" :key="item.code" :label="item.name" :value="item.code">
-                    </ElOption>
+                    <template
+                        v-for="item in store.measureList"
+                        :key="item.code"
+                    >
+                        <ElOption
+                            v-if="item.code !== 'wd'"
+                            :label="item.name"
+                            :value="item.code"
+                        ></ElOption>
+                    </template>
                 </ElSelect>
             </ElCol>
             <ElCol :span="8">

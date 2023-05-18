@@ -53,16 +53,21 @@
                 <div class="chat-title">
                     <h3>微站24小时平均值</h3>
                     <ElSelect v-model="measure" size="medium" @change="drawBar">
-                        <ElOption
+                        <template
                             v-for="item in appStore.measureList"
                             :key="item.code"
-                            :label="item.name"
-                            :value="item.code"
-                        ></ElOption>
+                        >
+                            <ElOption
+                                v-if="item.code !== 'wd'"
+                                :label="item.name"
+                                :value="item.code"
+                            ></ElOption>
+                        </template>
                     </ElSelect>
                 </div>
                 <div class="map-layout">
-                    <v-chart class="chart" :option="option" autoresize />
+                    <v-chart v-if="option.series.length && option.series[0].data.length" class="chart" :option="option" autoresize />
+                    <ElEmpty v-else description="暂无数据" :image="emptyImage"></ElEmpty>
                 </div>
             </ElCard>
         </ElCol>
@@ -70,7 +75,7 @@
 </template>
 
 <script setup lang="ts">
-import { ElCard, ElSelect, ElRow, ElCol, valueEquals } from 'element-plus';
+import { ElCard, ElSelect, ElRow, ElCol,ElEmpty, valueEquals } from 'element-plus';
 import { useUserStore, useSettingStore } from '@/store/app';
 import http from '@/api/home';
 import { ref, onMounted } from 'vue';
@@ -80,6 +85,7 @@ import dayjs from '@/helper/dayjs';
 import { getCurrentTime } from '@/helper/index';
 import { computed } from 'vue';
 import { getLevelByMesure } from '@/helper/index';
+import emptyImage from '@/assets/img/empty.png';
 
 const appStore = useSettingStore();
 const AQI = ref<number>(null);
@@ -105,7 +111,7 @@ const option = ref({
         left: 25,
         right: 0,
         top: 10,
-        bottom: 10,
+        bottom: 0,
         containLabel: true,
     },
 });
@@ -273,5 +279,9 @@ const store = useUserStore();
             }
         }
     }
+}
+.el-empty{
+    height: 100%;
+    padding: 0;
 }
 </style>

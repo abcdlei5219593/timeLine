@@ -25,12 +25,12 @@ import { ElCard, ElTable, ElTableColumn } from 'element-plus';
 import http from '@/api/analyse';
 import useTableSetting from '@/hooks/useTableSetting';
 import { useSettingStore } from '@/store/app';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 const store = useSettingStore();
 const { maxTableHeight } = useTableSetting({ id: 'xc-table', offsetBottom: 50 });
 const cellStyle = ({ row, column, rowIndex, columnIndex }) => {
-    if(columnIndex !== 0 && columnIndex !== tableColumn.length - 1) {
+    if(columnIndex !== 0 && columnIndex !== tableColumn.value.length - 1) {
         const val = row[column.property];
         if (val >= 0 && val < 20) {
             return {background: 'green'};
@@ -66,34 +66,36 @@ const cellStyle = ({ row, column, rowIndex, columnIndex }) => {
 
 const tableData = ref([]);
 
-const tableColumn = [
-    { prop: 'stationName', label: '微站名称'},
-    { prop: 'hour_0', label: '0点'},
-    { prop: 'hour_1', label: '1点'},
-    { prop: 'hour_2', label: '2点'},
-    { prop: 'hour_3', label: '3点'},
-    { prop: 'hour_4', label: '4点'},
-    { prop: 'hour_5', label: '5点'},
-    { prop: 'hour_6', label: '6点'},
-    { prop: 'hour_7', label: '7点'},
-    { prop: 'hour_8', label: '8点'},
-    { prop: 'hour_9', label: '9点'},
-    { prop: 'hour_10', label: '10点'},
-    { prop: 'hour_11', label: '11点'},
-    { prop: 'hour_12', label: '12点'},
-    { prop: 'hour_13', label: '13点'},
-    { prop: 'hour_14', label: '14点'},
-    { prop: 'hour_15', label: '15点'},
-    { prop: 'hour_16', label: '16点'},
-    { prop: 'hour_17', label: '17点'},
-    { prop: 'hour_18', label: '18点'},
-    { prop: 'hour_19', label: '19点'},
-    { prop: 'hour_20', label: '20点'},
-    { prop: 'hour_21', label: '21点'},
-    { prop: 'hour_22', label: '22点'},
-    { prop: 'hour_23', label: '23点'},
-    { prop: 'avg', label: '月均浓度'},
-];
+const tableColumn = computed(() =>
+    [
+        { prop: 'stationName', label: '微站名称'},
+        { prop: 'hour_0', label: '0点'},
+        { prop: 'hour_1', label: '1点'},
+        { prop: 'hour_2', label: '2点'},
+        { prop: 'hour_3', label: '3点'},
+        { prop: 'hour_4', label: '4点'},
+        { prop: 'hour_5', label: '5点'},
+        { prop: 'hour_6', label: '6点'},
+        { prop: 'hour_7', label: '7点'},
+        { prop: 'hour_8', label: '8点'},
+        { prop: 'hour_9', label: '9点'},
+        { prop: 'hour_10', label: '10点'},
+        { prop: 'hour_11', label: '11点'},
+        { prop: 'hour_12', label: '12点'},
+        { prop: 'hour_13', label: '13点'},
+        { prop: 'hour_14', label: '14点'},
+        { prop: 'hour_15', label: '15点'},
+        { prop: 'hour_16', label: '16点'},
+        { prop: 'hour_17', label: '17点'},
+        { prop: 'hour_18', label: '18点'},
+        { prop: 'hour_19', label: '19点'},
+        { prop: 'hour_20', label: '20点'},
+        { prop: 'hour_21', label: '21点'},
+        { prop: 'hour_22', label: '22点'},
+        { prop: 'hour_23', label: '23点'},
+        { prop: 'avg', label: store.currentApp?.meta.avgLabel },
+    ]
+);
 
 const getTableData = async () => {
     const data = await http[store.currentApp.url].getAQIHourAvgInMonth({year: new Date().getFullYear(), month: new Date().getMonth() + 1});
