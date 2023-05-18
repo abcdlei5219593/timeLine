@@ -99,7 +99,13 @@
         <div class="device dialog-content">
             <ElForm ref="formDataRef" :model="deviceData" :rules="rules" label-position="top">
                 <ElFormItem label="主板ID" prop="deviceId">
-                    <el-input v-model="deviceData.deviceId" size="default" placeholder="请输入" maxlength="50" />
+                    <el-input
+                        v-model="deviceData.deviceId"
+                        size="default"
+                        :disabled="isEdit"
+                        placeholder="请输入"
+                        maxlength="50"
+                    />
                 </ElFormItem>
                 <ElFormItem label="微站名" prop="stationName">
                     <el-input v-model="deviceData.stationName" size="default" placeholder="请输入" maxlength="50" />
