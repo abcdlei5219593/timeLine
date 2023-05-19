@@ -29,7 +29,7 @@
             :data="tableData"
             :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
         >
-            <ElTableColumn prop="deviceId" label="名称" width="150" />
+            <ElTableColumn prop="stationName" label="名称" width="150" />
             <ElTableColumn
                 v-for="(item, index) in appStore.currentApp.meta.stasticsColumns"
                 :key="index"
@@ -43,9 +43,7 @@
                     <div v-else-if="item.prop && scope.row[item.prop]">
                         {{ scope.row[item.prop] }}
                     </div>
-                    <div v-else>
-                        /
-                    </div>
+                    <div v-else>/</div>
                 </template>
             </ElTableColumn>
             <ElTableColumn prop="createTime" label="上传时间" width="170" />
