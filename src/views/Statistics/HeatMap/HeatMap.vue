@@ -22,8 +22,18 @@ const timeLine = reactive([]);
 const deviceList = ref([]);
 const dataSet = ref({
     data: [],
-    max: 500
+    max: 100
 });
+
+const gradient = {
+    0.2: 'pink',
+    0.3: 'black',
+    0.5: 'blue',
+    0.6: 'rgb(117,211,248)',
+    0.7: 'rgb(0, 255, 0)',
+    0.9: '#ffea00',
+    1.0: 'red'
+};
 let timer;
 watch(
     () => props.searchForm,
@@ -68,7 +78,8 @@ const getDeviceDataHandler = async () => {
     }
     for (const [index, timeData] of data[0].data.entries()) {
         const temp = {
-            max: 500,
+            max: 100,
+
             time: timeData.time,
             data: data.map(item => ({
                 lng: item.longitude,

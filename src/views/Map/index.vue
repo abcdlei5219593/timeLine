@@ -101,15 +101,19 @@ const getDeviceListHandler = async () => {
                 pm2_5: item.pm25
             }));
         }
-        for (const item of data) {
-            const idx = deviceData.findIndex(({ deviceId }) => deviceId === item.deviceId);
+        const temp = [];
+        for (const item of deviceData) {
+            const target = data.find(({ deviceId }) => deviceId === item.deviceId);
+            if(target) {
+                temp.push({
+                    ...target,
+                    data: item
+                });
 
-            if(idx > -1) {
-                item.data = deviceData[idx];
             }
 
         }
-        deviceList.value = data;
+        deviceList.value = temp;
     }
 };
 

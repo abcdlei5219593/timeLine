@@ -107,7 +107,7 @@ const getTableData = async () => {
             station[`hour_${hour.time}`] = hour.avg;
             total += hour.avg;
         });
-        station.avg = parseInt(total / station.data.length, 10);
+        station.avg = (total / station.data.length).toFixed(2);
         arr[index] = station;
     }
     tableData.value = arr;

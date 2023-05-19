@@ -61,8 +61,8 @@ export const APP_LIST: Menu = [
                     { prop: 'prcp', label: '雨量' },
                 ],
                 [
-                    { prop: 'h2s', label: '臭氧' },
-                    { prop: 'o3', label: 'O3' },
+                    { prop: 'h2s', label: 'H2S' },
+                    { prop: 'o3', label: '臭氧' },
                 ]
             ]
 
