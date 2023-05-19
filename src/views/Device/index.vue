@@ -299,6 +299,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
 // 显示新增设备
 const addFun = () => {
+    stationType.value.forEach((item: any) => {
+        item.disabled = false;
+    });
     addShow.value = true;
     isEdit.value = false;
     deviceData.deviceId = null;
@@ -311,6 +314,9 @@ const addFun = () => {
 
 // 编辑设备
 const editFun = (row: any) => {
+    stationType.value.forEach((item: any) => {
+        item.disabled = true;
+    });
     addShow.value = true;
     isEdit.value = true;
     deviceData.deviceId = row.deviceId;
