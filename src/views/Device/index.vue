@@ -233,6 +233,7 @@ const getSearchList = async () => {
 
 // 新增或编辑
 const save = async () => {
+    console.log(typeof deviceData.latitude, '00000');
     try {
         const res: any = isEdit.value ? await deviceEdit(deviceData) : await deviceAdd(deviceData);
         addShow.value = false;
