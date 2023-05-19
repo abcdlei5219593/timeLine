@@ -32,7 +32,7 @@
                 :row-class-name="tableRowClassName"
                 @row-click="handleColumnClick"
             >
-                <ElTableColumn :label="`${store.currentApp.meta.categoryName}指数报告`">
+                <ElTableColumn :label="`${store.currentApp.meta.reportName}`">
                     <template #default="scope">
                         <div class="table-column-layout" @click="active = scope.$index">
                             <p>{{ scope.row.stationName }}</p>

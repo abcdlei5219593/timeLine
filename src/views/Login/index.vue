@@ -117,8 +117,10 @@ const loginFun = async () => {
     try {
         loading.value = true;
         const password: any = ref(proxy.$md5(formData.password).substr(8, 16));
-        formData.password = password;
-        const res: any = await login(formData);
+        const res: any = await login({
+            userName: formData.userName,
+            password: password.value,
+        });
         Cookie.set('token', res.token);
         const userMenu = await getUserMenu();
         await getUser();

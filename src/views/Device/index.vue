@@ -121,7 +121,14 @@
                 </ElFormItem>
                 <ElFormItem label="微站类型" prop="bizModules">
                     <el-checkbox-group v-model="deviceData.bizModules">
-                        <el-checkbox v-for="(item, i) in stationType" :key="i" :label="item.value" :value="item.value">
+                        <el-checkbox
+                            v-for="(item, i) in stationType"
+                            :disabled="item.disabled"
+                            :key="i"
+                            :label="item.value"
+                            :value="item.value"
+                            @change="checkChange"
+                        >
                             {{ item.label }}
                         </el-checkbox>
                     </el-checkbox-group>
@@ -194,24 +201,50 @@ const stationType: any = ref([
     {
         label: '大气监测',
         value: 1,
+        disabled: false,
     },
     {
         label: '水质监测',
         value: 2,
+        disabled: false,
     },
     {
         label: '风速监测',
         value: 3,
+        disabled: false,
     },
     {
         label: 'ptu监测',
         value: 4,
+        disabled: false,
     },
     // {
     //     label: '雨量监测',
     //     value: 5,
+    // disabled:false,
     // },
 ]);
+
+const checkChange = (val: any) => {
+    //水质单独
+    if (deviceData.bizModules.length > 0) {
+        if (deviceData.bizModules.includes(2)) {
+            stationType.value.forEach((item: any) => {
+                item.disabled = true;
+            });
+            stationType.value.find((i: any) => i.value === 2).disabled = false;
+        } else {
+            stationType.value.forEach((item: any) => {
+                item.disabled = false;
+            });
+            stationType.value.find((i: any) => i.value === 2).disabled = true;
+        }
+    } else {
+        stationType.value.forEach((item: any) => {
+            item.disabled = false;
+        });
+    }
+};
 
 const selectChange = () => {
     getList();
@@ -233,8 +266,16 @@ const getSearchList = async () => {
 
 // 新增或编辑
 const save = async () => {
+    const params = {
+        deviceId: deviceData.deviceId,
+        stationName: deviceData.stationName,
+        stationAddress: deviceData.stationAddress,
+        latitude: parseFloat(deviceData.latitude),
+        longitude: parseFloat(deviceData.longitude),
+        bizModules: deviceData.bizModules,
+    };
     try {
-        const res: any = isEdit.value ? await deviceEdit(deviceData) : await deviceAdd(deviceData);
+        const res: any = isEdit.value ? await deviceEdit(params) : await deviceAdd(params);
         addShow.value = false;
         ElMessage.success('操作成功');
         getList();
@@ -258,6 +299,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
 // 显示新增设备
 const addFun = () => {
+    stationType.value.forEach((item: any) => {
+        item.disabled = false;
+    });
     addShow.value = true;
     isEdit.value = false;
     deviceData.deviceId = null;
@@ -270,6 +314,9 @@ const addFun = () => {
 
 // 编辑设备
 const editFun = (row: any) => {
+    stationType.value.forEach((item: any) => {
+        item.disabled = true;
+    });
     addShow.value = true;
     isEdit.value = true;
     deviceData.deviceId = row.deviceId;
