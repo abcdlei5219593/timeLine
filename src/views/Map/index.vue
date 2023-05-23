@@ -20,7 +20,7 @@
             <ElAmap
                 class="map"
                 :center="store.mapCenter"
-                :zoom="15"
+                :zoom="14"
             >
                 <el-amap-marker
                     v-for="(item, index) in deviceList"
@@ -32,9 +32,8 @@
                 />
                 <el-amap-info-window
                     v-model:visible="visible"
-
-                    :avoid="true"
                     :auto-move="true"
+                    :avoid="true"
                     :offset="[15, -10]"
                     :position="markerPosition"
                 >

@@ -2,7 +2,7 @@
     <ElAmap
         class="map"
         :center="store.mapCenter"
-        :zoom="15"
+        :zoom="14"
     >
         <el-amap-layer-heat-map :data-set="dataSet"></el-amap-layer-heat-map>
     </ElAmap>
