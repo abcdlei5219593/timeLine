@@ -34,7 +34,7 @@ export const APP_LIST: Menu = [
                 { prop: 'pm10', label: 'PM10（ug/m3）', width: 150 },
                 { prop: 'pm25', label: 'PM2.5（ug/m3）', width: 150 },
                 { prop: 'co', label: '一氧化碳（ug/m3）', width: 150 },
-                { prop: 'H2S', label: 'H2S', width: 150 },
+                { prop: 'h2s', label: 'H2S', width: 150 },
                 { prop: 'no2', label: '二氧化氮（ug/m3）', width: 150 },
                 { prop: 'o3', label: '臭氧（ug/m3）', width: 150 },
                 { prop: 'so2', label: '二氧化硫（ug/m3）', width: 150 },
