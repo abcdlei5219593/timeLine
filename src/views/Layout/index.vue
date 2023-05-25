@@ -7,20 +7,16 @@
                     智慧环境监测系统
                 </div>
                 <section>
-                    <AppBar :menu-list="appList"> </AppBar>
+                    <AppBar :menu-list="appList">
+                    </AppBar>
                 </section>
                 <HeaderRight></HeaderRight>
             </ElContainer>
         </ElHeader>
         <ElContainer>
             <ElAside v-if="hasAside">
-                <Menu
-                    class="app-menu"
-                    :router="true"
-                    mode="vertical"
-                    :menu-list="currentAppMenu"
-                    :collapse="store.isCollapse"
-                >
+                <Menu class="app-menu" :router="true" mode="vertical" :menu-list="currentAppMenu"
+                    :collapse="store.isCollapse">
                 </Menu>
                 <div class="toggle-menu" @click="store.setCollapse">
                     <i v-if="!store.isCollapse" class="iconfont icon-shouqidaohang"></i>
@@ -30,7 +26,8 @@
             </ElAside>
             <ElMain>
                 <Breadcrumb v-if="showBread" />
-                <RouterView class="main-view"> </RouterView>
+                <RouterView class="main-view">
+                </RouterView>
             </ElMain>
         </ElContainer>
     </ElContainer>
@@ -52,7 +49,8 @@ const route = useRoute();
 const router = useRouter();
 const store = useSettingStore();
 const menuStore = useMenuStore();
-const hasAside = computed(() => route.path.startsWith('/app'));
+console.log(route.path, 'route.pathroute.path');
+const hasAside = computed(() => route.path.startsWith('/app') && route.path.indexOf('/personalCenter') === -1);
 
 const appList = computed(() => menuStore.menuList.map(({ url, name }) => ({ url, name })));
 
@@ -60,7 +58,7 @@ const routePath = computed(() => route.path);
 
 const showBread = computed(() => !route.path.includes('/home'));
 
-const layoutHeight = computed(() => (showBread.value ? '100% - 40px' : '100%'));
+const layoutHeight = computed(() => showBread.value ? '100% - 40px' : '100%');
 
 // const isCollapse = ref(store.state.app.isCollapse);
 
@@ -206,6 +204,7 @@ watch(
             background: $asideActiveBackground;
         }
     }
+
     :deep(.el-sub-menu .el-menu-item) {
         padding-left: 48px !important;
     }
