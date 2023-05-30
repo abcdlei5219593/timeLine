@@ -154,6 +154,108 @@ export default {
                 showLoading: true
             } as AxiosRequestConfig)
 
+    },
+    '/app/ptu': {
+        getDeviceData: (data: object) =>
+            $http({
+                url: '/admin/ptu/analyse/getDeviceData',
+                method: 'post',
+                data,
+                showLoading: true
+            } as AxiosRequestConfig),
+
+        getHotmapData: (data: object = {}) =>
+            $http({
+                url: '/admin/ptu/analyse/getHotmapData',
+                method: 'post',
+                data,
+                showLoading: true
+            } as AxiosRequestConfig),
+
+        getAQIHourAvgInMonth: (params: object = {}) =>
+            $http({
+                url: '/admin/ptu/analyse/getAQIHourAvgInMonth',
+                method: 'get',
+                params,
+                showLoading: true
+            } as AxiosRequestConfig),
+
+
+        getMonitorData: (data: object = {}) =>
+            $http({
+                url: '/admin/ptu/analyse/getMonitorData',
+                method: 'post',
+                data,
+                showLoading: true
+            } as AxiosRequestConfig),
+
+        getCurvesData: (data: object = {}) =>
+            $http({
+                url: '/admin/ptu/analyse/getCurvesData',
+                method: 'post',
+                data,
+                showLoading: true
+            } as AxiosRequestConfig),
+
+        getAllStationAnalyses: (data: object = {}) =>
+            $http({
+                url: '/admin/ptu/analyse/getAllStationAnalyses',
+                method: 'post',
+                data,
+                showLoading: true
+            } as AxiosRequestConfig)
+
+    },
+    '/app/rain': {
+        getDeviceData: (data: object) =>
+            $http({
+                url: '/admin/rain/analyse/getDeviceData',
+                method: 'post',
+                data,
+                showLoading: true
+            } as AxiosRequestConfig),
+
+        getHotmapData: (data: object = {}) =>
+            $http({
+                url: '/admin/rain/analyse/getHotmapData',
+                method: 'post',
+                data,
+                showLoading: true
+            } as AxiosRequestConfig),
+
+        getAQIHourAvgInMonth: (params: object = {}) =>
+            $http({
+                url: '/admin/rain/analyse/getAQIHourAvgInMonth',
+                method: 'get',
+                params,
+                showLoading: true
+            } as AxiosRequestConfig),
+
+
+        getMonitorData: (data: object = {}) =>
+            $http({
+                url: '/admin/rain/analyse/getMonitorData',
+                method: 'post',
+                data,
+                showLoading: true
+            } as AxiosRequestConfig),
+
+        getCurvesData: (data: object = {}) =>
+            $http({
+                url: '/admin/rain/analyse/getCurvesData',
+                method: 'post',
+                data,
+                showLoading: true
+            } as AxiosRequestConfig),
+
+        getAllStationAnalyses: (data: object = {}) =>
+            $http({
+                url: '/admin/rain/analyse/getAllStationAnalyses',
+                method: 'post',
+                data,
+                showLoading: true
+            } as AxiosRequestConfig)
+
     }
 };
 

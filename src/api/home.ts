@@ -76,7 +76,54 @@ export default {
             } as AxiosRequestConfig)
 
     },
+    '/app/ptu': {
+        get24AvgData: (data: object) =>
+            $http({
+                url: '/admin/ptu/index/get24AvgData',
+                method: 'get',
+                params: data,
+                showLoading: true
+            } as AxiosRequestConfig),
+        getAQI: (data: object) =>
+            $http({
+                url: '/admin/ptu/index/get24Humi',
+                method: 'get',
+                params: data,
+                showLoading: true
+            } as AxiosRequestConfig),
+        getLastestAlarms: (data: object) =>
+            $http({
+                url: '/admin/ptu/index/getLastestAlarms',
+                method: 'get',
+                params: data,
+                showLoading: true
+            } as AxiosRequestConfig)
 
+    },
+    '/app/rain': {
+        get24AvgData: (data: object) =>
+            $http({
+                url: '/admin/rain/index/get24AvgData',
+                method: 'get',
+                params: data,
+                showLoading: true
+            } as AxiosRequestConfig),
+        getAQI: (data: object) =>
+            $http({
+                url: '/admin/rain/index/get24PRCP',
+                method: 'get',
+                params: data,
+                showLoading: true
+            } as AxiosRequestConfig),
+        getLastestAlarms: (data: object) =>
+            $http({
+                url: '/admin/rain/index/getLastestAlarms',
+                method: 'get',
+                params: data,
+                showLoading: true
+            } as AxiosRequestConfig)
+
+    },
 };
 
 

@@ -18,6 +18,25 @@
                             风力： {{ AQI?.wl }}级
                         </span>
                     </template>
+                    <template v-else-if="appStore.currentApp?.bizModule === 4">
+                        <span>
+                            土壤湿度： {{ AQI?.humi1 }}%
+                        </span>
+                        <span>
+                            土壤温度：{{ AQI?.temp1 }}°
+                        </span>
+                        <span>
+                            土壤ph： {{ AQI?.ph }}
+                        </span>
+                        <span>
+                            土壤电导率： {{ AQI?.ec }}μs/cm
+                        </span>
+                    </template>
+                    <template v-else-if="appStore.currentApp?.bizModule === 5">
+                        <span>
+                            雨量： {{ AQI?.prcp }}
+                        </span>
+                    </template>
                     <template v-else>
                         {{ appStore.currentApp.meta.AQIName }}：{{ AQI }}
                         <div class="tag" :style="{ background: mesureLevel.color}">

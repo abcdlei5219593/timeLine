@@ -145,6 +145,7 @@ export const APP_LIST: Menu = [
         url: '/app/rain',
         bizModule: 5,
         name: '降水测量管理',
+        defaultMeasure: 'prcp',
         children: routeRainPath('/app/rain'),
         meta: {
             AQIName: 'CWQI',
@@ -152,32 +153,14 @@ export const APP_LIST: Menu = [
             categoryTitle: '雨量变化曲线',
             reportName: '雨量报告',
             stasticsColumns: [
-                { prop: 'cwqi', label: 'CWQI' },
-                { prop: 'ph', label: 'PH' },
-                { prop: 'd0', label: '溶解氧mg/L' },
-                { prop: 'ec', label: '电导率μS/cm' },
-                { prop: 'wt', label: '浊度NTU' },
-                { prop: 'temp', label: '温度°C' },
-
+                { prop: 'prcp', label: '雨量（L/㎡）'},
             ],
             markerWindowField: [
                 [
-                    { prop: 'cwqi', label: 'CWQI' },
-                    { prop: 'temp', label: '温度' },
-                ],
-                [
-                    { prop: 'ph', label: 'PH' },
-                ],
-                [
-                    { prop: 'd0', label: '溶解氧' },
+                    { prop: 'prcp', label: '雨量（L/㎡）'},
 
                 ],
-                [
-                    { prop: 'ec', label: '电导率' },
-                ],
-                [
-                    { prop: 'wt', label: '浊度' },
-                ]
+
             ]
         }
     },
@@ -185,39 +168,32 @@ export const APP_LIST: Menu = [
         url: '/app/ptu',
         bizModule: 4,
         name: 'PTU测量管理',
+        defaultMeasure: 'temp1',
         children: routePtuPath('/app/ptu'),
         meta: {
             AQIName: 'CWQI',
-            categoryName: 'PTU',
+            categoryName: '土壤水分',
             categoryTitle: '土壤湿度变化曲线',
             reportName: '土壤湿度报告',
             stasticsColumns: [
-                { prop: 'cwqi', label: 'CWQI' },
-                { prop: 'ph', label: 'PH' },
-                { prop: 'd0', label: '溶解氧mg/L' },
-                { prop: 'ec', label: '电导率μS/cm' },
-                { prop: 'wt', label: '浊度NTU' },
-                { prop: 'temp', label: '温度°C' },
-
+                { prop: 'humi1', label: '土壤湿度（%）' },
+                { prop: 'temp1', label: '土壤温度℃' },
+                { prop: 'ph', label: '土壤PH' },
+                { prop: 'ec', label: '土壤电导率μs/cm' },
             ],
             markerWindowField: [
                 [
-                    { prop: 'cwqi', label: 'CWQI' },
-                    { prop: 'temp', label: '温度' },
+                    { prop: 'humi1', label: '土壤湿度', render: value => `${value}%`},
                 ],
                 [
-                    { prop: 'ph', label: 'PH' },
+                    { prop: 'temp1', label: '土壤温度', render: value => `${value}°`},
                 ],
                 [
-                    { prop: 'd0', label: '溶解氧' },
-
+                    { prop: 'ph', label: '土壤PH'},
                 ],
                 [
-                    { prop: 'ec', label: '电导率' },
+                    { prop: 'ec', label: '土壤电导率', render: value => `${value}μs/cm`},
                 ],
-                [
-                    { prop: 'wt', label: '浊度' },
-                ]
             ]
         }
     },

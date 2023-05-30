@@ -15,8 +15,10 @@
         </ElHeader>
         <ElContainer>
             <ElAside v-if="hasAside">
-                <Menu class="app-menu" :router="true" mode="vertical" :menu-list="currentAppMenu"
-                    :collapse="store.isCollapse">
+                <Menu
+                    class="app-menu" :router="true" mode="vertical" :menu-list="currentAppMenu"
+                    :collapse="store.isCollapse"
+                >
                 </Menu>
                 <div class="toggle-menu" @click="store.setCollapse">
                     <i v-if="!store.isCollapse" class="iconfont icon-shouqidaohang"></i>
@@ -34,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted, watch } from 'vue';
+import { computed, watch } from 'vue';
 import { ElContainer, ElHeader, ElAside, ElMain } from 'element-plus';
 import Menu from './Menu/index.vue';
 import AppBar from './Menu/appBar.vue';
