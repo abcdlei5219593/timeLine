@@ -34,7 +34,7 @@
                     <p>{{ scope.$index + 1 }}</p>
                 </template>
             </ElTableColumn>
-            <ElTableColumn prop="deviceId" label="主板" width="180" />
+            <ElTableColumn prop="deviceId" label="编号" width="180" />
             <ElTableColumn prop="stationName" label="微站名称" />
             <ElTableColumn prop="stationAddress" label="微站地址" />
             <!-- <ElTableColumn prop="hv" label="硬件版本" />
@@ -73,6 +73,7 @@
                     >
                         编辑
                     </ElButton>
+                    <ElButton link type="primary" size="default" @click="deleteFun(scope.row)"> 删除 </ElButton>
                 </template>
             </ElTableColumn>
         </ElTable>
@@ -98,7 +99,7 @@
     <ElDialog v-model="addShow" class="dialog" :title="isEdit ? '编辑设备' : '新增设备'" width="480px">
         <div class="device dialog-content">
             <ElForm ref="formDataRef" :model="deviceData" :rules="rules" label-position="top">
-                <ElFormItem label="主板ID" prop="deviceId">
+                <ElFormItem label="编号ID" prop="deviceId">
                     <el-input
                         v-model="deviceData.deviceId"
                         size="default"
@@ -143,11 +144,11 @@
 </template>
 
 <script lang="ts" setup>
-import { FormInstance, ElMessage } from 'element-plus';
+import { FormInstance, ElMessage, ElMessageBox } from 'element-plus';
 import { ref, onMounted, reactive, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import useTableSetting from '@/hooks/useTableSetting';
-import { getDeviceList, getStations, deviceAdd, deviceEdit } from '@/api/device';
+import { getDeviceList, getStations, deviceAdd, deviceEdit, deviceDelete } from '@/api/device';
 import { deviceDataType } from './ModelDefines';
 import { storeMenu } from '@/store/app';
 import { APP_LIST } from '@/config';
@@ -170,7 +171,7 @@ const isTimeSet = ref<boolean>(false);
 const intervalTime = ref<number>(0);
 
 const rules = reactive({
-    deviceId: [{ required: true, message: '请输入主板ID', trigger: 'blur' }],
+    deviceId: [{ required: true, message: '请输入编号ID', trigger: 'blur' }],
     stationName: [{ required: true, message: '请输入微站名', trigger: 'blur' }],
     stationAddress: [{ required: true, message: '请输入微站地址', trigger: 'blur' }],
     longitude: [{ required: true, message: '请输入经度', trigger: 'blur' }],
@@ -218,11 +219,11 @@ const stationType: any = ref([
         value: 4,
         disabled: false,
     },
-    // {
-    //     label: '雨量监测',
-    //     value: 5,
-    // disabled:false,
-    // },
+    {
+        label: '雨量监测',
+        value: 5,
+        disabled: false,
+    },
 ]);
 
 const checkChange = (val: any) => {
@@ -325,6 +326,20 @@ const editFun = (row: any) => {
     deviceData.latitude = row.latitude;
     deviceData.longitude = row.longitude;
     deviceData.bizModules = row.bizModules;
+};
+
+//删除
+const deleteFun = async (row: any) => {
+    ElMessageBox.confirm('确定删除该条设备?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        buttonSize: 'default',
+    }).then(async () => {
+        await deviceDelete({ deviceId: row.deviceId });
+        ElMessage.success('操作成功');
+        getList();
+    });
 };
 
 onMounted(() => {
