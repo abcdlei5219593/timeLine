@@ -45,7 +45,7 @@
             :data="tableData"
             :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
         >
-            <!-- <ElTableColumn prop="deviceId" label="主板" /> -->
+            <!-- <ElTableColumn prop="deviceId" label="编号" /> -->
             <ElTableColumn prop="stationName" label="微站名称" />
             <ElTableColumn prop="status" label="值" />
             <ElTableColumn prop="sensorCode" label="传感器类型" />

@@ -6,7 +6,7 @@
             :data="tableData"
             :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
         >
-            <ElTableColumn prop="deviceId" label="主板ID" />
+            <ElTableColumn prop="deviceId" label="编号ID" />
             <ElTableColumn prop="sensorCode" label="传感器类型" />
             <ElTableColumn prop="standardValue" label="校准" />
             <ElTableColumn prop="threshold1" label="预警阈值" />

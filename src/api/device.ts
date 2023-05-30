@@ -62,3 +62,12 @@ export const deviceEdit = (data: object = {}) =>
         data,
         showLoading: true
     } as AxiosRequestConfig);
+
+//删除设备
+export const deviceDelete = (data: object = {}) =>
+    $http({
+        url: '/admin/device/delete',
+        method: 'get',
+        params: data,
+        showLoading: true
+    } as AxiosRequestConfig);
