@@ -169,6 +169,14 @@ const routes: Array<RouteRecordRaw> = [
                             title: '雨量告警'
                         }
                     },
+                    {
+                        path: 'cityWarn',
+                        name: 'CityWarn',
+                        component: () => import('@/views/Warn/AirWarn/index.vue'),
+                        meta: {
+                            title: '城市环境告警'
+                        }
+                    },
                 ]
             },
             {
@@ -231,9 +239,9 @@ const router = createRouter({
 // 路由跳转之前调用
 
 
-router.beforeEach((to,from,next) => {
+router.beforeEach((to, from, next) => {
     const token = Cookie.get('token');
-    if(to.path !== '/login' &&to.path !== '/ssoLogin' && !token) {
+    if (to.path !== '/login' && to.path !== '/ssoLogin' && !token) {
         return next('/login');
     }
     next();

@@ -10,6 +10,7 @@ import { routeAirPath } from './air';
 import { routeWindPath } from './wind';
 import { routePtuPath } from './ptu';
 import { routeRainPath } from './rain';
+import { routeCityPath } from './city';
 import { routeUserPath } from './user';
 import { getWindDirection } from '@/helper/index';
 
@@ -142,29 +143,6 @@ export const APP_LIST: Menu = [
         }
     },
     {
-        url: '/app/rain',
-        bizModule: 5,
-        name: '降水测量管理',
-        defaultMeasure: 'prcp',
-        children: routeRainPath('/app/rain'),
-        meta: {
-            AQIName: 'CWQI',
-            categoryName: '降水',
-            categoryTitle: '雨量变化曲线',
-            reportName: '雨量报告',
-            stasticsColumns: [
-                { prop: 'prcp', label: '雨量（L/㎡）'},
-            ],
-            markerWindowField: [
-                [
-                    { prop: 'prcp', label: '雨量（L/㎡）'},
-
-                ],
-
-            ]
-        }
-    },
-    {
         url: '/app/ptu',
         bizModule: 4,
         name: 'PTU测量管理',
@@ -183,17 +161,63 @@ export const APP_LIST: Menu = [
             ],
             markerWindowField: [
                 [
-                    { prop: 'humi1', label: '土壤湿度', render: value => `${value}%`},
+                    { prop: 'humi1', label: '土壤湿度', render: value => `${value}%` },
                 ],
                 [
-                    { prop: 'temp1', label: '土壤温度', render: value => `${value}°`},
+                    { prop: 'temp1', label: '土壤温度', render: value => `${value}°` },
                 ],
                 [
-                    { prop: 'ph', label: '土壤PH'},
+                    { prop: 'ph', label: '土壤PH' },
                 ],
                 [
-                    { prop: 'ec', label: '土壤电导率', render: value => `${value}μs/cm`},
+                    { prop: 'ec', label: '土壤电导率', render: value => `${value}μs/cm` },
                 ],
+            ]
+        }
+    },
+    {
+        url: '/app/rain',
+        bizModule: 5,
+        name: '降水测量管理',
+        defaultMeasure: 'prcp',
+        children: routeRainPath('/app/rain'),
+        meta: {
+            AQIName: 'CWQI',
+            categoryName: '降水',
+            categoryTitle: '雨量变化曲线',
+            reportName: '雨量报告',
+            stasticsColumns: [
+                { prop: 'prcp', label: '雨量（L/㎡）' },
+            ],
+            markerWindowField: [
+                [
+                    { prop: 'prcp', label: '雨量（L/㎡）' },
+
+                ],
+
+            ]
+        }
+    },
+    {
+        url: '/app/city',
+        bizModule: 6,
+        name: '城市环境监测',
+        defaultMeasure: 'prcp',
+        children: routeCityPath('/app/rain'),
+        meta: {
+            AQIName: 'CWQI',
+            categoryName: '城市环境监测',
+            categoryTitle: '城市环境监测变化曲线',
+            reportName: '城市环境监测报告',
+            stasticsColumns: [
+                // { prop: 'prcp', label: '雨量（L/㎡）' },
+            ],
+            markerWindowField: [
+                [
+                    // { prop: 'prcp', label: '雨量（L/㎡）' },
+
+                ],
+
             ]
         }
     },
