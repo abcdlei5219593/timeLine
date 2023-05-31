@@ -203,7 +203,7 @@ export const APP_LIST: Menu = [
         bizModule: 6,
         name: '城市环境监测',
         defaultMeasure: 'prcp',
-        children: routeCityPath('/app/rain'),
+        children: routeCityPath('/app/city'),
         meta: {
             AQIName: 'CWQI',
             categoryName: '城市环境监测',

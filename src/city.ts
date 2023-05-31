@@ -126,8 +126,8 @@ export const routeCityPath = (basePath: string): Menu =>
                     name: '设备告警',
                 },
                 {
-                    url: basePath + '/warn/rainWarn',
-                    name: '雨量告警',
+                    url: basePath + '/warn/cityWarn',
+                    name: '城市环境告警',
                     children: [
                         {
                             url: basePath + '/device/airWarn/view',
