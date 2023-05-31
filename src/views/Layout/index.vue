@@ -15,10 +15,9 @@
         </ElHeader>
         <ElContainer>
             <ElAside v-if="hasAside">
-                <Menu
-                    class="app-menu" :router="true" mode="vertical" :menu-list="currentAppMenu"
-                    :collapse="store.isCollapse"
-                >
+                <!-- <img class="menu-bg" src="@/assets/img/menu-bg.png"> -->
+                <Menu class="app-menu" :router="true" mode="vertical" :menu-list="currentAppMenu"
+                    :collapse="store.isCollapse">
                 </Menu>
                 <div class="toggle-menu" @click="store.setCollapse">
                     <i v-if="!store.isCollapse" class="iconfont icon-shouqidaohang"></i>
@@ -163,14 +162,44 @@ watch(
     position: relative;
     width: inherit !important;
 
+    .menu-bg {
+        position: absolute;
+        width: 100%;
+        opacity: 0.88;
+        left: 0;
+        top: 0;
+    }
+
+    :deep(.el-sub-menu .el-menu) {
+        background: transparent;
+    }
+
+    .el-menu {
+        background: #01022B;
+        position: relative;
+
+        &::before {
+            content: '';
+            display: block;
+            background: url(@/assets/img/menu-bg.png) 100% 50% no-repeat;
+            opacity: 0.12;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            padding-bottom: 160px;
+        }
+    }
+
     .toggle-menu {
         position: absolute;
         bottom: 0;
         height: 56px;
         line-height: 56px;
-        border-top: 1px solid #e7e7e7;
+        border-top: 1px solid #2A2B4D;
         width: 100%;
-        color: #666666;
+        color: #fff;
         display: flex;
         cursor: pointer;
         font-size: 14px;
@@ -205,6 +234,12 @@ watch(
             color: $mainColor;
             background: $asideActiveBackground;
         }
+    }
+
+    :deep(.el-menu-item):hover,
+    :deep(.el-sub-menu__title):hover {
+        background: $asideActiveBackground;
+        color: #2D8CF0;
     }
 
     :deep(.el-sub-menu .el-menu-item) {
