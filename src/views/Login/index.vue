@@ -3,7 +3,11 @@
         <div class="login-main">
             <p class="login-title">
                 <img class="login-logo" src="@/assets/login/logo.png" />
-                智慧环境监测系统
+                <!-- 智慧环境监测系统 -->
+                <div>
+                <p>长江工业园未来城市</p>
+                <p>智慧环境监测系统</p>
+                </div>
             </p>
             <div class="login-box">
                 <p class="login-text">账号登录</p>
@@ -187,7 +191,7 @@ const getUser = async () => {
         margin: -319px 0 0 -240px;
 
         .login-title {
-            font-size: 36px;
+            font-size: 26px;
             font-weight: 600;
             color: #fff;
             text-align: center;
@@ -195,14 +199,15 @@ const getUser = async () => {
             letter-spacing: 2px;
             display: flex;
             height: 72px;
-            line-height: 72px;
+            line-height: 38px;
             margin-bottom: 40px;
             justify-content: center;
+            text-align: left;
 
             .login-logo {
                 width: 80px;
                 height: 72px;
-                margin-right: 12px;
+                margin-right: 22px;
             }
         }
 

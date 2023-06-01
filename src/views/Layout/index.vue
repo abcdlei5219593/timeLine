@@ -4,11 +4,14 @@
             <ElContainer>
                 <div class="logo fs-18 fw-600">
                     <img class="logo-img" src="@/assets/login/header-logo.png" />
-                    智慧环境监测系统
+                    <!-- 智慧环境监测系统 -->
+                    <div>
+                        <p>长江工业园未来城市</p>
+                        <p>智慧环境监测系统</p>
+                    </div>
                 </div>
                 <section>
-                    <AppBar :menu-list="appList">
-                    </AppBar>
+                    <AppBar :menu-list="appList"> </AppBar>
                 </section>
                 <HeaderRight></HeaderRight>
             </ElContainer>
@@ -16,8 +19,13 @@
         <ElContainer>
             <ElAside v-if="hasAside">
                 <!-- <img class="menu-bg" src="@/assets/img/menu-bg.png"> -->
-                <Menu class="app-menu" :router="true" mode="vertical" :menu-list="currentAppMenu"
-                    :collapse="store.isCollapse">
+                <Menu
+                    class="app-menu"
+                    :router="true"
+                    mode="vertical"
+                    :menu-list="currentAppMenu"
+                    :collapse="store.isCollapse"
+                >
                 </Menu>
                 <div class="toggle-menu" @click="store.setCollapse">
                     <i v-if="!store.isCollapse" class="iconfont icon-shouqidaohang"></i>
@@ -27,8 +35,7 @@
             </ElAside>
             <ElMain>
                 <Breadcrumb v-if="showBread" />
-                <RouterView class="main-view">
-                </RouterView>
+                <RouterView class="main-view"> </RouterView>
             </ElMain>
         </ElContainer>
     </ElContainer>
@@ -59,7 +66,7 @@ const routePath = computed(() => route.path);
 
 const showBread = computed(() => !route.path.includes('/home'));
 
-const layoutHeight = computed(() => showBread.value ? '100% - 40px' : '100%');
+const layoutHeight = computed(() => (showBread.value ? '100% - 40px' : '100%'));
 
 // const isCollapse = ref(store.state.app.isCollapse);
 
@@ -124,7 +131,9 @@ watch(
         line-height: 24px;
         display: flex;
         height: 44px;
-        line-height: 44px;
+        line-height: 24px;
+        font-size: 16px;
+        text-align: left;
 
         .logo-img {
             width: 49px;
@@ -175,7 +184,7 @@ watch(
     }
 
     .el-menu {
-        background: #01022B;
+        background: #01022b;
         position: relative;
 
         &::before {
@@ -197,7 +206,7 @@ watch(
         bottom: 0;
         height: 56px;
         line-height: 56px;
-        border-top: 1px solid #2A2B4D;
+        border-top: 1px solid #2a2b4d;
         width: 100%;
         color: #fff;
         display: flex;
@@ -239,7 +248,7 @@ watch(
     :deep(.el-menu-item):hover,
     :deep(.el-sub-menu__title):hover {
         background: $asideActiveBackground;
-        color: #2D8CF0;
+        color: #2d8cf0;
     }
 
     :deep(.el-sub-menu .el-menu-item) {
