@@ -202,12 +202,12 @@ const getUser = async () => {
             line-height: 38px;
             margin-bottom: 40px;
             justify-content: center;
-            text-align: left;
+            // text-align: left;
 
             .login-logo {
                 width: 80px;
                 height: 72px;
-                margin-right: 22px;
+                margin-right: 12px;
             }
         }
 

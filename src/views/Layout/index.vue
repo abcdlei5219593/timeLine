@@ -131,9 +131,9 @@ watch(
         line-height: 24px;
         display: flex;
         height: 44px;
-        line-height: 24px;
-        font-size: 16px;
-        text-align: left;
+        line-height: 22px;
+        font-size: 18px;
+        // text-align: left;
 
         .logo-img {
             width: 49px;
