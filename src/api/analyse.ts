@@ -225,7 +225,7 @@ export default {
 
         getAQIHourAvgInMonth: (params: object = {}) =>
             $http({
-                url: '/admin/rain/analyse/getAQIHourAvgInMonth',
+                url: '/admin/rain/analyse/getPRCPHourAvgInMonth',
                 method: 'get',
                 params,
                 showLoading: true

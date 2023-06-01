@@ -34,7 +34,7 @@
                     </template>
                     <template v-else-if="appStore.currentApp?.bizModule === 5">
                         <span>
-                            雨量： {{ AQI?.prcp }}
+                            雨量： {{ AQI?.prcp }}L/㎡
                         </span>
                     </template>
                     <template v-else>
