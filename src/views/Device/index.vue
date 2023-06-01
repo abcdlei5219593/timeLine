@@ -73,7 +73,15 @@
                     >
                         编辑
                     </ElButton>
-                    <ElButton link type="primary" size="default" @click="deleteFun(scope.row)"> 删除 </ElButton>
+                    <ElButton
+                        v-permission="'/deviceDelete'"
+                        link
+                        type="primary"
+                        size="default"
+                        @click="deleteFun(scope.row)"
+                    >
+                        删除
+                    </ElButton>
                 </template>
             </ElTableColumn>
         </ElTable>
