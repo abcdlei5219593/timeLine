@@ -8,45 +8,27 @@
                 </article>
                 <article class="flex">
                     <template v-if="appStore.currentApp?.bizModule === 3">
-                        <span>
-                            风速： {{ AQI?.wsp }}m/s
-                        </span>
-                        <span v-if="AQI?.wd">
-                            风向：{{ getWindDirection(AQI?.wd) }} ({{ AQI?.wd }})
-                        </span>
-                        <span>
-                            风力： {{ AQI?.wl }}级
-                        </span>
+                        <span> 风速： {{ AQI?.wsp }}m/s </span>
+                        <span v-if="AQI?.wd"> 风向：{{ getWindDirection(AQI?.wd) }} ({{ AQI?.wd }}) </span>
+                        <span> 风力： {{ AQI?.wl }}级 </span>
                     </template>
                     <template v-else-if="appStore.currentApp?.bizModule === 4">
-                        <span>
-                            土壤湿度： {{ AQI?.humi1 }}%
-                        </span>
-                        <span>
-                            土壤温度：{{ AQI?.temp1 }}°
-                        </span>
-                        <span>
-                            土壤ph： {{ AQI?.ph }}
-                        </span>
-                        <span>
-                            土壤电导率： {{ AQI?.ec }}μs/cm
-                        </span>
+                        <span> 土壤湿度： {{ AQI?.humi1 }}% </span>
+                        <span> 土壤温度：{{ AQI?.temp1 }}° </span>
+                        <span> 土壤ph： {{ AQI?.ph }} </span>
+                        <span> 土壤电导率： {{ AQI?.ec }}μs/cm </span>
                     </template>
                     <template v-else-if="appStore.currentApp?.bizModule === 5">
-                        <span>
-                            雨量： {{ AQI?.prcp }}L/㎡
-                        </span>
+                        <span> 雨量： {{ AQI?.prcp }}L/㎡ </span>
                     </template>
                     <template v-else>
                         {{ appStore.currentApp.meta.AQIName }}：{{ AQI }}
-                        <div class="tag" :style="{ background: mesureLevel.color}">
+                        <div class="tag" :style="{ background: mesureLevel.color }">
                             {{ mesureLevel.level }}
                         </div>
                     </template>
                 </article>
-                <article class="">
-                    {{ updateTime }}更新
-                </article>
+                <article class="">{{ updateTime }}更新</article>
             </ElCard>
         </ElCol>
         <ElCol :span="12" class="h-340">
@@ -74,21 +56,19 @@
             <ElCard shadow="never" class="draw-container">
                 <div class="chat-title">
                     <h3>微站24小时平均值</h3>
-                    <ElSelect v-model="measure" size="medium" @change="drawBar">
-                        <template
-                            v-for="item in appStore.measureList"
-                            :key="item.code"
-                        >
-                            <ElOption
-                                v-if="item.code !== 'wd'"
-                                :label="item.name"
-                                :value="item.code"
-                            ></ElOption>
+                    <ElSelect v-model="measure" size="medium" @change="drawBar" style="width: 100px">
+                        <template v-for="item in appStore.measureList" :key="item.code">
+                            <ElOption v-if="item.code !== 'wd'" :label="item.name" :value="item.code"></ElOption>
                         </template>
                     </ElSelect>
                 </div>
                 <div class="map-layout">
-                    <v-chart v-if="option.series.length && option.series[0].data.length" class="chart" :option="option" autoresize />
+                    <v-chart
+                        v-if="option.series.length && option.series[0].data.length"
+                        class="chart"
+                        :option="option"
+                        autoresize
+                    />
                     <ElEmpty v-else description="暂无数据" :image="emptyImage"></ElEmpty>
                 </div>
             </ElCard>
@@ -97,7 +77,7 @@
 </template>
 
 <script setup lang="ts">
-import { ElCard, ElSelect, ElRow, ElCol,ElEmpty, valueEquals } from 'element-plus';
+import { ElCard, ElSelect, ElRow, ElCol, ElEmpty, valueEquals } from 'element-plus';
 import { useUserStore, useSettingStore } from '@/store/app';
 import http from '@/api/home';
 import { ref, onMounted } from 'vue';
@@ -115,18 +95,12 @@ const msgList = ref([]);
 const updateTime = getCurrentTime();
 const option = ref({
     tooltip: {},
-    legend: {
-
-    },
+    legend: {},
     xAxis: {
-        axisLine: {
-
-        }
+        axisLine: {},
     },
     yAxis: {
-        axisLine: {
-
-        }
+        axisLine: {},
     },
     series: [],
     grid: {
@@ -142,18 +116,14 @@ const mesureLevel = computed(() => getLevelByMesure(AQI.value));
 
 const measure = ref(appStore.currentApp.defaultMeasure);
 
-
-
 const searchForm = {
     measure: appStore.currentApp.defaultMeasure,
     date: [dayjs().subtract(3, 'day').format('YYYY-MM-DD'), dayjs().format('YYYY-MM-DD')],
 };
 
-
 const drawBar = async () => {
-
     const data = await http[appStore.currentApp.url].get24AvgData({ measure: measure.value });
-    if(data && data.length) {
+    if (data && data.length) {
         option.value = {
             xAxis: {
                 axisLabel: {
@@ -175,11 +145,11 @@ const drawBar = async () => {
             series: [
                 {
                     type: 'bar',
-                    data: data.map(item => ({
+                    data: data.map((item) => ({
                         value: item.avg,
                         itemStyle: {
-                            color: getLevelByMesure(item.avg)?.color
-                        }
+                            color: getLevelByMesure(item.avg)?.color,
+                        },
                     })),
                 },
             ],
@@ -190,7 +160,7 @@ const drawBar = async () => {
                 bottom: 0,
                 containLabel: true,
             },
-            color: ['#07A872','#F5BA18']
+            color: ['#07A872', '#F5BA18'],
         };
     }
 };
@@ -258,7 +228,7 @@ const store = useUserStore();
                 padding: 4px 8px;
                 color: #fff;
             }
-            span + span{
+            span + span {
                 margin-left: 10px;
             }
         }
@@ -309,7 +279,7 @@ const store = useUserStore();
         }
     }
 }
-.el-empty{
+.el-empty {
     height: 100%;
     padding: 0;
 }
