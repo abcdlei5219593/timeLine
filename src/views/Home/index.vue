@@ -21,6 +21,12 @@
                     <template v-else-if="appStore.currentApp?.bizModule === 5">
                         <span> 雨量： {{ AQI?.prcp }}L/㎡ </span>
                     </template>
+                    <template v-else-if="appStore.currentApp?.bizModule === 6">
+                        <span> 污染物排放（废水）： {{ AQI?.effluent }}m³ </span>
+                        <span> 噪声：{{ AQI?.db }}db</span>
+                        <span> 粉尘： {{ AQI?.dust }}ug/m³ </span>
+                    </template>
+
                     <template v-else>
                         {{ appStore.currentApp.meta.AQIName }}：{{ AQI }}
                         <div class="tag" :style="{ background: mesureLevel.color }">
@@ -28,7 +34,9 @@
                         </div>
                     </template>
                 </article>
-                <article class="">{{ updateTime }}更新</article>
+                <article class="">
+                    {{ updateTime }}更新
+                </article>
             </ElCard>
         </ElCol>
         <ElCol :span="12" class="h-340">
@@ -56,7 +64,7 @@
             <ElCard shadow="never" class="draw-container">
                 <div class="chat-title">
                     <h3>微站24小时平均值</h3>
-                    <ElSelect v-model="measure" size="medium" @change="drawBar" style="width: 100px">
+                    <ElSelect v-model="measure" size="medium" style="width: 100px" @change="drawBar">
                         <template v-for="item in appStore.measureList" :key="item.code">
                             <ElOption v-if="item.code !== 'wd'" :label="item.name" :value="item.code"></ElOption>
                         </template>

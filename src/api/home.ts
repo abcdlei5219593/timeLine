@@ -86,7 +86,7 @@ export default {
             } as AxiosRequestConfig),
         getAQI: (data: object) =>
             $http({
-                url: '/admin/ptu/index/get24Humi',
+                url: '/admin/ptu/index/get24Summary',
                 method: 'get',
                 params: data,
                 showLoading: true
@@ -118,6 +118,30 @@ export default {
         getLastestAlarms: (data: object) =>
             $http({
                 url: '/admin/rain/index/getLastestAlarms',
+                method: 'get',
+                params: data,
+                showLoading: true
+            } as AxiosRequestConfig)
+
+    },
+    '/app/city': {
+        get24AvgData: (data: object) =>
+            $http({
+                url: '/admin/city/index/get24AvgData',
+                method: 'get',
+                params: data,
+                showLoading: true
+            } as AxiosRequestConfig),
+        getAQI: (data: object) =>
+            $http({
+                url: '/admin/city/index/get24Summary',
+                method: 'get',
+                params: data,
+                showLoading: true
+            } as AxiosRequestConfig),
+        getLastestAlarms: (data: object) =>
+            $http({
+                url: '/admin/city/index/getLastestAlarms',
                 method: 'get',
                 params: data,
                 showLoading: true

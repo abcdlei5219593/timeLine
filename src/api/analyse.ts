@@ -21,7 +21,7 @@ export default {
 
         getAQIHourAvgInMonth: (params: object = {}) =>
             $http({
-                url: '/admin/gas/analyse/getAQIHourAvgInMonth',
+                url: '/admin/gas/analyse/getHourAvgInMonth',
                 method: 'get',
                 params,
                 showLoading: true
@@ -72,7 +72,7 @@ export default {
 
         getAQIHourAvgInMonth: (params: object = {}) =>
             $http({
-                url: '/admin/water/analyse/getCWQIHourAvgInMonth',
+                url: '/admin/water/analyse/getHourAvgInMonth',
                 method: 'get',
                 params,
                 showLoading: true
@@ -123,7 +123,7 @@ export default {
 
         getAQIHourAvgInMonth: (params: object = {}) =>
             $http({
-                url: '/admin/wind/analyse/getAQIHourAvgInMonth',
+                url: '/admin/wind/analyse/getHourAvgInMonth',
                 method: 'get',
                 params,
                 showLoading: true
@@ -174,7 +174,7 @@ export default {
 
         getAQIHourAvgInMonth: (params: object = {}) =>
             $http({
-                url: '/admin/ptu/analyse/getAQIHourAvgInMonth',
+                url: '/admin/ptu/analyse/getHourAvgInMonth',
                 method: 'get',
                 params,
                 showLoading: true
@@ -225,7 +225,7 @@ export default {
 
         getAQIHourAvgInMonth: (params: object = {}) =>
             $http({
-                url: '/admin/rain/analyse/getPRCPHourAvgInMonth',
+                url: '/admin/rain/analyse/getHourAvgInMonth',
                 method: 'get',
                 params,
                 showLoading: true
@@ -256,6 +256,57 @@ export default {
                 showLoading: true
             } as AxiosRequestConfig)
 
-    }
+    },
+    '/app/city': {
+        getDeviceData: (data: object) =>
+            $http({
+                url: '/admin/city/analyse/getDeviceData',
+                method: 'post',
+                data,
+                showLoading: true
+            } as AxiosRequestConfig),
+
+        getHotmapData: (data: object = {}) =>
+            $http({
+                url: '/admin/city/analyse/getHotmapData',
+                method: 'post',
+                data,
+                showLoading: true
+            } as AxiosRequestConfig),
+
+        getAQIHourAvgInMonth: (params: object = {}) =>
+            $http({
+                url: '/admin/city/analyse/getHourAvgInMonth',
+                method: 'get',
+                params,
+                showLoading: true
+            } as AxiosRequestConfig),
+
+
+        getMonitorData: (data: object = {}) =>
+            $http({
+                url: '/admin/city/analyse/getMonitorData',
+                method: 'post',
+                data,
+                showLoading: true
+            } as AxiosRequestConfig),
+
+        getCurvesData: (data: object = {}) =>
+            $http({
+                url: '/admin/city/analyse/getCurvesData',
+                method: 'post',
+                data,
+                showLoading: true
+            } as AxiosRequestConfig),
+
+        getAllStationAnalyses: (data: object = {}) =>
+            $http({
+                url: '/admin/city/analyse/getAllStationAnalyses',
+                method: 'post',
+                data,
+                showLoading: true
+            } as AxiosRequestConfig)
+
+    },
 };
 

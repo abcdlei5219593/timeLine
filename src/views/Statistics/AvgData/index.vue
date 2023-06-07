@@ -1,10 +1,23 @@
 <template>
     <ElCard shadow="never">
-        <section class="lengend">
-            <span>正常</span>
-            <div class="lengend-bar"></div>
-            <span>高值</span>
-        </section>
+        <div class="header">
+            <div v-if="store.currentApp?.bizModule === 4 || store.currentApp?.bizModule === 6" class="seach-row">
+                <span class="search-label">微站选择：</span>
+                <ElSelect v-model="measure" size="medium" @change="getTableData">
+                    <ElOption
+                        v-for="item in store.measureList"
+                        :key="item.code"
+                        :label="item.name"
+                        :value="item.code"
+                    ></ElOption>
+                </ElSelect>
+            </div>
+            <section class="lengend">
+                <span>正常</span>
+                <div class="lengend-bar"></div>
+                <span>高值</span>
+            </section>
+        </div>
 
         <ElTable id="xc-table" class="table" :data="tableData" border="" :cell-style="cellStyle" :height="maxTableHeight">
             <ElTableColumn
@@ -28,6 +41,7 @@ import { useSettingStore } from '@/store/app';
 import { computed, ref } from 'vue';
 
 const store = useSettingStore();
+const measure = ref(store.currentApp.defaultMeasure);
 const { maxTableHeight } = useTableSetting({ id: 'xc-table', offsetBottom: 50 });
 const cellStyle = ({ row, column, rowIndex, columnIndex }) => {
     if(columnIndex !== 0 && columnIndex !== tableColumn.value.length - 1) {
@@ -98,7 +112,15 @@ const tableColumn = computed(() =>
 );
 
 const getTableData = async () => {
-    const data = await http[store.currentApp.url].getAQIHourAvgInMonth({year: new Date().getFullYear(), month: new Date().getMonth() + 1});
+
+    const params = {
+        year: new Date().getFullYear(),
+        month: new Date().getMonth() + 1
+    };
+    if(store.currentApp?.bizModule === 4 || store.currentApp?.bizModule === 6) {
+        params.measure = measure.value;
+    }
+    const data = await http[store.currentApp.url].getAQIHourAvgInMonth(params);
     console.log(data);
     const arr = [];
     for(const [index,station] of data.entries()) {
@@ -118,6 +140,13 @@ getTableData();
 </script>
 
 <style scoped lang="scss">
+.header{
+    position: relative;
+    .seach-row{
+        top:-8px;
+        position: absolute;
+    }
+}
 .el-table{
     margin-top: 27px;
 }

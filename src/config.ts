@@ -153,6 +153,7 @@ export const APP_LIST: Menu = [
             categoryName: '土壤水分',
             categoryTitle: '土壤湿度变化曲线',
             reportName: '土壤湿度报告',
+            avgLabel: '月均土壤',
             stasticsColumns: [
                 { prop: 'humi1', label: '土壤湿度（%）' },
                 { prop: 'temp1', label: '土壤温度℃' },
@@ -202,20 +203,28 @@ export const APP_LIST: Menu = [
         url: '/app/city',
         bizModule: 6,
         name: '城市环境监测',
-        defaultMeasure: 'prcp',
+        defaultMeasure: 'effluent',
         children: routeCityPath('/app/city'),
         meta: {
             AQIName: 'CWQI',
             categoryName: '城市环境监测',
             categoryTitle: '城市环境监测变化曲线',
             reportName: '城市环境监测报告',
+            avgLabel: '月均',
             stasticsColumns: [
-                // { prop: 'prcp', label: '雨量（L/㎡）' },
+                { prop: 'effluent', label: '污染物排放（废水）(m³)'},
+                { prop: 'db', label: '噪声(db)' },
+                { prop: 'dust', label: '粉尘(ug/m³)', },
             ],
             markerWindowField: [
                 [
-                    // { prop: 'prcp', label: '雨量（L/㎡）' },
-
+                    { prop: 'effluent', label: '污染物排放（废水）', render: value => `${value}m³` },
+                ],
+                [
+                    { prop: 'db', label: '噪声', render: value => `${value}db` },
+                ],
+                [
+                    { prop: 'dust', label: '粉尘', render: value => `${value}ug/m³` },
                 ],
 
             ]
