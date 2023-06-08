@@ -232,11 +232,11 @@ const stationType: any = ref([
         value: 5,
         disabled: false,
     },
-    // {
-    //     label: '城市环境监测',
-    //     value: 6,
-    //     disabled: false,
-    // },
+    {
+        label: '城市环境监测',
+        value: 6,
+        disabled: false,
+    },
 ]);
 
 const checkChange = (val: any) => {
