@@ -43,7 +43,7 @@
                         </ElButton>
                     </ElFormItem>
                 </ElForm>
-                <div class="login-other">
+                <!-- <div class="login-other">
                     <p>使用其他方式登录</p>
                     <div class="login-method">
                         <i
@@ -56,7 +56,7 @@
                             <Qrcode></Qrcode>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -184,11 +184,11 @@ const getUser = async () => {
 
     .login-main {
         width: 480px;
-        height: 598px;
+        height: 538px;
         position: absolute;
         left: 50%;
         top: 50%;
-        margin: -319px 0 0 -240px;
+        margin: -279px 0 0 -240px;
 
         .login-title {
             font-size: 26px;
@@ -213,7 +213,7 @@ const getUser = async () => {
 
         .login-box {
             width: 480px;
-            height: 486px;
+            height: 416px;
             background-color: #fff;
             box-shadow: 0 8px 24px 0 #0000001a;
             border-radius: 8px;
