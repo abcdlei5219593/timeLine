@@ -91,8 +91,10 @@ const date: any = ref([]);
 
 const timeChange = (val: any) => {
     date.value = val;
-    DevceWarnParams.startTime = val[0];
-    DevceWarnParams.endTime = val[1];
+    DevceWarnParams.startTime = getFormatDate(new Date(val[0]), 'YYYY-mm-dd HH:MM:SS');
+    DevceWarnParams.endTime = getFormatDate(new Date(val[1]), 'YYYY-mm-dd HH:MM:SS');
+    DevceWarnParams.pageNum = 1;
+    getList();
 };
 
 const getList = async () => {
