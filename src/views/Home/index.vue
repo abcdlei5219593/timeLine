@@ -19,7 +19,7 @@
                         <span> 土壤电导率： {{ AQI?.ec }}μs/cm </span>
                     </template>
                     <template v-else-if="appStore.currentApp?.bizModule === 5">
-                        <span> 雨量： {{ AQI?.prcp }}L/㎡ </span>
+                        <span> 雨量： {{ AQI }}L/㎡ </span>
                     </template>
                     <template v-else-if="appStore.currentApp?.bizModule === 6">
                         <span> 污染物排放（废水）： {{ AQI?.effluent }}m³ </span>

@@ -39,7 +39,7 @@
                 >
                     <div class="header">
                         <span class="station">{{ currentMaker.stationName }}</span>
-                        <span>{{ currentMaker.updateTime }}</span>
+                        <span>{{ currentMaker.data.createTime }}</span>
                     </div>
                     <ul class="info">
                         <li
