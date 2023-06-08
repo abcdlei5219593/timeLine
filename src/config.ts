@@ -187,6 +187,7 @@ export const APP_LIST: Menu = [
             categoryName: '降水',
             categoryTitle: '雨量变化曲线',
             reportName: '雨量报告',
+            avgLabel: '月均雨量',
             stasticsColumns: [
                 { prop: 'prcp', label: '雨量（L/㎡）' },
             ],
