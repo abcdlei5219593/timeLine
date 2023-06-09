@@ -47,7 +47,11 @@
         >
             <!-- <ElTableColumn prop="deviceId" label="编号" /> -->
             <ElTableColumn prop="stationName" label="微站名称" />
-            <ElTableColumn prop="value" label="值" />
+            <ElTableColumn prop="value" label="值">
+                <template #default="scope">
+                    <span>{{ scope.row.value.toFixed(2) }}</span>
+                </template>
+            </ElTableColumn>
             <ElTableColumn prop="sensorCode" label="传感器类型" />
             <ElTableColumn prop="status" label="状态">
                 <template #default="scope">
@@ -55,13 +59,6 @@
                     <span v-else-if="scope.row.status === 0">已关闭</span>
                 </template>
             </ElTableColumn>
-            <!-- <ElTableColumn prop="type" label="告警类型">
-                <template #default="scope">
-                    <span v-if="scope.row.type === 1">设备告警</span>
-                    <span v-else-if="scope.row.type === 2">环境告警</span>
-                    <span></span>
-                </template>
-            </ElTableColumn> -->
             <ElTableColumn prop="createTime" label="时间" />
             <ElTableColumn fixed="right" label="操作">
                 <template #default="scope">
