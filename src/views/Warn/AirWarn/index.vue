@@ -35,7 +35,7 @@
             </ElCol>
             <ElCol :span="2" @change="searchChange">
                 <ElCheckbox v-model="AirWarnParams.unclosed" class="search-checkbox" size="default">
-                    筛选{{ AirWarnParams.unclosed ? '关闭' : '未关闭' }}
+                    筛选未关闭
                 </ElCheckbox>
             </ElCol>
         </ElRow>

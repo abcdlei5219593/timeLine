@@ -64,7 +64,7 @@
 
 <script setup lang="ts">
 import { ElButton, ElInput, ElForm, ElFormItem, FormInstance, ElMessage } from 'element-plus';
-import { ref, reactive, getCurrentInstance } from 'vue';
+import { ref, reactive, getCurrentInstance, onMounted } from 'vue';
 import { FormType } from './ModelDefines';
 import { login, listUserModule } from '@/api/login';
 import md5 from 'js-md5';
@@ -166,6 +166,17 @@ const getUser = async () => {
         store.getUserInfo(res);
     } catch (err) {}
 };
+
+const keyDown = (e: any) => {
+    //如果是回车则执行登录方法 喜欢的可以多研究下其他的按键keyCode
+    if (e.keyCode === 13) {
+        submitForm(formDataRef.value);
+    }
+};
+
+onMounted(() => {
+    window.addEventListener('keydown', keyDown);
+});
 </script>
 
 <style scoped lang="scss">
