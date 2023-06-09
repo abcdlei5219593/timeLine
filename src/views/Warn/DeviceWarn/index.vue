@@ -38,15 +38,7 @@
             <ElTableColumn prop="deviceId" label="编号" />
             <ElTableColumn prop="stationName" label="微站名称" />
             <ElTableColumn prop="value" label="告警值" />
-            <ElTableColumn prop="sensorCode" label="传感器类型" />
             <ElTableColumn prop="alarmDesc" label="告警类型" />
-            <!-- <ElTableColumn prop="type" label="告警类型">
-                <template #default="scope">
-                    <span v-if="scope.row.type === 1">设备告警</span>
-                    <span v-else-if="scope.row.type === 2">环境告警</span>
-                    <span></span>
-                </template>
-            </ElTableColumn> -->
             <ElTableColumn prop="createTime" label="时间" />
         </ElTable>
         <ElPagination
