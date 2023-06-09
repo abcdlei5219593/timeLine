@@ -47,7 +47,7 @@
         >
             <!-- <ElTableColumn prop="deviceId" label="编号" /> -->
             <ElTableColumn prop="stationName" label="微站名称" />
-            <ElTableColumn prop="status" label="值" />
+            <ElTableColumn prop="value" label="值" />
             <ElTableColumn prop="sensorCode" label="传感器类型" />
             <ElTableColumn prop="status" label="状态">
                 <template #default="scope">
