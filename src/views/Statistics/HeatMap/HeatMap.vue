@@ -55,6 +55,31 @@ watch(
                 max.value = 150;
             } else if (props.searchForm.measure === 'effluent') {
                 max.value = 10;
+            } else {
+                max.value = 100;
+            }
+        }
+        if (url.indexOf('/app/airContent') >= 1) {
+            if (props.searchForm.measure === 'ap') {
+                max.value = 200;
+            } else {
+                max.value = 100;
+            }
+        }
+        if (url.indexOf('/app/water') >= 1) {
+            if (props.searchForm.measure === 'ec') {
+                max.value = 200;
+            } else if (props.searchForm.measure === 'wt') {
+                max.value = 10;
+            } else {
+                max.value = 100;
+            }
+        }
+        if (url.indexOf('/app/wind') >= 1) {
+            if (props.searchForm.measure === 'wd') {
+                max.value = 200;
+            } else {
+                max.value = 10;
             }
         }
         getDeviceDataHandler();
@@ -112,7 +137,7 @@ const getDeviceDataHandler = async () => {
         };
 
         timeLine.value.push(temp);
-        console.log(timeLine, 'temptemp');
+        console.log(timeLine.value, 'temptemp');
     }
     start();
 
