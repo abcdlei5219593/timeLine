@@ -40,27 +40,6 @@
             </ElCard>
         </ElCol>
         <ElCol :span="12" class="h-340">
-            <ElCard shadow="never" class="msg">
-                <h3>告警消息</h3>
-                <ul>
-                    <li v-for="msg in msgList" :key="msg.id">
-                        {{ msg.title }}
-                        <p class="date">
-                            {{ msg.createTime }}
-                        </p>
-                    </li>
-                </ul>
-            </ElCard>
-        </ElCol>
-        <ElCol :span="12" class="h-390">
-            <ElCard shadow="never" class="draw-container">
-                <h3>热力图</h3>
-                <div class="map-layout">
-                    <HeatMap :search-form="searchForm" />
-                </div>
-            </ElCard>
-        </ElCol>
-        <ElCol :span="12" class="h-390">
             <ElCard shadow="never" class="draw-container">
                 <div class="chat-title">
                     <h3>微站24小时平均值</h3>
@@ -79,6 +58,27 @@
                     />
                     <ElEmpty v-else description="暂无数据" :image="emptyImage"></ElEmpty>
                 </div>
+            </ElCard>
+        </ElCol>
+        <ElCol :span="12" class="h-390">
+            <ElCard shadow="never" class="draw-container">
+                <h3>热力图</h3>
+                <div class="map-layout">
+                    <HeatMap :search-form="searchForm" />
+                </div>
+            </ElCard>
+        </ElCol>
+        <ElCol :span="12" class="h-390">
+            <ElCard shadow="never" class="msg">
+                <h3>告警消息</h3>
+                <ul>
+                    <li v-for="msg in msgList" :key="msg.id">
+                        {{ msg.title }}
+                        <p class="date">
+                            {{ msg.createTime }}
+                        </p>
+                    </li>
+                </ul>
             </ElCard>
         </ElCol>
     </ElRow>
