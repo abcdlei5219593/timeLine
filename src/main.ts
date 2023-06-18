@@ -18,6 +18,7 @@ import { permission } from '@/directives/index';
 initAMapApiLoader({
     key: AMAP_KEY,
     securityJsCode: SECURITY_CODE, // 新版key需要配合安全密钥使用
+    version: '2.1Beta'
 });
 
 const pinia = createPinia();

@@ -19,9 +19,15 @@
         <div class="map-container">
             <ElAmap
                 class="map"
+                view-mode="3D"
+                :pitch-enable="true"
+                :pitch="30"
+                :terrain="true"
+                map-style="amap://styles/grey"
                 :center="store.mapCenter"
                 :zoom="14"
             >
+                <el-amap-layer-buildings />
                 <el-amap-marker
                     v-for="(item, index) in deviceList"
                     :key="index"

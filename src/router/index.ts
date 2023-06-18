@@ -19,6 +19,11 @@ const routes: Array<RouteRecordRaw> = [
         redirect: '/login'
     },
     {
+        path: '/dashboard',
+        name: 'Dashboard',
+        component: () => import('@/views/Dashboard/index.vue')
+    },
+    {
         path: '/app/:appkey',
         name: 'Apps',
         component: Layout,
