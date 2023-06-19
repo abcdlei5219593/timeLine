@@ -24,7 +24,7 @@ const echartInit = () => {
     var option = {
         xAxis: {
             type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            data: props.lineData.lineLabel,
             axisLine: {
                 lineStyle: {
                     color: '#fff',
@@ -54,7 +54,7 @@ const echartInit = () => {
         },
         series: [
             {
-                data: [150, 230, 224, 218, 135, 147, 260],
+                data: props.lineData.lineValue,
                 type: 'line',
                 itemStyle: {
                     normal: {

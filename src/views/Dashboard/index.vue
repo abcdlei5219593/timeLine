@@ -8,7 +8,7 @@
         </div>
         <section class="main">
             <div class="left">
-                <div class="box box1">
+                <div class="box box1 air-box">
                     <span class="title">环境监测-大气详情</span>
                     <div class="list-con">
                         <img src="@/assets/img/air.png" />
@@ -21,7 +21,18 @@
                     </div>
                 </div>
                 <div class="box box2">
-                    <span class="title">环境监测-AQ/趋势图</span>
+                    <div class="title-con">
+                        <span class="title">环境监测-AQI/趋势图</span>
+                        <div class="title-tabs">
+                            <span
+                                v-for="(item, i) in tabs"
+                                :key="i"
+                                :class="{ active: item.value === active }"
+                                @click="tabsChange(item.value)"
+                                >{{ item.label }}</span
+                            >
+                        </div>
+                    </div>
                     <lineChart :lineData="airLine" />
                 </div>
                 <div class="box box1">
@@ -65,7 +76,7 @@
                 <div class="box box3">
                     <span class="title">环境监测-水质</span>
                     <div class="list-con">
-                        <img src="@/assets/img/air.png" />
+                        <img src="@/assets/img/water.png" />
                         <ul class="water-ul">
                             <li v-for="(item, i) in waterList" :key="i">
                                 <p>{{ item.label }}</p>
@@ -77,7 +88,7 @@
                 <div class="box box1">
                     <span class="title">环境监测-风测量</span>
                     <div class="list-con">
-                        <img src="@/assets/img/air.png" />
+                        <img src="@/assets/img/wind.png" />
                         <ul>
                             <li v-for="(item, i) in windList" :key="i">
                                 <p>{{ item.label }}</p>
@@ -89,7 +100,7 @@
                 <div class="box box1">
                     <span class="title">环境监测-设备检测</span>
                     <div class="list-con">
-                        <img src="@/assets/img/air.png" />
+                        <img src="@/assets/img/device.png" />
                         <ul>
                             <li v-for="(item, i) in deviceList" :key="i">
                                 <p>{{ item.label }}</p>
@@ -108,11 +119,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { storeMenu as useMenuStore } from '@/store/app';
 import AppBar from '@/views/layout/Menu/appBar.vue';
 import lineChart from './components/line.vue';
 import pieChart from './components/pie.vue';
+import * as dataBoardApi from '@/api/dataBoard';
 
 const menuStore = useMenuStore();
 const appList = computed(() =>
@@ -122,6 +134,36 @@ const appList = computed(() =>
         bgImage: `menu_${url.substring(url.lastIndexOf('/') + 1)}`,
     }))
 );
+const active = ref(0);
+const tabs = ref([
+    {
+        label: '12h',
+        value: 0,
+    },
+    {
+        label: '7日',
+        value: 1,
+    },
+    {
+        label: '12月',
+        value: 2,
+    },
+]);
+
+const tabsChange = (i: number) => {
+    active.value = i;
+    if (i === 0) {
+        getAQIIn12Hours();
+    } else if (i === 1) {
+        getAQIIn15Days();
+    } else if (i === 2) {
+        getAQIIn12Months();
+    }
+};
+
+const toParseIntNum = (num: number) => {
+    return parseInt(num * 100) + '%';
+};
 
 const airLine = ref({
     lineLabel: [],
@@ -287,6 +329,238 @@ const mapPoint = ref([
         top: 60,
     },
 ]);
+
+// 大气详情
+const getAirDetail = async () => {
+    try {
+        const res = await dataBoardApi.getRealData();
+        airList.value = [
+            {
+                label: 'SO2',
+                value: res.so2,
+            },
+            {
+                label: 'PM2.5',
+                value: res.pm25,
+            },
+            {
+                label: 'PM10',
+                value: res.pm10,
+            },
+            {
+                label: 'NO2',
+                value: res.no2,
+            },
+            {
+                label: 'O3',
+                value: res.o3,
+            },
+            {
+                label: 'CO',
+                value: res.co,
+            },
+        ];
+    } catch (err) {}
+};
+
+//aqi趋势12小时
+const getAQIIn12Hours = async () => {
+    airLine.value.lineLabel = [];
+    airLine.value.lineValue = [];
+    try {
+        const res = await dataBoardApi.getAQIIn12Hours();
+        res.forEach((item: any) => {
+            airLine.value.lineLabel.push(item.time);
+            airLine.value.lineValue.push(item.avg);
+        });
+    } catch (err) {}
+};
+
+//7日
+const getAQIIn15Days = async () => {
+    airLine.value.lineLabel = [];
+    airLine.value.lineValue = [];
+    try {
+        const res = await dataBoardApi.getAQIIn15Days();
+        res.forEach((item: any) => {
+            airLine.value.lineLabel.push(item.time);
+            airLine.value.lineValue.push(item.avg);
+        });
+    } catch (err) {}
+};
+
+//12月
+const getAQIIn12Months = async () => {
+    airLine.value.lineLabel = [];
+    airLine.value.lineValue = [];
+    try {
+        const res = await dataBoardApi.getAQIIn12Months();
+        res.forEach((item: any) => {
+            airLine.value.lineLabel.push(item.time);
+            airLine.value.lineValue.push(item.avg);
+        });
+    } catch (err) {}
+};
+
+//ptu
+const getPtuData = async () => {
+    try {
+        const res = await dataBoardApi.getPtuData();
+        ptuList.value = [
+            {
+                label: '土壤湿度(%)',
+                value: res.humi,
+            },
+            {
+                label: '土壤温度°C',
+                value: res.temp,
+            },
+            {
+                label: '土壤PH',
+                value: res.ph,
+            },
+            {
+                label: '土壤电导率μs/cm',
+                value: res.ec,
+            },
+        ];
+    } catch (err) {}
+};
+
+//降雨
+const getPRCPEveryMonth = async () => {
+    rainLine.value.lineLabel = [];
+    rainLine.value.lineValue = [];
+    try {
+        const res = await dataBoardApi.getPRCPEveryMonth();
+        res.forEach((item: any) => {
+            rainLine.value.lineLabel.push(item.time);
+            rainLine.value.lineValue.push(item.avg);
+        });
+    } catch (err) {}
+};
+
+//水质
+const getWaterData = async () => {
+    try {
+        const res = await dataBoardApi.getWaterData();
+        waterList.value = [
+            {
+                label: 'CwQI',
+                value: res.cwqi,
+            },
+            {
+                label: 'PH',
+                value: res.ph,
+            },
+            {
+                label: '溶解氧mg/L',
+                value: res.d0,
+            },
+            {
+                label: '电导率μs/cm',
+                value: res.ec,
+            },
+            {
+                label: '浊度NTU',
+                value: res.wt,
+            },
+            {
+                label: '温度°c',
+                value: res.temp,
+            },
+        ];
+    } catch (err) {}
+};
+
+//风
+const getWindData = async () => {
+    try {
+        const res = await dataBoardApi.getWindData();
+        ptuList.value = [
+            {
+                label: '风速mls',
+                value: res.wsp,
+            },
+            {
+                label: '风力',
+                value: res.wd,
+            },
+        ];
+    } catch (err) {}
+};
+
+//设备
+const getDeviceData = async () => {
+    try {
+        const res = await dataBoardApi.getDeviceData();
+        deviceList.value = [
+            {
+                label: '设备数量',
+                value: res.total,
+            },
+            {
+                label: '在线',
+                value: res.online,
+            },
+            {
+                label: '离线',
+                value: res.offline,
+            },
+        ];
+    } catch (err) {}
+};
+
+//告警信息
+const getAlarmData = async () => {
+    try {
+        const res = await dataBoardApi.getAlarmData();
+        const count = res.gasCount + res.ptuCount + res.rainCount + res.waterCount + res.windCount;
+        console.log(count, '99888');
+        pieData.value.pieValue = [
+            {
+                name: '降雨告警数：' + toParseIntNum(res.rainCount / count),
+                value: res.rainCount,
+            },
+            {
+                name: '风速告警数：' + toParseIntNum(res.windCount / count),
+                value: res.windCount,
+            },
+            {
+                name: 'PTU告警数：' + toParseIntNum(res.ptuCount / count),
+                value: res.ptuCount,
+            },
+            {
+                name: '大气告警数：' + toParseIntNum(res.gasCount / count),
+                value: res.gasCount,
+            },
+            {
+                name: '水质告警数：' + toParseIntNum(res.waterCount / count),
+                value: res.waterCount,
+            },
+        ];
+        console.log(pieData.value, 'pieData.value');
+    } catch (err) {}
+};
+
+//地图
+// const getDeviceData = async () => {
+//     try {
+//         const res = await dataBoardApi.getDeviceData();
+
+//     } catch (err) {}
+// };
+
+onMounted(() => {
+    getAirDetail();
+    getAQIIn12Hours();
+    getPtuData();
+    getPRCPEveryMonth();
+    getWaterData();
+    getWindData();
+    getDeviceData();
+    getAlarmData();
+});
 </script>
 
 <style scoped lang="scss">
@@ -300,6 +574,32 @@ const mapPoint = ref([
     @include wh(100vw, 100vh);
     padding: 0 2vw;
     background-image: url('@/assets/img/gis.png');
+}
+.title-con {
+    display: flex;
+    justify-content: space-between;
+    .title {
+        height: 2.5vh;
+        line-height: 2.5vh;
+        margin-top: 2vh;
+    }
+    .title-tabs {
+        display: flex;
+        margin-top: 3vh;
+        padding-right: 20px;
+        span {
+            width: 35px;
+            height: 2vh;
+            line-height: 2vh;
+            text-align: center;
+            display: block;
+            color: #fff;
+            cursor: pointer;
+        }
+        span.active {
+            background: rgba(4, 182, 255, 0.5);
+        }
+    }
 }
 .title {
     text-align: center;
@@ -365,6 +665,12 @@ const mapPoint = ref([
     .left,
     .right {
         width: 480px;
+
+        .air-box {
+            ul li p:last-child {
+                font-size: 16px !important;
+            }
+        }
 
         .list-con {
             display: flex;
