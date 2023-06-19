@@ -703,7 +703,7 @@ onMounted(() => {
                     width: 33%;
                     text-align: center;
                     p:first-child {
-                        color: #fff;
+                        color: rgba(255, 255, 255, 0.8);
                         height: 2vh;
                         line-height: 2vh;
                         font-size: 12px;

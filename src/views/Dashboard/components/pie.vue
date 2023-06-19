@@ -25,7 +25,7 @@ const echartInit = () => {
             trigger: 'item',
         },
         legend: {
-            top: '5%',
+            top: '10%',
             right: '10%',
             // left: 'center',
             orient: 'vertical',
@@ -34,7 +34,7 @@ const echartInit = () => {
             itemStyle: {},
             textStyle: {
                 color: '#fft',
-                lineHeight: 30,
+                lineHeight: 20,
             },
             // formatter: (v) => {
             //     console.log(v, '00000');

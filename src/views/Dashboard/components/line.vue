@@ -27,7 +27,7 @@ const echartInit = () => {
             data: props.lineData.lineLabel,
             axisLine: {
                 lineStyle: {
-                    color: '#fff',
+                    color: 'rgba(255,255,255,.8)',
                 },
             },
         },
@@ -42,7 +42,7 @@ const echartInit = () => {
             type: 'value',
             axisLine: {
                 lineStyle: {
-                    color: '#fff',
+                    color: 'rgba(255,255,255,.8)',
                 },
             },
             splitLine: {
