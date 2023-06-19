@@ -36,10 +36,10 @@ const echartInit = () => {
                 color: '#fft',
                 lineHeight: 30,
             },
-            formatter: (v) => {
-                console.log(v, '00000');
-                return v;
-            },
+            // formatter: (v) => {
+            //     console.log(v, '00000');
+            //     return v;
+            // },
         },
         color: ['#24EACD', '#FFFA92', '#13E7FF', '#00B5FF', '#35CCFF'],
         series: [

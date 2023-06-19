@@ -141,7 +141,7 @@ const tabs = ref([
         value: 0,
     },
     {
-        label: '7日',
+        label: '15日',
         value: 1,
     },
     {
@@ -376,7 +376,7 @@ const getAQIIn12Hours = async () => {
     } catch (err) {}
 };
 
-//7日
+//15日
 const getAQIIn15Days = async () => {
     airLine.value.lineLabel = [];
     airLine.value.lineValue = [];
@@ -516,7 +516,6 @@ const getAlarmData = async () => {
     try {
         const res = await dataBoardApi.getAlarmData();
         const count = res.gasCount + res.ptuCount + res.rainCount + res.waterCount + res.windCount;
-        console.log(count, '99888');
         pieData.value.pieValue = [
             {
                 name: '降雨告警数：' + toParseIntNum(res.rainCount / count),
@@ -539,17 +538,16 @@ const getAlarmData = async () => {
                 value: res.waterCount,
             },
         ];
-        console.log(pieData.value, 'pieData.value');
     } catch (err) {}
 };
 
 //地图
-// const getDeviceData = async () => {
-//     try {
-//         const res = await dataBoardApi.getDeviceData();
-
-//     } catch (err) {}
-// };
+const stationData = async () => {
+    try {
+        const res = await dataBoardApi.stationData();
+        console.log(res, '877666');
+    } catch (err) {}
+};
 
 onMounted(() => {
     getAirDetail();
@@ -560,6 +558,7 @@ onMounted(() => {
     getWindData();
     getDeviceData();
     getAlarmData();
+    stationData();
 });
 </script>
 
