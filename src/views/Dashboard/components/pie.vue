@@ -25,13 +25,23 @@ const echartInit = () => {
             trigger: 'item',
         },
         legend: {
-            right: '5%',
+            top: '5%',
+            right: '10%',
             // left: 'center',
             orient: 'vertical',
-            itemWidth: 8,
-            itemHeight: 8,
+            itemWidth: 16,
+            itemHeight: 16,
             itemStyle: {},
+            textStyle: {
+                color: '#fft',
+                lineHeight: 30,
+            },
+            formatter: (v) => {
+                console.log(v, '00000');
+                return v;
+            },
         },
+        color: ['#24EACD', '#FFFA92', '#13E7FF', '#00B5FF', '#35CCFF'],
         series: [
             {
                 name: '',
@@ -42,7 +52,7 @@ const echartInit = () => {
                 avoidLabelOverlap: true,
                 itemStyle: {
                     // borderRadius: 10,
-                    // borderColor: '#fff',
+                    // borderColor: 'transparent',
                     // borderWidth: 2,
                 },
                 label: {

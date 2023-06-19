@@ -13,9 +13,9 @@
                     <div class="list-con">
                         <img src="@/assets/img/air.png" />
                         <ul>
-                            <li>
-                                <p>SO2</p>
-                                <p>40</p>
+                            <li v-for="(item, i) in airList" :key="i">
+                                <p>{{ item.label }}</p>
+                                <p>{{ item.value }}</p>
                             </li>
                         </ul>
                     </div>
@@ -28,10 +28,10 @@
                     <span class="title">环境监测-PTU测量</span>
                     <div class="list-con">
                         <img src="@/assets/img/ptu.png" />
-                        <ul>
-                            <li>
-                                <p>SO2</p>
-                                <p>40</p>
+                        <ul class="ptu-ul">
+                            <li v-for="(item, i) in ptuList" :key="i">
+                                <p>{{ item.label }}</p>
+                                <p>{{ item.value }}</p>
                             </li>
                         </ul>
                     </div>
@@ -41,18 +41,47 @@
                     <lineChart :lineData="rainLine" />
                 </div>
             </div>
+            <div class="center">
+                <el-popover
+                    placement="top-start"
+                    title=""
+                    :width="200"
+                    trigger="hover"
+                    content=""
+                    v-for="(item, i) in mapPoint"
+                    :key="i"
+                >
+                    <template #reference>
+                        <img
+                            class="center-point"
+                            src="@/assets/img/point.png"
+                            :style="{ top: item.top + 'vh', left: item.left + '%' }"
+                        />
+                    </template>
+                    <div>99999</div>
+                </el-popover>
+            </div>
             <div class="right">
                 <div class="box box3">
                     <span class="title">环境监测-水质</span>
+                    <div class="list-con">
+                        <img src="@/assets/img/air.png" />
+                        <ul class="water-ul">
+                            <li v-for="(item, i) in waterList" :key="i">
+                                <p>{{ item.label }}</p>
+                                <p>{{ item.value }}</p>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="box box1">
                     <span class="title">环境监测-风测量</span>
                     <div class="list-con">
                         <img src="@/assets/img/air.png" />
                         <ul>
-                            <li>
-                                <p>SO2</p>
-                                <p>40</p>
+                            <li v-for="(item, i) in windList" :key="i">
+                                <p>{{ item.label }}</p>
+                                <p>{{ item.value }}</p>
                             </li>
                         </ul>
                     </div>
@@ -62,9 +91,9 @@
                     <div class="list-con">
                         <img src="@/assets/img/air.png" />
                         <ul>
-                            <li>
-                                <p>SO2</p>
-                                <p>40</p>
+                            <li v-for="(item, i) in deviceList" :key="i">
+                                <p>{{ item.label }}</p>
+                                <p>{{ item.value }}</p>
                             </li>
                         </ul>
                     </div>
@@ -108,19 +137,156 @@ const rainLine = ref({
 const pieData = ref({
     pieValue: [
         {
-            name: '4G',
-            value: 343183,
+            name: '降雨告警数：',
+            value: 20,
         },
         {
-            name: 'WIFI',
-            value: 7571,
+            name: '风速告警数：',
+            value: 20,
         },
         {
-            name: 'NET',
-            value: 1186,
+            name: 'PTU告警数：',
+            value: 20,
+        },
+        {
+            name: '大气告警数：',
+            value: 20,
+        },
+        {
+            name: '水质告警数：',
+            value: 20,
         },
     ],
 });
+const airList = ref([
+    {
+        label: 'SO2',
+        value: 0,
+    },
+    {
+        label: 'PM2.5',
+        value: 0,
+    },
+    {
+        label: 'PM10',
+        value: 0,
+    },
+    {
+        label: 'NO2',
+        value: 0,
+    },
+    {
+        label: 'O3',
+        value: 0,
+    },
+    {
+        label: 'CO',
+        value: 0,
+    },
+]);
+
+const ptuList = ref([
+    {
+        label: '土壤湿度(%)',
+        value: 0,
+    },
+    {
+        label: '土壤温度°C',
+        value: 0,
+    },
+    {
+        label: '土壤PH',
+        value: 0,
+    },
+    {
+        label: '土壤电导率μs/cm',
+        value: 0,
+    },
+]);
+
+const waterList = ref([
+    {
+        label: 'CwQI',
+        value: 0,
+    },
+    {
+        label: 'PH',
+        value: 0,
+    },
+    {
+        label: '溶解氧mg/L',
+        value: 0,
+    },
+    {
+        label: '电导率μs/cm',
+        value: 0,
+    },
+    {
+        label: '浊度NTU',
+        value: 0,
+    },
+    {
+        label: '温度°c',
+        value: 0,
+    },
+]);
+
+const windList = ref([
+    {
+        label: '风速mls',
+        value: 0,
+    },
+    {
+        label: '风力',
+        value: '1级',
+    },
+]);
+
+const deviceList = ref([
+    {
+        label: '设备数量',
+        value: 0,
+    },
+    {
+        label: '在线',
+        value: 0,
+    },
+    {
+        label: '离线',
+        value: 0,
+    },
+]);
+
+const mapPoint = ref([
+    {
+        left: 40,
+        top: 10,
+    },
+    {
+        left: 50,
+        top: 20,
+    },
+    {
+        left: 45,
+        top: 50,
+    },
+    {
+        left: 25,
+        top: 50,
+    },
+    {
+        left: 35,
+        top: 30,
+    },
+    {
+        left: 75,
+        top: 10,
+    },
+    {
+        left: 15,
+        top: 60,
+    },
+]);
 </script>
 
 <style scoped lang="scss">
@@ -183,6 +349,19 @@ const pieData = ref({
     justify-content: space-between;
     margin-top: 3vh;
 
+    .center {
+        width: calc(100% - 600px);
+        position: relative;
+
+        .center-point {
+            height: 5vh;
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    }
+
     .left,
     .right {
         width: 480px;
@@ -190,19 +369,39 @@ const pieData = ref({
         .list-con {
             display: flex;
             margin-top: 1vh;
+            align-items: center;
             img {
                 height: 5vh;
-                margin-left: 30px;
+                margin-left: 25px;
+            }
+            .water-ul {
+                flex-wrap: wrap;
+
+                li {
+                    width: 33%;
+                }
+            }
+            .ptu-ul {
+                li {
+                    width: 22%;
+                    &:last-child {
+                        width: 35%;
+                    }
+                }
             }
             ul {
                 display: flex;
-                margin-left: 20px;
+                // margin-left: 20px;
+                width: 100%;
 
                 li {
+                    width: 33%;
+                    text-align: center;
                     p:first-child {
                         color: #fff;
                         height: 2vh;
                         line-height: 2vh;
+                        font-size: 12px;
                     }
                     p:last-child {
                         font-size: 19px;
@@ -228,6 +427,9 @@ const pieData = ref({
                 padding-bottom: 5px;
                 color: #ffffff;
                 font-size: 12px;
+                background: linear-gradient(to bottom, #88ddff, #ffffff);
+                -webkit-background-clip: text;
+                color: transparent;
             }
         }
         .box2 {
