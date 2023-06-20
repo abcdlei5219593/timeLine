@@ -371,7 +371,7 @@ const getAQIIn12Hours = async () => {
         const res = await dataBoardApi.getAQIIn12Hours();
         res.forEach((item: any) => {
             airLine.value.lineLabel.push(item.time);
-            airLine.value.lineValue.push(item.avg);
+            airLine.value.lineValue.push(item.val);
         });
     } catch (err) {}
 };
@@ -384,7 +384,7 @@ const getAQIIn15Days = async () => {
         const res = await dataBoardApi.getAQIIn15Days();
         res.forEach((item: any) => {
             airLine.value.lineLabel.push(item.time);
-            airLine.value.lineValue.push(item.avg);
+            airLine.value.lineValue.push(item.val);
         });
     } catch (err) {}
 };
@@ -397,7 +397,7 @@ const getAQIIn12Months = async () => {
         const res = await dataBoardApi.getAQIIn12Months();
         res.forEach((item: any) => {
             airLine.value.lineLabel.push(item.time);
-            airLine.value.lineValue.push(item.avg);
+            airLine.value.lineValue.push(item.val);
         });
     } catch (err) {}
 };
@@ -435,7 +435,7 @@ const getPRCPEveryMonth = async () => {
         const res = await dataBoardApi.getPRCPEveryMonth();
         res.forEach((item: any) => {
             rainLine.value.lineLabel.push(item.time);
-            rainLine.value.lineValue.push(item.avg);
+            rainLine.value.lineValue.push(item.val);
         });
     } catch (err) {}
 };
@@ -477,7 +477,7 @@ const getWaterData = async () => {
 const getWindData = async () => {
     try {
         const res = await dataBoardApi.getWindData();
-        ptuList.value = [
+        windList.value = [
             {
                 label: '风速mls',
                 value: res.wsp,
