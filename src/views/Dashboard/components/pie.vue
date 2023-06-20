@@ -52,8 +52,8 @@ const echartInit = () => {
                 avoidLabelOverlap: true,
                 itemStyle: {
                     // borderRadius: 10,
-                    // borderColor: 'transparent',
-                    // borderWidth: 2,
+                    borderColor: '#000',
+                    borderWidth: 10,
                 },
                 label: {
                     normal: {
