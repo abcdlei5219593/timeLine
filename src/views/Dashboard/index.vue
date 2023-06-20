@@ -665,11 +665,11 @@ onMounted(() => {
     .right {
         width: 480px;
 
-        .air-box {
-            ul li p:last-child {
-                font-size: 16px !important;
-            }
-        }
+        // .air-box {
+        //     ul li p:last-child {
+        //         font-size: 16px !important;
+        //     }
+        // }
 
         .list-con {
             display: flex;
@@ -709,7 +709,7 @@ onMounted(() => {
                         font-size: 12px;
                     }
                     p:last-child {
-                        font-size: 19px;
+                        font-size: 16px;
                         font-weight: 700;
                         color: #24eacd;
                         height: 3vh;
