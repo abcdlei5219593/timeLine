@@ -3,14 +3,16 @@
         <div class="login-main">
             <p class="login-title">
                 <img class="login-logo" src="@/assets/login/logo.png" />
-                <!-- 智慧环境监测系统 -->
-                <div>
+            <!-- 智慧环境监测系统 -->
+            </p>
+            <div>
                 <p>长江工业园未来城市</p>
                 <p>智慧环境监测系统</p>
-                </div>
-            </p>
+            </div>
             <div class="login-box">
-                <p class="login-text">账号登录</p>
+                <p class="login-text">
+                    账号登录
+                </p>
                 <ElForm ref="formDataRef" :model="formData" :rules="rules">
                     <ElFormItem label="" prop="userName">
                         <ElInput
@@ -130,7 +132,7 @@ const loginFun = async () => {
         await getUser();
         loading.value = false;
         if (userMenu.length) {
-            router.push(userMenu[0].children[0].url);
+            router.push('/dashboard');
         } else {
             ElMessage.error('您没有系统操作权限，请联系管理员！');
         }
@@ -168,7 +170,7 @@ const getUser = async () => {
 };
 
 const keyDown = (e: any) => {
-    //如果是回车则执行登录方法 喜欢的可以多研究下其他的按键keyCode
+    // 如果是回车则执行登录方法 喜欢的可以多研究下其他的按键keyCode
     if (e.keyCode === 13) {
         submitForm(formDataRef.value);
     }

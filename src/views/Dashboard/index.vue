@@ -4,7 +4,8 @@
             <img src="@/assets/img/title.png" alt="" />
         </header>
         <div class="app-list">
-            <AppBar :menu-list="appList" :show-bg-image="true"> </AppBar>
+            <AppBar :menu-list="appList" :show-bg-image="true">
+            </AppBar>
         </div>
         <section class="main">
             <div class="left">
@@ -29,11 +30,10 @@
                                 :key="i"
                                 :class="{ active: item.value === active }"
                                 @click="tabsChange(item.value)"
-                                >{{ item.label }}</span
-                            >
+                            >{{ item.label }}</span>
                         </div>
                     </div>
-                    <lineChart :lineData="airLine" />
+                    <lineChart :line-data="airLine" />
                 </div>
                 <div class="box box1">
                     <span class="title">环境监测-PTU测量</span>
@@ -49,18 +49,18 @@
                 </div>
                 <div class="box box2">
                     <span class="title">环境监测-月降雨量</span>
-                    <lineChart :lineData="rainLine" />
+                    <lineChart :line-data="rainLine" />
                 </div>
             </div>
             <div class="center">
                 <el-popover
+                    v-for="(item, i) in mapPoint"
+                    :key="i"
                     placement="top-start"
                     title=""
                     :width="200"
                     trigger="hover"
                     content=""
-                    v-for="(item, i) in mapPoint"
-                    :key="i"
                 >
                     <template #reference>
                         <img
@@ -111,7 +111,7 @@
                 </div>
                 <div class="box box4">
                     <span class="title">环境监测-告警信息</span>
-                    <pieChart :pieData="pieData" />
+                    <pieChart :pie-data="pieData" />
                 </div>
             </div>
         </section>
@@ -363,7 +363,7 @@ const getAirDetail = async () => {
     } catch (err) {}
 };
 
-//aqi趋势12小时
+// aqi趋势12小时
 const getAQIIn12Hours = async () => {
     airLine.value.lineLabel = [];
     airLine.value.lineValue = [];
@@ -376,7 +376,7 @@ const getAQIIn12Hours = async () => {
     } catch (err) {}
 };
 
-//15日
+// 15日
 const getAQIIn15Days = async () => {
     airLine.value.lineLabel = [];
     airLine.value.lineValue = [];
@@ -389,7 +389,7 @@ const getAQIIn15Days = async () => {
     } catch (err) {}
 };
 
-//12月
+// 12月
 const getAQIIn12Months = async () => {
     airLine.value.lineLabel = [];
     airLine.value.lineValue = [];
@@ -402,7 +402,7 @@ const getAQIIn12Months = async () => {
     } catch (err) {}
 };
 
-//ptu
+// ptu
 const getPtuData = async () => {
     try {
         const res = await dataBoardApi.getPtuData();
@@ -427,7 +427,7 @@ const getPtuData = async () => {
     } catch (err) {}
 };
 
-//降雨
+// 降雨
 const getPRCPEveryMonth = async () => {
     rainLine.value.lineLabel = [];
     rainLine.value.lineValue = [];
@@ -440,7 +440,7 @@ const getPRCPEveryMonth = async () => {
     } catch (err) {}
 };
 
-//水质
+// 水质
 const getWaterData = async () => {
     try {
         const res = await dataBoardApi.getWaterData();
@@ -473,7 +473,7 @@ const getWaterData = async () => {
     } catch (err) {}
 };
 
-//风
+// 风
 const getWindData = async () => {
     try {
         const res = await dataBoardApi.getWindData();
@@ -490,7 +490,7 @@ const getWindData = async () => {
     } catch (err) {}
 };
 
-//设备
+// 设备
 const getDeviceData = async () => {
     try {
         const res = await dataBoardApi.getDeviceData();
@@ -511,7 +511,7 @@ const getDeviceData = async () => {
     } catch (err) {}
 };
 
-//告警信息
+// 告警信息
 const getAlarmData = async () => {
     try {
         const res = await dataBoardApi.getAlarmData();
@@ -541,7 +541,7 @@ const getAlarmData = async () => {
     } catch (err) {}
 };
 
-//地图
+// 地图
 const stationData = async () => {
     try {
         const res = await dataBoardApi.stationData();
@@ -571,6 +571,7 @@ onMounted(() => {
 .root {
     box-sizing: border-box;
     @include wh(100vw, 100vh);
+    overflow: hidden;
     padding: 0 2vw;
     background-image: url('@/assets/img/gis.png');
 }
