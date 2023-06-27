@@ -4,7 +4,8 @@
             <img src="@/assets/img/title.png" alt="" />
         </header>
         <div class="app-list">
-            <AppBar :menu-list="appList" :show-bg-image="true"> </AppBar>
+            <AppBar :menu-list="appList" :show-bg-image="true">
+            </AppBar>
         </div>
         <section class="main">
             <div class="left">
@@ -24,13 +25,8 @@
                     <div class="title-con">
                         <span class="title">环境监测-AQI/趋势图</span>
                         <div class="title-tabs">
-                            <span
-                                v-for="(item, i) in tabs"
-                                :key="i"
-                                :class="{ active: item.value === active }"
-                                @click="tabsChange(item.value)"
-                                >{{ item.label }}</span
-                            >
+                            <span v-for="(item, i) in tabs" :key="i" :class="{ active: item.value === active }"
+                                @click="tabsChange(item.value)">{{ item.label }}</span>
                         </div>
                     </div>
                     <lineChart :line-data="airLine" />
@@ -72,28 +68,22 @@
                     </template>
                     <div>99999</div>
                 </el-popover> -->
-                <div
-                    class="center-point"
-                    v-for="(item, i) in allPoint"
-                    :key="i"
-                    :style="{ top: item.position.top + 'vh', left: item.position.left + '%' }"
-                >
-                    <img
-                        class="center-point"
-                        src="@/assets/img/point.png"
-                        @mouseover="mapActive = i"
-                        @mouseout="mapActive = ''"
-                    />
+                <div v-for="(item, i) in allPoint" :key="i" class="center-point"
+                    :style="{ top: item.position.top + 'vh', left: item.position.left + '%' }">
+                    <img class="center-point" src="@/assets/img/point.png" @mouseover="mapActive = i"
+                        @mouseout="mapActive = ''" />
                     <!-- <img class="center-point" src="@/assets/img/point.png" @mouseover="mapActive = i" @mouseout="mapActive=''" /> -->
-                    <div class="point-box" :class="mapActive === i ? 'map-active' : ''" v-if="item.value">
+                    <div v-if="item.value" class="point-box" :class="mapActive === i ? 'map-active' : ''">
                         <p class="point-title">
                             微站监测总览
                             <span>最近更新时间{{ item.value.createTime }}</span>
                         </p>
-                        <div class="point-main" v-if="item.point.bizModules.length > 0">
+                        <div v-if="item.point.bizModules.length > 0" class="point-main">
                             <!--大气-->
-                            <div class="main-box" v-if="item.point.bizModules.includes(1) && item.value">
-                                <p class="main-box-title">大气</p>
+                            <div v-if="item.point.bizModules.includes(1) && item.value" class="main-box">
+                                <p class="main-box-title">
+                                    大气
+                                </p>
                                 <ul v-if="item.value">
                                     <li>
                                         <p>AQI</p>
@@ -133,8 +123,10 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="main-box" v-if="item.point.bizModules.includes(2) && item.value">
-                                <p class="main-box-title">水质</p>
+                            <div v-if="item.point.bizModules.includes(2) && item.value" class="main-box">
+                                <p class="main-box-title">
+                                    水质
+                                </p>
                                 <ul v-if="item.value">
                                     <li>
                                         <p>CWQI</p>
@@ -163,8 +155,10 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="main-box" v-if="item.point.bizModules.includes(3) && item.value">
-                                <p class="main-box-title">风速</p>
+                            <div v-if="item.point.bizModules.includes(3) && item.value" class="main-box">
+                                <p class="main-box-title">
+                                    风速
+                                </p>
                                 <ul v-if="item.value">
                                     <li>
                                         <p>风速m/s</p>
@@ -176,8 +170,10 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="main-box" v-if="item.point.bizModules.includes(5) && item.value">
-                                <p class="main-box-title">降雨</p>
+                            <div v-if="item.point.bizModules.includes(5) && item.value" class="main-box">
+                                <p class="main-box-title">
+                                    降雨
+                                </p>
                                 <ul v-if="item.value">
                                     <li>
                                         <p>雨量（L/㎡）</p>
@@ -185,8 +181,10 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="main-box" v-if="item.point.bizModules.includes(4) && item.value">
-                                <p class="main-box-title">PTU</p>
+                            <div v-if="item.point.bizModules.includes(4) && item.value" class="main-box">
+                                <p class="main-box-title">
+                                    PTU
+                                </p>
                                 <ul v-if="item.value">
                                     <li>
                                         <p>土壤湿度（%）</p>
@@ -207,8 +205,10 @@
                                 </ul>
                             </div>
 
-                            <div class="main-box" v-if="item.point.bizModules.includes(6) && item.value">
-                                <p class="main-box-title">城市环境</p>
+                            <div v-if="item.point.bizModules.includes(6) && item.value" class="main-box">
+                                <p class="main-box-title">
+                                    城市环境
+                                </p>
                                 <ul v-if="item.value">
                                     <li>
                                         <p>污染物排放（废水）(m³)</p>
@@ -518,7 +518,7 @@ const getAirDetail = async () => {
                 value: res.co,
             },
         ];
-    } catch (err) {}
+    } catch (err) { }
 };
 
 // aqi趋势12小时
@@ -531,7 +531,7 @@ const getAQIIn12Hours = async () => {
             airLine.value.lineLabel.push(item.time);
             airLine.value.lineValue.push(item.val);
         });
-    } catch (err) {}
+    } catch (err) { }
 };
 
 // 15日
@@ -544,7 +544,7 @@ const getAQIIn15Days = async () => {
             airLine.value.lineLabel.push(item.time);
             airLine.value.lineValue.push(item.val);
         });
-    } catch (err) {}
+    } catch (err) { }
 };
 
 // 12月
@@ -557,7 +557,7 @@ const getAQIIn12Months = async () => {
             airLine.value.lineLabel.push(item.time);
             airLine.value.lineValue.push(item.val);
         });
-    } catch (err) {}
+    } catch (err) { }
 };
 
 // ptu
@@ -582,7 +582,7 @@ const getPtuData = async () => {
                 value: res.ec,
             },
         ];
-    } catch (err) {}
+    } catch (err) { }
 };
 
 // 降雨
@@ -595,7 +595,7 @@ const getPRCPEveryMonth = async () => {
             rainLine.value.lineLabel.push(item.time);
             rainLine.value.lineValue.push(item.val);
         });
-    } catch (err) {}
+    } catch (err) { }
 };
 
 // 水质
@@ -628,7 +628,7 @@ const getWaterData = async () => {
                 value: res.temp,
             },
         ];
-    } catch (err) {}
+    } catch (err) { }
 };
 
 // 风
@@ -645,7 +645,7 @@ const getWindData = async () => {
                 value: res.wd,
             },
         ];
-    } catch (err) {}
+    } catch (err) { }
 };
 
 // 设备
@@ -666,7 +666,7 @@ const getDeviceDataScreen = async () => {
                 value: res.offline,
             },
         ];
-    } catch (err) {}
+    } catch (err) { }
 };
 
 // 告警信息
@@ -696,18 +696,18 @@ const getAlarmData = async () => {
                 value: res.waterCount,
             },
         ];
-    } catch (err) {}
+    } catch (err) { }
 };
 
 // 地图
 const stationData = async () => {
     try {
         const res = await dataBoardApi.stationData();
-    } catch (err) {}
+    } catch (err) { }
 };
 
 const allPoint = ref([]);
-//获取所有设备
+// 获取所有设备
 const queryAll = async () => {
     try {
         const res = await dataBoardApi.queryAll();
@@ -720,10 +720,10 @@ const queryAll = async () => {
             })
         );
         getDeviceDataMap(deviceIds);
-    } catch (err) {}
+    } catch (err) { }
 };
 
-//获取地图数据 getDeviceData
+// 获取地图数据 getDeviceData
 const getDeviceDataMap = async (deviceIds: any) => {
     try {
         const res = await dataBoardApi.getDeviceDataMap(deviceIds);
@@ -736,7 +736,7 @@ const getDeviceDataMap = async (deviceIds: any) => {
             });
         });
         console.log(allPoint.value, 'allPoint.value');
-    } catch (err) {}
+    } catch (err) { }
 };
 
 onMounted(() => {
@@ -759,6 +759,7 @@ onMounted(() => {
     background-position: 0 0;
     background-size: 100% 100%;
 }
+
 .root {
     box-sizing: border-box;
     @include wh(100vw, 100vh);
@@ -766,18 +767,22 @@ onMounted(() => {
     padding: 0 2vw;
     background-image: url('@/assets/img/gis.png');
 }
+
 .title-con {
     display: flex;
     justify-content: space-between;
+
     .title {
-        height: 2.5vh;
-        line-height: 2.5vh;
+        height: 3.5vh;
+        // line-height: 2.5vh;
         margin-top: 1vh;
     }
+
     .title-tabs {
         display: flex;
         margin-top: 3vh;
         padding-right: 20px;
+
         span {
             width: 35px;
             height: 2vh;
@@ -788,21 +793,26 @@ onMounted(() => {
             cursor: pointer;
             font-size: 12px;
         }
+
         span.active {
             background: rgba(4, 182, 255, 0.5);
         }
     }
 }
+
 .title {
     text-align: center;
+
     img {
         margin-top: 1.5vh;
         width: 27vw;
         height: 4vh;
     }
 }
+
 .app-list {
     margin-top: 6px;
+
     .el-menu {
         display: flex;
         height: 3.7vh;
@@ -810,24 +820,28 @@ onMounted(() => {
         align-items: center;
         margin: 0;
         background: transparent;
+
         ::v-deep(.menu-item) {
             display: flex;
             justify-content: space-between;
             align-items: center;
+
             &.left,
             &.right {
                 width: 31vw;
             }
 
-            .bg-menu {
-            }
+            .bg-menu {}
+
             img {
                 width: 100%;
                 cursor: pointer;
             }
-            .bg-menu + .bg-menu {
+
+            .bg-menu+.bg-menu {
                 margin-left: 1vw;
             }
+
             .clock {
                 white-space: nowrap;
                 width: 8.23vw;
@@ -837,6 +851,7 @@ onMounted(() => {
         }
     }
 }
+
 .main {
     display: flex;
     justify-content: space-between;
@@ -853,6 +868,7 @@ onMounted(() => {
             top: 0;
             left: 0;
         }
+
         .point-box {
             position: absolute;
             top: -15vh;
@@ -898,28 +914,35 @@ onMounted(() => {
                 justify-content: space-between;
             }
         }
+
         .point-main {
             display: flex;
             flex-wrap: wrap;
+
             .main-box {
                 max-width: 400px;
+
                 .main-box-title {
                     color: rgba(255, 255, 255, 0.8);
                     font-size: 12px;
                     line-height: 2vh;
                     margin-top: 2vh;
                 }
+
                 ul {
                     display: flex;
                     flex-wrap: wrap;
+
                     li {
                         padding-right: 10px;
+
                         p {
                             color: rgba(255, 255, 255, 0.8);
                             font-size: 12px;
                             margin-top: 2vh;
                             white-space: nowrap;
                         }
+
                         p:last-child {
                             font-size: 0.9vw;
                             color: #24eacd;
@@ -929,6 +952,7 @@ onMounted(() => {
                 }
             }
         }
+
         .map-active {
             display: block;
         }
@@ -948,10 +972,12 @@ onMounted(() => {
             display: flex;
             margin-top: 1vh;
             align-items: center;
+
             img {
                 height: 5vh;
                 margin-left: 25px;
             }
+
             .water-ul {
                 flex-wrap: wrap;
 
@@ -959,14 +985,17 @@ onMounted(() => {
                     width: 33%;
                 }
             }
+
             .ptu-ul {
                 li {
                     width: 22%;
+
                     &:last-child {
                         width: 35%;
                     }
                 }
             }
+
             ul {
                 display: flex;
                 // margin-left: 20px;
@@ -975,18 +1004,21 @@ onMounted(() => {
                 li {
                     width: 33%;
                     text-align: center;
+
                     p:first-child {
                         color: rgba(255, 255, 255, 0.8);
                         height: 2vh;
                         line-height: 2vh;
                         font-size: 12px;
                     }
+
                     p:last-child {
-                        font-size: 16px;
+                        font-size: 1vw;
                         font-weight: 700;
                         color: #24eacd;
                         height: 3vh;
                         line-height: 3vh;
+                        margin-top: 0.5vh;
                     }
                 }
             }
@@ -1010,16 +1042,19 @@ onMounted(() => {
                 color: transparent;
             }
         }
+
         .box2 {
             height: 25vh;
             background: url(@/assets/img/box2.png) no-repeat;
             background-size: 100% 100%;
         }
+
         .box3 {
             height: 19vh;
             background: url(@/assets/img/box3.png) no-repeat;
             background-size: 100% 100%;
         }
+
         .box4 {
             height: 32vh;
             background: url(@/assets/img/box4.png) no-repeat;

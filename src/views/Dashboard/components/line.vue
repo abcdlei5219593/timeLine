@@ -1,7 +1,8 @@
 <template>
     <div :id="'echartline' + lineData.id" style="width: 100%; height: 100%" />
 </template>
-  <script lang="ts" setup>
+
+<script lang="ts" setup>
 import { defineProps, ref, watch, onMounted } from 'vue';
 import * as echarts from 'echarts';
 
@@ -19,9 +20,9 @@ const props = defineProps({
 });
 
 const echartInit = () => {
-    var myChart = echarts.init(document.getElementById(`echartline${props.lineData.id}`));
+    let myChart = echarts.init(document.getElementById(`echartline${props.lineData.id}`));
     // 指定图表的配置项和数据
-    var option = {
+    let option = {
         tooltip: {},
         xAxis: {
             type: 'category',
@@ -29,6 +30,15 @@ const echartInit = () => {
             axisLine: {
                 lineStyle: {
                     color: 'rgba(255,255,255,.8)',
+                },
+            },
+            axisLabel: {
+                formatter(value) {
+                    const date = value.split(' ');
+                    if (date.length === 2) {
+                        return `${date[0]}\n${date[1]}`;
+                    }
+                    return value;
                 },
             },
         },
@@ -103,5 +113,5 @@ watch(
     }
 );
 </script>
-  <style lang="scss" scoped>
-</style>
+
+<style lang="scss" scoped></style>
