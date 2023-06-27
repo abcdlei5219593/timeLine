@@ -1,18 +1,16 @@
 <template>
     <div v-if="!isFromThirdPlatform" class="login">
         <div class="login-main">
-            <p class="login-title">
+            <div class="login-title">
                 <img class="login-logo" src="@/assets/login/logo.png" />
-            <!-- 智慧环境监测系统 -->
-            </p>
-            <div>
-                <p>长江工业园未来城市</p>
-                <p>智慧环境监测系统</p>
+                <!-- 智慧环境监测系统 -->
+                <div>
+                    <p>长江工业园未来城市</p>
+                    <p>智慧环境监测系统</p>
+                </div>
             </div>
             <div class="login-box">
-                <p class="login-text">
-                    账号登录
-                </p>
+                <p class="login-text">账号登录</p>
                 <ElForm ref="formDataRef" :model="formData" :rules="rules">
                     <ElFormItem label="" prop="userName">
                         <ElInput
