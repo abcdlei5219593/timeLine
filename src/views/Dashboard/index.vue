@@ -4,8 +4,7 @@
             <img src="@/assets/img/title.png" alt="" />
         </header>
         <div class="app-list">
-            <AppBar :menu-list="appList" :show-bg-image="true">
-            </AppBar>
+            <AppBar :menu-list="appList" :show-bg-image="true"> </AppBar>
         </div>
         <section class="main">
             <div class="left">
@@ -30,7 +29,8 @@
                                 :key="i"
                                 :class="{ active: item.value === active }"
                                 @click="tabsChange(item.value)"
-                            >{{ item.label }}</span>
+                                >{{ item.label }}</span
+                            >
                         </div>
                     </div>
                     <lineChart :line-data="airLine" />
@@ -53,7 +53,7 @@
                 </div>
             </div>
             <div class="center">
-                <el-popover
+                <!-- <el-popover
                     v-for="(item, i) in mapPoint"
                     :key="i"
                     placement="top-start"
@@ -61,6 +61,7 @@
                     :width="200"
                     trigger="hover"
                     content=""
+                    popper-class="area_popper"
                 >
                     <template #reference>
                         <img
@@ -70,7 +71,162 @@
                         />
                     </template>
                     <div>99999</div>
-                </el-popover>
+                </el-popover> -->
+                <div
+                    class="center-point"
+                    v-for="(item, i) in allPoint"
+                    :key="i"
+                    :style="{ top: item.position.top + 'vh', left: item.position.left + '%' }"
+                >
+                    <img
+                        class="center-point"
+                        src="@/assets/img/point.png"
+                        @mouseover="mapActive = i"
+                        @mouseout="mapActive = ''"
+                    />
+                    <!-- <img class="center-point" src="@/assets/img/point.png" @mouseover="mapActive = i" @mouseout="mapActive=''" /> -->
+                    <div class="point-box" :class="mapActive === i ? 'map-active' : ''" v-if="item.value">
+                        <p class="point-title">
+                            微站监测总览
+                            <span>最近更新时间{{ item.value.createTime }}</span>
+                        </p>
+                        <div class="point-main" v-if="item.point.bizModules.length > 0">
+                            <!--大气-->
+                            <div class="main-box" v-if="item.point.bizModules.includes(1) && item.value">
+                                <p class="main-box-title">大气</p>
+                                <ul v-if="item.value">
+                                    <li>
+                                        <p>AQI</p>
+                                        <p>{{ item.value.aqi }}</p>
+                                    </li>
+                                    <li>
+                                        <p>PM2.5</p>
+                                        <p>{{ item.value.pm25 }}</p>
+                                    </li>
+                                    <li>
+                                        <p>PM10</p>
+                                        <p>{{ item.value.pm10 }}</p>
+                                    </li>
+                                    <li>
+                                        <p>湿度</p>
+                                        <p>{{ item.value.humi }}</p>
+                                    </li>
+                                    <li>
+                                        <p>CO</p>
+                                        <p>{{ item.value.co }}</p>
+                                    </li>
+                                    <li>
+                                        <p>SO2</p>
+                                        <p>{{ item.value.so2 }}</p>
+                                    </li>
+                                    <li>
+                                        <p>NO2</p>
+                                        <p>{{ item.value.no2 }}</p>
+                                    </li>
+                                    <li>
+                                        <p>温度</p>
+                                        <p>{{ item.value.temp }}</p>
+                                    </li>
+                                    <li>
+                                        <p>O3</p>
+                                        <p>{{ item.value.o3 }}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="main-box" v-if="item.point.bizModules.includes(2) && item.value">
+                                <p class="main-box-title">水质</p>
+                                <ul v-if="item.value">
+                                    <li>
+                                        <p>CWQI</p>
+                                        <p>{{ item.value.cwqi }}</p>
+                                    </li>
+                                    <li>
+                                        <p>PH</p>
+                                        <p>{{ item.value.ph }}</p>
+                                    </li>
+                                    <li>
+                                        <p>溶解氧mg/L</p>
+                                        <p>{{ item.value.d0 }}</p>
+                                    </li>
+                                    <li>
+                                        <p>电导率μS/cm</p>
+                                        <p>{{ item.value.ec }}</p>
+                                    </li>
+                                    <li>
+                                        <p>浊度NTU</p>
+                                        <p>{{ item.value.wt }}</p>
+                                    </li>
+
+                                    <li>
+                                        <p>温度°C</p>
+                                        <p>{{ item.value.temp }}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="main-box" v-if="item.point.bizModules.includes(3) && item.value">
+                                <p class="main-box-title">风速</p>
+                                <ul v-if="item.value">
+                                    <li>
+                                        <p>风速m/s</p>
+                                        <p>{{ item.value.wsp }}</p>
+                                    </li>
+                                    <li>
+                                        <p>风力</p>
+                                        <p>{{ item.value.wl }}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="main-box" v-if="item.point.bizModules.includes(5) && item.value">
+                                <p class="main-box-title">降雨</p>
+                                <ul v-if="item.value">
+                                    <li>
+                                        <p>雨量（L/㎡）</p>
+                                        <p>{{ item.value.prcp }}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="main-box" v-if="item.point.bizModules.includes(4) && item.value">
+                                <p class="main-box-title">PTU</p>
+                                <ul v-if="item.value">
+                                    <li>
+                                        <p>土壤湿度（%）</p>
+                                        <p>{{ item.value.humi1 }}</p>
+                                    </li>
+                                    <li>
+                                        <p>土壤温度℃</p>
+                                        <p>{{ item.value.temp1 }}</p>
+                                    </li>
+                                    <li>
+                                        <p>土壤PH</p>
+                                        <p>{{ item.value.ph }}</p>
+                                    </li>
+                                    <li>
+                                        <p>土壤电导率μs/cm</p>
+                                        <p>{{ item.value.ec }}</p>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="main-box" v-if="item.point.bizModules.includes(6) && item.value">
+                                <p class="main-box-title">城市环境</p>
+                                <ul v-if="item.value">
+                                    <li>
+                                        <p>污染物排放（废水）(m³)</p>
+                                        <p>{{ item.value.effluent }}</p>
+                                    </li>
+                                    <li>
+                                        <p>噪声(db)</p>
+                                        <p>{{ item.value.db }}</p>
+                                    </li>
+                                    <li>
+                                        <p>粉尘(ug/m³)</p>
+                                        <p>{{ item.value.dust }}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="right">
                 <div class="box box3">
@@ -125,7 +281,9 @@ import AppBar from '@/views/layout/Menu/appBar.vue';
 import lineChart from './components/line.vue';
 import pieChart from './components/pie.vue';
 import * as dataBoardApi from '@/api/dataBoard';
+import { getDeviceList } from '@/api/device';
 
+const mapActive = ref('');
 const menuStore = useMenuStore();
 const appList = computed(() =>
     menuStore.menuList.map(({ url, name }) => ({
@@ -309,12 +467,12 @@ const mapPoint = ref([
         top: 20,
     },
     {
-        left: 45,
-        top: 50,
+        left: 65,
+        top: 35,
     },
     {
         left: 25,
-        top: 50,
+        top: 40,
     },
     {
         left: 35,
@@ -326,7 +484,7 @@ const mapPoint = ref([
     },
     {
         left: 15,
-        top: 60,
+        top: 30,
     },
 ]);
 
@@ -491,7 +649,7 @@ const getWindData = async () => {
 };
 
 // 设备
-const getDeviceData = async () => {
+const getDeviceDataScreen = async () => {
     try {
         const res = await dataBoardApi.getDeviceData();
         deviceList.value = [
@@ -545,7 +703,39 @@ const getAlarmData = async () => {
 const stationData = async () => {
     try {
         const res = await dataBoardApi.stationData();
-        console.log(res, '877666');
+    } catch (err) {}
+};
+
+const allPoint = ref([]);
+//获取所有设备
+const queryAll = async () => {
+    try {
+        const res = await dataBoardApi.queryAll();
+        const deviceIds = res.map(({ deviceId }) => deviceId);
+        mapPoint.value.map((o, i) =>
+            allPoint.value.push({
+                position: o,
+                point: res[i],
+                value: null,
+            })
+        );
+        getDeviceDataMap(deviceIds);
+    } catch (err) {}
+};
+
+//获取地图数据 getDeviceData
+const getDeviceDataMap = async (deviceIds: any) => {
+    try {
+        const res = await dataBoardApi.getDeviceDataMap(deviceIds);
+        // console.log(res, '09887');
+        allPoint.value.forEach((item: any, i: number) => {
+            res.forEach((r: any) => {
+                if (item.point.deviceId === r.deviceId) {
+                    allPoint.value[i].value = r;
+                }
+            });
+        });
+        console.log(allPoint.value, 'allPoint.value');
     } catch (err) {}
 };
 
@@ -556,9 +746,10 @@ onMounted(() => {
     getPRCPEveryMonth();
     getWaterData();
     getWindData();
-    getDeviceData();
+    getDeviceDataScreen();
     getAlarmData();
     stationData();
+    queryAll();
 });
 </script>
 
@@ -581,7 +772,7 @@ onMounted(() => {
     .title {
         height: 2.5vh;
         line-height: 2.5vh;
-        margin-top: 2vh;
+        margin-top: 1vh;
     }
     .title-tabs {
         display: flex;
@@ -595,6 +786,7 @@ onMounted(() => {
             display: block;
             color: #fff;
             cursor: pointer;
+            font-size: 12px;
         }
         span.active {
             background: rgba(4, 182, 255, 0.5);
@@ -631,6 +823,7 @@ onMounted(() => {
             }
             img {
                 width: 100%;
+                cursor: pointer;
             }
             .bg-menu + .bg-menu {
                 margin-left: 1vw;
@@ -659,6 +852,85 @@ onMounted(() => {
             position: absolute;
             top: 0;
             left: 0;
+        }
+        .point-box {
+            position: absolute;
+            top: -15vh;
+            left: 6.2vh;
+            display: none;
+            background: url('@/assets/img/screen-bg.png') 100% 100%;
+            background-size: 100% 100%;
+            // border: 1px solid #00b2fb;
+            width: 400px;
+            min-height: 19.4vh;
+            position: relative;
+            padding: 16px;
+            z-index: 999;
+
+            &::before {
+                content: '';
+                width: 184px;
+                height: 4px;
+                background: url('@/assets/img/screen-top.png') 100% 100%;
+                display: block;
+                position: absolute;
+                left: 20px;
+                top: -4px;
+            }
+
+            &::after {
+                content: '';
+                width: 184px;
+                height: 4px;
+                background: url('@/assets/img/screen-bottom.png') 100% 100%;
+                display: block;
+                position: absolute;
+                right: 20px;
+                bottom: -4px;
+            }
+
+            .point-title {
+                font-size: 12px;
+                background: linear-gradient(to bottom, #88ddff, #ffffff);
+                -webkit-background-clip: text;
+                color: transparent;
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+        .point-main {
+            display: flex;
+            flex-wrap: wrap;
+            .main-box {
+                max-width: 400px;
+                .main-box-title {
+                    color: rgba(255, 255, 255, 0.8);
+                    font-size: 12px;
+                    line-height: 2vh;
+                    margin-top: 2vh;
+                }
+                ul {
+                    display: flex;
+                    flex-wrap: wrap;
+                    li {
+                        padding-right: 10px;
+                        p {
+                            color: rgba(255, 255, 255, 0.8);
+                            font-size: 12px;
+                            margin-top: 2vh;
+                            white-space: nowrap;
+                        }
+                        p:last-child {
+                            font-size: 0.9vw;
+                            color: #24eacd;
+                            margin-top: 1vh;
+                        }
+                    }
+                }
+            }
+        }
+        .map-active {
+            display: block;
         }
     }
 

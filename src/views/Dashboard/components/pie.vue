@@ -53,7 +53,7 @@ const echartInit = () => {
                 itemStyle: {
                     // borderRadius: 10,
                     borderColor: '#000',
-                    borderWidth: 10,
+                    borderWidth: 5,
                 },
                 label: {
                     normal: {

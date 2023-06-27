@@ -22,6 +22,7 @@ const echartInit = () => {
     var myChart = echarts.init(document.getElementById(`echartline${props.lineData.id}`));
     // 指定图表的配置项和数据
     var option = {
+        tooltip: {},
         xAxis: {
             type: 'category',
             data: props.lineData.lineLabel,
@@ -36,7 +37,7 @@ const echartInit = () => {
             x: 30, // 左留白
             y: 20, // 上留白
             x2: 50, // 右留白
-            y2: 70, // 下留白
+            y2: 60, // 下留白
         },
         yAxis: {
             type: 'value',

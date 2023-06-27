@@ -84,3 +84,18 @@ export const getWindData = () =>
         url: '/cim/env/wind/getWindData',
         method: 'get',
     } as AxiosRequestConfig);
+
+//查询所有设备
+export const queryAll = () =>
+    $http({
+        url: '/admin/device/queryAll',
+        method: 'get',
+    } as AxiosRequestConfig);
+
+//获取地图数据
+export const getDeviceDataMap = (data: object) =>
+    $http({
+        url: '/admin/gas/analyse/getDeviceData',
+        method: 'post',
+        data,
+    } as AxiosRequestConfig);
