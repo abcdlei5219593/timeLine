@@ -983,6 +983,7 @@ onMounted(() => {
 
                 li {
                     width: 33%;
+                    margin-bottom: 0.5vh;
                 }
             }
 
