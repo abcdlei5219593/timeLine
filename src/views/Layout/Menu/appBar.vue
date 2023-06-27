@@ -2,35 +2,17 @@
     <section role="menubar" class="el-menu el-menu--horizontal">
         <template v-if="showBgImage">
             <section class="left menu-item">
-                <section
-                    v-for="(item, index) in leftMenu"
-                    :key="index"
-                    :class="[
+                <section v-for="(item, index) in leftMenu" :key="index" :class="[
 
                         item.bgImage ? ['bg-menu', item.bgImage] : ''
-                    ]"
-                    role="menuitem"
-
-                    tabindex="0"
-
-                    @click="handleClick(item)"
-                >
+                    ]" role="menuitem" tabindex="0" @click="handleClick(item)">
                     <img :src="getAssetsFile(item.bgImage)" alt="">
                 </section>
             </section>
             <section class="right menu-item">
-                <section
-                    v-for="(item, index) in rightMenu"
-                    :key="index"
-                    :class="[
+                <section v-for="(item, index) in rightMenu" :key="index" :class="[
                         item.bgImage ? ['bg-menu', item.bgImage] : ''
-                    ]"
-                    role="menuitem"
-
-                    tabindex="0"
-
-                    @click="handleClick(item)"
-                >
+                    ]" role="menuitem" tabindex="0" @click="handleClick(item)">
                     <img :src="getAssetsFile(item.bgImage)" alt="">
                 </section>
                 <section class="clock">
@@ -39,19 +21,13 @@
             </section>
         </template>
         <template v-else>
-            <section
-                v-for="(item, index) in menuList"
-                :key="index"
-                :class="[
+            <section class="el-menu-item" @click="toScreen()">
+                数据看板
+            </section>
+            <section v-for="(item, index) in menuList" :key="index" :class="[
                     route.path.includes(item.url) ? 'is-active' : '',
                     'el-menu-item'
-                ]"
-                role="menuitem"
-
-                tabindex="0"
-
-                @click="handleClick(item)"
-            >
+                ]" role="menuitem" tabindex="0" @click="handleClick(item)">
                 {{ item.name }}
             </section>
         </template>
@@ -72,22 +48,22 @@ const router = useRouter();
 const props = withDefaults(defineProps<{
     menuList: Menu;
     showBgImage: boolean
-}>(),{
+}>(), {
     menuList: [],
     showBgImage: false,
 });
 
 
 
-const leftMenu= computed(() => {
-    if(props.showBgImage) {
-        return props.menuList.slice(0,4);
+const leftMenu = computed(() => {
+    if (props.showBgImage) {
+        return props.menuList.slice(0, 4);
     }
     return [];
 });
 
-const rightMenu= computed(() => {
-    if(props.showBgImage) {
+const rightMenu = computed(() => {
+    if (props.showBgImage) {
         return props.menuList.slice(4);
     }
     return [];
@@ -100,7 +76,7 @@ const getClock = () => {
         clock.value = dayjs().format('YYYY-MM-DD HH:MM:ss');
     }, 1000);
 };
-if(props.showBgImage) {
+if (props.showBgImage) {
     getClock();
 
 }
@@ -132,6 +108,10 @@ const handleClick = (menu: MenuItem) => {
         }
     });
 };
+
+const toScreen = () => {
+    router.push('/dashboard');
+};
 </script>
 
 <style scoped lang="scss">
@@ -154,8 +134,7 @@ const handleClick = (menu: MenuItem) => {
             border-radius: 3px;
         }
     }
-    .bg-menu{
 
-    }
+    .bg-menu {}
 }
 </style>

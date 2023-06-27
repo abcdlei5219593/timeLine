@@ -49,25 +49,6 @@
                 </div>
             </div>
             <div class="center">
-                <!-- <el-popover
-                    v-for="(item, i) in mapPoint"
-                    :key="i"
-                    placement="top-start"
-                    title=""
-                    :width="200"
-                    trigger="hover"
-                    content=""
-                    popper-class="area_popper"
-                >
-                    <template #reference>
-                        <img
-                            class="center-point"
-                            src="@/assets/img/point.png"
-                            :style="{ top: item.top + 'vh', left: item.left + '%' }"
-                        />
-                    </template>
-                    <div>99999</div>
-                </el-popover> -->
                 <div v-for="(item, i) in allPoint" :key="i" class="center-point"
                     :style="{ top: item.position.top + 'vh', left: item.position.left + '%' }">
                     <img class="center-point" src="@/assets/img/point.png" @mouseover="mapActive = i"
@@ -710,15 +691,15 @@ const allPoint = ref([]);
 // 获取所有设备
 const queryAll = async () => {
     try {
-        const res = await dataBoardApi.queryAll();
+        const res: any = await dataBoardApi.queryAll();
         const deviceIds = res.map(({ deviceId }) => deviceId);
-        mapPoint.value.map((o, i) =>
-            allPoint.value.push({
-                position: o,
-                point: res[i],
-                value: null,
-            })
-        );
+        res && res.forEach((item: any, i: number) => {
+            res[i].position = mapPoint.value[i];
+            res[i].point = item;
+            res[i].value = null;
+        });
+        allPoint.value = res;
+        console.log(allPoint.value, 'allPointallPoint');
         getDeviceDataMap(deviceIds);
     } catch (err) { }
 };

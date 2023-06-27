@@ -2,7 +2,8 @@
 <template>
     <div id="pie" style="width: 100%; height: 100%"></div>
 </template>
-  <script lang="ts" setup>
+
+<script lang="ts" setup>
 import { defineProps, ref, watch, onMounted } from 'vue';
 import * as echarts from 'echarts';
 
@@ -18,9 +19,9 @@ const props = defineProps({
 });
 
 const echartInit = () => {
-    var myChart = echarts.init(document.getElementById('pie'));
+    let myChart = echarts.init(document.getElementById('pie'));
     // 指定图表的配置项和数据
-    var option = {
+    let option = {
         tooltip: {
             trigger: 'item',
         },
@@ -57,7 +58,7 @@ const echartInit = () => {
                 },
                 label: {
                     normal: {
-                        show: true,
+                        show: false,
                         textStyle: {
                             fontSize: 14,
                             color: '#000',
@@ -112,5 +113,5 @@ watch(
     }
 );
 </script>
-  <style lang="scss" scoped>
-</style>
+
+<style lang="scss" scoped></style>
