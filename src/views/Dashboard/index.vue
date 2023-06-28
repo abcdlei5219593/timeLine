@@ -170,7 +170,7 @@
                                 <p class="main-box-title">PTU</p>
                                 <ul v-if="item.value">
                                     <li>
-                                        <p>土壤湿度（%）</p>
+                                        <p>土壤湿度(%)</p>
                                         <p>{{ item.value.humi1 }}</p>
                                     </li>
                                     <li>
@@ -808,10 +808,10 @@ onMounted(() => {
             justify-content: space-between;
             align-items: center;
 
-            &.left,
-            &.right {
-                width: 31vw;
-            }
+            // &.left,
+            // &.right {
+            //     width: 31vw;
+            // }
 
             .bg-menu {
             }
@@ -841,7 +841,8 @@ onMounted(() => {
     margin-top: 3vh;
 
     .center {
-        width: calc(100% - 600px);
+        // width: calc(100% - 600px);
+        width: 50%;
         position: relative;
 
         .center-point {
@@ -943,7 +944,8 @@ onMounted(() => {
 
     .left,
     .right {
-        width: 480px;
+        // width: 480px;
+        width: 25%;
 
         // .air-box {
         //     ul li p:last-child {
@@ -972,7 +974,11 @@ onMounted(() => {
 
             .ptu-ul {
                 li {
-                    width: 22%;
+                    width: 23%;
+
+                    &:nth-child(3) {
+                        width: 20%;
+                    }
 
                     &:last-child {
                         width: 35%;
