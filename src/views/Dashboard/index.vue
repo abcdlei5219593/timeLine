@@ -808,10 +808,10 @@ onMounted(() => {
             justify-content: space-between;
             align-items: center;
 
-            // &.left,
-            // &.right {
-            //     width: 31vw;
-            // }
+            &.left,
+            &.right {
+                width: 31vw;
+            }
 
             .bg-menu {
             }
