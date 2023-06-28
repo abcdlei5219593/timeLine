@@ -4,8 +4,7 @@
             <img src="@/assets/img/title.png" alt="" />
         </header>
         <div class="app-list">
-            <AppBar :menu-list="appList" :show-bg-image="true">
-            </AppBar>
+            <AppBar :menu-list="appList" :show-bg-image="true"> </AppBar>
         </div>
         <section class="main">
             <div class="left">
@@ -16,7 +15,7 @@
                         <ul>
                             <li v-for="(item, i) in airList" :key="i">
                                 <p>{{ item.label }}</p>
-                                <p>{{ item.value }}</p>
+                                <p>{{ item.value.toFixed(1) }}</p>
                             </li>
                         </ul>
                     </div>
@@ -25,8 +24,13 @@
                     <div class="title-con">
                         <span class="title">环境监测-AQI/趋势图</span>
                         <div class="title-tabs">
-                            <span v-for="(item, i) in tabs" :key="i" :class="{ active: item.value === active }"
-                                @click="tabsChange(item.value)">{{ item.label }}</span>
+                            <span
+                                v-for="(item, i) in tabs"
+                                :key="i"
+                                :class="{ active: item.value === active }"
+                                @click="tabsChange(item.value)"
+                                >{{ item.label }}</span
+                            >
                         </div>
                     </div>
                     <lineChart :line-data="airLine" />
@@ -38,7 +42,7 @@
                         <ul class="ptu-ul">
                             <li v-for="(item, i) in ptuList" :key="i">
                                 <p>{{ item.label }}</p>
-                                <p>{{ item.value }}</p>
+                                <p>{{ item.value.toFixed(1) }}</p>
                             </li>
                         </ul>
                     </div>
@@ -49,22 +53,28 @@
                 </div>
             </div>
             <div class="center">
-                <div v-for="(item, i) in allPoint" :key="i" class="center-point"
-                    :style="{ top: item.position.top + 'vh', left: item.position.left + '%' }">
-                    <img class="center-point" src="@/assets/img/point.png" @mouseover="mapActive = i"
-                        @mouseout="mapActive = ''" />
+                <div
+                    v-for="(item, i) in allPoint"
+                    :key="i"
+                    class="center-point"
+                    :style="{ top: item.position.top + 'vh', left: item.position.left + '%' }"
+                >
+                    <img
+                        class="center-point"
+                        src="@/assets/img/point.png"
+                        @mouseover="mapActive = i"
+                        @mouseout="mapActive = ''"
+                    />
                     <!-- <img class="center-point" src="@/assets/img/point.png" @mouseover="mapActive = i" @mouseout="mapActive=''" /> -->
                     <div v-if="item.value" class="point-box" :class="mapActive === i ? 'map-active' : ''">
                         <p class="point-title">
-                            微站监测总览
+                            {{ item.stationName }}监测总览
                             <span>最近更新时间{{ item.value.createTime }}</span>
                         </p>
                         <div v-if="item.point.bizModules.length > 0" class="point-main">
                             <!--大气-->
                             <div v-if="item.point.bizModules.includes(1) && item.value" class="main-box">
-                                <p class="main-box-title">
-                                    大气
-                                </p>
+                                <p class="main-box-title">大气</p>
                                 <ul v-if="item.value">
                                     <li>
                                         <p>AQI</p>
@@ -105,9 +115,7 @@
                                 </ul>
                             </div>
                             <div v-if="item.point.bizModules.includes(2) && item.value" class="main-box">
-                                <p class="main-box-title">
-                                    水质
-                                </p>
+                                <p class="main-box-title">水质</p>
                                 <ul v-if="item.value">
                                     <li>
                                         <p>CWQI</p>
@@ -137,9 +145,7 @@
                                 </ul>
                             </div>
                             <div v-if="item.point.bizModules.includes(3) && item.value" class="main-box">
-                                <p class="main-box-title">
-                                    风速
-                                </p>
+                                <p class="main-box-title">风速</p>
                                 <ul v-if="item.value">
                                     <li>
                                         <p>风速m/s</p>
@@ -152,9 +158,7 @@
                                 </ul>
                             </div>
                             <div v-if="item.point.bizModules.includes(5) && item.value" class="main-box">
-                                <p class="main-box-title">
-                                    降雨
-                                </p>
+                                <p class="main-box-title">降雨</p>
                                 <ul v-if="item.value">
                                     <li>
                                         <p>雨量（L/㎡）</p>
@@ -163,9 +167,7 @@
                                 </ul>
                             </div>
                             <div v-if="item.point.bizModules.includes(4) && item.value" class="main-box">
-                                <p class="main-box-title">
-                                    PTU
-                                </p>
+                                <p class="main-box-title">PTU</p>
                                 <ul v-if="item.value">
                                     <li>
                                         <p>土壤湿度（%）</p>
@@ -187,9 +189,7 @@
                             </div>
 
                             <div v-if="item.point.bizModules.includes(6) && item.value" class="main-box">
-                                <p class="main-box-title">
-                                    城市环境
-                                </p>
+                                <p class="main-box-title">城市环境</p>
                                 <ul v-if="item.value">
                                     <li>
                                         <p>污染物排放（废水）(m³)</p>
@@ -217,7 +217,7 @@
                         <ul class="water-ul">
                             <li v-for="(item, i) in waterList" :key="i">
                                 <p>{{ item.label }}</p>
-                                <p>{{ item.value }}</p>
+                                <p>{{ item.value.toFixed(1) }}</p>
                             </li>
                         </ul>
                     </div>
@@ -229,7 +229,7 @@
                         <ul>
                             <li v-for="(item, i) in windList" :key="i">
                                 <p>{{ item.label }}</p>
-                                <p>{{ item.value }}</p>
+                                <p>{{ item.value.toFixed(1) }}</p>
                             </li>
                         </ul>
                     </div>
@@ -419,7 +419,7 @@ const windList = ref([
     },
     {
         label: '风力',
-        value: '1级',
+        value: 0,
     },
 ]);
 
@@ -499,7 +499,7 @@ const getAirDetail = async () => {
                 value: res.co,
             },
         ];
-    } catch (err) { }
+    } catch (err) {}
 };
 
 // aqi趋势12小时
@@ -512,7 +512,7 @@ const getAQIIn12Hours = async () => {
             airLine.value.lineLabel.push(item.time);
             airLine.value.lineValue.push(item.val);
         });
-    } catch (err) { }
+    } catch (err) {}
 };
 
 // 15日
@@ -525,7 +525,7 @@ const getAQIIn15Days = async () => {
             airLine.value.lineLabel.push(item.time);
             airLine.value.lineValue.push(item.val);
         });
-    } catch (err) { }
+    } catch (err) {}
 };
 
 // 12月
@@ -538,7 +538,7 @@ const getAQIIn12Months = async () => {
             airLine.value.lineLabel.push(item.time);
             airLine.value.lineValue.push(item.val);
         });
-    } catch (err) { }
+    } catch (err) {}
 };
 
 // ptu
@@ -563,7 +563,7 @@ const getPtuData = async () => {
                 value: res.ec,
             },
         ];
-    } catch (err) { }
+    } catch (err) {}
 };
 
 // 降雨
@@ -576,7 +576,7 @@ const getPRCPEveryMonth = async () => {
             rainLine.value.lineLabel.push(item.time);
             rainLine.value.lineValue.push(item.val);
         });
-    } catch (err) { }
+    } catch (err) {}
 };
 
 // 水质
@@ -609,7 +609,7 @@ const getWaterData = async () => {
                 value: res.temp,
             },
         ];
-    } catch (err) { }
+    } catch (err) {}
 };
 
 // 风
@@ -626,7 +626,7 @@ const getWindData = async () => {
                 value: res.wd,
             },
         ];
-    } catch (err) { }
+    } catch (err) {}
 };
 
 // 设备
@@ -647,7 +647,7 @@ const getDeviceDataScreen = async () => {
                 value: res.offline,
             },
         ];
-    } catch (err) { }
+    } catch (err) {}
 };
 
 // 告警信息
@@ -677,14 +677,14 @@ const getAlarmData = async () => {
                 value: res.waterCount,
             },
         ];
-    } catch (err) { }
+    } catch (err) {}
 };
 
 // 地图
 const stationData = async () => {
     try {
         const res = await dataBoardApi.stationData();
-    } catch (err) { }
+    } catch (err) {}
 };
 
 const allPoint = ref([]);
@@ -693,15 +693,16 @@ const queryAll = async () => {
     try {
         const res: any = await dataBoardApi.queryAll();
         const deviceIds = res.map(({ deviceId }) => deviceId);
-        res && res.forEach((item: any, i: number) => {
-            res[i].position = mapPoint.value[i];
-            res[i].point = item;
-            res[i].value = null;
-        });
+        res &&
+            res.forEach((item: any, i: number) => {
+                res[i].position = mapPoint.value[i];
+                res[i].point = item;
+                res[i].value = null;
+            });
         allPoint.value = res;
         console.log(allPoint.value, 'allPointallPoint');
         getDeviceDataMap(deviceIds);
-    } catch (err) { }
+    } catch (err) {}
 };
 
 // 获取地图数据 getDeviceData
@@ -717,7 +718,7 @@ const getDeviceDataMap = async (deviceIds: any) => {
             });
         });
         console.log(allPoint.value, 'allPoint.value');
-    } catch (err) { }
+    } catch (err) {}
 };
 
 onMounted(() => {
@@ -812,14 +813,15 @@ onMounted(() => {
                 width: 31vw;
             }
 
-            .bg-menu {}
+            .bg-menu {
+            }
 
             img {
                 width: 100%;
                 cursor: pointer;
             }
 
-            .bg-menu+.bg-menu {
+            .bg-menu + .bg-menu {
                 margin-left: 1vw;
             }
 
@@ -995,7 +997,7 @@ onMounted(() => {
                     }
 
                     p:last-child {
-                        font-size: 1vw;
+                        font-size: 0.9vw;
                         font-weight: 700;
                         color: #24eacd;
                         height: 3vh;
