@@ -301,6 +301,9 @@ const tabsChange = (i: number) => {
 };
 
 const toParseIntNum = (num: number) => {
+    if (num === 0) {
+        return 0;
+    }
     return parseInt(num * 100) + '%';
 };
 
@@ -695,16 +698,11 @@ const queryAll = async () => {
         const deviceIds = res.map(({ deviceId }) => deviceId);
         res &&
             res.forEach((item: any, i: number) => {
-                if (i <= 6) {
-                    res[i].position = mapPoint.value[i];
-                } else {
-                    res[i].position = mapPoint.value[6];
-                }
-                // res[i].position = mapPoint.value[i];
+                res[i].position = mapPoint.value[i];
                 res[i].point = item;
                 res[i].value = null;
             });
-        allPoint.value = res;
+        allPoint.value = res.slice(0, 7);
         console.log(allPoint.value, 'allPointallPoint');
         if (deviceIds.length > 0) {
             getDeviceDataMap(deviceIds);
