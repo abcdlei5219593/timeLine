@@ -58,7 +58,8 @@ const thirdPlatformLogin = async () => {
             const userMenu = await getUserMenu();
             await getUser();
             if(userMenu.length) {
-                router.push(userMenu[0].children[0].url);
+                window.location = location.href.split('#')[0]+ '#' + userMenu[0].children[0].url;
+                // router.push(userMenu[0].children[0].url);
             } else {
                 ElMessage.error('您没有系统操作权限，请联系管理员！');
             }
