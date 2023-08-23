@@ -30,7 +30,7 @@ const getUserMenu = async () => {
         });
         store.getBizModule(bizModule.bizModule ? bizModule.bizModule : 1);
         return authMenu;
-    } catch (err) {}
+    } catch (err) { }
 };
 
 // 获取用户基本信息
@@ -40,7 +40,7 @@ const getUser = async () => {
         const store = useUserStore();
         console.log(res, '9888888');
         store.getUserInfo(res);
-    } catch (err) {}
+    } catch (err) { }
 };
 
 const thirdPlatformLogin = async () => {
@@ -57,9 +57,9 @@ const thirdPlatformLogin = async () => {
             Cookie.set('token', res.token);
             const userMenu = await getUserMenu();
             await getUser();
-            if(userMenu.length) {
-                window.location = location.href.split('#')[0]+ '#' + userMenu[0].children[0].url;
+            if (userMenu.length) {
                 // router.push(userMenu[0].children[0].url);
+                window.location = location.href.split('#')[0]+ '#/dashboard';
             } else {
                 ElMessage.error('您没有系统操作权限，请联系管理员！');
             }

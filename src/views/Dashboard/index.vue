@@ -300,8 +300,11 @@ const tabsChange = (i: number) => {
     }
 };
 
-const toParseIntNum = (num: number) => {
-    return parseInt(num * 100) + '%';
+const toParseIntNum = (num: number, count: number) => {
+    if (num === 0) {
+        return 0;
+    }
+    return parseInt((num / count) * 100) + '%';
 };
 
 const airLine = ref({
@@ -654,26 +657,31 @@ const getDeviceDataScreen = async () => {
 const getAlarmData = async () => {
     try {
         const res = await dataBoardApi.getAlarmData();
-        const count = res.gasCount + res.ptuCount + res.rainCount + res.waterCount + res.windCount;
+        const count =
+            parseInt(res.gasCount) +
+            parseInt(res.ptuCount) +
+            parseInt(res.rainCount) +
+            parseInt(res.waterCount) +
+            parseInt(res.windCount);
         pieData.value.pieValue = [
             {
-                name: '降雨告警数：' + toParseIntNum(res.rainCount / count),
+                name: '降雨告警数：' + toParseIntNum(res.rainCount, count),
                 value: res.rainCount,
             },
             {
-                name: '风速告警数：' + toParseIntNum(res.windCount / count),
+                name: '风速告警数：' + toParseIntNum(res.windCount, count),
                 value: res.windCount,
             },
             {
-                name: 'PTU告警数：' + toParseIntNum(res.ptuCount / count),
+                name: 'PTU告警数：' + toParseIntNum(res.ptuCount, count),
                 value: res.ptuCount,
             },
             {
-                name: '大气告警数：' + toParseIntNum(res.gasCount / count),
+                name: '大气告警数：' + toParseIntNum(res.gasCount, count),
                 value: res.gasCount,
             },
             {
-                name: '水质告警数：' + toParseIntNum(res.waterCount / count),
+                name: '水质告警数：' + toParseIntNum(res.waterCount, count),
                 value: res.waterCount,
             },
         ];
@@ -699,9 +707,11 @@ const queryAll = async () => {
                 res[i].point = item;
                 res[i].value = null;
             });
-        allPoint.value = res;
+        allPoint.value = res.slice(0, 7);
         console.log(allPoint.value, 'allPointallPoint');
-        getDeviceDataMap(deviceIds);
+        if (deviceIds.length > 0) {
+            getDeviceDataMap(deviceIds);
+        }
     } catch (err) {}
 };
 

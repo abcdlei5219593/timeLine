@@ -2,7 +2,7 @@
     <ElRow :gutter="20">
         <ElCol :span="12" class="h-340">
             <ElCard shadow="never" class="welcome">
-                <h3>欢迎你， {{ store.userInfo?.userName }}</h3>
+                <h3>欢迎你， {{ store.userInfo?.nickName }}</h3>
                 <article class="inner-title">
                     {{ appStore.factroyName }}
                 </article>
@@ -50,12 +50,8 @@
                     </ElSelect>
                 </div>
                 <div class="map-layout">
-                    <v-chart
-                        v-if="option.series.length && option.series[0].data.length"
-                        class="chart"
-                        :option="option"
-                        autoresize
-                    />
+                    <v-chart v-if="option.series.length && option.series[0].data.length" class="chart" :option="option"
+                        autoresize />
                     <ElEmpty v-else description="暂无数据" :image="emptyImage"></ElEmpty>
                 </div>
             </ElCard>
@@ -236,7 +232,8 @@ const store = useUserStore();
                 padding: 4px 8px;
                 color: #fff;
             }
-            span + span {
+
+            span+span {
                 margin-left: 10px;
             }
         }
@@ -252,7 +249,7 @@ const store = useUserStore();
                 padding: 13px 0;
                 list-style-type: disc;
 
-                & + li {
+                &+li {
                     border-top: 1px solid #18181814;
                 }
 
@@ -287,6 +284,7 @@ const store = useUserStore();
         }
     }
 }
+
 .el-empty {
     height: 100%;
     padding: 0;
