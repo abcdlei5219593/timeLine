@@ -53,52 +53,52 @@ export const routes: Array<RouteRecordRaw> = [
                 },
 
             },
-            {
-                path: '/workbench/system',
-                name: 'system',
-                redirect: '/workbench/system/user',
+            // {
+            //     path: '/workbench/system',
+            //     name: 'system',
+            //     redirect: '/workbench/system/user',
 
-                meta: {
-                    title: '系统设置',
-                    icon: 'system'
-                },
-                children: [
-                    {
-                        path: '/workbench/system/user',
-                        name: 'workbenchuser',
-                        component: () => import('@/views/system/users.vue'),
-                        meta: {
-                            title: '用户中心'
-                        }
-                    },
-                ]
+            //     meta: {
+            //         title: '系统设置',
+            //         icon: 'system'
+            //     },
+            //     children: [
+            //         {
+            //             path: '/workbench/system/user',
+            //             name: 'workbenchuser',
+            //             component: () => import('@/views/system/users.vue'),
+            //             meta: {
+            //                 title: '用户中心'
+            //             }
+            //         },
+            //     ]
 
-            },
+            // },
 
-            {
-                path: '/workbenchuserCenter',
-                name: 'UserCenter',
-                component: () => import('@/views/User/userCenter.vue'),
-                meta: {
-                    title: '用户中心'
-                }
-            },
-            {
-                path: '/workbench/auth',
-                name: 'Auth',
-                component: () => import('@/views/User/auth.vue'),
-                meta: {
-                    title: '权限管理'
-                }
-            },
-            {
-                path: '/workbench/personalCenter',
-                name: 'PersonalCenter',
-                component: () => import('@/views/User/personalCenter.vue'),
-                meta: {
-                    title: '个人中心'
-                }
-            },
+            // {
+            //     path: '/workbenchuserCenter',
+            //     name: 'UserCenter',
+            //     component: () => import('@/views/User/userCenter.vue'),
+            //     meta: {
+            //         title: '用户中心'
+            //     }
+            // },
+            // {
+            //     path: '/workbench/auth',
+            //     name: 'Auth',
+            //     component: () => import('@/views/User/auth.vue'),
+            //     meta: {
+            //         title: '权限管理'
+            //     }
+            // },
+            // {
+            //     path: '/workbench/personalCenter',
+            //     name: 'PersonalCenter',
+            //     component: () => import('@/views/User/personalCenter.vue'),
+            //     meta: {
+            //         title: '个人中心'
+            //     }
+            // },
 
         ]
     },

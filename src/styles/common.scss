@@ -50,6 +50,12 @@
 .search-checkbox {
     color: #000;
 }
+.error-row {
+    td{
+     background: #FFF4F4 !important;
+     color:#FB3B3F
+    }
+ }
 
 //通用table
 .table.el-table {

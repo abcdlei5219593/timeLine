@@ -221,8 +221,8 @@
 
             <ElDialog   class="main-dialog" v-model="memnberShow"  title="成员管理" width="1000px">
                 <div class="dialog-form" style="display:flex;justify-content: space-between; align-items: stretch;">
-                   <div style="width:490px;">
-                        <p>未添加成员</p>
+                   <div style="width:490px;margin-right:20px;">
+                        <p style="margin-bottom: 20px;;color:#000">未添加成员</p>
                         <ElButton
                         plain
                             class="add-btn"
@@ -248,7 +248,7 @@
                         </ElTable>
                    </div>
                    <div style="width:490px;">
-                        <p>已添加成功</p>
+                        <p style="margin-bottom: 20px;color:#000">已添加成功</p>
                         <ElButton
                         plain
                             class="add-btn"
@@ -301,6 +301,26 @@ const tableData: any = ref([
         unit: '单位名称',
         date: '2023-09-10',
         user: '张三',
+        kaigong: '2023-09-10',
+        status: 1,
+    },
+    {
+        id: 1,
+        code: 'xc-001',
+        name: '测试项目',
+        unit: '单位名称',
+        date: '2023-09-10',
+        user: '张三1',
+        kaigong: '2023-09-10',
+        status: 1,
+    },
+    {
+        id: 1,
+        code: 'xc-001',
+        name: '测试项目',
+        unit: '单位名称',
+        date: '2023-09-10',
+        user: '张三2',
         kaigong: '2023-09-10',
         status: 1,
     }
