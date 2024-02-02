@@ -67,7 +67,7 @@
                 <el-input v-model="formData.newPwdAgain" type="password" size="default" placeholder="请确认密码" />
             </ElFormItem>
             <ElFormItem>
-                <ElButton type="primary" size="default" @click="submitForm(formDataRef)"> 确认修改 </ElButton>
+                <ElButton color="#4371EE" size="default" @click="submitForm(formDataRef)"> 确认修改 </ElButton>
             </ElFormItem>
         </ElForm>
     </div>

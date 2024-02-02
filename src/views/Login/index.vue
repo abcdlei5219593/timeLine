@@ -2,15 +2,12 @@
     <div v-if="!isFromThirdPlatform" class="login">
         <div class="login-main">
             <div class="login-title">
-                <img class="login-logo" src="@/assets/login/logo.png" />
-                <!-- 智慧环境监测系统 -->
-                <div>
-                    <p>长江工业园未来城市</p>
-                    <p>智慧环境监测系统</p>
-                </div>
+                <img class="login-logo" src="@/assets/logo.png" />
             </div>
             <div class="login-box">
-                <p class="login-text">账号登录</p>
+                <p class="login-text">
+                    用户登录
+                </p>
                 <ElForm ref="formDataRef" :model="formData" :rules="rules">
                     <ElFormItem label="" prop="userName">
                         <ElInput
@@ -38,7 +35,7 @@
                         </ElInput>
                     </ElFormItem>
                     <ElFormItem>
-                        <ElButton type="primary" :loading="loading" @click="submitForm(formDataRef)">
+                        <ElButton color="#4371EE" :loading="loading" @click="submitForm(formDataRef)">
                             {{ loading ? '登录中' : '登录' }}
                         </ElButton>
                     </ElFormItem>
@@ -118,25 +115,26 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 };
 
 const loginFun = async () => {
-    try {
-        loading.value = true;
-        const password: any = ref(proxy.$md5(formData.password).substr(8, 16));
-        const res: any = await login({
-            userName: formData.userName,
-            password: password.value,
-        });
-        Cookie.set('token', res.token);
-        const userMenu = await getUserMenu();
-        await getUser();
-        loading.value = false;
-        if (userMenu.length) {
-            router.push('/dashboard');
-        } else {
-            ElMessage.error('您没有系统操作权限，请联系管理员！');
-        }
-    } catch (err) {
-        loading.value = false;
-    }
+    router.push('/workbench/project');
+    // try {
+    //     loading.value = true;
+    //     const password: any = ref(proxy.$md5(formData.password).substr(8, 16));
+    //     const res: any = await login({
+    //         userName: formData.userName,
+    //         password: password.value,
+    //     });
+    Cookie.set('token', 'test');
+    //     const userMenu = await getUserMenu();
+    //     await getUser();
+    //     loading.value = false;
+    //     if (userMenu.length) {
+    //         router.push('/dashboard');
+    //     } else {
+    //         ElMessage.error('您没有系统操作权限，请联系管理员！');
+    //     }
+    // } catch (err) {
+    //     loading.value = false;
+    // }
 };
 
 // 获取用户菜单
@@ -181,7 +179,8 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .login {
-    background: #2d8cf0 url(@/assets/login/bg.png) no-repeat;
+    background:  url(@/assets/login_bg.png) no-repeat ;
+    background-size:100% 100%;
     position: absolute;
     top: 0;
     left: 0;
@@ -191,7 +190,7 @@ onMounted(() => {
     width: 100vw;
     overflow: hidden;
     background-position: 50%;
-    background-size: 100%;
+
 
     .login-main {
         width: 480px;
@@ -202,23 +201,13 @@ onMounted(() => {
         margin: -279px 0 0 -240px;
 
         .login-title {
-            font-size: 26px;
-            font-weight: 600;
-            color: #fff;
+
+            margin-bottom: 30px;
             text-align: center;
-            margin-bottom: 40px;
-            letter-spacing: 2px;
-            display: flex;
-            height: 72px;
-            line-height: 38px;
-            margin-bottom: 40px;
-            justify-content: center;
-            // text-align: left;
 
             .login-logo {
-                width: 80px;
-                height: 72px;
-                margin-right: 12px;
+                width: 235px;
+
             }
         }
 
@@ -232,10 +221,10 @@ onMounted(() => {
             box-sizing: border-box;
 
             .login-text {
-                font-size: 30px;
-                color: #000;
+
                 font-weight: 600;
-                letter-spacing: 2px;
+                font-size: 24px;
+                color: #333333;
             }
 
             .el-form {

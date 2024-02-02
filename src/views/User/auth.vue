@@ -11,12 +11,12 @@
                 ></ElInput>
             </ElCol>
             <ElCol :span="3">
-                <ElButton type="primary" size="default" @click="getList"> 搜索 </ElButton>
+                <ElButton color="#4371EE" size="default" @click="getList"> 搜索 </ElButton>
             </ElCol>
             <!-- <ElCol :span="3"> -->
             <ElButton
                 class="add-btn"
-                type="primary"
+                color="#4371EE"
                 size="default"
                 @click="addShow = true"
                 :icon="Plus"
@@ -38,14 +38,14 @@
                 <template #default="scope">
                     <ElButton
                         link
-                        type="primary"
+                        color="#4371EE"
                         size="default"
                         @click="rootFun(scope.row)"
                         v-permission="'/authorized'"
                     >
                         授权
                     </ElButton>
-                    <ElButton link type="primary" size="default" @click="editFun(scope.row)" v-permission="'/editRole'">
+                    <ElButton link color="#4371EE" size="default" @click="editFun(scope.row)" v-permission="'/editRole'">
                         编辑
                     </ElButton>
                 </template>
@@ -91,7 +91,7 @@
             </div>
             <span slot="footer" class="dialog-footer">
                 <ElButton size="default" @click="closeFun">取 消</ElButton>
-                <ElButton type="primary" size="default" @click="submitForm(formDataRef)">保存提交</ElButton>
+                <ElButton color="#4371EE" size="default" @click="submitForm(formDataRef)">保存提交</ElButton>
             </span>
         </ElDialog>
 
@@ -114,7 +114,7 @@
             </div>
             <span slot="footer" class="dialog-footer">
                 <ElButton size="default" @click="closeFun">取 消</ElButton>
-                <ElButton type="primary" size="default" @click="rootSave">保存提交</ElButton>
+                <ElButton color="#4371EE" size="default" @click="rootSave">保存提交</ElButton>
             </span>
         </ElDialog>
     </div>

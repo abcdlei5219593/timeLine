@@ -51,7 +51,7 @@ export const useSettingStore = defineStore('systemSetting', () => {
         measureList.value = await getMeasureList(params);
     };
 
-    const currentApp = computed(() => APP_LIST.find(app => route.path.includes(app.url)));
+    const currentApp = computed(() => APP_LIST[0]);
 
     return {
         factroyName,

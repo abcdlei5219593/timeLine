@@ -54,12 +54,11 @@ $http.interceptors.response.use((response) => {
         return response.data.data;
     } else if (+response.data.code === -103) { // 当登录过期时，重定向到登录页面
         Cookie.remove('token');
-        router.replace('/login');
+        //  router.replace('/login');
     }
     ElMessage.error(response.data.msg);
     return Promise.reject();
 }, (error) => {
-    console.log(import.meta.env);
     if (error.response) {
 
         switch (error.response.status) {

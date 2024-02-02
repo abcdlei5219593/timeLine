@@ -6,7 +6,7 @@
         <!-- <template #footer>
             <span class="dialog-footer">
                 <ElButton @click="handleClose">取 消</ElButton>
-                <ElButton type="primary">确 定</ElButton>
+                <ElButton color="#4371EE">确 定</ElButton>
             </span>
         </template> -->
     </ElDialog>

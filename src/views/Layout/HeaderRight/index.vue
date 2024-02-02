@@ -104,12 +104,12 @@ const toPersonalCenter = () => {
         .user-name {
             height: 32px;
             line-height: 32px;
-            color: #ffffff;
+            color: #1B1B1E;
             padding: 0 10px;
         }
 
         .icon-xiala {
-            color: #fff;
+            color: #1B1B1E;
             font-size: 14px;
             line-height: 32px;
         }

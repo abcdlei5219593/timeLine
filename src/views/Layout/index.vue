@@ -3,16 +3,9 @@
         <ElHeader>
             <ElContainer>
                 <div class="logo fs-18 fw-600">
-                    <img class="logo-img" src="@/assets/login/header-logo.png" />
-                    <!-- 智慧环境监测系统 -->
-                    <div>
-                        <p>长江工业园未来城市</p>
-                        <p>智慧环境监测系统</p>
-                    </div>
+                    <img style="margin-left:20px;width: 178px;height:30px;" class="logo-img" src="@/assets/logo.png" />
                 </div>
-                <section>
-                    <AppBar :menu-list="appList"> </AppBar>
-                </section>
+
                 <HeaderRight></HeaderRight>
             </ElContainer>
         </ElHeader>
@@ -23,7 +16,7 @@
                     class="app-menu"
                     :router="true"
                     mode="vertical"
-                    :menu-list="currentAppMenu"
+                    :menu-list="menuList"
                     :collapse="store.isCollapse"
                 >
                 </Menu>
@@ -35,7 +28,8 @@
             </ElAside>
             <ElMain>
                 <Breadcrumb v-if="showBread" />
-                <RouterView class="main-view"> </RouterView>
+                <RouterView class="main-view">
+                </RouterView>
             </ElMain>
         </ElContainer>
     </ElContainer>
@@ -52,94 +46,52 @@ import { APP_LIST } from '@/config';
 import { Menu as MenuType, MenuItem } from './types/menu';
 import { useRoute, useRouter } from 'vue-router';
 import { useSettingStore, storeMenu as useMenuStore } from '@/store/app';
+import { routes } from '@/router/index';
 
 const route = useRoute();
 const router = useRouter();
 const store = useSettingStore();
 const menuStore = useMenuStore();
-console.log(route.path, 'route.pathroute.path');
-const hasAside = computed(() => route.path.startsWith('/app') && route.path.indexOf('/personalCenter') === -1);
 
-const appList = computed(() => menuStore.menuList.map(({ url, name }) => ({ url, name })));
+const hasAside = true; // computed(() => route.path.startsWith('/app') && route.path.indexOf('/personalCenter') === -1);
+
 
 const routePath = computed(() => route.path);
 
 const showBread = computed(() => !route.path.includes('/home'));
 
-const layoutHeight = computed(() => (showBread.value ? '100% - 40px' : '100%'));
+const layoutHeight = computed(() => showBread.value ? '100% - 40px' : '100%');
 
 // const isCollapse = ref(store.state.app.isCollapse);
 
-const currentAppMenu = computed<MenuType | []>(() => {
-    const target = menuStore.menuList.find(({ url }) => routePath.value.includes(url));
-    return target ? target.children : [];
-});
+const menuList = routes.find(item => item.meta?.auth)?.children;
 
-const getFistFullpath = (route: MenuItem) => {
-    let temp = '';
-    if (route.children && route.children.length) {
-        temp = getFistFullpath(route.children[0]);
-    } else {
-        temp = route.url;
-    }
+// const getFistFullpath = (route: MenuItem) => {
+//     let temp = '';
+//     if (route.children && route.children.length) {
+//         temp = getFistFullpath(route.children[0]);
+//     } else {
+//         temp = route.url;
+//     }
 
-    return temp;
-};
+//     return temp;
+// };
 
-watch(
-    routePath,
-    (path) => {
-        const target = menuStore.menuList.find(({ url }) => url === path);
-        if (target) {
-            router.replace(getFistFullpath(target));
-        }
-    },
-    {
-        immediate: true,
-    }
-);
 
-watch(
-    () => store.currentApp,
-    (app) => {
-        if (app) {
-            store.getMeasureListHandler({ bizModule: app.bizModule });
-        }
-    },
-    {
-        deep: true,
-        immediate: true,
-    }
-);
 </script>
 
 <style scoped lang="scss">
 .el-header {
-    background-color: $mainColor;
+    background: url(../../assets/top_bg.png) no-repeat 0 0;
+    background-size: 100% 100%;
     padding: 12px 24px;
     height: $headerHeight;
 
     .logo {
-        background: $mainColor;
-        flex-shrink: 0;
-        height: $headerHeight;
-        width: $asideWidth;
-        text-align: center;
-        color: rgba(255, 255, 255, 0.9);
-        margin: 10px 0 10px 20px;
-        height: 24px;
-        line-height: 24px;
-        display: flex;
-        height: 44px;
-        line-height: 22px;
-        font-size: 18px;
-        // text-align: left;
 
-        .logo-img {
-            width: 49px;
-            height: 44px;
-            margin-right: 12px;
-        }
+        display: flex;
+        align-items: center;
+
     }
 
     padding: 0;
@@ -184,21 +136,10 @@ watch(
     }
 
     .el-menu {
-        background: #01022b;
+        color:#1B1B1E !important;
         position: relative;
 
-        &::before {
-            content: '';
-            display: block;
-            background: url(@/assets/img/menu-bg.png) 100% 50% no-repeat;
-            opacity: 0.12;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            padding-bottom: 160px;
-        }
+
     }
 
     .toggle-menu {
@@ -206,9 +147,9 @@ watch(
         bottom: 0;
         height: 56px;
         line-height: 56px;
-        border-top: 1px solid #2a2b4d;
+        border-top: 1px solid #E4E5EA;
         width: 100%;
-        color: #fff;
+        color: #1B1B1E;
         display: flex;
         cursor: pointer;
         font-size: 14px;
@@ -238,17 +179,21 @@ watch(
         height: 36px;
         margin-bottom: 4px !important;
         color: $asideColor;
-
         &.is-active {
-            color: $mainColor;
-            background: $asideActiveBackground;
+            background: #ECF0FD;
+            .menu-title {
+                color: #4371EE;
+            }
+
         }
     }
 
     :deep(.el-menu-item):hover,
     :deep(.el-sub-menu__title):hover {
-        background: $asideActiveBackground;
-        color: #2d8cf0;
+        background: #ECF0FD;
+        .menu-title {
+            color: #4371EE;
+        }
     }
 
     :deep(.el-sub-menu .el-menu-item) {

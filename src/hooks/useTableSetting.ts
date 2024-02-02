@@ -1,4 +1,4 @@
-import { onMounted, nextTick, ref } from 'vue';
+import { onMounted, nextTick, ref, onUnmounted } from 'vue';
 
 function getElementTop(el: HTMLElement): number {
     if (el && el.offsetParent) {
@@ -7,8 +7,9 @@ function getElementTop(el: HTMLElement): number {
     return el.offsetTop;
 }
 
-function setTableMaxHeight(id: string, num = 120): number {
-    const scrollHeight = document.body.scrollHeight;
+export function setTableMaxHeight(id: string, num = 120): number {
+    // debugger;
+    const scrollHeight = document.body.offsetHeight;
     const offsetTop = getElementTop(document.getElementById(id) as HTMLElement);
     const maxHeight = scrollHeight - offsetTop - num;
     return maxHeight;
@@ -22,10 +23,16 @@ type containerOps = {
 // 设置table的自适应高度值
 export default function useTableSetting({ id = 'xc-table', offsetBottom = 100 }: containerOps = {}) {
     const maxTableHeight = ref(0);
+    const setHeight = () => {
+
+        maxTableHeight.value = setTableMaxHeight(id, offsetBottom);
+    };
     onMounted(async () => {
-        setTimeout(() => {
-            maxTableHeight.value = setTableMaxHeight(id, offsetBottom);
-        }, 200);
+        setTimeout(setHeight, 200);
+        window.addEventListener('resize', setHeight);
+    });
+    onUnmounted(() =>{
+        window.removeEventListener('resize', setHeight);
     });
     return {
         maxTableHeight,

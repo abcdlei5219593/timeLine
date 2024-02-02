@@ -3,8 +3,7 @@ module.exports = {
     env: {
         node: true,
     },
-    extends: ['plugin:vue/vue3-recommended', 'plugin:@typescript-eslint/recommended'],
-    plugins: ['eslint-plugin-vue'],
+
     parserOptions: {
         parser: '@typescript-eslint/parser',
         // 在使用 decorator 风格组件的时候，会触发 babel7 的错误提示

@@ -22,7 +22,25 @@ html {
     font-size: 14px;
     color:#252525;
 }
+:root{
+    --el-color-primary:#4371EE !important;
 
+    .el-button--text{
+        --el-button-text-color:#4371EE !important;
+    }
+    .el-input{
+        --el-font-size-base: 14px;
+        --el-border-color: #DCDCDC !important;
+
+    }
+}
+.el-form-item{
+    align-items: center;
+    .el-form-item__label{
+        color:#000;
+        font-size: 14px;
+    }
+}
 body {
     width: 100vw;
     height: 100vh;

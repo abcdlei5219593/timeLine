@@ -5,25 +5,22 @@
             <ElSubMenu
                 v-if="
                     node.children &&
-                    node.children.length &&
-                    node.name !== '设备管理' &&
-                    node.name !== '用户中心' &&
-                    node.name !== '权限管理'
+                        node.children.length
                 "
-                :index="node.url"
+                :index="node.path"
             >
                 <template #title>
-                    <i v-if="node.icon" class="menu-icon" :class="node.icon"></i>
-                    <span class="menu-title">{{ node.name }}</span>
+                    <i v-if="node.meta.icon"  class="menu-icon" :class="node.meta.icon" />
+                    <span class="menu-title">{{ node.meta.title }}</span>
                 </template>
-                <ElMenuItem v-for="(sub, subIndex) in node.children" :key="subIndex" :index="sub.url">
-                    {{ sub.name }}
+                <ElMenuItem v-for="(sub, subIndex) in node.children" :key="subIndex" :index="sub.path">
+                    {{ sub.meta.title }}
                 </ElMenuItem>
             </ElSubMenu>
-            <ElMenuItem v-else :index="node.url">
-                <i v-if="node.icon" class="menu-icon" :class="node.icon"></i>
+            <ElMenuItem v-else :index="node.path">
+                <i v-if="node.meta.icon"  class="menu-icon" :class="node.meta.icon" />
                 <template #title>
-                    <span class="menu-title">{{ node.name }}</span>
+                    <span class="menu-title">{{ node.meta.title }}</span>
                 </template>
             </ElMenuItem>
         </template>
@@ -42,19 +39,56 @@ const props = defineProps<{
 const route = useRoute();
 
 const defaultActive = route.fullPath;
+
+
+const getMenuIcon = (icon: any) => {
+    return new URL(`../../../assets/${icon}.png`, import.meta.url).href;
+};
 </script>
 
 <style scoped lang="scss">
+.is-active,:deep(.el-menu-item):hover {
+    .menu-icon {
+        &.data {
+            background-image: url(../../../assets/data_active.png);
+        }
+        &.road {
+            background-image: url(../../../assets/road_active.png);
+        }
+
+        &.project {
+            background-image: url(../../../assets/project_active.png);
+        }
+    }
+}
 .menu-icon {
-    font-size: 20px;
-    // margin-right: 8px;
+    width: 20px;
+    height: 20px;
+    background-size: 100% 100%;
+    &.data {
+        background-image: url(../../../assets/data.png);
+    }
+    &.road {
+        background-image: url(../../../assets/road.png);
+    }
+    &.system {
+        background-image: url(../../../assets/system.png);
+    }
+    &.project {
+        background-image: url(../../../assets/project.png);
+    }
 }
 .menu-title {
+    color:#1B1B1E;
     padding-left: 8px;
 }
 // :deep(.el-menu-item) {
 //     padding-left: 16px !important;
 // }
+.el-menu{
+    background: #fff url('@/assets/aside.png') no-repeat left bottom/100%;
+
+}
 :deep(.el-menu-item .el-menu-tooltip__trigger) {
     justify-content: center;
 }

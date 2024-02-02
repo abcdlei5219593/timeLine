@@ -115,3 +115,15 @@ export const getWindDirection = (num: number) => {
     }
     return result;
 };
+
+
+export const validateForm = (elForm: FormInstance) =>
+    new Promise((resolve, reject) => {
+        elForm.validate(valid => {
+            if (valid) {
+                resolve(valid);
+            } else {
+                reject();
+            }
+        });
+    });

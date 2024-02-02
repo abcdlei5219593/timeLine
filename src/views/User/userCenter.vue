@@ -11,12 +11,12 @@
                 ></ElInput>
             </ElCol>
             <ElCol :span="3">
-                <ElButton type="primary" size="default" @click="getList"> 搜索 </ElButton>
+                <ElButton color="#4371EE" size="default" @click="getList"> 搜索 </ElButton>
             </ElCol>
             <ElButton
                 class="add-btn"
                 v-permission="'/addUser'"
-                type="primary"
+                color="#4371EE"
                 size="default"
                 @click="addFun"
                 :icon="Plus"
@@ -41,12 +41,12 @@
             <ElTableColumn prop="remark" label="备注" />
             <ElTableColumn prop="address" fixed="right" label="操作" width="200">
                 <template #default="scope">
-                    <ElButton link type="primary" size="default" @click="editFun(scope.row)" v-permission="'/editUser'">
+                    <ElButton link color="#4371EE" size="default" @click="editFun(scope.row)" v-permission="'/editUser'">
                         编辑
                     </ElButton>
                     <ElButton
                         link
-                        type="primary"
+                        color="#4371EE"
                         size="default"
                         @click="showChangePassword(scope.row)"
                         v-permission="'/changePassword'"
@@ -128,7 +128,7 @@
             </div>
             <span slot="footer" class="dialog-footer">
                 <ElButton size="default" @click="addShow = false">取 消</ElButton>
-                <ElButton type="primary" size="default" @click="submitAdd(formAdd)">保存提交</ElButton>
+                <ElButton color="#4371EE" size="default" @click="submitAdd(formAdd)">保存提交</ElButton>
             </span>
         </ElDialog>
 
@@ -156,7 +156,7 @@
             </div>
             <span slot="footer" class="dialog-footer">
                 <ElButton size="default" @click="passwordShow = false">取 消</ElButton>
-                <ElButton type="primary" size="default" @click="submitForm(formDataRef)">保存提交</ElButton>
+                <ElButton color="#4371EE" size="default" @click="submitForm(formDataRef)">保存提交</ElButton>
             </span>
         </ElDialog>
     </div>
