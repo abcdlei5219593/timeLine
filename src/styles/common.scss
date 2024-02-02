@@ -73,16 +73,7 @@
         color: #000;
     }
 
-    //cell自带8px
-    thead tr th:first-child,
-    tr td:first-child {
-        padding-left: 16px;
-    }
 
-    thead tr th:last-child,
-    tr td:last-child {
-        padding-right: 16px;
-    }
 
     tr:hover>td {
         background-color: #F2F3F5 !important;

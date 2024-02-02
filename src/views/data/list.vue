@@ -95,11 +95,20 @@
                 :data="tableData"
                :height="maxTableHeight"
                :span-method="objectSpanMethod"
+               @cell-dblclick="doubleClick"
+               :row-class-name="tableRowClassName"
             >
                 <ElTableColumn type="selection" width="55px" fixed="left" />
                 <ElTableColumn v-for="(item,index) in tableColumn" :key="index" :fixed ="item.fixed" :prop="item.field" :label="item.label" :width="item.width">
                     <template v-if="item.edit" #default="scope">
-                        <span>{{ scope.row[item.field] }}</span>
+                        <ElInput
+                            v-if="scope.row[item.field+'Show'] && scope.row.canEdit"
+                            v-model="scope.row[item.field]"
+                            size="default"
+                            placeholder="请输入"
+                            @blur="scope.row[item.field+'Show'] = false"
+                        ></ElInput>
+                        <span v-else>{{ scope.row[item.field] }}</span>
                     </template>
                 </ElTableColumn>
 
@@ -239,10 +248,10 @@ const rowSapnArry = computed(() => {
 });
 
 const objectSpanMethod = ({ row, column, rowIndex, columnIndex }) => {
-    console.log(column.fixed + ''+ column.label);
-    if ( column.fixed ) {
+
+    if ( columnIndex <2 ) {
         return {
-            rowspan: rowSapnArry[rowIndex],
+            rowspan: rowSapnArry.value[rowIndex],
             colspan: 1
         };
     }
@@ -285,12 +294,16 @@ const tableColumn = computed(() => {
         const obj = {};
         [...temp_1,...temp_2].forEach(item => {
             obj[item.field] = Math.random().toFixed(2) * 1000;
+            if(item.edit) {
+                obj[item.field+'Show'] = false;
+            }
         });
         obj.id = num;
         if(num === 2) {
             obj.histroy = true;
         }
-
+        obj.canEdit = true;
+        obj.editing = false;
         return obj;
 
     });
@@ -300,6 +313,7 @@ const tableColumn = computed(() => {
         let isEdit = target?.edit;
 
         testData[key] = isEdit ? table[1][key] + 1 : table[1][key];
+        testData.canEdit = false;
 
     });
     table.splice(2,0,testData);
@@ -309,16 +323,18 @@ const tableColumn = computed(() => {
     return dataType.value === 1 ? temp_1 : temp_2;
 });
 
-const tableData: any = ref([
-    {
-        code: 'xc-001',
-        name: '测试项目',
-        unit: '单位名称',
-        date: '2023-09-10',
-        user: '张三',
-        kaigong: '2023-09-10',
-        status: 1,
+const doubleClick = (row, column) => {
+    row[column.property+'Show'] = true;
+
+};
+
+const tableRowClassName = ({row, rowIndex}) => {
+    if(row.histroy) {
+        return 'error-row';
     }
+    return '';
+};
+const tableData: any = ref([
 ]);
 const addShow = ref<boolean>(false);
 const total = ref<number>(0);
@@ -437,6 +453,9 @@ onMounted(() => {
             margin-left: 20px;
         }
     }
+}
+.el-table .warning-row {
+  --el-table-tr-bg-color: red;
 }
 </style>
 
