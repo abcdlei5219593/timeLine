@@ -7,6 +7,14 @@
             class="search-form"
             label-width="68px"
             label-position="left">
+
+            <ElFormItem label="角色名称" prop="name">
+                <ElInput
+                    v-model="searchForm.name"
+                    size="default"
+                    placeholder="请输入"
+                ></ElInput>
+            </ElFormItem>
             <ElFormItem label="姓名" prop="code">
                 <ElInput
                     v-model="searchForm.code"
@@ -14,22 +22,7 @@
                     placeholder="请输入"
                 ></ElInput>
             </ElFormItem>
-            <ElFormItem label="帐号" prop="name">
-                <ElInput
-                    v-model="searchForm.name"
-                    size="default"
-                    placeholder="请输入"
-                ></ElInput>
-            </ElFormItem>
 
-            <ElFormItem label="项目角色" prop="user">
-                <ElSelect
-                    v-model="searchForm.user"
-                    size="default"
-                    placeholder="请选择"
-                >
-                </ElSelect>
-            </ElFormItem>
 
             <ElFormItem>
                 <ElButton
@@ -67,11 +60,9 @@
                 :data="tableData"
                 :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
             >
-                <ElTableColumn prop="code" label="帐号" />
+                <ElTableColumn prop="code" label="角色名称" />
                 <ElTableColumn prop="name" label="姓名" />
-                <ElTableColumn prop="unit" label="项目角色" />
-                <ElTableColumn prop="date" label="加入时间" />
-
+                <ElTableColumn prop="unit" label="权限说明" />
                 <ElTableColumn  fixed="right" label="操作" width="120">
                     <template #default="scope">
                         <ElButton
@@ -113,14 +104,14 @@
                         label-width="80px"
                         label-position="left"
                     >
-                        <ElFormItem label="帐号" prop="roleName">
+                        <ElFormItem label="姓名" prop="roleName">
                             <el-input v-model="addForm.code" size="default" placeholder="请输入角色名" maxlength="10" />
                         </ElFormItem>
-                        <ElFormItem label="成员名称" prop="roleName">
+                        <ElFormItem label="角色名称" prop="roleName">
                             <el-input v-model="addForm.name" size="default" placeholder="请输入角色名" maxlength="10" />
                         </ElFormItem>
 
-                        <ElFormItem label="项目角色">
+                        <ElFormItem label="权限设置">
                             <ElSelect
                                 v-model="addForm.status"
                                 size="default"

@@ -178,9 +178,10 @@ const menuList = routes.find(item => item.meta?.auth)?.children;
     :deep(.el-sub-menu__title) {
         height: 36px;
         margin-bottom: 4px !important;
-        color: $asideColor;
+        color: inherit;
         &.is-active {
             background: #ECF0FD;
+            color: #4371EE;
             .menu-title {
                 color: #4371EE;
             }

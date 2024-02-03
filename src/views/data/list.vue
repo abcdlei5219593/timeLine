@@ -500,7 +500,7 @@ const handleMultiple = async (e) => {
     if(!multipleSelection.value.length) {
         return ElMessage.error('请选择数据');
     }
-    await ElMessageBox.confirm(`确认要将选中的 <span style="color:#FFFB3B3F;">${multipleSelection.value.length}</span> 条数据${e.target.innerText}吗？`, e.target.innerText, {
+    await ElMessageBox.confirm(`确认要将选中的 <span style="color:#FB3B3F;">${multipleSelection.value.length}</span> 条数据${e.target.innerText}吗？`, e.target.innerText, {
         confirmButtonText: '确  定',
         cancelButtonText: '取  消',
         dangerouslyUseHTMLString: true
