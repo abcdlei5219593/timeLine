@@ -34,25 +34,15 @@ export function getFormatDate(dateStr: string, format = 'YYYY-mm-dd') {
  * @return array
  */
 
-export const getDeepTreeData = (sourceTree: any, targetTree: any) => {
-    return new Promise(async (resolve, reject) => {
-        const temp = [];
-        for (const item of targetTree) {
-            let target = {};
-            const itemInSourceTree = sourceTree && sourceTree.find(sourceItem => item.url === sourceItem.url);
-            if (itemInSourceTree) {
-                target = {
-                    ...itemInSourceTree,
-                    children: []
-                };
-            }
-            if (item.children && item.children.length) {
-                target.children = await getDeepTreeData(itemInSourceTree && itemInSourceTree.children ? itemInSourceTree.children : '', item.children ? item.children : '');
-            }
-            temp.push(target);
+export const getDeepTreeData = (menuList) => {
+    const temp = [];
+    menuList.forEach(ele => {
+        temp.push(ele.id);
+        if(ele.children && ele.children.length) {
+            temp.push(...getDeepTreeData(ele.children));
         }
-        resolve(temp)
-    })
+    });
+    return temp;
 };
 
 

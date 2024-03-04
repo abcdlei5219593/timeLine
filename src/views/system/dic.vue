@@ -7,38 +7,14 @@
             class="search-form"
             label-width="68px"
             label-position="left">
-            <ElFormItem label="姓名" prop="realName">
-                <ElInput
-                    v-model="searchForm.realName"
-                    size="default"
-                    placeholder="请输入"
-                ></ElInput>
-            </ElFormItem>
-            <ElFormItem label="帐号" prop="userName">
-                <ElInput
-                    v-model="searchForm.userName"
-                    size="default"
-                    placeholder="请输入"
-                ></ElInput>
-            </ElFormItem>
 
-            <ElFormItem label="角色" prop="roleName">
-                <ElSelect
+            <ElFormItem label="字典名称" prop="dictCode">
+                    <DictSelect size="default" v-model="searchForm.dictCode" clearable :type="DictType.DIC_TYPE" placeholder="请选择" />
+                </ElFormItem>
+                <ElFormItem label="字典值" props="dicValue">
+                    <ElInput size="default" v-model="searchForm.dictValue" clearable placeholder="请输入内容"></ElInput>
+                </ElFormItem>
 
-                    v-model="searchForm.roleName"
-                    size="default"
-
-                    placeholder="请选择"
-                >
-                    <el-option
-                    v-for="item in roleOps"
-                    :key="item.roleId"
-                    :value="item.roleName"
-                    :label="item.roleName">
-
-                    </el-option>
-                </ElSelect>
-            </ElFormItem>
 
             <ElFormItem>
                 <ElButton
@@ -77,11 +53,21 @@
                 :data="tableData"
                 :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
             >
-                <ElTableColumn prop="userName" label="帐号" />
-                <ElTableColumn prop="realName" label="姓名" />
-                <ElTableColumn prop="belongRole" label="项目角色" />
-                <ElTableColumn prop="createTime" label="加入时间" />
+                <ElTableColumn label="序号" width="80">
+                    <template #default="scoped">
+                        {{ ((searchForm.pageNum - 1) * searchForm.pageSize) + scoped.$index + 1 }}
+                    </template>
+                </ElTableColumn>
+                <ElTableColumn label="字典类型">
+                    <template #default="scoped">
+                        {{ dictType.find((dict) => dict.dictValue === scoped.row.dictCode)?.dictDesc }}
+                    </template>
+                </ElTableColumn>
+                <ElTableColumn prop="dictDesc" label="字典名称"></ElTableColumn>
+                <ElTableColumn prop="dictValue" label="字典值"></ElTableColumn>
 
+                <ElTableColumn prop="operator" label="最近操作人"></ElTableColumn>
+                <ElTableColumn prop="updateTime" label="最近操作时间" width="150"></ElTableColumn>
                 <ElTableColumn  fixed="right" label="操作" width="120">
                     <template #default="scope">
                         <ElButton
@@ -114,7 +100,7 @@
             />
 
             <!--新增或编辑角色-->
-            <ElDialog   class="main-dialog" v-model="addShow"  :title="addForm.id ? '添加成员' : '修改成员'" width="480px">
+            <ElDialog   class="main-dialog" v-model="addShow"  :title="addForm.id ? '修改字典' : '添加字典'" width="480px">
                 <div class="dialog-form">
                     <ElForm
                         ref="addFormRef"
@@ -123,38 +109,23 @@
                         label-width="80px"
                         label-position="left"
                     >
-                        <ElFormItem label="帐号" prop="userName">
-                            <el-input v-model="addForm.userName" size="default" placeholder="请输入帐号" maxlength="10" />
-                        </ElFormItem>
-                        <ElFormItem label="密码" prop="password">
-                            <el-input v-model="addForm.password" size="default" placeholder="请输入密码" maxlength="10" />
-                        </ElFormItem>
-                        <ElFormItem label="姓名" prop="realName">
-                            <el-input v-model="addForm.realName" size="default" placeholder="请输入真实姓名" maxlength="10" />
-                        </ElFormItem>
-                        <ElFormItem label="手机号" prop="mobilePhone">
-                            <el-input v-model="addForm.mobilePhone" size="default" placeholder="请输入手机号" maxlength="10" />
-                        </ElFormItem>
 
-                        <ElFormItem label="角色">
-                            <ElSelect
-
-                                v-model="addForm.roleIds"
-                                size="default"
-                                multiple
-                                placeholder="请选择"
-                            >
-                             <el-option
-                             v-for="item in roleOps"
-                             :key="item.roleId"
-                             :value="item.roleId"
-                             :label="item.roleName">
-
-                             </el-option>
-                            </ElSelect>
-                        </ElFormItem>
+                    <ElFormItem label="字典名称" prop="dictDesc" class="full-item">
+                        <el-input v-model="addForm.dictDesc" size="default" placeholder="请输入" maxlength="10" />
+                    </ElFormItem>
+                    <ElFormItem label="字典类型" prop="dictCode" class="full-item">
+                        <DictSelect
+                            v-model="addForm.dictCode"
+                            :type="DictType.DIC_TYPE"
+                            size="default"
+                            placeholder="请输入"
+                            maxlength="10"
+                        />
+                    </ElFormItem>
+                    <ElFormItem label="字典值" prop="dictValue" class="full-item">
+                        <el-input v-model="addForm.dictValue" size="default" placeholder="请输入" maxlength="10" />
+                    </ElFormItem>
                     </ElForm>
-
                 </div>
                 <template #footer>
                     <span  class="dialog-footer">
@@ -173,23 +144,20 @@
 <script setup lang="ts">
 import useTableSetting from '@/hooks/useTableSetting';
 import { ref, onMounted, reactive, nextTick, watch } from 'vue';
-import md5 from 'js-md5';
-import { addUser, editUser, delUser, userList, roleList} from '@/api/index.ts';
-
+import { DictType, dictType } from '@/components/DictSelect/localDictDefine';
 import { ElMessage, ElTree, FormInstance, ElMessageBox } from 'element-plus';
 
 import { getFlatDeepTreeData } from '@/utils/common';
 import { Search, Plus } from '@element-plus/icons-vue';
 import { validateForm } from '@/helper/index';
+import authList from '@/router/auth.ts';
+import { addDict, delDict, dictList, editDict } from '@/api/index.ts';
 
-const tableData: any = ref([]);
-const roleOps = ref([]);
-const getRoleList = async () => {
-    const { list } = await roleList( {pageNum: 1, pageSize: 1000});
-    roleOps.value = list;
-};
+const treeRef = ref<InstanceType<typeof ElTree>>();
+const tableData: any = ref([
 
-getRoleList();
+]);
+
 
 
 const searchFormRef = ref<FormInstance>(null);
@@ -198,40 +166,38 @@ const details = ref({});
 
 
 const searchForm = reactive<searchFormType>({
-    realName: '',
-    userName: '',
-    roleName: '',
-
+    dictCode: '',
+    dictValue: '',
     pageNum: 1,
-    pageSize: 20,
+    pageSize: 10,
 });
 const total = ref<number>(0);
 
 
-const rules = reactive({
-    UserName: [{ required: true, message: '请输入角色名', trigger: 'blur' }],
-});
 
+const rules = reactive({
+    dictValue: [{ required: true, message: '请输入字典值', trigger: 'blur' }],
+    dictCode: [{ required: true, message: '请选择字典类型', trigger: 'change' }],
+    dictDesc: [{ required: true, message: '请输入字典名称', trigger: 'blur' }],
+});
 
 
 const getList = async () => {
     try {
-        const res: any = await userList(searchForm);
+        const res: any = await dictList(searchForm);
         tableData.value = res.list;
-        searchForm.pageNum = res.pageNum;
-        searchForm.pageSize = res.pageSize;
+
         total.value = res.total;
     } catch (err) {}
 };
 
 const handleDelete = async (row) => {
-
     await ElMessageBox.confirm('确认要删除吗？', '提示', {
         confirmButtonText: '确  定',
         cancelButtonText: '取  消',
         type: 'warning'
     });
-    await delUser({ roleId: row.roleId});
+    await delDict({ id: row.id });
     ElMessage.success('删除成功！');
     reset();
 };
@@ -239,8 +205,6 @@ const handleDelete = async (row) => {
 const goDetail = (row) => {
     details.value = JSON.parse(JSON.stringify(row));
 };
-
-
 
 const reset = (reset: boolean) => {
     if(reset) {
@@ -256,6 +220,7 @@ const handleSizeChange = (rows: number) => {
     getList();
 };
 const handleCurrentChange = (page: number) => {
+
     searchForm.pageNum = page;
     getList();
 };
@@ -263,13 +228,12 @@ const handleCurrentChange = (page: number) => {
 
 const addShow = ref<boolean>(false);
 const addFormRef = ref<FormInstance>(null);
-const addForm = reactive<addUserType>({
-    userId: '',
-    'mobilePhone': '',
-    'password': '',
-    'realName': '',
-    'roleIds': '',
-    'userName': ''
+const addForm = reactive<addDictType>({
+    id: null,
+    dictDesc: null,
+    dictName: null,
+    dictValue: null,
+    dictCode: null,
 });
 
 const resetForm = (form) => {
@@ -288,15 +252,11 @@ watch(
 
 const submitForm = async (formEl: FormInstance | undefined) => {
     await validateForm(formEl);
-    const params = {
-        ...addForm,
-        roleIds: addForm.roleIds.join(','),
-        password: md5(addForm.password).substr(8, 16)
-    };
-    addForm.userId ? await editUser(params) : await addUser(params);
-    ElMessage.success('操作成功！');
+    addForm.dictName = dictType.find((dict) => dict.dictValue === addForm.dictCode)?.dictDesc;
+    addForm.id ? await editDict(addForm) : await addDict(addForm);
+    ElMessage.success('提交成功！');
     addShow.value = false;
-    reset();
+    getList();
 };
 
 
@@ -304,11 +264,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 const editFun = async (row: any) => {
     addShow.value = true;
     Object.keys(row).forEach(key => {
-        if(key in addForm && key !== 'belongRoleIds') {
+        if(key in addForm) {
             addForm[key] = row[key];
-
-        } else if(key === 'belongRoleIds') {
-            addForm.roleIds = row.belongRoleIds.split(',').map(id => +id);
         }
     });
 };
@@ -325,6 +282,9 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'userTable',
 <style scoped lang="scss">
 .main-content > .btns{
     margin:10px 0 20px;
+}
+.authItem{
+    align-items: flex-start;
 }
 .search-form{
    ::v-deep(){

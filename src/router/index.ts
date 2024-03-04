@@ -29,9 +29,9 @@ export const routes: Array<RouteRecordRaw> = [
                 component: () => import('@/views/Project/list.vue'),
                 meta: {
                     title: '项目管理',
-                    icon: 'project'
-                },
-
+                    icon: 'project',
+                    id: 1
+                }
             },
             {
                 path: '/workbench/road',
@@ -39,7 +39,8 @@ export const routes: Array<RouteRecordRaw> = [
                 component: () => import('@/views/road/list.vue'),
                 meta: {
                     title: '道路管理',
-                    icon: 'road'
+                    icon: 'road',
+                    id: 5
                 },
 
             },
@@ -49,7 +50,8 @@ export const routes: Array<RouteRecordRaw> = [
                 component: () => import('@/views/data/list.vue'),
                 meta: {
                     title: '管网数据',
-                    icon: 'data'
+                    icon: 'data',
+                    id: 11
                 },
 
             },
@@ -60,7 +62,8 @@ export const routes: Array<RouteRecordRaw> = [
 
                 meta: {
                     title: '系统设置',
-                    icon: 'system'
+                    icon: 'system',
+                    id: [42, 46, 50]
                 },
                 children: [
                     {
@@ -68,7 +71,8 @@ export const routes: Array<RouteRecordRaw> = [
                         name: 'workbenchuser',
                         component: () => import('@/views/system/users.vue'),
                         meta: {
-                            title: '用户中心'
+                            title: '用户中心',
+                            id: 42
                         }
                     },
                     {
@@ -76,7 +80,17 @@ export const routes: Array<RouteRecordRaw> = [
                         name: 'Role',
                         component: () => import('@/views/system/role.vue'),
                         meta: {
-                            title: '角色管理'
+                            title: '角色管理',
+                            id: 46
+                        }
+                    },
+                    {
+                        path: '/workbench/system/dic',
+                        name: 'Dic',
+                        component: () => import('@/views/system/dic.vue'),
+                        meta: {
+                            title: '字典管理',
+                            id: 50
                         }
                     },
                 ]
@@ -135,4 +149,8 @@ router.beforeEach((to, from, next) => {
     next();
 });
 
+
+
 export default router;
+
+

@@ -2,7 +2,6 @@ import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import type { User } from '../types/app';
 import { useRoute } from 'vue-router';
-import { APP_LIST } from '@/config';
 import { getMeasureList } from '@/api/system';
 
 export const useUserStore = defineStore({
@@ -26,7 +25,7 @@ export const useUserStore = defineStore({
         strategies: [
             {
                 key: 'userInfo',// 给一个要保存的名称
-                storage: sessionStorage,// sessionStorage / localStorage 存储方式
+                storage: localStorage,// localStorage / localStorage 存储方式
                 paths: ['userInfo']
             }
         ]
@@ -51,7 +50,7 @@ export const useSettingStore = defineStore('systemSetting', () => {
         measureList.value = await getMeasureList(params);
     };
 
-    const currentApp = computed(() => APP_LIST[0]);
+    const currentApp = computed(() => []);
 
     return {
         factroyName,
@@ -64,54 +63,41 @@ export const useSettingStore = defineStore('systemSetting', () => {
     };
 });
 
-export const storeMenu = defineStore({
-    id: 'menu',
-    state() {
-        return {
-            menuList: [],
-            buttonList: [],
-            bizModule: 1,
-        };
-    },
-    getters: {
-        currentMenu: (state) => {
-
-        }
-
-    },
-    actions: {
-        getMenu(menuList, buttonList) {
-            console.log(buttonList);
-            this.menuList = menuList;
-            this.buttonList = buttonList;
+export const useMenuStore = defineStore('menuStore', () => {
+    const menuList = ref([]);
+    const buttonList = ref([]);
+    const bizModule = ref(1);
+    const setMenu = (res) => {
+        menuList.value = res;
+    };
+    return {
+        menuList,
+        buttonList,
+        bizModule,
+        setMenu
+    };
+}, {persist: {
+    // 开启持久化
+    enabled: true,
+    strategies: [
+        {
+            key: 'menuList',// 给一个要保存的名称
+            storage: localStorage,// localStorage / localStorage 存储方式
+            paths: ['menuList']
         },
-        getBizModule(bizModule) {
-            this.bizModule = bizModule;
+        {
+            key: 'buttonList',// 给一个要保存的名称
+            storage: localStorage,// localStorage / localStorage 存储方式
+            paths: ['buttonList']
+        },
+        {
+            key: 'bizModule',// 给一个要保存的名称
+            storage: localStorage,// localStorage / localStorage 存储方式
+            paths: ['bizModule']
         }
-
-    },
-    // 添加如下配置
-    persist: {
-        // 开启持久化
-        enabled: true,
-        strategies: [
-            {
-                key: 'menuList',// 给一个要保存的名称
-                storage: sessionStorage,// sessionStorage / localStorage 存储方式
-                paths: ['menuList']
-            },
-            {
-                key: 'buttonList',// 给一个要保存的名称
-                storage: sessionStorage,// sessionStorage / localStorage 存储方式
-                paths: ['buttonList']
-            },
-            {
-                key: 'bizModule',// 给一个要保存的名称
-                storage: sessionStorage,// sessionStorage / localStorage 存储方式
-                paths: ['bizModule']
-            }
-        ]
-    }
+    ]
+}
 });
+
 
 

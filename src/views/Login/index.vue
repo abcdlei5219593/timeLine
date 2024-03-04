@@ -32,8 +32,30 @@
                             <template #prefix>
                                 <i class="iconfont icon-mima"></i>
                             </template>
+                            <template #suffix>
+                                <img
+                                    style="cursor: pointer;"
+                                    class="password-img"
+                                    :src="codeImage"
+                                    @click="setRandomKey"
+                                />
+
+                            </template>
                         </ElInput>
                     </ElFormItem>
+                    <ElFormItem label="" prop="vcodeValue">
+                        <ElInput
+                            v-model="formData.vcodeValue"
+                            type="text"
+                            size="large"
+                            placeholder="请输入验证码"
+                            maxlength="20"
+                        >
+
+                        </ElInput>
+                    </ElFormItem>
+
+
                     <ElFormItem>
                         <ElButton color="#4371EE" :loading="loading" @click="submitForm(formDataRef)">
                             {{ loading ? '登录中' : '登录' }}
@@ -61,19 +83,52 @@
 
 <script setup lang="ts">
 import { ElButton, ElInput, ElForm, ElFormItem, FormInstance, ElMessage } from 'element-plus';
-import { ref, reactive, getCurrentInstance, onMounted } from 'vue';
+import { ref, reactive, getCurrentInstance, onMounted, computed } from 'vue';
 import { FormType } from './ModelDefines';
-import { login, listUserModule } from '@/api/login';
+import { listUserModule } from '@/api/login';
+import { routes } from '@/router/index';
 import md5 from 'js-md5';
-import { storeMenu, useUserStore } from '@/store/app';
+import { useMenuStore, useUserStore } from '@/store/app';
 import Cookie from 'js-cookie';
 import { useRouter } from 'vue-router';
 import { basic } from '@/api/user';
 import Qrcode from './Qrcode.vue';
 import { getDeepTreeData } from '@/utils/common';
 import { APP_LIST } from '@/config';
+import { getLoginCode, login} from '@/api/index';
+
+const menuList = routes.find(item => item.meta?.auth)?.children;
+const menuStore = useMenuStore();
 
 // import QC from 'qc';
+const formData = reactive<FormType>({
+    userName: '',
+    password: '',
+    vcodeKey: '',
+    vcodeValue: ''
+});
+function randomString(e) {
+
+    let t = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678',
+        a = t.length,
+        n = '';
+    for (let i = 0; i < e; i++) {
+        n += t.charAt(Math.floor(Math.random() * a));
+    }
+    return n;
+}
+const setRandomKey = () => {
+    formData.vcodeKey = randomString(16);
+};
+
+setRandomKey();
+
+
+const codeImage = computed( () => {
+    return `${import.meta.env.VITE_URL}/ips/image/code?width=70&height=33&codeCount=4&lineCount=1&key=${formData.vcodeKey}`;
+
+});
+
 
 const router = useRouter();
 const showWeixin = ref<boolean>(false);
@@ -86,20 +141,16 @@ const rules = reactive({
         { required: true, message: '请输入密码', trigger: 'blur' },
         {
             required: true,
-            pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/,
+            // pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/,
             message: '请输入6-20位字母+数字的密码',
             trigger: 'blur',
         },
     ],
+    vcodeValue: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
 });
 
-const formData = reactive<FormType>({
-    userName: '',
-    password: '',
-});
 
-const { proxy } = getCurrentInstance() as any;
-proxy.$md5 = md5;
+
 const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) {
         return;
@@ -114,51 +165,65 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     });
 };
 
+
+
 const loginFun = async () => {
-    router.push('/workbench/project');
-    // try {
-    //     loading.value = true;
-    //     const password: any = ref(proxy.$md5(formData.password).substr(8, 16));
-    //     const res: any = await login({
-    //         userName: formData.userName,
-    //         password: password.value,
-    //     });
-    Cookie.set('token', 'test');
-    //     const userMenu = await getUserMenu();
-    //     await getUser();
-    //     loading.value = false;
-    //     if (userMenu.length) {
-    //         router.push('/dashboard');
-    //     } else {
-    //         ElMessage.error('您没有系统操作权限，请联系管理员！');
-    //     }
-    // } catch (err) {
-    //     loading.value = false;
-    // }
+    // router.push('/workbench/project');
+
+    try {
+        loading.value = true;
+        const password: any = ref(md5(formData.password).substr(8, 16));
+        const res = await login({
+            ...formData,
+            password: password.value,
+        });
+        Cookie.set('token', res.token);
+        debugger;
+        const userMenu = getDeepTreeData(res.menu);
+        const finalMenu = getUserMenu(menuList, userMenu);
+        menuStore.setMenu(finalMenu);
+        // await getUser(res);
+        loading.value = false;
+        if (finalMenu.length) {
+            router.push(finalMenu[0].path);
+        } else {
+            ElMessage.error('您没有系统操作权限，请联系管理员！');
+        }
+    } catch (err) {
+        setRandomKey();
+        loading.value = false;
+    }
 };
 
 // 获取用户菜单
-const getUserMenu = async () => {
-    const store = storeMenu();
-    try {
-        const res: any = await listUserModule();
+const getUserMenu = (menu, idList) => {
+    let temp = [];
+    debugger;
+    menu?.forEach(item => {
+        const isArryMenu = Array.isArray(item.meta.id);
 
-        let menu: any = res.menu;
-        const authMenu = await getDeepTreeData(APP_LIST, menu);
-        store.getMenu(authMenu, res.button);
-        // 设置默认 bizModule
-        const bizModule = APP_LIST.find((m) => {
-            return m.url === menu[0].url;
-        });
-        store.getBizModule(bizModule.bizModule ? bizModule.bizModule : 1);
-        return authMenu;
-    } catch (err) {}
+        if(isArryMenu) {
+            const contain = item.meta.id.some(id => idList.includes(id));
+            if(contain) {
+                let target = JSON.parse(JSON.stringify(item));
+                if(target.children && target.children.length) {
+                    target.children = getUserMenu(target.children, idList);
+                }
+                temp.push(target);
+            }
+        }else if (idList.includes(item.meta.id)) {
+            let target = JSON.parse(JSON.stringify(item));
+
+            temp.push(target);
+        }
+    });
+    return temp;
 };
 
 // 获取用户基本信息
-const getUser = async () => {
+const getUser = async (res) => {
     try {
-        const res: any = await basic();
+
         const store = useUserStore();
         console.log(res, '9888888');
         store.getUserInfo(res);

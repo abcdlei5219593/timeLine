@@ -10,7 +10,7 @@ import router from './router';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 import { permission } from '@/directives/index';
-
+import cusComponents from '@/components';
 
 
 const pinia = createPinia();
@@ -22,7 +22,7 @@ app.directive('permission', permission);
 app
     .use(router)
     .use(pinia)
- 
-    .use(ElementPlus)
+    .use(ElementPlus, { size: 'default'})
+    .use(cusComponents)
     .mount('#app');
 

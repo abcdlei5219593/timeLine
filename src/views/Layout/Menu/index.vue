@@ -1,6 +1,6 @@
 <template>
     <ElMenu :default-active="defaultActive" v-bind="$attrs">
-        <template v-for="(node, index) in menuList" :key="index">
+        <template v-for="(node, index) in menuStore.menuList" :key="index">
             <!--noSubMenu 是有详情的单个菜单,node.name !== '设备管理'"原本为!node.noSubMenu,就只有设备管理才有，先写死-->
             <ElSubMenu
                 v-if="
@@ -31,11 +31,10 @@
 import { ElMenu, ElMenuItem, ElSubMenu } from 'element-plus';
 import { Menu } from '../types/menu';
 import { useRoute } from 'vue-router';
+import { useMenuStore, useUserStore } from '@/store/app';
 
-const props = defineProps<{
-    menuList: Menu;
-}>();
-
+const menuStore = useMenuStore();
+console.log(menuStore)
 const route = useRoute();
 
 const defaultActive = route.fullPath;

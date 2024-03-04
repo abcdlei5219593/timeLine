@@ -14,7 +14,7 @@ console.log(import.meta.env);
 // 创建axios实例
 const $http = axios.create({
     // 请求的域名，基本地址，proxy 代理时会将“/api”以及前置字符串会被替换为真正域名
-    baseURL: import.meta.env.VITE_URL + 'ckips',
+    baseURL: import.meta.env.VITE_URL ,
     // 跨域请求时发送Cookie
     // withCredentials: true, // 视情况而定
     // 超时时间
@@ -22,13 +22,13 @@ const $http = axios.create({
     headers: {
         'content-type': 'application/json; charset=utf-8'
     },
-    paramsSerializer: params => qs.stringify(params, { arrayFormat: 'comma' })
+
 });
 
 // 请求拦截器
 $http.interceptors.request.use((config) => {
     config.headers = config.headers || {};
-    const token = Cookie.get('token') || '';
+    const token = Cookie.get('token') || 'test';
     if (token) {
         config.headers.token = token;
     }

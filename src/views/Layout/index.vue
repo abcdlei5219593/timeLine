@@ -10,7 +10,7 @@
             </ElContainer>
         </ElHeader>
         <ElContainer>
-            <ElAside v-if="hasAside">
+            <ElAside>
                 <!-- <img class="menu-bg" src="@/assets/img/menu-bg.png"> -->
                 <Menu
                     class="app-menu"
@@ -42,10 +42,9 @@ import Menu from './Menu/index.vue';
 import AppBar from './Menu/appBar.vue';
 import HeaderRight from './HeaderRight/index.vue';
 import Breadcrumb from './Breadcrumb/index.vue';
-import { APP_LIST } from '@/config';
 import { Menu as MenuType, MenuItem } from './types/menu';
 import { useRoute, useRouter } from 'vue-router';
-import { useSettingStore, storeMenu as useMenuStore } from '@/store/app';
+import { useSettingStore, useMenuStore } from '@/store/app';
 import { routes } from '@/router/index';
 
 const route = useRoute();
@@ -53,7 +52,7 @@ const router = useRouter();
 const store = useSettingStore();
 const menuStore = useMenuStore();
 
-const hasAside = true; // computed(() => route.path.startsWith('/app') && route.path.indexOf('/personalCenter') === -1);
+const hasAside = false; // computed(() => route.path.startsWith('/app') && route.path.indexOf('/personalCenter') === -1);
 
 
 const routePath = computed(() => route.path);

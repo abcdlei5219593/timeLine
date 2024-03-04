@@ -6,6 +6,16 @@ import ElementPlus from 'unplugin-element-plus/vite';
 
 export default defineConfig({
     base: './',
+    server: {
+        // http://localhost:5173/api/login -> http://localhost:3001/login
+        proxy: {
+            '/ips': {
+                target: 'http://1.95.6.211',
+                changeOrigin: true,
+
+            },
+        }
+    },
     plugins: [
         vue(), // 支持单文件方式  .vue
         vueJsx(), // 支持tsx方式  .tsx

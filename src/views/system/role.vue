@@ -28,13 +28,14 @@
                 <ElButton
                     size="default"
                     color="#4371EE"
+                    @click="reset(false)"
                 >
                     查询
                 </ElButton>
                 <ElButton
                     size="default"
                     plain=""
-                    @click="reset"
+                    @click="reset(true)"
                 >
                     重置
                 </ElButton>
@@ -60,9 +61,8 @@
                 :data="tableData"
                 :style="{ height: `${maxTableHeight}px`, overflow: 'auto' }"
             >
-                <ElTableColumn prop="code" label="角色名称" />
-                <ElTableColumn prop="name" label="姓名" />
-                <ElTableColumn prop="unit" label="权限说明" />
+                <ElTableColumn prop="roleName" label="角色名称" />
+                <ElTableColumn prop="roleDesc" label="角色说明" />
                 <ElTableColumn  fixed="right" label="操作" width="120">
                     <template #default="scope">
                         <ElButton
@@ -95,7 +95,7 @@
             />
 
             <!--新增或编辑角色-->
-            <ElDialog   class="main-dialog" v-model="addShow"  :title="addForm.id ? '添加成员' : '修改成员'" width="480px">
+            <ElDialog   class="main-dialog" v-model="addShow"  :title="addForm.roleId ? '添加角色' : '修改角色' " width="480px">
                 <div class="dialog-form">
                     <ElForm
                         ref="addFormRef"
@@ -104,20 +104,24 @@
                         label-width="80px"
                         label-position="left"
                     >
-                        <ElFormItem label="姓名" prop="roleName">
-                            <el-input v-model="addForm.code" size="default" placeholder="请输入角色名" maxlength="10" />
-                        </ElFormItem>
+
                         <ElFormItem label="角色名称" prop="roleName">
-                            <el-input v-model="addForm.name" size="default" placeholder="请输入角色名" maxlength="10" />
+                            <el-input v-model="addForm.roleName" size="default" placeholder="请输入角色名" maxlength="10" />
                         </ElFormItem>
 
-                        <ElFormItem label="权限设置">
-                            <ElSelect
-                                v-model="addForm.status"
-                                size="default"
-                                placeholder="请选择"
-                            >
-                            </ElSelect>
+                        <ElFormItem label="角色名称" class="authItem" prop="roleDesc">
+                            <el-input type="textarea" :rows="5" v-model="addForm.roleDesc" size="default" placeholder="请输入角色说明" maxlength="10" />
+                        </ElFormItem>
+
+                        <ElFormItem label="权限设置" class="authItem" props="moduleIds">
+                            <el-tree
+                            ref="treeRef"
+                            node-key="id"
+                            :data="authList"
+                            show-checkbox
+                            :default-checked-keys="defaultKeys"
+                            @check-change="handleCheckChange"
+                        />
                         </ElFormItem>
                     </ElForm>
                 </div>
@@ -144,8 +148,12 @@ import { ElMessage, ElTree, FormInstance, ElMessageBox } from 'element-plus';
 
 import { getFlatDeepTreeData } from '@/utils/common';
 import { Search, Plus } from '@element-plus/icons-vue';
-import { validateForm } from '@/helper/index';
+import { validateForm, getFlatArry } from '@/helper/index';
+import authList from '@/router/auth.ts';
+import { addRole, editRole, delRole, roleList,listAllModule, listModuleByRoleId} from '@/api/index.ts';
 
+const treeRef = ref<InstanceType<typeof ElTree>>();
+const defaultKeys = ref([]);
 const tableData: any = ref([
     {
         id: 1,
@@ -160,7 +168,7 @@ const tableData: any = ref([
 ]);
 
 
-
+listAllModule({subSystem: 0});
 const searchFormRef = ref<FormInstance>(null);
 
 const details = ref({});
@@ -179,35 +187,50 @@ const searchForm = reactive<searchFormType>({
 const total = ref<number>(0);
 
 
+const handleCheckChange = (
+    data: Tree,
+    checked: boolean,
+    indeterminate: boolean
+) => {
+    console.log(data, checked, indeterminate);
+};
+
+
+
 const rules = reactive({
     roleName: [{ required: true, message: '请输入角色名', trigger: 'blur' }],
 });
 
 
 const getList = async () => {
-    // try {
-    //     const res: any = await roleList(searchForm);
-    //     tableData.value = res.list;
-    //     searchForm.pageNum = res.pageNum;
-    //     searchForm.pageSize = res.pageSize;
-    //     total.value = res.total;
-    // } catch (err) {}
+    try {
+        const res: any = await roleList(searchForm);
+        tableData.value = res.list;
+        searchForm.pageNum = res.pageNum;
+        searchForm.pageSize = res.pageSize;
+        total.value = res.total;
+    } catch (err) {}
 };
 
 const handleDelete = async (row) => {
-    await ElMessageBox.confirm('确认要删除吗？', '提交', {
+    await ElMessageBox.confirm('确认要删除吗？', '提示', {
         confirmButtonText: '确  定',
         cancelButtonText: '取  消',
         type: 'warning'
     });
+    await delRole({ roleId: row.roleId});
+    ElMessage.success('删除成功！');
+    reset();
 };
 
 const goDetail = (row) => {
     details.value = JSON.parse(JSON.stringify(row));
 };
 
-const reset = () => {
-    searchFormRef.value.resetFields();
+const reset = (reset: boolean) => {
+    if(reset) {
+        searchFormRef.value.resetFields();
+    }
     searchForm.pageNum = 1;
     getList();
 };
@@ -226,14 +249,11 @@ const handleCurrentChange = (page: number) => {
 const addShow = ref<boolean>(false);
 const addFormRef = ref<FormInstance>(null);
 const addForm = reactive<addRoleType>({
-    id: '',
-    code: '',
-    name: '',
-    unit: '',
-    date: '',
-    user: '',
-    status: '',
-    phone: ''
+    roleId: '',
+    addTime: '2024-01-01',
+    roleDesc: '',
+    moduleIds: [],
+    roleName: ''
 });
 
 const resetForm = (form) => {
@@ -246,24 +266,40 @@ watch(
         if(!val) {
             addFormRef.value.clearValidate();
             resetForm(addForm);
+            defaultKeys.value = [];
         }
     }
 );
 
 const submitForm = async (formEl: FormInstance | undefined) => {
+    addForm.moduleIds = treeRef.value!.getCheckedKeys(true);
+    const params = {
+        ...addForm,
+        moduleIds: addForm.moduleIds.join(',')
+    };
     await validateForm(formEl);
-    resetForm();
+    addForm.roleId ? await editRole(params) : await addRole(params);
+
+    ElMessage.success('操作成功！');
+    addShow.value = false;
+    reset();
 };
 
 
 
 const editFun = async (row: any) => {
+    const authes = await listModuleByRoleId({ roleId: row.roleId});
+    addForm.moduleIds = getFlatArry(authes);
+
     addShow.value = true;
+    await nextTick();
+    treeRef.value!.setCheckedKeys(addForm.moduleIds, true);
     Object.keys(row).forEach(key => {
         if(key in addForm) {
             addForm[key] = row[key];
         }
     });
+    await nextTick();
 };
 
 
@@ -278,6 +314,9 @@ const { maxTableHeight, setTableMaxHeight } = useTableSetting({ id: 'userTable',
 <style scoped lang="scss">
 .main-content > .btns{
     margin:10px 0 20px;
+}
+.authItem{
+    align-items: flex-start;
 }
 .search-form{
    ::v-deep(){

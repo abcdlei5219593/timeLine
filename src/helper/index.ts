@@ -127,3 +127,15 @@ export const validateForm = (elForm: FormInstance) =>
             }
         });
     });
+
+
+export const getFlatArry = tree => {
+    const temp = [];
+    tree.map(el => {
+        temp.push(el.id);
+        if(el.children && el.children.length ) {
+            temp.push(...getFlatArry(el.children));
+        }
+    });
+    return temp;
+};
