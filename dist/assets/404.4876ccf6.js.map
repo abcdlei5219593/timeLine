@@ -1,1 +1,0 @@
-{"version":3,"file":"404.4876ccf6.js","sources":["../../src/views/404.tsx"],"sourcesContent":["export default () => <div>404</div>;\r\n"],"names":["_404","_createVNode","_createTextVNode"],"mappings":"+CAAA,IAAAA,EAAe,IAAAC,EAAAC,MAAAA,KAAAA,CAAAA,EAAoB,KAAA,CAAA,CAAA"}
